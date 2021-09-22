@@ -1,0 +1,40 @@
+% This is a torus used to illustrate the generation of
+% silhouttes (see the cuiksilhouette application)
+
+[CONSTANTS]
+
+% outher and inner radii of the torus
+
+R1:= 1
+r2:=0.5
+
+% bounding box for the torus
+
+R3:=R1+r2+0.1
+
+[SYSTEM VARS]
+
+% space where the torus is defined
+
+x : [-R3,R3]
+y : [-R3,R3]
+z : [-R3,R3]
+
+% auxiliary variables (sin/cos of the two
+% angles defining the torus).
+
+st1: [-1,1]
+ct1: [-1,1]
+
+st2: [-1,1]
+ct2: [-1,1]
+
+
+[SYSTEM EQS]
+
+R1*ct1 + r2*ct1*ct2 = x;
+R1*st1 + r2*st1*ct2 = y;
+r2*st2 = z;
+
+ct1^2+st1^2=1;
+ct2^2+st2^2=1;

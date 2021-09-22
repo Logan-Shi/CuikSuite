@@ -1,0 +1,125 @@
+/** \cond */
+[CONSTANTS]
+
+  l1:=1.25
+  l2:=1.25
+  l3:=1.25
+  l4:=1.25
+
+[LINKS]
+
+  link1: color (0.9,0.9,0.9)
+         cylinder 0.05 (0,0,0) (1,0,0)
+         cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l1,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l1,0.1,0) decoration
+         cylinder 0.05 (l1,-0.15,0) (l1,-0.05,0) decoration
+         cylinder 0.05 (l1,0.15,0) (l1,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l1,-0.15,0) decoration
+	 sphere 0.05 (l1,0.15,0) decoration
+
+  link2: color (0.1,0.1,0.1)
+         cylinder 0.05 (0,0,0) (1,0,0)
+         cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l2,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l2,0.1,0) decoration
+         cylinder 0.05 (l2,-0.15,0) (l2,-0.05,0) decoration
+         cylinder 0.05 (l2,0.15,0) (l2,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l2,-0.15,0) decoration
+	 sphere 0.05 (l2,0.15,0) decoration
+
+
+  link3: color (0.9,0.9,0.9)
+         cylinder 0.05 (0,0,0) (1,0,0)         
+	 cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l3,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l3,0.1,0) decoration
+         cylinder 0.05 (l3,-0.15,0) (l3,-0.05,0) decoration
+         cylinder 0.05 (l3,0.15,0) (l3,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l3,-0.15,0) decoration
+	 sphere 0.05 (l3,0.15,0) decoration
+   
+  link4: color (0.1,0.1,0.1)
+         cylinder 0.05 (0,0,0) (1,0,0)
+	 cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l4,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l4,0.1,0) decoration
+         cylinder 0.05 (l4,-0.15,0) (l4,-0.05,0) decoration
+         cylinder 0.05 (l4,0.15,0) (l4,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l4,-0.15,0) decoration
+	 sphere 0.05 (l4,0.15,0) decoration
+
+[JOINTS]
+
+  REVOLUTE: link1 (l1,1,0) (l1,-1,0)
+            link2 (0 ,1,0) (0 ,-1,0)
+
+  REVOLUTE: link2 (l2,1,0) (l2,-1,0) 
+            link3 (0 ,1,0) (0 ,-1,0)
+
+  REVOLUTE: link3 (l3,1,0) (l3,-1,0)
+            link4 (0 ,1,0) (0 ,-1,0)
+
+%  The revolute joint between links 1 and 4 is not present
+%  In this way we generate an open loop mechanism
+
+% But add extra equations to close the loop
+[EQUATIONS]
+  EQFILE : "extra.cuik"
+
+/** \endcond */
+
+/** 
+    \file FourBars_extraeq.world
+
+    \brief A planar four bar mechanism defined with user provided equations.
+
+    <center>
+    <img src="../images/FourBars/fourbars.png">
+    </center>
+   
+    A planar <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar</a> mechanism
+    where the loop is closed with user-provided equations. This is an example of
+    how to complement world files with ad-hoc equations.
+
+    To generate this example we proceeded in the following way:
+      - Comment the <b>[EQUATIONS]</b> section and generate the equations
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/FourBars/FourBars_extraeq</i>
+             .
+      - Try to move the mechanism: Note that the mechanisms has 3 degrees of freedom and that
+        by moving them the loop is not respected
+             - <i> \ref cuikexplore.c "scripts/cuikexplore" examples/FourBars/FourBars_extraeq</i>
+             .   
+      - Simplify the equations to see the variables that really matter
+             - <i> \ref cuiksimplify.c "bin/cuiksimplify" examples/FourBars/FourBars_extraeq</i>
+             .    
+      - Examine the remaining variables and equations and design the equations to add to the <i>extra.cuik</i> file
+        This is the file with the equations that will be added to the automaticaly generated ones. The folder
+	alraedy includes an <i>extra.cuik</i> file with example equations that close the four bar loop.
+             - <i> more examples/FourBars/FourBars_extraeq_simp.cuik</i>
+             .
+      - Now uncomment the <b>[EQUATIONS]</b> section and move the mechanism again. Note that now, with the
+        extra equations, the mechanism has only one degree of freedom and that my varying them the
+	loop is maintained:
+             - <i> \ref cuikexplore.c "scripts/cuikexplore" examples/FourBars/FourBars_extraeq</i>
+             .
+      .
+
+*/
+

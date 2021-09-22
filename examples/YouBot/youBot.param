@@ -1,0 +1,38 @@
+%%%%                      PARAMETERS                          %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parametes
+
+SMALL_SIGMA = 0.05
+ERROR_SPLIT = FALSE
+
+%------------------------------
+% path planning parametes
+%------------------------------
+
+R = 2
+SR = 3.5
+E = 0.1
+CE = 0.1
+DELTA = 0.05
+	
+%------------------------------
+% other path-planning parameters
+
+BETA = 1.1
+
+N_DOF = 4
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

@@ -1,0 +1,28 @@
+/** \dir examples/FourBars
+
+    \brief A planar <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar</a> linkage.
+
+
+    A planar <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar</a> mechanism.
+
+   <center>
+   <img src="../images/FourBars/fourbars.png">
+   </center>
+
+    This folder includes several files:
+
+      - The file \ref FourBars.world includes the kinematic formulation of the four-bar mechanism and
+         is used for position analysis.
+      - The file \ref FourBars_extraeq.world is an example of how to add user-provided equations to the
+         ones automatically generated from the world file. The file defines a four bar open on one
+         of its joints but the user provided equation enforces the loop closure. Please, see the
+         file for more details. 
+      - The file \ref FourBars_pendulum.world is a variant of where
+         the four bar works as a pendulum with limited torque. Thus, in this case the planning to move the
+         \e pendulum is harder since the bar that plays the role of pendulum has to be swing to gain momentum.
+         This is a variant of a classical problem in path planning with dynamic constraints.  
+      - The file \ref FourBars_rehab.world also includes dynamic and models a rehabilitation machine.
+         This is a work in progress.
+      .
+
+*/

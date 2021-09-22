@@ -1,0 +1,473 @@
+/** \cond */
+
+[CONSTANTS]
+
+  x_offset:=0.32  % Distance between the two robots (in X axis)
+  max_finger:=0.03
+  
+  r:=0.159 % radius of object
+  d:=0.25 % height/2 of object
+  h:=0 % height
+  
+  scale:=1 % scaling original max torque for each joint
+  scale_vel:=3 % scaling the max velocity for each joint
+
+  mass_load:=12
+  radius_load:=0.159 % assuming it's a sphere
+  height_load:=0.4
+	
+  % motor damping
+  damping_factor:=0.4
+
+[LINKS]
+
+  % ----------------------------------------------------------------------
+  % Panda arm 1
+  % ----------------------------------------------------------------------
+   
+  panda_link0 : body "bodies/link0.off" decoration
+                body "bodies/panda_panda_link0_1.off" hidden
+
+  panda_link1 : body "bodies/link1.off" decoration
+                body "bodies/panda_panda_link1_1.off" hidden
+
+		mass 3.2512
+		inertia matrix 0.00043075,-6.9984e-07,-1.3145e-06,0.0010312,0.010811,0.0046025
+		inertial frame Tx(1.14e-05)*Ty(-0.031266)*Tz(-0.069373)
+
+  panda_link2 : body "bodies/link2.off" decoration
+                body "bodies/panda_panda_link2_1.off" hidden
+
+		mass 3.2832
+		inertia matrix 0.00025946,8.2912e-07,-2.1162e-06,0.0046712,-0.011019,0.00084776
+		inertial frame Tx(-1.32e-05)*Ty(-0.070322)*Tz(0.031178)
+
+  panda_link3 : body "bodies/link3.off" decoration
+                body "bodies/panda_panda_link3_1.off" hidden
+
+		mass 2.5439
+		inertia matrix 0.0028132,0.0012348,-0.006994,0.0010618,-0.0038729,0.0016002
+		inertial frame Tx(0.044338)*Ty(0.024919)*Tz(-0.038137)
+
+  panda_link4 : body "bodies/link4.off" decoration
+                body "bodies/panda_panda_link4_1.off" hidden
+
+		mass 2.5942
+		inertia matrix 0.0028013,-0.0011542,-0.0040781,0.0029125,0.0040474,0.0022384
+		inertial frame Tx(-0.03855)*Ty(0.039526)*Tz(0.024716)
+
+  panda_link5 : body "bodies/link5.off" decoration
+                body "bodies/panda_panda_link5_1.off" hidden
+
+		mass 3.7365
+		inertia matrix -0.018092,-1.9284e-05,-1.7342e-05,-0.015541,-0.022195,0.0029348
+		inertial frame Tx(-6.37e-05)*Ty(0.038412)*Tz(-0.10997)
+
+  panda_link6 : body "bodies/link6.off" decoration
+                body "bodies/panda_panda_link6_1.off" hidden
+
+		mass 1.5682
+		inertia matrix 0.0023987,0.00037631,0.00081502,-0.00026964,9.8923e-05,0.0005599
+		inertial frame Tx(0.051002)*Ty(0.0069327)*Tz(0.006169)
+
+  panda_link7 : body "bodies/link7.off" decoration
+                body "bodies/panda_panda_link7_1.off" hidden
+
+		mass 0.48744
+		inertia matrix -0.0026303,-9.2185e-05,0.00038372,-0.0026307,0.0003836,0.00063893
+		inertial frame Tx(0.010361)*Ty(0.01036)*Tz(0.079108)
+
+  panda_link8
+
+  panda_hand : body "bodies/hand.off" decoration
+               body "bodies/panda_panda_hand_1.off" hidden
+
+	       mass 0.53538
+	       inertia matrix 0.0016372,4.2807e-08,-3.3302e-07,-0.00011003,1.8822e-05,0.0018777
+	       inertial frame Tx(-1.67e-05)*Ty(0.0013237)*Tz(0.027468)
+
+  panda_leftfinger : body "bodies/panda_panda_leftfinger_0.off" color (0.85,0.85,0.85) decoration
+                     body "bodies/panda_panda_leftfinger_1.off" hidden
+
+  panda_rightfinger : body "bodies/panda_panda_rightfinger_0.off" color (0.85,0.85,0.85) decoration
+                      body "bodies/panda_panda_rightfinger_1.off" hidden
+
+  % ----------------------------------------------------------------------
+  % Panda arm 2
+  % ----------------------------------------------------------------------
+
+  panda1_link0 : body "bodies/link0.off" decoration
+                 body "bodies/panda_panda_link0_1.off" hidden
+
+
+  panda1_link1 : body "bodies/link1.off" decoration
+                 body "bodies/panda_panda_link1_1.off" hidden
+
+		 mass 3.2512
+		 inertia matrix 0.00043075,-6.9984e-07,-1.3145e-06,0.0010312,0.010811,0.0046025
+		 inertial frame Tx(1.14e-05)*Ty(-0.031266)*Tz(-0.069373)
+
+  panda1_link2 : body "bodies/link2.off" decoration
+                 body "bodies/panda_panda_link2_1.off" hidden
+
+		 mass 3.2832
+		 inertia matrix 0.00025946,8.2912e-07,-2.1162e-06,0.0046712,-0.011019,0.00084776
+		 inertial frame Tx(-1.32e-05)*Ty(-0.070322)*Tz(0.031178)
+
+  panda1_link3 : body "bodies/link3.off" decoration
+                 body "bodies/panda_panda_link3_1.off" hidden
+
+		 mass 2.5439
+		 inertia matrix 0.0028132,0.0012348,-0.006994,0.0010618,-0.0038729,0.0016002
+		 inertial frame Tx(0.044338)*Ty(0.024919)*Tz(-0.038137)
+
+  panda1_link4 : body "bodies/link4.off" decoration
+                 body "bodies/panda_panda_link4_1.off" hidden
+
+		 mass 2.5942
+		 inertia matrix 0.0028013,-0.0011542,-0.0040781,0.0029125,0.0040474,0.0022384
+		 inertial frame Tx(-0.03855)*Ty(0.039526)*Tz(0.024716)
+
+  panda1_link5 : body "bodies/link5.off" decoration
+                 body "bodies/panda_panda_link5_1.off" hidden
+
+		 mass 3.7365
+		 inertia matrix -0.018092,-1.9284e-05,-1.7342e-05,-0.015541,-0.022195,0.0029348
+		 inertial frame Tx(-6.37e-05)*Ty(0.038412)*Tz(-0.10997)
+
+  panda1_link6 : body "bodies/link6.off" decoration
+                 body "bodies/panda_panda_link6_1.off" hidden
+
+		 mass 1.5682
+		 inertia matrix 0.0023987,0.00037631,0.00081502,-0.00026964,9.8923e-05,0.0005599
+		 inertial frame Tx(0.051002)*Ty(0.0069327)*Tz(0.006169)
+
+  panda1_link7 : body "bodies/link7.off" decoration
+                 body "bodies/panda_panda_link7_1.off" hidden
+
+		 mass 0.48744
+		 inertia matrix -0.0026303,-9.2185e-05,0.00038372,-0.0026307,0.0003836,0.00063893
+		 inertial frame Tx(0.010361)*Ty(0.01036)*Tz(0.079108)
+
+  panda1_link8
+
+  panda1_hand : body "bodies/hand.off" decoration
+                body "bodies/panda_panda_hand_1.off" hidden
+
+		mass 0.53538
+		inertia matrix 0.0016372,4.2807e-08,-3.3302e-07,-0.00011003,1.8822e-05,0.0018777
+		inertial frame Tx(-1.67e-05)*Ty(0.0013237)*Tz(0.027468)
+
+  panda1_leftfinger : body "bodies/panda_panda_leftfinger_0.off" color (0.5,0.5,0.5) decoration
+                      body "bodies/panda_panda_leftfinger_1.off" hidden
+
+		      mass 0
+		      inertia matrix 0,0,0,0,0,0
+		      inertial frame Tx(0)*Ty(0)*Tz(0)
+
+  panda1_rightfinger : body "bodies/panda_panda_rightfinger_0.off" color (0.5,0.5,0.5) decoration
+                       body "bodies/panda_panda_rightfinger_1.off" hidden
+
+		       mass 0
+		       inertia matrix 0,0,0,0,0,0
+		       inertial frame Tx(0)*Ty(0)*Tz(0)
+
+
+  % ----------------------------------------------------------------------
+  % Manipulated object
+  % ----------------------------------------------------------------------
+
+  object: % body "bodies/keg.off" white
+          body "bodies/butano.off" 
+	  
+	  % box (-5*r/2,-r/2,-r/2) (5*r/2,r/2,r/2) red
+	  % cylinder r/2 (-5*r/2,0,0) (5*r/2,0,0) red
+	  % cylinder 2.5*r/2 (0,-3*r,-3*r) (0,0,0) red
+	  % sphere 2.5*r/2 (0,0,0) red
+
+	  %cylinder inertia
+	  mass mass_load
+	  inertia matrix 1/12*mass_load*(3*radius_load^2+height_load^2),0,0,
+	                   1/12*mass_load*(3*radius_load^2+height_load^2),0,
+			                        1/2*mass_load*radius_load^2
+	  inertial frame Tx(0)*Ty(0)*Tz(0)
+
+  /*
+  % Auxiliary links to move the object along the coordinated axes
+  % If you uncomment this, please uncomment the joints also and
+  % add 3 more values to the joints
+
+  lx
+  ly
+  lz
+
+  */
+
+[JOINTS]
+
+  % ----------------------------------------------------------------------
+  % Panda arm 1
+  % ----------------------------------------------------------------------
+
+ fix : panda_link0 panda_link1 Txyz(0,0,0.333)*Rz(-pi/2) % first joint is fixed
+
+  revolute : panda_link1 (0,0,0) (0,1,0)
+             panda_link2 (0,0,0) (0,0,1)
+             %range [-1.8326,1.8326]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.175
+             torque 87/scale
+	     damping damping_factor
+
+  revolute : panda_link2 (0,-0.316,0) (0,-1.316,0)
+             panda_link3 (0,0,0) (0,0,1)
+             %range [-2.9671,2.9671]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.175
+             torque 87/scale
+	     damping damping_factor
+
+  revolute : panda_link3 (0.0825,0,0) (0.0825,-1,0)
+             panda_link4 (0,0,0) (0,0,1)
+             %range [-3.1416,0]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.175
+             torque 87/scale
+	     damping damping_factor
+
+  revolute : panda_link4 (-0.0825,0.384,0) (-0.0825,1.3839999999999999,0)
+             panda_link5 (0,0,0) (0,0,1)
+             %range [-2.9671,2.9671]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.61
+             torque 12/scale
+	     damping damping_factor
+
+  revolute : panda_link5 (0,0,0) (0,-1,0)
+             panda_link6 (0,0,0) (0,0,1)
+             %range [-0.0873,3.8223]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.61
+             torque 12/scale
+	     damping damping_factor
+	     
+  fix : panda_link6 panda_link7 Txyz(0.088,0,0)*Rx(pi/2)*Rz(-pi)
+
+  fix : panda_link7 panda_link8 Txyz(0,0,0.107)
+
+  fix : panda_link8 panda_hand Txyz(0,0,0)*Rz(0)
+
+  % ----------------------------------------------------------------------
+  % Panda arm 2
+  % ----------------------------------------------------------------------
+
+  fix : panda1_link0 panda1_link1 Txyz(0,0,0.333)*Rz(-pi/2) % first joint is fixed
+
+  revolute : panda1_link1 (0,0,0) (0,1,0)
+             panda1_link2 (0,0,0) (0,0,1)
+             %range [-1.8326,1.8326]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.175
+             torque 87/scale
+	     damping damping_factor
+
+  revolute : panda1_link2 (0,-0.316,0) (0,-1.316,0)
+             panda1_link3 (0,0,0) (0,0,1)
+             %range [-2.9671,2.9671]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.175
+             torque 87/scale
+	     damping damping_factor
+
+  revolute : panda1_link3 (0.0825,0,0) (0.0825,-1,0)
+             panda1_link4 (0,0,0) (0,0,1)
+             %range [-3.1416,0]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.175
+             torque 87/scale
+	     damping damping_factor
+
+  revolute : panda1_link4 (-0.0825,0.384,0) (-0.0825,1.3839999999999999,0)
+             panda1_link5 (0,0,0) (0,0,1)
+             %range [-2.9671,2.9671]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.61
+             torque 12/scale
+	     damping damping_factor
+
+
+  revolute : panda1_link5 (0,0,0) (0,-1,0)
+             panda1_link6 (0,0,0) (0,0,1)
+             %range [-0.0873,3.8223]
+	     reference +(1,0,0) +(1,0,0)
+             velocity scale_vel*2.61
+             torque 12/scale
+	     damping damping_factor
+
+  fix : panda1_link6 panda1_link7 Txyz(0.088,0,0)*Rx(pi/2)*Rz(-pi)
+
+  fix : panda1_link7 panda1_link8 Txyz(0,0,0.107)
+
+  fix : panda1_link8 panda1_hand Txyz(0,0,0)*Rz(0)
+
+  % ----------------------------------------------------------------------
+  % Grasp
+  % ----------------------------------------------------------------------
+
+   % Fix the position of the fingers with respect to the hand
+
+   fix : panda_hand panda_rightfinger Txyz(0,-0*max_finger/2,0.0584)
+   fix : panda_hand panda_leftfinger Txyz(0,max_finger/4,0.0584)
+
+   fix : panda1_hand panda1_rightfinger Txyz(0,-0*max_finger/2,0.0584)
+   fix : panda1_hand panda1_leftfinger Txyz(0,max_finger/4,0.0584)
+
+   % Fix the position of the object with respect to the hand
+
+   fix : panda_hand object Rz(pi/2)*Txyz(r,0,d)
+
+   fix : panda1_hand object Rz(pi/2)*Txyz(-r,0,d)
+
+  % ----------------------------------------------------------------------
+  % Relative position between robots
+  % ----------------------------------------------------------------------
+  
+  fix : panda_link0 panda1_link0 Txyz(x_offset,0,0)*Rz(0*pi)
+
+[OBSTACLES]
+
+  % Base with the two robots
+  ground  : box (-0.5,-1,-0.1-h) (x_offset+0.5,1,-0.05-h) black
+  support1: box (-0.2,-0.2,-0.05-h) (0.1,0.2,0) black
+  support2: box (-0.2+x_offset,-0.2,-0.05-h) (0.1+x_offset,0.2,0) black
+
+  % This is the actual obstacle and not the truck
+  goal  : box (-0.5,0.65,-0.05+1.47) (x_offset+0.5,1.5,-0.025+1.95) hidden 
+
+  % Truck
+  truck: body "bodies/minitruck.off" 
+
+  % Gas bottles already on the truck
+  butano_on_truck1: body "bodies/butano_on_truck1.off" decoration
+  butano_on_truck2: body "bodies/butano_on_truck2.off" decoration
+  butano_on_truck3: body "bodies/butano_on_truck3.off" decoration
+  butano_on_truck4: body "bodies/butano_on_truck4.off" decoration
+  butano_on_truck5: body "bodies/butano_on_truck5.off" decoration
+
+  % Conveyor and gas bottles on it
+  conveyor: body "bodies/conveyor.off" decoration
+  butano1: body "bodies/butano1_rot.off" decoration
+  butano2: body "bodies/butano2_rot.off" decoration
+  butano3: body "bodies/butano3_rot.off" decoration
+  butano4: body "bodies/butano4_rot.off" decoration
+
+  % Pallet
+  pallet: body "bodies/pallet_conveyor.off" decoration
+
+  % ground
+  road: box (-2,-2,2.075) (+9,+5,2.175) white decoration
+  
+
+[COLLISIONS]
+
+  do not check: all
+  check: object, goal
+  check: object, panda_link4
+  check: object, panda_link3
+  check: panda1_link6, panda1_link1
+
+/** \endcond */
+
+/**
+    \file TwoPandas.world
+
+    \brief Two Panda robots cooperating to move an object.
+
+    This task involves two 7-DOF Franka Emika arms moving a gas bottle cooperatively.
+    The task consists in lifting the bottle onto a truck while avoiding the collisions
+    with the surrounding obstacles (a conveyor belt, the ground, and the truck). The first
+    and last joints in each arm are held fixed during the task, and the goal is to compute
+    control policies for the remaining joints, which are all actuated. The weight of the
+    bottle is twice the added payload of the two arms, so in this example the planner
+    allows the system to move much beyond its static capabilities.
+
+    <center>
+    <table border="1" width="800">
+    <tr>
+      <td  align="center"><img width="390px" src="../images/Panda/panda_start.png"></td>
+      <td  align="center"><img width="390px" src="../images/Panda/panda_goal.png"></td>
+    </tr>
+    <tr>
+      <td  align="center">Start</td>
+      <td  align="center">Goal</td>
+    </tr>
+    </table>
+    </center>
+
+    <center><a href="#param">[Model]</a><a href="#dimensions">[Problem Dimensions]</a><a href="#process">[Process and Results]</a></center>
+
+    <h2><a name="param">Model</a></h2>
+    
+    Note that, unlike parallel robots, serial robots have actuation in all joints.
+    Thus, in this example there are a total of 10 actuated joints, considering the first and last joints in each arm are fixed.
+
+    The set of geometric and dynamic parameters
+    are given within the world file accessible at the bottom of the page.
+
+    <h2><a name="dimensions">Problem Dimensions</a></h2>
+
+    Considering the first and last joints in each arm are fixed, the dimensions of the problem are
+
+   <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nbr. of joints</th>
+      <td  align="center">10</td>
+    </tr>
+    <tr>
+      <th>Nbr. of states</th>
+      <td  align="center">20</td>
+    </tr>
+    <tr>
+      <th>Nbr. of actuators</th>
+      <td  align="center">10</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position equations </th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position and velocity equations </th>
+      <td  align="center">12</td>
+    </tr>
+    <tr>
+      <th>State-space manifold dimension</th>
+      <td  align="center">8</td>
+    </tr>
+    </table>
+    </center>
+    
+   <h2><a name="process">Process and Results</a></h2>
+
+   This example illustrates that a randomized steering strategy performs poorly when the number of actuators is large.
+   In this case, the number of actuators is 10, which is notably higher than in the previous examples.
+   Note that the number of random actions needed to properly represent the action space should be proportional to its volume,
+   so it should grow exponentially with the number of actuators in principle.
+   In contrast, the LQR strategy proposed in the TRO19 paper only computes one control policy
+   per branch extension, so an increase in the number of actuators does not affect the planning time dramatically.
+
+   To solve the kinodynamic planning problem, follow these steps (from the main CuikSuite folder):
+
+     - <b>Run the kinodynamic RRT algorithm</b>:
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Panda/TwoPandas</i>
+             .
+     - <b>Execute the trajectory</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Panda/TwoPandas examples/Panda/TwoPandas_traj.sol</i>
+             .
+
+
+    <center>
+    <img src="../images/Panda/trajectory_panda.gif">
+    </center>
+
+*/

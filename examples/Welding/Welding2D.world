@@ -1,0 +1,112 @@
+/** \cond */
+[constants]
+  l1:=1
+  l2:=1
+  l3:=1
+  x:=0.25
+  y:=2.05
+  theta:=pi/2
+
+[links]
+  ground: body "bodies/beam.off" blue
+  link1: body "bodies/link1.off" grey
+      	 sphere 0.04 (0,0,0) black
+         sphere 0.04 (l1,0,0.05) black
+  link2: body "bodies/link2.off" grey
+         sphere 0.04 (l1,0,0.1) black
+  link3: body "bodies/link3.off" grey
+         body "bodies/gripper.off" black
+	 % now some artistic representation of the welding tool
+         cylinder 0.03 (l3,0,0.1) (l3+0.2,0,0.1) white
+         sphere 0.03  (l3+0.2,0,0.1) white
+         cylinder 0.02 (l3+0.1,0,0.1) (l3+0.3,0,0.1) black decoration
+         sphere 0.02 (l3+0.3,0,0.1) red decoration
+  link4
+
+[joints]
+  revolute: ground (0,0,0) (0,0,1) 
+            link1  (0,0,0) (0,0,1)
+  revolute: link1 (l1,0,0) (l1,0,1) 
+            link2 (0,0,0) (0,0,1)
+  revolute: link2 (l2,0,0) (l2,0,1) 
+            link3 (0,0,0) (0,0,1)
+
+  revolute: link3 (1.3,0,0) (1.3,0,1) 
+            link4 (0,0,0) (0,0,1)
+
+  prismatic: link4 (0,0,0) (1,0,0) 
+             ground (x,y,0) (x+1,y,0) 
+             range[-3,3]
+
+[COLLISIONS]
+
+do not check: all
+check: ground,link3
+
+
+/** \endcond */
+
+/** \file Welding2D.world
+
+    \brief The example of the RAM paper defining a 2-dimensional configuration space.
+
+    The example of the RAM paper allowing translations and rotation for the end-effector.
+    Note that for this example we use the higher-dimensional continuation and not
+    the branch-and-prune techniques and, thus, we use a standard robotics formulation
+    and not a special one.
+
+    This example is treated following these steps (from the main CuikSuite folder):
+           - On-line examine the collision-free configuration space: Execute
+	         - <i>\ref cuikexplore.c "scripts/cuikexplore" examples/Welding/Welding2D</i>
+	         - Select the degrees of freedom you want to control and press
+	           the buttons on the left/right to decrease/increase the value for the selected degree of freedom. The inner button just
+	           moves one step and the outer one changes the degree of freedom while it is pressed (it is faster). 
+	           The speed can be adjusted changing the step parameter in the \ref cuikexplore.c "scripts/cuikexplore"  window.
+	           Note that sometimes the selected set of parameters might lead to a singularity blocking the movement of the robot. 
+	           Change the set of parameters to move out of the singular position.
+	         . 
+                      <center><img src="../images/Welding/explore.png"></center>
+           - Generate and examine the equations: Execute
+	         - <i>\ref cuikequations.c "bin/cuikequations" examples/Welding/Welding2D</i>
+	         - <i> cat examples/Welding/Welding2D.cuik</i>
+		 .
+           - Isolate the 2D solution set: Execute (this takes about a minute in a Intel Core i7 at 2.93 Ghz running Mac OS X and generates about 30000 boxes)
+	         - <i>\ref cuik.c "bin/cuik" examples/Welding/Welding2D</i>
+	         .
+           - Visualize the the 2D solution set: Execute
+	         - <i>\ref cuikplot3d.c "bin/cuikplot3d" examples/Welding/Welding2D 1 10 19 0 Welding2D.gcl</i>
+	         - <i> geomview  Welding2D.gcl </i>
+	         - Set the material to transparent (geomview menu: Inspect -> Material, set the transparent
+		   button, and the alpha value to about 0.1).
+	         .
+                      <center><img src="../images/Welding/welding2D.png"></center>
+           - Generate the atlas: This is an alternative, faster way to isolate the 2D solution set. However,
+	     only the part of the set reachable from a given point is obtanied. Execute
+	         - <i>\ref cuikatlas.c "bin/cuikatlas" examples/Welding/Welding2D</i>
+	         - To obtain different stages in the atlas construction you can simply set different values 
+		   for the parameter \ref CT_MAX_CHARTS "MAX_CHARTS" (e.g., 150, 450).
+	         .
+           - Visualize the atlas:
+	         - <i>\ref cuikplotatlas.c "bin/cuikplotatlas" examples/Welding/Welding2D 0 9 18</i>
+	         - <i> geomview examples/Welding/Welding2D_atlas.gcl</i>
+	         - Set the edges to black (geomview menu inspect->appearance) to better appreciate the polygonal charts.
+	         . 
+                      <center><img src="../images/Welding/atlas.png"></center>
+           - Generate the collision-free atlas: We have to avoid collisions between the robot and the beam to weld.
+	     By removing the <i>.cuik</i> file, \ref cuikatlas.c "bin/cuikatlas" operates directly on the <i>.world</i>
+	     file that encodes the collisions to be avoided.
+	         - <i> rm examples/Welding/Welding2D.cuik </i>
+	         - <i>\ref cuikatlas.c "bin/cuikatlas" examples/Welding/Welding2D</i>
+	         .
+           - Visualize the collision-free atlas:
+	         - <i>\ref cuikplotatlas.c "bin/cuikplotatlas" examples/Welding/Welding2D 0 9 18</i>
+	         - <i> geomview examples/Welding/Welding2D_atlas.gcl</i>
+	         - The red charts are the frontier with the collision areas.
+	         . 
+                      <center><img src="../images/Welding/atlas_cfree.png"></center>
+           .
+
+    Jump to the previous example: determine the \ref Welding_open.world "workspace boundary".
+
+    Jump to the next example: a \ref Welding2D_limited.world "path planning case".
+*/

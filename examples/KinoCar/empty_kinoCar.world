@@ -1,0 +1,39 @@
+/** \cond */
+
+[LINKS]
+
+ground: body "bodies/square.off"
+
+dummy1
+dummy2
+car: body "bodies/car.off"
+
+[JOINTS]
+
+prismatic: ground (0,0,0)+ (1,0,0)
+	   	dummy1(0,0,0)+(1,0,0)
+		range[-30,30]
+
+prismatic: dummy1 (0,0,0)+ (0,1,0)
+	   	dummy2(0,0,0)+(0,1,0)
+		range[-30,30]
+
+revolute: dummy2 (0.0,0.0,0)+(0,0,1)
+          car (0.0,-0.0,0)+(0,0,1)
+         
+
+[COLLISIONS]
+
+ Check: all
+
+/** \endcond */
+
+
+/**
+   \file empty_kinoCar.world
+
+   \brief Empty env for kinodynamic MP and car like model.
+
+            Empty env for kinodynamic MP and car like model.
+	    The environment allows only bound boxes
+*/

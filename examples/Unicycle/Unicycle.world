@@ -1,0 +1,35 @@
+/** \cond */
+
+[CONSTANTS]
+
+  rs:= 1     % Radius of the sphere
+  ru:= 0.1   % Radious of the wheel
+
+  w:=0.05    % Width of the wheel
+
+[LINKS]
+
+  sph: sphere rs (0,0,0) red % granularity 100
+
+  uni: cylinder ru (0,-w/2,0) (0,w/2,0) blue granularity 100
+
+[EQUATIONS]
+  eqfile: "Unicycle_constraints.cuik"
+
+
+/** \endcond */
+
+/**
+   \file Unicycle.world
+
+   \brief An unicycle moving on a sphere.
+
+   <center>
+   <img src="../images/Unicycle/Uniclycle.jpg">
+     Illustration taken from <i>"Visualizing the motions of a Unicycle on a Sphere"</i> by
+     M. P. Hennessey, Journal of Modelling and Simulation, Vol 26, No., 1, pp 69-79, 2006.
+   </center>
+
+   First attempt to model a system with kinodynamic constraints.
+
+*/

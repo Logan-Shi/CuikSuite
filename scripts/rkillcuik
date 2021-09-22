@@ -1,0 +1,25 @@
+#!/bin/tcsh
+#
+# Script to cancel the execution of cuik on the grid 
+# Usage:
+#       rkillcuik
+#
+# This is useful to abort executions before they finish
+# (i.e., when you abort rmpicuik by pressing CTR-C)
+#
+#
+# user and name of the grid master
+set GRID=gmrgrid
+#
+# Directory shared by all grid machines.
+# This directory is in the grid master!
+set SHARED_DIR=/SharedDisk
+#
+echo Stoping running Cuiks
+ssh $GRID "pkill cuik"
+echo Retriving temporary solution file
+scp -q $GRID\:$SHARED_DIR/examples/*.sol examples
+#
+echo Removing temporary files
+ssh $GRID "rm $SHARED_DIR/examples/*.cuik $SHARED_DIR/examples/*.param $SHARED_DIR/examples/*.sol"
+ssh $GRID "rm $SHARED_DIR/cuik"

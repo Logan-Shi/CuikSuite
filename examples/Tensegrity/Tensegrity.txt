@@ -1,0 +1,24 @@
+/** \dir examples/Tensegrity
+
+    \brief Tensegrity structures.
+    
+   <center>
+   <img src="../images/Tensegrity/tensegrity-4.jpg">
+   </center>
+
+   This folder include the definition of several tensegrity structures
+        - \ref simple_kite.tens "A basic 2D tensegrity".
+	- \ref simple_Xu.tens "A simple 2D tensegrity": variant of the simple_kite with an obstacle.
+        - \ref kite.tens "A planar tensegrity": variant of the simple_kite with many obstacles.
+        - \ref free_flying.tens "A free-flying 2D tensegrity": variant of the simple_kite where the structure is not fixed. 
+        - \ref tower.tens "A 2D tensegrity tower".
+        - \ref simple_prism.tens "A 3D prism structure". 
+        - \ref prism.tens "Prismatic prism": variant of the 3D prism with prismatic legs. 
+        - \ref symmetric_prism.tens "Symmetric prism": variant of the 3D prism with symmetry constraints.
+        - \ref tower3D.tens "A 3D tensegrity tower": symmetrical and with a two DOF equilibrium manifold.
+        - \ref robot.tens "A tensegrity robot" with 6 DOF equilibrium manifold.
+        .
+
+   This folder also includes the CuikSuite \ref examples/Tensegrity/Formfinding "form-finding" procedures.
+	
+*/

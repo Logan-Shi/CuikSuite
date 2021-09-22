@@ -1,0 +1,64 @@
+/** \cond */
+
+[INCLUDE]
+
+  // import the model of the robot
+  robot: "motoman_sia20d.world"
+
+[JOINTS]
+
+  // fix pose of the end effector
+  fix: robot::base_link robot::tool0 Txyz(0.75,0,0.5)*Ry(3*pi/4)
+
+/** \endcond */
+/**
+   \file motoman_IK.world
+   
+   \brief A inverse kinematic problem.
+
+   <center> 
+   <img src="../images/ROSIndustrial/motoman_IK.png">
+   </center>
+
+   A inverse kinematic (IK) problem with a Motoman SAI20 robot. This robot has 7 degrees
+   of freedom and, thus, by fixing the pose of the end effector the solution set is
+   one-dimensional. Again, this is an example that can be efficiently solved using
+   IK closed form, which are available for the Motoman robot, however, we can also use
+   the general tools in the CuikSuite to address it much slower, though. This is the cost
+   of being general.
+
+   This problem can be solved with the following set of commands. 
+   Assuming that the motoman_sia20d.world is already generated, we first generate
+   the equations
+      - \ref cuikequations.c "bin/cuikequations" examples/ROSIndustrial/motoman_IK.world
+      .
+   and then using the cuik solver
+      - \ref cuik.c "bin/cuik.c" examples/ROSIndustrial/motoman_IK.cuik
+      .
+   This will take very long in a desktop computer (about 2 hours). Fortunately, the 
+   \ref cuik.c "cuik" process can be easily parallelized. In our cluster the same
+   problem is solved in few minutes.
+
+   The solution set can be visualized with
+      - \ref cuikplot3d.c "scripts/cuikplot3d" examples/ROSIndustrial/motoman_IK 7 15 32 0 motoman_IK
+      - geomview motoman_IK.gcl
+      .
+   The cuves in the solution set are interrupted due to the joint limits.
+   Note the symmetry in the solution set. This symmetry can be exploited to accelerate the solution
+   process. We are working on this [1].
+
+   The solution in the above case includes 12 different on-dimensional curves. These
+   curves can be isolated executing
+      - \ref cuiksort.c "scripts/cuiksort" examples/ROSIndustrial/motoman_IK
+      .
+    and the motion along each of the curves can be visualized as
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/motoman_IK.world examples/ROSIndustrial/motoman_IK_1.sol
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/motoman_IK.world examples/ROSIndustrial/motoman_IK_2.sol
+      - ....
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/motoman_IK.world examples/ROSIndustrial/motoman_IK_12.sol
+      .
+
+  <h2>References</h2>
+      - [1] A. Goldsztejn, C. Jermann, V. Ruiz de Angulo and C. Torras. <a href="http://www.iri.upc.edu/publications/show/1262">Symmetry breaking in numeric constraint problems</a>, 17th International Conference on Principles and Practice of Constraint Programming, 2011. 
+      .
+*/

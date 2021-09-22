@@ -1,0 +1,30 @@
+ /** \dir examples/Panda
+
+   \brief The <a href="https://www.franka.de/panda/">Panda</a> robot by Franka Emika.
+
+    <center>
+    <img src="../images/Panda/panda.png">
+    </center>
+
+    The Panda robot by <a href="https://www.franka.de">Franka Emika</a>.
+
+    This folder includes two files:
+
+       - The folder Panda with the URDF description of the robot. To import the model from the URDF execute:
+       	    - Convert the URDF file to a world file
+	          - \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/Panda  Panda/panda.urdf  examples/Panda/panda.world
+	          .
+       	    - Visualize and move the resulting robot model:
+	          - \ref cuikmove.c "scripts/cuikmove" examples/Panda/panda
+	          .
+       	    . 
+
+       - \ref TwoPandas.world models two Panda robots cooperatively moving a large and heavy gas bottle. This file includes dynamical parameters (for each robot
+          and for the bottle) and, thus, we use it for kinodynamic planning. 
+       .
+       
+*/
+
+
+
+

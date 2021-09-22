@@ -1,0 +1,382 @@
+/** \cond */
+[CONSTANTS]
+
+
+% Leg lenghts
+rho1 := 1
+rho2 := 0.645275
+rho3 := 1.086284
+rho4 := 1.503439
+rho5 := 1.281933
+rho6 := 0.771071
+
+% Base Points (wrt the base reference frame)
+
+a1x := 0
+a1y := 0
+a1z := 0
+
+a2x := 1.107915
+a2y := 0
+a2z := 0
+
+a3x := 0.549094
+a3y := 0.756063
+a3z := 0
+
+a4x :=  0.735077
+a4y := -0.223935
+a4z :=  0.525991
+
+a5x :=  0.514188
+a5y := -0.526063
+a5z := -0.368418
+
+a6x :=  0.590473
+a6y :=  0.094733
+a6z := -0.205018
+
+
+% Platform Points (wrt the platform reference frame)
+
+b1x := 0
+b1y := 0
+b1z := 0
+
+b2x := 0.542805
+b2y := 0
+b2z := 0
+
+b3x :=  0.956919
+b3y := -0.528915
+b3z :=  0
+
+b4x :=  0.665885
+b4y := -0.353482
+b4z :=  1.402538
+
+b5x := 0.478359
+b5y := 1.158742
+b5z := 0.107672
+
+b6x := -0.137087
+b6y := -0.235121
+b6z :=  0.353913
+
+% Center of the base and platform used to display
+cbx:=(a1x+a2x+a3x+a4x+a5x+a6x)/6
+cby:=(a1y+a2y+a3y+a4y+a5y+a6y)/6
+cbz:=(a1z+a2z+a3z+a4z+a5z+a6z)/6
+
+cpx:=(b1x+b2x+b3x+b4x+b5x+b6x)/6
+cpy:=(b1y+b2y+b3y+b4y+b5y+b6y)/6
+cpz:=(b1z+b2z+b3z+b4z+b5z+b6z)/6
+
+% Radius of bars
+rb:=0.025
+
+% Radius of spheres. Sph-Sph joints already plot
+% an sphere at the extremes of the cylinder but
+% we draw a larger sphere with another color
+rs:=0.05
+
+[LINKS]
+
+base    : color (0.73,0.54,0.58)
+          sphere rs   (a1x,a1y,a1z)
+          sphere rs   (a2x,a2y,a2z)
+          sphere rs   (a3x,a3y,a3z)
+          sphere rs   (a4x,a4y,a4z)
+          sphere rs   (a5x,a5y,a5z)
+          sphere rs   (a6x,a6y,a6z)
+          % optionally draw the base
+          % cylinder rb (a1x,a1y,a1z) (cbx,cby,cbz)
+          % cylinder rb (a2x,a2y,a2z) (cbx,cby,cbz)
+          % cylinder rb (a3x,a3y,a3z) (cbx,cby,cbz)
+          % cylinder rb (a4x,a4y,a4z) (cbx,cby,cbz)
+          % cylinder rb (a5x,a5y,a5z) (cbx,cby,cbz)
+          % cylinder rb (a6x,a6y,a6z) (cbx,cby,cbz)
+
+platform: color (0.33,0.66,0.8)
+          sphere rs   (b1x,b1y,b1z)
+          sphere rs   (b2x,b2y,b2z)
+          sphere rs   (b3x,b3y,b3z)
+          sphere rs   (b4x,b4y,b4z)
+          sphere rs   (b5x,b5y,b5z)
+          sphere rs   (b6x,b6y,b6z)
+          cylinder rb (b1x,b1y,b1z) (cpx,cpy,cpz)
+          cylinder rb (b2x,b2y,b2z) (cpx,cpy,cpz)
+          cylinder rb (b3x,b3y,b3z) (cpx,cpy,cpz)
+          cylinder rb (b4x,b4y,b4z) (cpx,cpy,cpz)
+          cylinder rb (b5x,b5y,b5z) (cpx,cpy,cpz)
+          cylinder rb (b6x,b6y,b6z) (cpx,cpy,cpz)
+
+[JOINTS]
+
+SPH_SPH leg1 :  base     (a1x,a1y,a1z)
+                platform (b1x,b1y,b1z)
+	        length rho1
+	        radius rb 
+	        color (0.86,0.86,0.53)
+
+SPH_SPH leg2 :  base     (a2x,a2y,a2z)
+                platform (b2x,b2y,b2z)
+	        length rho2
+	        radius rb
+	        color (0.86,0.86,0.53)
+
+SPH_SPH leg3 :  base     (a3x,a3y,a3z)
+                platform (b3x,b3y,b3z)
+	        length rho3
+	        radius rb 
+	        color (0.86,0.86,0.53)
+
+SPH_SPH leg4 :  base     (a4x,a4y,a4z)
+                platform (b4x,b4y,b4z)
+	        length rho4
+	        radius rb 
+	        color (0.86,0.86,0.53)
+
+SPH_SPH leg5 :  base     (a5x,a5y,a5z)
+                platform (b5x,b5y,b5z)
+	        length rho5
+	        radius rb 
+	        color (0.86,0.86,0.53)
+
+SPH_SPH leg6 :  base     (a6x,a6y,a6z)
+                platform (b6x,b6y,b6z)
+	        length rho6
+	        radius rb 
+	        color (0.86,0.86,0.53) 
+
+/** \endcond */
+
+/** \file Dietmeier.world
+
+  \brief A 6-6 \ref examples/ParallelPlatform "parallel platform" with 40 solutions. 
+
+   <center>
+   <img src="../images/ParallelPlatform/stewart-labels.jpg">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>    <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+   <h2><a name="intro">Introduction</a></h2>
+
+   In the early 1990's, several approaches (numerical experimentation, intersection theory, 
+   Groebner bases, resultants, and algebra) showed that there can be at most 40 different 
+   poses for the platform, given the lengths of the six legs. The question of whether
+   it was possible to find a design with exactly 40 real poses remained open until 1998, when 
+   Dietmaier introduced a numerical method that was able to find one such case <a href="#dietmeier1998">[Dietmeier 1998]</a>. We next
+   provide the geometric parameters of Dietmeier's platform.
+
+   This example is almost singular.
+   There is a set of points on a one-dimensional curbe that are only \f$1e-8\f$ away
+   from being solutions. Therefore, this is in the limit of what \b CuikSuite can
+   solve.
+
+   <h2><a name="geom">Geometry</a></h2>
+
+   The geometric parameters of this parallel platform are 
+
+  <center>
+  <table border="1">
+  <tr>
+    <td> </td>
+    <th colspan="6" align="center">Base Points</th>
+  </tr>
+
+  <tr>
+    <th>Coord.</th>
+    <th align="center">A<sub>1</sub></th>
+    <th align="center">A<sub>2</sub></th>
+    <th align="center">A<sub>3</sub></th>
+    <th align="center">A<sub>4</sub></th>
+    <th align="center">A<sub>5</sub></th>
+    <th align="center">A<sub>6</sub></th>
+  </tr>
+  <tr>
+    <th>x</th>
+    <td align="center">0</td>
+    <td align="center">1.107915</td>
+    <td align="center">0.549094</td>
+    <td>0.735077</td>
+    <td align="center">0.514188</td>
+    <td align="center">0.590473</td>
+  </tr>
+  <tr>
+    <th>y</th>
+    <td align="center">0</td>
+    <td align="center">0</td>
+    <td align="center">0.756063</td>
+    <td align="center">-0.223935</td>
+    <td align="center">-0.526063</td>
+    <td align="center">0.094733</td>
+  </tr>
+  <tr>
+    <th>z</th>
+    <td align="center">0</td>
+    <td align="center">0</td>
+    <td align="center">0</td>
+    <td align="center">0.525991</td>
+    <td align="center">-0.368418</td>
+    <td align="center">-0.205018</td>
+  </tr>
+  </table>
+
+  <table border="1">
+  <tr>
+    <td> </td>
+    <th colspan="6" align="center">Platform Points</th>
+  </tr>
+
+  <tr>
+    <th>Coord.</th>
+    <th align="center">B<sub>1</sub></th>
+    <th align="center">B<sub>2</sub></th>
+    <th align="center">B<sub>3</sub></th>
+    <th align="center">B<sub>4</sub></th>
+    <th align="center">B<sub>5</sub></th>
+    <th align="center">B<sub>6</sub></th>
+  </tr>
+  <tr>
+    <th>x</th>
+    <td align="center">0</td>
+    <td align="center">0.542805</td>
+    <td align="center">0.956919</td>
+    <td align="center">0.665885</td>
+    <td align="center">0.478359</td>
+    <td align="center">-0.137087</td>
+  </tr>
+  <tr>
+    <th>y</th>
+    <td align="center">0</td>
+    <td align="center">0</td>
+    <td align="center">-0.528915</td>
+    <td align="center">-0.353482</td>
+    <td align="center">1.158742</td>
+    <td align="center">-0.235121</td>
+  </tr>
+  <tr>
+    <th>z</th>
+    <td align="center">0</td>
+    <td align="center">0</td>
+    <td align="center">0</td>
+    <td align="center">1.402538</td>
+    <td align="center">0.107672</td>
+    <td align="center">0.353913</td>
+  </tr>
+  </table>
+
+  <table border="1">
+  <tr>
+    <th>leg</th>
+    <th align="center">1</th>
+    <th align="center">2</th>
+    <th align="center">3</th>
+    <th align="center">4</th>
+    <th align="center">5</th>
+    <th align="center">6</th>
+  </tr>
+  <tr>
+    <th>length</th>
+    <td align="center">1</td>
+    <td align="center">0.645275</td>
+    <td align="center">1.086284</td>
+    <td align="center">1.503439</td>
+    <td align="center">1.281933</td>
+    <td align="center">0.771071</td>
+  </tr>
+  </table>
+  </center>
+
+   <h2><a name="process">Process</a></h2>
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/ParallelPlatform/Dietmeier</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/ParallelPlatform/Dietmeier </i>
+             .
+     - <b>Visualize the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/ParallelPlatform/Dietmeier examples/ParallelPlatform/Dietmeier</i>
+             .
+     .
+
+   <h2><a name="st">Statistics</a></h2>
+
+
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">6</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">8</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints (including composited joints) </th>
+     <td  align="center">6</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 30 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 30 </td>
+    </tr>
+    </table>
+    </center>
+ 
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 2657 </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 43 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 380 </td>
+    </tr>
+    </table>
+    </center>
+
+
+   <h2><a name="res">Results</a></h2>
+    
+    This example is extremelly ill conditioned and almost singular.
+    There is a set of points on a one-dimensional curbe that are only \f$1e-8\f$ away
+    from being solutions. Therefore, this is in the limit of what CuikSuite can
+    solve.
+
+    The parameters setting for this example are carefully selected to accurately bound the 40 solutions
+    in the form of 37 isolated solutions plus 3 solutions bounded by 
+    a cluster of two boxes (where for each one of the two boxes the error is
+    below \f$1e-6\f$). This shows how cuik is conservative: it migth return more
+    boxes than solutions (i.e., some of the returned boxes include no solution
+    but points with small error). On the other hand, no solution is lost
+    (all solutions are inside one box), unless there is a bug in the implementation.
+
+   Here you have the 40 solutions identified by the CuikSuite:
+
+   <center><img src="../images/ParallelPlatform/configurations.jpg"></center>
+
+
+   <h2><a name="refs">References</a></h2>
+  
+    - <a name="dietmeier1998">P. Dietmeier</a>, "The Stewart-Gough Platform of General Geometry Can Have 40 real Postures", in Advances in Robot Kinematics: Analysis and Control, J. Lenarcic and M. Husty (editors), pp. 7-16, Strobl, 29 June-4 July, 1998.
+    .
+
+*/

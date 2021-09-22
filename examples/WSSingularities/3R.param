@@ -1,0 +1,16 @@
+%%%%                      PARAMETERS                          %%%%
+REPRESENTATION = LINKS
+
+EPSILON = 1e-6
+
+RHO = 0.45
+
+SIGMA = 0.05
+
+ERROR_SPLIT = TRUE
+
+LR2TM_Q=0.25
+LR2TM_S=0.1
+
+
+

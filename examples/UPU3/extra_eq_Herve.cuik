@@ -1,0 +1,58 @@
+[SYSTEM EQS]
+
+  /* The can be deduced, but given to simplify the problem */
+
+  uni_v_base_l1_1_x_0=uni_v_platform_l1_2_x_2;
+  uni_v_base_l1_1_y_0=uni_v_platform_l1_2_y_2;
+  uni_v_base_l1_1_z_0=uni_v_platform_l1_2_z_2;
+
+  uni_v_base_l2_1_x_3=uni_v_platform_l2_2_x_5;
+  uni_v_base_l2_1_y_3=uni_v_platform_l2_2_y_5;
+  uni_v_base_l2_1_z_3=uni_v_platform_l2_2_z_5;
+
+  uni_v_base_l3_1_x_6=uni_v_platform_l3_2_x_8;
+  uni_v_base_l3_1_y_6=uni_v_platform_l3_2_y_8;
+  uni_v_base_l3_1_z_6=uni_v_platform_l3_2_z_8;
+
+  /* avoid symmetric and planar solutions  */
+  ref_r_z>=0.01;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // This is the part to comment/uncomment for the alternative solution
+  /*
+  // leg lengthts in the reference pose is sqrt(5)/2=1.118
+  // force unique solution
+  platform_u_x= 0.984807753012208;
+  platform_u_y= 0.171010071662834;
+  platform_u_z= 0.030153689607046;
+  
+  platform_v_x=-0.173648177666930;
+  platform_v_y= 0.969846310392954;
+  platform_v_z= 0.171010071662834;
+
+  ref_r_x=pc_x;
+  ref_r_x=pc_y;
+  ref_r_z=pc_z;
+
+  // This mechanism has an extra-degree of freedom when initialized in the standard
+  // pose (base and platform coplanar and with the same axis).
+  */
+
+  
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // To get a perfectly symmetrical initial position uncomment the following
+  /*
+  // fix platform position 
+  ref_r_x=0;
+  ref_r_y=0;
+  ref_r_z=1;
+
+  // fix the platform orientation
+  platform_u_x= 1;
+  platform_u_y= 0;
+  platform_u_z= 0;
+  
+  platform_v_x= 0;
+  platform_v_y= 1;
+  platform_v_z= 0;
+  */

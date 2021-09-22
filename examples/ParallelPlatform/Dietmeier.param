@@ -1,0 +1,23 @@
+%%%% DIETMEIER PARALLEL PLATFORM (40 solutions) %%%%
+% This example is extremelly ill conditioned and almost singular.
+% There is a set of points on a one-dimensional curbe that are only 1e-8 away
+% from being solutions. Therefore, this is in the limit of what CuikSuite can
+% solve.
+% The parameters below are carefully selected to accurately bound the 40 solutions
+% in the form of 37 isolated solutions plus 3 solutions bounded by 
+% a cluster of two boxes (where for each one of the two boxes the error is
+% below 1e-6). This shows how cuik is conservative: it migth return more
+% boxes than solutions (i.e., some of the returned boxes include no solution
+% but points with small error). On the other hand, no solution is lost
+% (all solutions are inside one box), unless there is a bug in the implementation.
+
+EPSILON =  1e-8
+SIGMA = 1e-5
+SMALL_SIGMA = 1e-6
+RHO = 0.95
+SAFE_SIMPLEX = 4
+
+DUMMIFY = 1
+LR2TM_Q=0.25
+LR2TM_S=0.25
+

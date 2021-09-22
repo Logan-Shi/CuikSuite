@@ -1,0 +1,101 @@
+% fig.13 del Singularity-Free Evolution From One Configuration to Another in Serial and Fully-Parallel Manipulators
+% Innocenti, Parenti-Castelli
+[CONSTANTS]
+
+% articulacions fixes al terra
+a1x:=0
+a1y:=0
+a2x:=15.91
+a2y:=0
+a3x:=0
+a3y:=10
+
+ma1:=a1x^2+a1y^2
+ma2:=a2x^2+a2y^2
+ma3:=a3x^2+a3y^2
+
+%articulacions a la plataforma (en la base a B1)
+b1x:=0
+b1y:=0
+b2x:=17.04
+b2y:=0
+cos1:=(16.54^2-20.84^2-17.04^2)/(-2*20.84*17.04)
+sin1:=sqrt(1-cos1^2)
+b3x:=20.84*cos1
+b3y:=20.84*sin1
+
+% pota constant
+L1:=14.98
+
+% limits de les variables q
+q1_lim:=15
+q2_lim:=40
+q3_lim:=40
+
+mq1_max:=2*q1_lim^2
+mq2_max:=2*q2_lim^2
+mq3_max:=2*q3_lim^2
+
+% escalats
+ka:=100000
+kb:=100
+
+[SYSTEM VARS]
+
+% potes
+L2:[10,40]
+L3:[10,40]
+
+% vector de l'origen del frame a la plataforma (B1)
+px:[-100,100]
+py:[-100,100]
+
+% vectors a les potes
+q1x:[-q1_lim,q1_lim]
+q1y:[-q1_lim,q1_lim]
+q2x:[-q2_lim,q2_lim]
+q2y:[-q2_lim,q2_lim]
+q3x:[-q3_lim,q3_lim]
+q3y:[-q3_lim,q3_lim]
+
+% matriu de rotacio
+ux:[-1,1]
+uy:[-1,1]
+wx:[-1,1]
+wy:[-1,1]
+
+
+r1:[-ma1*mq1_max,ma1*mq1_max]
+r2:[-ma2*mq2_max,ma2*mq2_max]
+r3:[-ma3*mq3_max,ma3*mq3_max]
+
+a:[-1,1]
+
+
+[SYSTEM EQS]
+% vectors a les potes
+q1x - px - ux*b1x - wx*b1y + a1x = 0;
+q1y - py - uy*b1x - wy*b1y + a1y = 0;
+q2x - px - ux*b2x - wx*b2y + a2x = 0;
+q2y - py - uy*b2x - wy*b2y + a2y = 0;
+q3x - px - ux*b3x - wx*b3y + a3x = 0;
+q3y - py - uy*b3x - wy*b3y + a3y = 0;
+
+% llargades de les potes
+L1^2 - q1x^2 - q1y^2 = 0;
+L2^2 - q2x^2 - q2y^2 = 0;
+L3^2 - q3x^2 - q3y^2 = 0;
+
+% matriu rotacio
+ux^2 + uy^2 = 1;
+wx + uy = 0; 
+wy - ux = 0;
+
+
+% determinant del jacobia del FIKP (amb screws)
+r1 + a1x*q1y - a1y*q1x = 0;
+r2 + a2x*q2y - a2y*q2x = 0;
+r3 + a3x*q3y - a3y*q3x = 0;
+q1x*q2y*r3 + q1y*q3x*r2 + q2x*q3y*r1 - q3x*q2y*r1 - q1y*q2x*r3 - q1x*q3y*r2 - ka*a = 0;
+a*kb = 0;
+

@@ -1,0 +1,41 @@
+/** \cond */
+
+[INCLUDE]
+
+  // import the model of the robot
+  robot: "fanuc_m430ia2p.world"
+
+[LINKS]
+  reference: box (0,0,0)+(0.1,0.1,0.1) green
+
+[JOINTS]
+
+  // fix pose of the end effector
+  fix: robot::base_link robot::tool0 Txyz(0.5,0,0.25)*Ry(0.75)	
+  fix: robot::base_link reference Txyz(0.5,0,0.25)*Ry(0.75)
+
+/** \endcond */
+/**
+   \file fanuc_IK.world
+   
+   \brief A inverse kinematic problem.
+
+   <center> 
+   <img src="../images/ROSIndustrial/fanuc_IK.png">
+   </center>
+
+   A inverse kinematic (IK) problem with a fanuc M430ia2p robot. The CuikSuite tools 
+   can be used to solve this IK problem by first generating the equations
+      - \ref cuikequations.c "bin/cuikequations" examples/ROSIndustrial/fanuc_IK.world
+      .
+   and then using the cuik solver
+      - \ref cuik.c "bin/cuik.c" examples/ROSIndustrial/fanuc_IK.cuik
+      .
+   The 4 solutions can be visualized executing
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/fanuc_IK.world examples/ROSIndustrial/fanuc_IK.sol
+      .
+
+   Of course the IK solved this way is far too slow to be used in real time. However, these set of tools have
+   been devised to solve IK problems for which no closed-form solution is available. This example aims at
+   showing the generality of the CuikSuite tools rather than providing any alternative to closed-form IK solutions.
+*/

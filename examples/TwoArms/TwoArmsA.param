@@ -1,0 +1,46 @@
+%%%% Parameters for the TwoArms Case A  %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parametes
+
+SIGMA = 0.1
+SMALL_SIGMA = 0.05
+ERROR_SPLIT = FALSE
+
+%------------------------------
+% path planning parametes
+%------------------------------
+
+%------------------------------
+% joint representation
+
+R = 0.2
+SR = 0.5
+E = 0.05
+CE = 0.05
+
+%------------------------------
+% non-joint representation 
+
+% R = 0.4
+% SR = 0.8
+% E = 0.1
+% CE = 0.1
+
+%------------------------------
+% other path-planning parameters
+
+N_DOF = 3
+
+MAX_NEWTON_ITERATIONS = 50
+%------------------------------

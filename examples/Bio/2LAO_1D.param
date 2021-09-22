@@ -1,0 +1,54 @@
+%%%%  2LAO_HW_noWater_RCD PARAMETERS %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-8
+
+%------------------------------
+% cuik solver parametes
+
+RHO = 0.45
+SIGMA = 0.2
+SMALL_SIGMA = 0.1
+DUMMIFY = 1
+SIMPLIFICATION_LEVEL=2
+LR2TM_Q=0.5
+LR2TM_S=0.25
+
+%------------------------------
+% atlas parametes
+%------------------------------
+
+% use 0.2 for atlas and 0.4 for trrt
+R = 0.2
+SR = 1
+E = 0.1
+CE = 0.1
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+
+N_DOF = 1
+
+MAX_NEWTON_ITERATIONS = 50
+
+DETECT_BIFURCATIONS = 0 
+
+%------------------------------
+% bio-related parameters
+
+% use 0.35 for collision detection and 0.25 for visualization
+VDW_RATIO = 0.35
+
+% visualization parameters
+CUT_X =  0.1
+% CUT_Y = -0.5
+CUT_Z = 0.1

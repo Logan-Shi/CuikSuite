@@ -1,0 +1,119 @@
+
+/** \cond */
+
+[CONSTANTS]
+
+  range1_l:=-2.6
+  range2_l:=-2
+  range3_l:=-2.8
+  range4_l:=-0.9
+  range5_l:=-4.8
+  range6_l:=-1.6
+  range7_l:=-2.2
+
+  range1_u:= 2.6
+  range2_u:= 2
+  range3_u:= 2.8
+  range4_u:= 2.8
+  range5_u:= 1.3
+  range6_u:= 1.6
+  range7_u:= 2.2
+
+
+  % color for the arm (sort of grey)
+  cr:=0.6
+  cg:=0.6
+  cb:=0.6
+
+[LINKS]
+
+  % arm
+
+  world
+
+  arm0: body "bodies/barret-arm-0.off" color (cr,cg,cb)
+  arm1: body "bodies/barret-arm-1.off" color (cr,cg,cb)
+  arm2: body "bodies/barret-arm-2.off" color (cr,cg,cb)
+  arm3: body "bodies/barret-arm-3.off" color (cr,cg,cb)
+  arm4: body "bodies/barret-arm-4.off" color (cr,cg,cb)
+  arm5: body "bodies/barret-arm-5.off" color (cr,cg,cb)
+  arm6: body "bodies/barret-arm-6.off" color (cr,cg,cb)
+  arm7: body "bodies/barret-arm-7.off" color (cr,cg,cb)
+
+[JOINTS]
+
+  % j0 
+  fix: world arm0 Txyz(-0.22,-0.14,-0.346)
+
+  % j1
+  revolute: arm0 (0.22,0.14,0.346)+(0,0,1)
+            arm1 (0,0,0)+(0,0,1)
+            range [range1_l,range1_u]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j2
+  revolute: arm1 (0,0,0)+(0,1,0)
+            arm2 (0,0,0)+(0,0,1)
+            range [range2_l,range2_u]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j3
+  revolute: arm2 (0,0,0)+(0,1,0)
+            arm3 (0,0,0)+(0,0,-1)
+            range [range3_l,range3_u]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j4
+  revolute: arm3 (0.045,0,0.55)+(0,1,0)
+            arm4 (0,0,0)+(0,0,1)
+            range [range4_l,range4_u]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j5
+  revolute: arm4 (-0.045,0,0)+(0,1,0)
+            arm5 (0,0,0)+(0,0,-1)
+            range [range5_l,range5_u]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j6
+  revolute: arm5 (0,0,0.3)+(0,1,0)
+            arm6 (0,0,0)+(0,0,1)
+            range [range6_l,range6_u]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j7
+  revolute: arm6 (0,0,0)+(0,1,0)
+            arm7 (0,0,0)+(0,0,-1)
+            range [range7_l,range7_u]
+                  +(1,0,0)
+                  +(1,0,0)
+
+
+
+/** \endcond */
+
+
+/**
+   \file BarretArm.world
+
+   \brief The Barret arm definition.
+
+
+   The Barret arm in open loop. 
+
+   This is the same as \ref BarretArmHand.world, but without the hand.
+
+   You can manipulate the different degrees of freedom using
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/Barret/Barret</i> 
+      .
+
+   <center>
+   <img src="../images/Barret/barret.jpg">
+   </center>
+*/

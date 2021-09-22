@@ -1,0 +1,377 @@
+/** \cond */
+[CONSTANTS]
+
+  DEG2RAD:=PI/180
+
+[LINKS]
+
+  world
+
+  table_bases: body "bodies/table1" color (0.25,0.25,0)
+               cylinder 0.03 (0.8,-0.5,0) (0.8,-0.5,0.8) blue
+               cylinder 0.03 (0.8,0.5,0) (0.8,0.5,0.8) blue
+               cylinder 0.03 (1.3,-0.5,0) (1.3,-0.5,0.8) blue
+               cylinder 0.03 (1.3,0.5,0) (1.3,0.5,0.8) blue
+               body "bodies/plane.off" yellow % color (0.8,0.8,0.8) decoration
+
+  moved_box: body "bodies/box1.off"
+
+  box_virtual
+
+  base_footprint: body "bodies/base_link.off" white
+  
+  base:  body "bodies/base_link.off" white
+
+  laser_tilt: body "bodies/laser_tilt_mount_link.off" white
+
+  wheel_rotation_1: body "bodies/bl_caster_rotation_link.off" white
+  wheel_1_left:  body "bodies/bl_caster_l_wheel_link.off" black
+  wheel_1_right: body "bodies/bl_caster_r_wheel_link.off" black
+
+  wheel_rotation_2: body "bodies/br_caster_rotation_link.off" white
+  wheel_2_left:  body "bodies/br_caster_l_wheel_link.off" black
+  wheel_2_right: body "bodies/br_caster_r_wheel_link.off" black
+
+  wheel_rotation_3: body "bodies/fl_caster_rotation_link.off" white
+  wheel_3_left:  body "bodies/fl_caster_l_wheel_link.off" black
+  wheel_3_right: body "bodies/fl_caster_r_wheel_link.off" black
+
+  wheel_rotation_4: body "bodies/fr_caster_rotation_link.off" white
+  wheel_4_left:  body "bodies/fr_caster_l_wheel_link.off" black
+  wheel_4_right: body "bodies/fr_caster_r_wheel_link.off" black
+
+  torso: body "bodies/torso_lift_link.off" white
+
+  head_pan: body "bodies/head_pan_link.off" white
+  head_tilt: body "bodies/head_tilt_link.off" white
+
+  l_shoulder_pan : body "bodies/l_shoulder_pan_link.off" white
+  l_shoulder_lift: body "bodies/l_shoulder_lift_link.off" white
+  l_upper_arm_roll: body "bodies/l_upper_arm_roll_link.off" white
+  l_upper_arm: body "bodies/l_upper_arm_link.off" white
+  l_elbow_flex: body "bodies/l_elbow_flex_link.off"  white
+  l_forearm_roll: body "bodies/l_forearm_roll_link.off" white
+  l_forearm: body "bodies/l_forearm_link.off" white
+  l_wrist_flex: body "bodies/l_wrist_flex_link.off" white
+  l_wrist_roll: body "bodies/l_wrist_roll_link.off" white
+  l_gripper_palm: body "bodies/l_gripper_palm_link.off" white
+  l_gripper_l_finger: body "bodies/l_gripper_l_finger_link.off" white
+  l_gripper_l_finger_tip: body "bodies/l_gripper_l_finger_tip_link.off" white
+  l_gripper_r_finger: body "bodies/l_gripper_r_finger_link.off" white
+  l_gripper_r_finger_tip: body "bodies/l_gripper_r_finger_tip_link.off" white
+
+
+  r_shoulder_pan : body "bodies/r_shoulder_pan_link.off" white
+  r_shoulder_lift: body "bodies/r_shoulder_lift_link.off" white
+  r_upper_arm_roll: body "bodies/r_upper_arm_roll_link.off" white
+  r_upper_arm: body "bodies/r_upper_arm_link.off" white
+  r_elbow_flex: body "bodies/r_elbow_flex_link.off"  white
+  r_forearm_roll: body "bodies/r_forearm_roll_link.off" white
+  r_forearm: body "bodies/r_forearm_link.off" white
+  r_wrist_flex: body "bodies/r_wrist_flex_link.off" white
+  r_wrist_roll: body "bodies/r_wrist_roll_link.off" white
+  r_gripper_palm: body "bodies/r_gripper_palm_link.off" white
+  r_gripper_l_finger: body "bodies/r_gripper_l_finger_link.off" white
+  r_gripper_l_finger_tip: body "bodies/r_gripper_l_finger_tip_link.off" white
+  r_gripper_r_finger: body "bodies/r_gripper_r_finger_link.off" white
+  r_gripper_r_finger_tip: body "bodies/r_gripper_r_finger_tip_link.off" white
+
+[JOINTS]
+
+  fix: world base_footprint  Id
+
+  fix: base_footprint base
+       Txyz(0,0,0.051)
+
+  fix: torso laser_tilt
+       Txyz (0.09893,0,0.227)
+
+  fix: torso head_pan
+       Txyz(-0.01707,0,0.38145)
+
+  fix: head_pan head_tilt
+       Txyz(0.068,0,0)
+
+  /* Wheels */
+  fix: base wheel_rotation_1
+       Txyz (-0.2246,0.2246,0.0282)
+  fix: wheel_rotation_1 wheel_1_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_1 wheel_1_right
+       Txyz(0,-0.049,0)
+
+  fix: base wheel_rotation_2
+       Txyz (-0.2246,-0.2246,0.0282)
+  fix: wheel_rotation_2 wheel_2_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_2 wheel_2_right
+       Txyz(0,-0.049,0)
+
+  fix: base wheel_rotation_3
+       Txyz (0.2246,0.2246,0.0282)
+  fix: wheel_rotation_3 wheel_3_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_3 wheel_3_right
+       Txyz(0,-0.049,0)
+
+  fix: base wheel_rotation_4
+       Txyz (0.2246,-0.2246,0.0282)
+  fix: wheel_rotation_4 wheel_4_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_4 wheel_4_right
+       Txyz(0,-0.049,0)
+ 
+  /* Torso and arms (with grippers) */
+   fix: base torso
+        Txyz(-0.05,0,0.839675)
+
+  revolute: torso (0,0.188,0)+(0,0,1)
+            l_shoulder_pan (0,0,0)+(0,0,1)
+            range [-40.9437*DEG2RAD,130.944*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_shoulder_pan (0.1,0,0)+(0,1,0)
+            l_shoulder_lift (0,0,0)+(0,1,0)
+            range [-30.0001*DEG2RAD,80.0021*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_shoulder_lift (0,0,0)+(1,0,0)
+            l_upper_arm_roll (0,0,0)+(1,0,0)
+            range [-45.8366*DEG2RAD,223.454*DEG2RAD]
+                  +(0,1,0)
+                  +(0,1,0)
+
+  fix: l_upper_arm_roll l_upper_arm
+       Id
+  
+  revolute: l_upper_arm (0.4,0,0)+(0,1,0)
+            l_elbow_flex (0,0,0)+(0,1,0)
+            range [-133.001*DEG2RAD,0*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_elbow_flex (0,0,0)+(1,0,0)
+            l_forearm_roll (0,0,0)+(1,0,0)
+            
+  fix: l_forearm_roll l_forearm
+       Id
+
+  revolute: l_forearm (0.321,0,0)+(0,1,0)
+            l_wrist_flex (0,0,0)+(0,1,0)
+            range [-124.905*DEG2RAD,0*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_wrist_flex (0,0,0)+(1,0,0)
+            l_wrist_roll (0,0,0)+(1,0,0)
+
+  fix: l_wrist_roll l_gripper_palm
+       Id
+
+  fix: l_gripper_palm l_gripper_l_finger
+       Txyz(0.07691,0.01,0) 
+
+  fix: l_gripper_l_finger l_gripper_l_finger_tip
+       Txyz(0.09137,0.00495,0)
+
+  fix: l_gripper_palm l_gripper_r_finger
+       Txyz(0.07691,-0.01,0)*Rx(pi) 
+
+  fix: l_gripper_r_finger l_gripper_r_finger_tip
+       Txyz(0.09137,-0.00495,0)
+
+  revolute: torso (0,-0.188,0)+(0,0,1)
+            r_shoulder_pan (0,0,0)+(0,0,1)
+            range [-130.944*DEG2RAD,40.9437*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_shoulder_pan (0.1,0,0)+(0,1,0)
+            r_shoulder_lift (0,0,0)+(0,1,0)
+            range [-30.0001*DEG2RAD,80.0021*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_shoulder_lift (0,0,0)+(1,0,0)
+            r_upper_arm_roll (0,0,0)+(1,0,0)
+            range [-223.454*DEG2RAD,45.8366*DEG2RAD]
+                  +(0,1,0)
+                  +(0,1,0)
+
+  fix: r_upper_arm_roll r_upper_arm
+       Id
+
+  revolute: r_upper_arm (0.4,0,0)+(0,1,0)
+            r_elbow_flex (0,0,0)+(0,1,0)
+            range [-133.001*DEG2RAD,0*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_elbow_flex (0,0,0)+(1,0,0)
+            r_forearm_roll (0,0,0)+(1,0,0)
+
+  fix: r_forearm_roll r_forearm
+       Id
+
+  revolute: r_forearm (0.321,0,0)+(0,1,0)
+            r_wrist_flex (0,0,0)+(0,1,0)
+            range [-124.905*DEG2RAD,0*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_wrist_flex (0,0,0)+(1,0,0)
+            r_wrist_roll (0,0,0)+(1,0,0)
+
+  fix: r_wrist_roll r_gripper_palm
+       Id
+
+  fix: r_gripper_palm r_gripper_l_finger
+       Txyz(0.07691,0.01,0)*Rz(pi/18)
+
+  fix: r_gripper_l_finger r_gripper_l_finger_tip
+       Txyz(0.09137,0.00495,0)
+
+  fix: r_gripper_palm r_gripper_r_finger
+       Txyz(0.07691,-0.01,0)*Rx(pi)*Rz(pi/18)  
+
+  fix: r_gripper_r_finger r_gripper_r_finger_tip
+       Txyz(0.09137,-0.00495,0)
+
+  fix: world table_bases Id
+
+  prismatic: world (0,0,0)+(1,0,0) 
+             box_virtual (0,0,0)+(1,0,0)
+             range [-0.5,2]
+
+  prismatic: box_virtual (0,0,0)+(0,0,1) 
+             moved_box (0,0,0)+(0,0,1)
+             range [-0.5,2]
+
+  fix: r_wrist_roll moved_box Rx(Pi/2)*Txyz(0.4,0,-0.1)*Rz(-Pi/2)
+
+  fix: l_wrist_roll moved_box Rx(-Pi/2)*Txyz(0.4,0,-0.1)*Rz(Pi/2)
+
+
+[COLLISIONS]
+
+  check : table_bases, moved_box
+
+  check: base_footprint, moved_box
+  check: base, moved_box
+  check: laser_tilt, moved_box
+  check: wheel_rotation_1, moved_box
+  check: wheel_1_left,  moved_box
+  check: wheel_1_right,  moved_box
+  check: wheel_rotation_2, moved_box
+  check: wheel_2_left,  moved_box
+  check: wheel_2_right,  moved_box
+  check: wheel_rotation_3, moved_box
+  check: wheel_3_left,  moved_box
+  check: wheel_3_right,  moved_box
+  check: wheel_rotation_4, moved_box
+  check: wheel_4_left,  moved_box
+  check: wheel_4_right,  moved_box
+  check: torso, moved_box
+  check: head_pan, moved_box
+  check: head_tilt, moved_box
+
+  check :  l_shoulder_pan, moved_box
+  check :  l_shoulder_lift, moved_box
+  check :  l_upper_arm_roll, moved_box
+  check :  l_upper_arm, moved_box
+  check :  l_elbow_flex, moved_box
+  check :  l_forearm_roll, moved_box
+  check :  l_forearm, moved_box
+  check :  l_wrist_flex, moved_box
+  check :  l_wrist_roll, moved_box
+
+  check :  r_shoulder_pan, moved_box
+  check :  r_shoulder_lift, moved_box
+  check :  r_upper_arm_roll, moved_box
+  check :  r_upper_arm, moved_box
+  check :  r_elbow_flex, moved_box
+  check :  r_forearm_roll, moved_box
+  check :  r_forearm, moved_box
+  check :  r_wrist_flex, moved_box
+  check :  r_wrist_roll, moved_box
+
+  check : torso, moved_box
+
+  check : l_wrist_roll, table_bases
+  check :  l_shoulder_pan, table_bases
+  check :  l_shoulder_lift, table_bases
+  check :  l_upper_arm_roll, table_bases
+  check :  l_upper_arm, table_bases
+  check :  l_elbow_flex, table_bases
+  check :  l_forearm_roll, table_bases
+  check :  l_forearm, table_bases
+  check :  l_wrist_flex, table_bases
+  check :  l_wrist_roll, table_bases
+
+  check : r_wrist_roll, table_bases
+  check :  r_shoulder_pan, table_bases
+  check :  r_shoulder_lift, table_bases
+  check :  r_upper_arm_roll, table_bases
+  check :  r_upper_arm, table_bases
+  check :  r_elbow_flex, table_bases
+  check :  r_forearm_roll, table_bases
+  check :  r_forearm, table_bases
+  check :  r_wrist_flex, table_bases
+  check :  r_wrist_roll, table_bases
+
+
+/** \endcond */
+
+/** \file pr2_table.world
+
+    \brief The PR2 robot moving a box with the two arms.
+    
+    <center>
+    <img src="../images/PR2/pr2_table.png">
+
+    <a href="../videos/pr2_table_smoothed.mov">Video: smoothed trajectory</a>
+    </center>
+
+    The PR2 robot by Willow Garage moving a box from underneath the table and
+    leaving it on the table.
+
+    This is an example used in the <a href="http://www.iri.upc.edu/people/porta/Docs/tro13a.pdf">TRO-13</a> paper.
+
+    The key data for this problem are:
+    <center>
+    <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 16 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 4 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 1 </td>
+     </tr>
+    </table>
+    </center>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+      - <b>Solve the path planning problem</b> For this, deactivate the
+        bifurcation detection (set \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS" to 0) and execute:
+             - <i>\ref cuikatlasrrt.c  "bin/cuikatlasrrt" examples/PR2/pr2_table</i>
+	     .
+      - <b>An alternative ways to plan existing in the literature</b>: 
+             - <i>\ref cuikcbirrt.c  "bin/cuikcbirrt" examples/PR2/pr2_table</i>
+             - <i>\ref cuikccrrt.c  "bin/cuikccrrt" examples/PR2/pr2_table</i>
+	     .
+      - <b>Visualize the path</b>: Whatever the procedure used to plan
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/PR2/pr2_table examples/PR2/pr2_table_path</i>
+	     .
+      - <b>To smooth an output path</b>: 
+             - <i>\ref cuiksmoothpath.c  "bin/cuiksmoothpath" examples/PR2/pr2_table</i>
+	     .
+      - <b>Visualize the smoothed path</b>: 
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/PR2/pr2_table examples/PR2/pr2_table_path_s</i>
+	     .
+      .
+*/

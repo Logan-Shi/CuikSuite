@@ -1,0 +1,176 @@
+#
+# Geomview plot generated with the following command line:
+#      
+#
+(progn (normalization World none)
+(bbox-draw World no)
+(backcolor World 1.0 1.0 1.0)
+(dice World 10.0)
+ )
+(progn 
+(sleep-for 5.000000)
+(progn 
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_1 {LIST 
+OFF
+6 5 1
+
+0.000000 0.000000 0.000000
+-13.000000 0.000000 0.000000
+-5.600000 4.200000 0.000000
+0.000000 0.000000 -0.100000
+-13.000000 0.000000 -0.100000
+-5.600000 4.200000 -0.100000
+
+3   0 1 2 
+3   5 4 3 
+4   3 4 1 0 
+4   4 5 2 1 
+4   5 3 0 2 
+
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_1 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_1 {material {kd 0.75  ambient 0.500000 0.500000 0.000000 *diffuse 0.500000 0.500000 0.000000 edgecolor 0.500000 0.500000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_2 {LIST 
+OFF
+6 5 1
+
+0.000000 0.000000 0.000000
+-2.000000 0.000000 0.000000
+-2.400000 1.800000 0.000000
+0.000000 0.000000 -0.100000
+-2.000000 0.000000 -0.100000
+-2.400000 1.800000 -0.100000
+
+3   0 1 2 
+3   5 4 3 
+4   3 4 1 0 
+4   4 5 2 1 
+4   5 3 0 2 
+
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_2 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_2 {material {kd 0.75  ambient 0.700000 0.700000 0.000000 *diffuse 0.700000 0.700000 0.000000 edgecolor 0.700000 0.700000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_3 {LIST 
+{SPHERE 0.200000 0.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_3 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_3 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_4 {LIST 
+OFF
+6 5 1
+
+0.000000 0.000000 0.000000
+-3.000000 0.000000 0.000000
+-3.000000 4.000000 0.000000
+0.000000 0.000000 -0.100000
+-3.000000 0.000000 -0.100000
+-3.000000 4.000000 -0.100000
+
+3   0 1 2 
+3   5 4 3 
+4   3 4 1 0 
+4   4 5 2 1 
+4   5 3 0 2 
+
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_4 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_4 {material {kd 0.75  ambient 0.900000 0.900000 0.000000 *diffuse 0.900000 0.900000 0.000000 edgecolor 0.900000 0.900000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_5 {LIST 
+OFF
+6 5 1
+
+0.000000 0.000000 0.000000
+-6.000000 0.000000 0.000000
+-6.460000 2.690000 0.000000
+0.000000 0.000000 -0.100000
+-6.000000 0.000000 -0.100000
+-6.460000 2.690000 -0.100000
+
+3   0 1 2 
+3   5 4 3 
+4   3 4 1 0 
+4   4 5 2 1 
+4   5 3 0 2 
+
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_5 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_5 {material {kd 0.75  ambient 1.000000 1.000000 0.000000 *diffuse 1.000000 1.000000 0.000000 edgecolor 1.000000 1.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_6 {LIST 
+{SPHERE 0.200000 0.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_6 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_6 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_7 {LIST 
+{INST
+  geom      { {LIST{INST geom { CBEZ223 2 1 0 1 1 0 0 1 0 2 1 1 1 1 1 0 1 1 2 0 1 1 0 1 0 0 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 } transforms{ = TLIST 0.5 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.5 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1 0.5 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0.5 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1}}} }
+  transform { 11.000000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 1.000000 }
+}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_7 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_7 {material {kd 0.75  ambient 0.000000 0.000000 0.000000 *diffuse 0.000000 0.000000 0.000000 edgecolor 0.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_8 {LIST 
+{SPHERE 0.200000 0.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_8 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_8 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_9 {LIST 
+{SPHERE 0.200000 11.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_9 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_9 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_10 {LIST 
+{INST
+  geom      { {LIST{INST geom { CBEZ223 2 1 0 1 1 0 0 1 0 2 1 1 1 1 1 0 1 1 2 0 1 1 0 1 0 0 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 } transforms{ = TLIST 0.5 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.5 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1 0.5 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0.5 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1}}} }
+  transform { 9.000000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 1.000000 }
+}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_10 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_10 {material {kd 0.75  ambient 0.000000 0.000000 0.000000 *diffuse 0.000000 0.000000 0.000000 edgecolor 0.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_11 {LIST 
+{SPHERE 0.200000 0.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_11 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_11 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_12 {LIST 
+{SPHERE 0.200000 9.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_12 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_12 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_13 {LIST 
+{INST
+  geom      { {LIST{INST geom { CBEZ223 2 1 0 1 1 0 0 1 0 2 1 1 1 1 1 0 1 1 2 0 1 1 0 1 0 0 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 } transforms{ = TLIST 0.5 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.5 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1 0.5 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0.5 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1}}} }
+  transform { 7.000000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 1.000000 }
+}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_13 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_13 {material {kd 0.75  ambient 0.000000 0.000000 0.000000 *diffuse 0.000000 0.000000 0.000000 edgecolor 0.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_14 {LIST 
+{SPHERE 0.200000 0.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_14 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_14 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_15 {LIST 
+{SPHERE 0.200000 7.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_15 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_15 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_16 {LIST 
+{INST
+  geom      { {LIST{INST geom { CBEZ223 2 1 0 1 1 0 0 1 0 2 1 1 1 1 1 0 1 1 2 0 1 1 0 1 0 0 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 } transforms{ = TLIST 0.5 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.5 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1 0.5 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0.5 0 0 0 0 0 -1 0 0 1 0 0 0 0 0 1}}} }
+  transform { 12.000000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 0.100000 0.000000 0.000000 0.000000 0.000000 1.000000 }
+}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_16 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_16 {material {kd 0.75  ambient 0.000000 0.000000 0.000000 *diffuse 0.000000 0.000000 0.000000 edgecolor 0.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_17 {LIST 
+{SPHERE 0.200000 0.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_17 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_17 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+(geometry sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_18 {LIST 
+{SPHERE 0.200000 12.000000 0.000000 0.000000}
+})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_18 {shading flat})
+(merge-ap sol__home_porta_cuik_CuikSuite_examples_DoubleButterfly_DoubleButterfly_kin_3_gcl_18 {material {kd 0.75  ambient 1.000000 0.000000 0.000000 *diffuse 1.000000 0.000000 0.000000 edgecolor 1.000000 0.000000 0.000000}})
+)
+(sleep-for 500.000000)

@@ -1,0 +1,160 @@
+/** \cond */
+[CONSTANTS]
+
+  % length, stiffness, and force of the struts (stiffness is negative for struts)
+  ls :=  sqrt(2)
+  ss := -0.303965613370022
+  min_ls := 0.7*ls
+  max_ls := 1.3*ls
+
+  % nominal length, maximal length, stiffness, and rest of the cables in the base and in the platform
+  lc1 := 0.896575472168053
+  sc1 := 0.175494628703572
+  fc1 := lc1*sc1
+  min_fc1 := 0
+  max_fc1 := 3*fc1
+  max_cl1 := 2*lc1
+  
+  % nominal length, maximal length, stiffness and rest of the cables connecting the base and the platform
+  lc2 := 1.035276180410085
+  max_cl2 := 3*lc2 
+  sc2 := 0.303965613370022
+
+  % min cable length
+  min_cl := 0.01
+  
+[STRUCTURE]
+
+  prismatic s1 : n1 n2
+                 length [min_ls,max_ls]
+	         stiffness ss 
+	  
+  prismatic s2 : n3 n4
+                 length [min_ls,max_ls]
+	         stiffness ss 
+	  
+  prismatic s3 : n5 n6
+                 length [min_ls,max_ls]
+	         stiffness ss 
+	  
+  spring c1: n2 n4
+             length [min_cl,max_cl1]
+             stiffness sc1
+	  
+  spring c2: n4 n6
+             length [min_cl,max_cl1]
+             stiffness sc1
+	  
+  spring c3: n2 n6
+             length [min_cl,max_cl1]
+             stiffness sc1
+
+  spring c4: n1 n6
+             length [min_cl,max_cl2]
+             stiffness sc2
+	  
+  spring c5: n2 n3
+             length [min_cl,max_cl2]
+             stiffness sc2
+	  
+  spring c6: n4 n5
+             length [min_cl,max_cl2]
+             stiffness sc2
+
+[FIXED POINTS]
+  % Fix the position of the bottom nodes
+  n1=(0,0,0)
+  n3=(lc1,0,0)
+  n5=(lc1*cos(pi/3),lc1*sin(pi/3),0)
+  
+[FORCES]
+   /* remove the bottom nodes from force equilibrium equations */
+   no null force: n1,n3,n5
+   
+[OBSTACLES]
+
+  plane: box (-1,-1,-0.05)+(3,3,0.025) green
+  anchor1: sphere 0.025 (0,0,-0.025) red
+  anchor2: sphere 0.025 (lc1,0,-0.025) red
+  anchor3: sphere 0.025 (lc1*cos(pi/3),lc1*sin(pi/3),-0.025) red
+  obs1:  box (0.75,0.25,0.5)+(0.25,0.15,0.25) red
+
+[COLLISIONS]
+
+  do not check: all
+
+  % check the possible collision of 'obs1' with any
+  % part of the structure
+  % Comment this line to skip collision detection 
+  check: obs1
+
+/** \endcond */
+
+/** \file examples/Tensegrity/prism.tens
+
+   \brief Second tensegrity example.
+
+   <center>
+   <img src="../images/Tensegrity/prism.png">
+   </center>
+   
+   This file defines a variant of the  \ref simple_prism.tens example.
+   Here the struts are replaced by prismatic bars and the three
+   botteom nodes are fixed to the ground.
+
+   This structure models the tensegrity robot build
+   at <a href="http://www.iri.upc.edu">IRI</a> in
+   a project coordinated by J.M. Mirats:
+   <center>
+   <img src="../images/Tensegrity/prism_photo.jpg">
+   </center>
+
+   The structure only has two degrees of freedom: the top
+   triangle translated parallel to the base, without rotating.
+   The simplest way to manipulate this file is to execute
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/Tensegrity/prism
+      .
+      
+   This application allows to select the different variables of the structure
+   and to increase/decrease them. The structure ajusts accordingly. Please note
+   that both the kinematic and force equations are taken into account
+   for this ajustment. So all the configurations are in equilibrium.
+
+   The example includes an obstacle which limits the motions of the structure.
+
+   To connect these two configurations
+    <center>
+      <table width="500">
+        <tr> 
+          <td><img src="../images/Tensegrity/prism_start.png" width="200"></td>
+          <td><img src="../images/Tensegrity/prism_goal.png" width="200"></td>
+        </tr>
+      </table>
+    </center>
+   a path around the obstacle must be found. This can be obtained executing:
+      - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/prism
+      .
+   The solution path can be visualized with
+      - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/prism examples/Tensegrity/prism_path
+      .
+   You can activate/deactivate the collision detection configuration (it is at the end of the
+   prism.tens file) to see the difference in the solution path.
+
+   Solutions paths provided by probabilistic planners are typically jerky. To
+   avoid this, we can smooth the output path
+       - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/prism 
+       - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/prism examples/Tensegrity/prism_path_s effort 1000
+       .
+   which perform first a path length minimization and the a reduces the control effort.
+   This process is more effective
+   than directly reducing the path effort on the original path: the shortcut path is very
+   effective and it returns a path that is not far from the minimum control effort path
+   (recall that if all elements in the tensegrity are elastic, the control effort and the
+   path length are the same).
+   
+   The final path can be visualized executing
+       - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/prism examples/Tensegrity/prism_path_s_e
+       .
+   
+*/
+  

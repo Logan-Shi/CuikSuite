@@ -1,0 +1,151 @@
+/** \dir examples/Wunderlich
+
+    \brief The Wunderlich mechanism.
+    
+
+   <center>
+   <img src="../images/Wunderlich/wunderlich.jpg">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a> <a href="#res">[Results]</a><a href="#refs">[References]</a></center>
+
+   
+   <h2><a name="intro">Introduction</a></h2>
+
+   (taken from <a href="#wohlhart1996">Karl Wohlhart</a>)
+
+   In 1954 Walter Wunderlich published a paper 
+   <a href="#wunderlich1954">[Wunderlich, 1954]</a> in which he describes a planar 
+   twelve-bar mechanism with six parallelogram or antiparallelogram loops which 
+   can be arranged in four different closure modes, all of them movable with either
+   one or two degrees of freedom. What makes this mechanism especially remarkable 
+   is the fact that by passing a singularity position the mechanism might change its 
+   movability. In that case the singularity position is, therefore, not a bifurcation position, 
+   but a sort of mobility turning position. The figure above shows Wunderlich's mechanism 
+   in two different positions. In the position in which it has two parallelogram and four 
+   antiparallelogram loops, the mechanism is movable with mobility 1 because the two 
+   angles \f$ \Psi \f$ and  \f$ \Phi \f$  are related by
+   the equation:
+   <center>  
+   \f[
+     \tan^2 \frac{\Psi}{2} \: k_2  \: [1 - k_1\: \tan^2 \frac{\Phi}{2}]+ 
+     \tan \frac{\Psi}{2} \tan \frac{\Phi}{2} \: (1+k_1+k_2+k_1 k_2) +
+     k_1 \:\tan^2\frac{\Phi}{2} -1 =0.
+   \f]
+   </center>
+   wherein 
+   <center>
+   \f[k_1 = \frac{a + b}{a - b},\f] 
+   \f[ k_2=\frac{c + b}{c - b}  \f] 
+   </center>
+   are the system parameters. In the position, however, in which
+   Wunderlich's mechanism has four parallelogram and two antiparallelogram loops, its 
+   mobility is 2, as \f$Psi\f$ and \f$Phi\f$ can be
+   chosen arbitrarily. The passage from one position to the other goes smoothly through a 
+   singularity position (\f$\Phi = 0\f$). 
+   The Wunderlich Mechanism, therefore, belongs to the category of <i>kinematotropic linkages</i>.
+
+
+   <h2><a name="geom">Geometry<a></h2>
+
+   The Wunderlich we formulate has
+      - <i>a =9</i>
+      - <i>b =6</i>
+      - <i>c =3</i>
+      .
+
+   <h2><a name="process">Process</a></h2>
+
+   This example is treated following these steps (from the main CuikSuite folder):
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Wunderlich/Wunderlich </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute the parallel version of cuik
+       (the execution time takes long)
+             - <i> \ref cuik.c "bin/cuik" examples/Wunderlich/Wunderlich </i>
+             .
+     - <b>Examine the isolated configuration space</b>:
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Wunderlich/Wunderlich 3 21 37 0 wunderlich.gcl </i>
+	     - <i> geomview wunderlich.cgl</i>
+             . 
+     - <b>Examine the configuratoins</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Wunderlich/Wunderlich  examples/Wunderlich/Wunderlich </i>
+             .
+     .
+   
+   <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center"> 5 </td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center"> 12</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center"> 8</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">  21</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center"> 22 </td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center"> 3616</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center"> 82483</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center">4000 </td>
+    </tr>
+    </table>
+    </center>
+
+   <h2><a name="res">Results</a></h2>
+
+   This is a snapshot of the projection that is obtained with the procedure described above:
+
+   <center>
+   <img src="../images/Wunderlich/wunderlich_cs.png">
+   </center>
+
+   This is a couple of the computed configurations (out of 82483 :)
+
+   <center>
+   <img src="../images/Wunderlich/wunderlich1.png">
+   </center>
+
+   <center>
+   <img src="../images/Wunderlich/wunderlich2.png">
+   </center>
+
+   <h2><a name="refs">References</a></h2>
+
+    - <a name="wunderlich1954">W. Wunderlich</a>, <i>Ein merkw&uuml;rdiges Zw&ouml;lfstabgetriebe</i>, &Ouml;sterreichisches Ingenieurarchiv, Band 8, Heft 2/3, pp. 224-228, 1954.
+    - <a name="wohlhart1996">K. Wohlhart</a>, "Kinematotropic Linkages", <i>Recent Advances in Robot Kinematics</i>, J. Lenarcic; and V. Parenti-Castelli (eds.), Kluwer Academic Publishers, 1996.
+    .
+
+</dl>
+
+
+*/

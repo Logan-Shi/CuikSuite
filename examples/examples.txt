@@ -1,0 +1,94 @@
+/** \dir examples
+
+    \brief Benchmark problems solved with the CuikSuite. Alternatively you can also see a \ref robots.txt "list of robots and linkages".
+
+ 
+    We next provide a selection of problems solved with the CuikSuite. For each benchmark we include a problem description,
+    and instructions on how to process them with the tools included within the CuikSuite.
+    Alternatively you can also see a \ref robots.txt "list of robots and linkages" modelled in the CuikSuite.
+
+    <b>Introductory Examples</b>
+        - \ref examples/Welding "A simple tutorial example"
+        - \ref examples/SingleJoint "How to define individual joints"
+        - \ref examples/FourBars/FourBars.world "A four bar linkage"
+        - \ref examples/URDF "An example of how to define a world file from an ROS URDF"
+        .
+
+    <b>Kinodynamic motion planning</b>  \image{inline} html "new.gif" width=60px 
+        - \ref examples/FourBars/FourBars_pendulum.world "Weight lifting"
+        - \ref examples/FiveBars/FiveBars_dynamics.world "Weight throwing"
+        - \ref examples/DeltaManipulator/Delta_dynamics.world "Conveyor switching"
+        - \ref examples/Panda/TwoPandas.world  "Truck loading"
+	.
+
+    <b>Planar Linkages</b>
+        - \ref examples/FourBars "A four bars linkage"
+        - \ref examples/FiveBars "A five bars linkage"
+        - \ref examples/DoubleButterfly "The Double Butterfly linkage" 
+        - \ref examples/Checkers "A deployable checkers pattern" 
+        - \ref examples/Trisector "Laisant's angle trisector" 
+        - \ref examples/Watt-Baranov "The 13-link Watt-Baranov trust" 
+        - \ref examples/Wheelie "The Wheelie series of linkages" 
+        - \ref examples/Wunderlich "The Wunderlich mechanism" 
+        - \ref examples/TwoArms "Two planar arms cooperating to move an object"
+        - \ref examples/Star "A spider-like parallel robot" 
+	- \ref examples/SmartBird "The mechanism of the Smart Bird wing"
+        .
+
+    <b>Parallel Spatial Robots</b>
+        - \ref Dietmeier.world "The General Stewart-Gough platform"
+	- \ref Griffis-Duffy.world "The Griffis-Duffy platform"
+        - \ref examples/DeltaManipulator "The Delta manipulator"
+        - \ref examples/MarylandManipulator "The Maryland manipulator"
+        - \ref examples/UPU3 "The 3-UPU manipulators"
+        - \ref examples/SphericalRobot "The IRI spherical manipulator"
+	.
+
+    <b>Serial Spatial Robots</b>
+        - \ref Serial6R.world "The general 6R loop"
+	- \ref Serial6RBricard.world "The 6R Bricard loop"
+        - \ref examples/Barret "The Barrett arm and hand" 
+        - \ref examples/TwoRX60 "Several RX60 robots cooperating" 
+	- \ref examples/UniversalRobot "The Universal robots"
+	- \ref examples/ROSIndustrial "Several industrial serial robots (via ROSIndustrial)"
+	- \ref examples/Jaco "The Jaco robot"
+	- \ref examples/Panda "The Panda robot"
+        .
+
+    <b>Robotic Hands</b>
+        - \ref examples/RobotHand "A couple of robot hands"
+        - \ref examples/IJRR "Grasp synthesis" (IJRR11 examples).
+        - \ref examples/RSS11Hand "Grasp optimization" (RSS11 examples).
+        .
+
+    <b>Service Robots</b>
+        - \ref examples/PR2 "The PR2 robot"
+        - \ref examples/REEM "The REEM robot"
+        - \ref examples/YouBot "The YouBot robot"
+        - \ref examples/Baxter "The Baxter robot" 
+        .
+
+    <b>Singularity Detection and Singularity-free Planning</b>
+        - \ref examples/WSSingularities "Detection of the frontiers/barriers in the position workspace"
+        - \ref examples/SingFree "Singularity-free path planning" 
+        .
+
+     <b>Molecules</b>
+        - \ref examples/Disulfide "The disulfide bond loop". 
+        - \ref Cyclohexane.world "The cyclohexane". 
+        - \ref Bicyclohexane.world "The bicyclohexane". 
+        - \ref Cycloheptane.world "The cycloheptane". 
+        - \ref Cyclooctane.world "The cyclooctane". 
+        - \ref examples/Bio "Other molecular problems" (including protein loops)
+        .
+	
+     <b>Tensegrities</b>
+        - \ref kite.tens "A 2D kite-like structure"
+        - \ref free_flying.tens "A free-flying 2D tensegrity"
+        - \ref tower.tens "A 2D tensegrity tower"
+        - \ref prism.tens "A 3D prism-like structure"
+        - \ref tower3D.tens "A 3D tensegrity tower"
+        - \ref robot.tens "A 6-dof tensegrity robot"
+        - \ref examples/Tensegrity "Other tensegrity structures"
+        .
+*/

@@ -1,0 +1,59 @@
+Dim:3
+Class:1
+Num. Nodes:6
+Num. Struts:3
+Num. Cables:6
+node1
+Num. Edges:2
+Edges:edge2,edge4
+node2
+Num. Edges:4
+Edges:edge2,edge3,edge11,edge12
+node3
+Num. Edges:2
+Edges:edge6,edge8
+node4
+Num. Edges:4
+Edges:edge6,edge7,edge3,edge4
+node5
+Num. Edges:2
+Edges:edge10,edge12
+node6
+Num. Edges:4
+Edges:edge10,edge11,edge7,edge8
+edge2
+Type:cable
+Origin:node1
+End:node2
+edge3
+Type:cable
+Origin:node2
+End:node4
+edge4
+Type:strut
+Origin:node1
+End:node4
+edge6
+Type:cable
+Origin:node3
+End:node4
+edge7
+Type:cable
+Origin:node4
+End:node6
+edge8
+Type:strut
+Origin:node3
+End:node6
+edge10
+Type:cable
+Origin:node5
+End:node6
+edge11
+Type:cable
+Origin:node6
+End:node2
+edge12
+Type:strut
+Origin:node5
+End:node2

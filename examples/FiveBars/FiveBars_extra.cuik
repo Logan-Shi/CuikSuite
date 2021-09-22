@@ -1,0 +1,20 @@
+/* Equations to trace the endpoint of the sticky-bot */
+
+[CONSTANTS]
+ 
+  l:=450/373
+  sx:= -l*cos(pi/4)
+  sz:= -l*sin(pi/4)
+
+[SYSTEM VARS]
+
+  x:[-60,60]
+  y:[-60,60]
+  z:[-60,60]
+
+
+[SYSTEM EQS]
+
+   6.3+4.3*link2_u_x+10*link3_u_x +link4_u_x*sx  +link4_w_x*sz -link4_wp_x*sz =x;
+   4.3*link2_u_z+10*link3_u_z     +link4_u_z*sx  +link4_w_z*sz -link4_wp_z*sz =y;
+   link4_u_x*10=z;

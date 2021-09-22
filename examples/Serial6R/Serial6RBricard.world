@@ -1,0 +1,349 @@
+% 6R Serial chain
+
+/** \cond */
+[CONSTANTS]
+
+%--------------------------------------------------------------------
+% DH Parameters
+%--------------------------------------------------------------------
+
+a1 := 1
+a2 := 1
+a3 := 1
+a4 := 1
+a5 := 1
+a6 := 1
+
+d1 := 0
+d2 := 0
+d3 := 0
+d4 := 0
+d5 := 0
+d6 := 0
+
+
+alpha1 := pi/2
+alpha2 := -pi/2
+alpha3 := pi/2
+alpha4 := -pi/2
+alpha5 := pi/2
+alpha6 := -pi/2
+
+/*
+alpha1 := pi/2
+alpha2 := pi/4
+alpha3 := pi/3
+alpha4 := pi/2
+alpha5 := pi/4
+alpha6 := pi/3
+*/
+
+% Pre-compute sin/cos of alpha_i
+c1:=cos(alpha1)
+s1:=sin(alpha1)
+
+c2:=cos(alpha2)
+s2:=sin(alpha2)
+
+c3:=cos(alpha3)
+s3:=sin(alpha3)
+
+c4:=cos(alpha4)
+s4:=sin(alpha4)
+
+c5:=cos(alpha5)
+s5:=sin(alpha5)
+
+c6:=cos(alpha6)
+s6:=sin(alpha6)
+
+% radius of bars
+rb:=0.05
+
+% radius of revolute joints
+rr:=0.1
+
+% length of revolute joints
+lr:=rr
+
+[LINKS]
+
+link1: 0.9*white
+       sphere rr (-2*lr,0,0)
+       cylinder rr (-2*lr,0,0) (-lr,0,0)
+       cylinder rr (lr,0,0) (2*lr,0,0)
+       sphere rr (2*lr,0,0)
+       cylinder rb (-1.5*lr,0,0) (-1.5*lr,0,2*lr)
+       sphere rb (-1.5*lr,0,2*lr)
+       cylinder rb (1.5*lr,0,0) (1.5*lr,0,2*lr)
+       sphere rb (1.5*lr,0,2*lr)
+       cylinder rb (-1.5*lr,0,2*lr) (1.5*lr,0,2*lr)
+       cylinder rb (0,0,2*lr) (0,0,a1)
+       cylinder rr (-lr*c1,-lr*s1,a1) (lr*c1,lr*s1,a1)
+ 
+       
+link2: 0.1*white
+       sphere rr (-2*lr,0,0)
+       cylinder rr (-2*lr,0,0) (-lr,0,0)
+       cylinder rr (lr,0,0) (2*lr,0,0)
+       sphere rr (2*lr,0,0)
+       cylinder rb (-1.5*lr,0,0) (-1.5*lr,0,2*lr)
+       sphere rb (-1.5*lr,0,2*lr)
+       cylinder rb (1.5*lr,0,0) (1.5*lr,0,2*lr)
+       sphere rb (1.5*lr,0,2*lr)
+       cylinder rb (-1.5*lr,0,2*lr) (1.5*lr,0,2*lr)
+       cylinder rb (0,0,2*lr) (0,0,a2)
+       cylinder rr (-lr*c2,-lr*s2,a2) (lr*c2,lr*s2,a2)
+
+link3: 0.9*white
+       sphere rr (-2*lr,0,0)
+       cylinder rr (-2*lr,0,0) (-lr,0,0)
+       cylinder rr (lr,0,0) (2*lr,0,0)
+       sphere rr (2*lr,0,0)
+       cylinder rb (-1.5*lr,0,0) (-1.5*lr,0,2*lr)
+       sphere rb (-1.5*lr,0,2*lr)
+       cylinder rb (1.5*lr,0,0) (1.5*lr,0,2*lr)
+       sphere rb (1.5*lr,0,2*lr)
+       cylinder rb (-1.5*lr,0,2*lr) (1.5*lr,0,2*lr)
+       cylinder rb (0,0,2*lr) (0,0,a3)
+       cylinder rr (-lr*c3,-lr*s3,a3) (lr*c3,lr*s3,a3)
+
+link4: 0.1*white
+       sphere rr (-2*lr,0,0)
+       cylinder rr (-2*lr,0,0) (-lr,0,0)
+       cylinder rr (lr,0,0) (2*lr,0,0)
+       sphere rr (2*lr,0,0)
+       cylinder rb (-1.5*lr,0,0) (-1.5*lr,0,2*lr)
+       sphere rb (-1.5*lr,0,2*lr)
+       cylinder rb (1.5*lr,0,0) (1.5*lr,0,2*lr)
+       sphere rb (1.5*lr,0,2*lr)
+       cylinder rb (-1.5*lr,0,2*lr) (1.5*lr,0,2*lr)
+       cylinder rb (0,0,2*lr) (0,0,a4)
+       cylinder rr (-lr*c4,-lr*s4,a4) (lr*c4,lr*s4,a4)
+
+link5: 0.9*white
+       sphere rr (-2*lr,0,0)
+       cylinder rr (-2*lr,0,0) (-lr,0,0)
+       cylinder rr (lr,0,0) (2*lr,0,0)
+       sphere rr (2*lr,0,0)
+       cylinder rb (-1.5*lr,0,0) (-1.5*lr,0,2*lr)
+       sphere rb (-1.5*lr,0,2*lr)
+       cylinder rb (1.5*lr,0,0) (1.5*lr,0,2*lr)
+       sphere rb (1.5*lr,0,2*lr)
+       cylinder rb (-1.5*lr,0,2*lr) (1.5*lr,0,2*lr)
+       cylinder rb (0,0,2*lr) (0,0,a5)
+       cylinder rr (-lr*c5,-lr*s5,a5) (lr*c5,lr*s5,a5)
+
+link6: 0.1*white
+       sphere rr (-2*lr,0,0)
+       cylinder rr (-2*lr,0,0) (-lr,0,0)
+       cylinder rr (lr,0,0) (2*lr,0,0)
+       sphere rr (2*lr,0,0)
+       cylinder rb (-1.5*lr,0,0) (-1.5*lr,0,2*lr)
+       sphere rb (-1.5*lr,0,2*lr)
+       cylinder rb (1.5*lr,0,0) (1.5*lr,0,2*lr)
+       sphere rb (1.5*lr,0,2*lr)
+       cylinder rb (-1.5*lr,0,2*lr) (1.5*lr,0,2*lr)
+       cylinder rb (0,0,2*lr) (0,0,a6)
+       cylinder rr (-lr*c6,-lr*s6,a6) (lr*c6,lr*s6,a6)
+
+[JOINTS]
+
+revolute: link1 (-c1,-s1,a1) (d1*c1,d1*s1,a1)
+          link2 (-d1-1,0,0)(0,0,0)
+
+revolute: link2 (-c2,-s2,a2) (d2*c2,d2*s2,a2)
+          link3 (-d2-1,0,0)(0,0,0)
+
+revolute: link3 (-c3,-s3,a3) (d3*c3,d3*s3,a3)
+          link4 (-d3-1,0,0)(0,0,0)
+
+revolute: link4 (-c4,-s4,a4) (d4*c4,d4*s4,a4)
+          link5 (-d4-1,0,0)(0,0,0)
+
+revolute: link5 (-c5,-s5,a5) (d5*c5,d5*s5,a5)
+          link6 (-d5-1,0,0)(0,0,0)
+
+revolute: link6 (-c6,-s6,a6) (d6*c6,d6*s6,a6)
+          link1 (-d6-1,0,0)(0,0,0)
+
+/** \endcond */
+
+
+/** \file Serial6RBricard.world
+
+   \brief A general \ref examples/Serial6R "Serial6R" mechanism.
+
+   <center>
+   <img src="../images/Serial6R/bricard.jpg">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+   <h2><a name="intro">Introduction</a></h2>
+
+   A closed kinematic chain consisting of six binary links, connected together 
+   by six revolutes is generally rigid, i.e., it can only be assembled in 
+   a finite number of different ways. However, if there are certain geometrical
+   conditions imposed upon the relevant linkage parameters (the normal distances,
+   the twist angles and the offsets of the revolutes on each of the links) the
+   chain my be mobile with one degree of freedom. Such 6R loops are said to be
+   overconstrained mechanisms, and one example is "rectangular Bricard chain" 
+   shown above <a href="#wohlhart87">[Wohlhart 1987]</a>. 
+
+   The Bricard chain belongs to a larger family of overconstrained 6R loops,
+   characterized by the fact that in every position of the linkage there is
+   a transversal, a straight line that intersects all six revolute axes-lines. 
+   In the case of the rectangular Bricard chain, if we number the revolute axis 
+   lines from 1 to 6 consecutively, the even numbered ones and the odd numbered
+   ones meet in all positions at points 
+   \f$P_{135}\f$ and 
+   \f$P_{246}\f$,
+   respectively <a href="#wohlhart87">[Wohlhart 1987]</a>, 
+   and the transversal is the line defined by these two points (see the figure above).
+
+   <h2><a name="geom">Geometry<a></h2>
+
+  Denavit-Hartenberg parameters for these parameters are:
+
+
+   <center>
+   <table border="1" frame="box" cellspacing="0" class="boldtable">
+   <tr>
+    <th align="center"><i>i</i></th>
+    <th align="center">\f$a_i\f$</th>
+    <th align="center">\f$d_i\f$</th>
+    <th align="center">\f$\alpha_i\f$</th>
+    <th align="center">Interpretation</th>
+   </tr> 
+   <tr>
+    <td align="center">1</td>
+    <td align="center">1</td>
+    <td align="center">0</td>
+    <td align="center">\f$\pi/2\f$</td>
+    <td rowspan="6"><img src="../images/Serial6R/denavit.jpg"></td>
+   </tr>
+   <tr>
+    <td align="center">2</td>
+    <td align="center">1</td>
+    <td align="center">0</td>
+    <td align="center">\f$-\pi/2\f$</td>
+   </tr>
+   <tr>
+    <td align="center">3</td>
+    <td align="center">1</td>
+    <td align="center">0</td>
+    <td align="center">\f$\pi/2\f$</td>
+   </tr>
+   <tr>
+    <td align="center">4</td>
+    <td align="center">1</td>
+    <td align="center">0</td>
+    <td align="center">\f$-\pi/2\f$</td>
+   </tr>
+   <tr>
+    <td align="center">5</td>
+    <td align="center">1</td>
+    <td align="center">0</td>
+    <td align="center">\f$\pi/2\f$</td>
+   </tr>
+   <tr>
+    <td align="center">6</td>
+    <td align="center">1</td>
+    <td align="center">0</td>
+    <td align="center">\f$-\pi/2\f$</td>
+   </tr>
+   </table>
+  </center>
+
+   <h2><a name="process">Process</a></h2>
+  
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Serial6R/Serial6RBricard </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Serial6R/Serial6RBricard </i>
+             .
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/Serial6R/Serial6RBricard </i>
+             .
+     - <b>Animate the solutions</b>: This 
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Serial6R/Serial6RBricard.world examples/Serial6R/Serial6RBricard_1</i>
+             .
+     - <b>Plot and visualize the configuration space</b> (you will see the two one-dimensional solution sets):
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Serial6R/Serial6RBricard 9 17 23 0 Serial6RBricard.gcl</i>
+	     - <i> geomview Serial6RBricard.gcl</i>
+	     .
+     .
+
+
+   <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center">1</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">24</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center">24</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+    <th>Nr. of Empty boxes</th>
+    <td  align="center">583</td>
+    </tr>
+    <tr>
+    <th>Nr. of Solution boxes</th>
+    <td  align="center">352</td>
+    </tr>
+    <tr>
+    <th>Execution time (s)</th>
+    <td  align="center">40</td>
+    </tr>
+    </table>
+    </center>
+
+
+   <h2><a name="res">Results</a></h2>
+
+   This is one of the configurations got with the instructions previously given:
+   
+   <center>
+   <img src="../images/Serial6R/Serial6RBricard_conf.png">
+   </center>
+
+   and this is the projection of the configuration space
+
+   <center>
+   <img src="../images/Serial6R/Serial6RBricard_cs.png">
+   </center>
+
+   <h2><a name="refs">References</a></h2>
+
+   - <a name="wohlhart87">K. Wohlhart</a>, "A New 6R Space Mechanism", 7th World Congress on the Theory of Machines and  Mechanisms. Vol. 1, pp. 193-198, Sevilla, Spain, 1987.
+   .
+*/

@@ -1,0 +1,11 @@
+%%%%                      PARAMETERS                          %%%%
+
+EPSILON = 1e-6
+
+RHO = 0.95
+
+SIGMA = 0.1
+
+ERROR_SPLIT = FALSE
+
+

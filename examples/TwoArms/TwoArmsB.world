@@ -1,0 +1,111 @@
+/** \cond */
+[LINKS]
+
+ link0
+
+
+  link1: body "bodies/body2"   0.9*cyan 
+	 sphere 1.5 (0,0,0) black decoration
+
+  link2: body "bodies/body3"   0.9*yellow
+	 sphere 1.5 (0,-3,0) black decoration
+	 sphere 1.5 (0,-3,20) black decoration
+
+
+  link3: body "bodies/body2"   0.9*cyan 
+	 sphere 1.5 (0,0,0) black decoration
+
+
+  link4: body "bodies/body3"   0.9*yellow
+	 sphere 1.5 (0,-3,0) black decoration
+	 sphere 1.5 (0,-3,20) black decoration
+
+  link5: body "bodies/body4"   0.9*purple
+         body "bodies/body5"   black decoration
+         body "bodies/body6"   red
+         body "bodies/body7"   black decoration
+         body "bodies/body8"   0.9*purple
+
+[JOINTS]
+
+  REVOLUTE: link0 (30,0,0)+(0,3,0) 
+            link1 ( 0,0,0)+(0,3,0) 
+
+  REVOLUTE: link1 ( 0, 0,30)+(0,3,0) 
+            link2 ( 0,-3,0)+(0,3,0) 
+
+  REVOLUTE: link0 (70,0,10)+(0,3,0) 
+            link3 ( 0,0, 0)+(0,3,0) 
+
+  REVOLUTE: link3 ( 0, 0,30)+(0,3,0) 
+            link4 ( 0,-3, 0)+(0,3,0) 
+
+  REVOLUTE: link2 ( 0,-3,20)+(0,3,0) 
+            link5 ( 0, 0, 0)+(0,3,0) 
+
+  REVOLUTE: link4 ( 0,  -3,20)+(0,3,0) 
+            link5 (17.5, 0,17.5)+(0,3,0)
+
+[OBSTACLES]
+
+  obs1: body "bodies/obstacle1" color (0.1,0.9,0.1)
+
+  obs2: body "bodies/obstacle2" color (0.1,0.9,0.1) 
+
+  obs3: body "bodies/obstacle3" color (0.1,0.9,0.1) 
+
+  obs4: body "bodies/obstacle4" color (0.1,0.9,0.1) 
+
+  obs5: body "bodies/obstacle5" color (0.1,0.9,0.1)
+
+
+[COLLISIONS]
+
+  Check : all
+  Do Not Check : link1,link2
+  Do Not Check : link3,link4
+  Do Not Check : link2,link5
+  Do Not Check : link4,link5
+
+
+/** \endcond */
+
+/** \file TwoArmsB.world
+
+    \brief Two plannar hands cooperating to move and object.
+
+    <center>
+    <img src="../images/TwoArms/TwoArmsB.png">
+    </center>
+
+    A variant of \ref TwoArmsA.world with an added obstacle.
+
+    This problem has the particularity that the two arms have to change their working modes
+    along the solution paths. This implies to traverse a singularity which is a challenge for
+    standard sampling-based planners. Note that the singularities in this case refer
+    to the singularities of each one of the arms (singularities on the projection of the
+    configuration space to the sub-space of the three variables of each arm), 
+    but not to configuration space singularities.
+
+    This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Adjust the parameters</b>: Different algorithms use different parameter settings. Just
+       check the parameter file (TwoArmsB.param) and comment/uncomment the appropriate lines.
+     - <b>Solve the path planning problem</b>: using the graph-based search
+             - <i> \ref cuikatlasGBF.c "bin/cuikatlasGBF" examples/TwoArms/TwoArmsB</i>
+             .
+     - <b>Solve the path planning problem</b>: using a RRT-like algorithm
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/TwoArms/TwoArmsB</i>
+             .
+     - <b>Visualize the solution path</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/TwoArms/TwoArmsB examples/TwoArms/TwoArmsB_path</i>
+             .
+     - <b>Smooth the path</b>:
+             - <i> \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/TwoArms/TwoArmsB</i>
+	     .
+     - <b>Visualize the smoothed solution path</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/TwoArms/TwoArmsB examples/TwoArms/TwoArmsB_path_s</i>
+             .
+     .
+    
+*/

@@ -1,0 +1,274 @@
+/** \cond */
+[CONSTANTS]
+
+  % length of the bars
+  l0:=0.5
+  l1:=1.0
+  l2:=1.1
+  l3:=1.0
+
+  % Radius of the cylinders representing revolute joints
+  d:=0.1
+
+  % Radius of cylinders representing the links
+  r:=0.05
+
+  % Radius of the load (a ball)
+  rl:=2*d 
+
+  % Height of the pendulum
+  h:=1.5
+
+  % masses
+  m1:=1
+  m2:=1
+  m3:=1
+  ml:=1 % mass load
+
+  % Maximum torque. This can be changed to make the problem harder of easier.
+  mt:=10 % 4 8 12 16
+
+  % Maximum joint velocity for planning
+  mv:=3*pi
+	
+  % Joint damping (active and passive joints)
+  b:=0.2
+  b_passive:=0.05
+
+[LINKS]
+
+  % The fist link is taken ad the ground link (the one giving the world reference frame)
+  link1: black
+   	 cylinder r (-l0,h,-4*d) (-l0,0,-4*d) 
+	 cylinder r (-l0,0,-3*d) (-l0,0,-5*d)
+	 sphere r (-l0,0,-5*d)
+
+	 cylinder r (0,h,+4*d) (0,0,+4*d) 
+	 cylinder r (0,0,+3*d) (0,0,+5*d)
+	 sphere r (0,0,+5*d)
+
+	 box (-l0-2*d,h,-6*d) (2*d,h+r,+6*d) grey
+	 box (-l0-2*h,h+r,-h) (2*h,+h+3*r,h) white
+
+	 mass 0    % actually not relevant since this is the ground link
+	 % For the intertia matrix we have to give the upper diagonal of a 3x3 symmetrix matrix: Ixx,Ixy,Ixz,Iyy,Iyz,Izz     
+	 inertia matrix 1,0,0,1,0,1 % Not used. Identity just to init it.
+	 inertial frame Tx(0) % Defines the position of the center of gravity and the axis of inertia. Not used
+
+  link2: white
+	 cylinder r (0,0,d) (0,0,3*d)
+	 sphere r (-l1,0,d)
+	 cylinder r (0,0,2*d) (-l1,0,2*d)
+	 cylinder r (-l1,0,d) (-l1,0,3*d)
+	 sphere r (0,0,3*d)
+
+	 mass m1
+	 inertia matrix 0,0,0,1/12*m1*l1^2,0,1/12*m1*l1^2 % Ixx,Ixy,Ixz,Iyy,Iyz,Izz
+	 inertial frame Tx(-l1/2)
+
+  link3: black
+   	 cylinder r (0,0,-d) (0,0,+d)
+	 sphere r (-l2,0,-d)
+	 cylinder r (0,0,0) (-l2,0,0)
+	 cylinder r (-l2,0,-d) (-l2,0,+d)
+	 sphere r (0,0,+d)
+
+	 mass m2
+	 inertia matrix 0,0,0,1/12*m2*l2^2,0,1/12*m2*l2^2
+	 inertial frame Tx(-l2/2)
+
+  link4: white
+	 cylinder r (0,0,-d) (0,0,-3*d)
+	 sphere r (-l3,0,-3*d)
+	 cylinder r (0,0,-2*d) (-l3,0,-2*d)
+	 cylinder r (-l3,0,-d) (-l3,0,-3*d)
+	 sphere r (0,0,-d)
+
+	 mass m3
+	 inertia matrix 0,0,0,1/12*m3*l3^2,0,1/12*m3*l3^2
+	 inertial frame Tx(-l3/2)
+
+  load: black
+  	 cylinder r (0,0,0) (0,3*d,0)
+	 sphere rl (0,0,0)
+
+	 mass ml
+	 inertia matrix 2/5*ml*rl^2,0,0,2/5*ml*rl^2,0,2/5*ml*rl^2
+	 inertial frame Id
+
+[JOINTS]
+
+  REVOLUTE: link1 (0,0,0) (0,0,1)     % Two points that define the axes of rotation in link1
+            link2 (-l1,0,0) (-l1,0,1) % Two points that define the same axes of rotation but in link2
+	    reference (0,1,0) (-l1,1,0)
+	    velocity mv % Maximum joint velocity
+	    torque mt   % Maximum joint torque (only given for actuated joints)
+     	    damping b   % Joint damping factor
+
+  REVOLUTE: link2 (0,0,0) (0,0,1)
+            link3 (-l2,0,0 ) (-l2,0,1)
+	    reference (0,1,0) (-l2,1,0)
+	    velocity mv
+	    damping b_passive
+
+  REVOLUTE: link3 (0,0,0) (0,0,1)
+            link4 (-l3,0,0 ) (-l3,0,1)
+	    reference (0,1,0) (-l3,1,0)
+	    velocity mv
+	    damping b_passive
+
+  REVOLUTE: link4 (0,0,0) (0,0,1)
+            link1 (-l0,0,0 ) (-l0,0,1)
+	    reference (0,1,0) (-l0,1,0)
+	    velocity mv
+	    damping b_passive
+
+  FIX: link3 load Txyz(-l2/2,-3*d,0) % The position of the load is fixed w.r.t link3
+
+[COLLISIONS]
+
+  % Collisions are not rellevant in this problem
+  do not check: all
+  
+/** \endcond */
+
+/**
+    \file FourBars_pendulum.world
+    
+    A planar <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar</a> mechanism with dynamics.
+
+    The task consists in lifting a heavy load with a four-bar robot with a torque-limited actuator.
+    By accounting for the robot dynamics and torque limitations at the planning stage,
+    we take advantage of gravity, inertia, and centripetal forces 
+    to extend the motion capabilities of the robot.
+    
+   <center>
+    <table border="1" width="800">
+    <tr>
+      <td style="vertical-align: bottom;"><img width="390px" src="../images/FourBars/four_bars_start.png"></td>
+      <td style="vertical-align: bottom;"><img width="390px" src="../images/FourBars/four_bars_goal.png"></td>
+    </tr>
+    <tr>
+      <td  align="center">Start</td>
+      <td  align="center">Goal</td>
+    </tr>
+    </table>
+    </center>
+    
+    <center><a href="#param">[Model Parameters]</a><a href="#dimensions">[Problem Dimensions]</a><a href="#process">[Process and Results]</a></center>  
+   
+    <h2><a name="param">Model Parameters</a></h2>
+    
+    The robot involves four links cyclically connected with revolute joints from which 
+    only joint \f$J1\f$ is actuated. The relative angle with the following link is denoted 
+    by  \f$q_i\f$, and the robot configuration is then given by \f${q} = (q_1,q_2,q_3,q_4)\f$.
+
+    The lenght of the links are set to
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>\f$L_0\f$</th>
+      <td  align="center">0.5</td>
+    </tr>
+    <tr>
+      <th>\f$L_1\f$</th>
+      <td  align="center">1.0</td>
+    </tr>
+    <tr>
+      <th>\f$L_2\f$</th>
+      <td  align="center">1.1</td>
+    </tr>
+    <tr>
+      <th>\f$L_3\f$</th>
+      <td  align="center">1.0</td>
+    </tr>
+    </table>
+    </center>
+
+
+    <center>
+    <img  width="400" src="../images/FourBars/geometry_fourbars.png">
+    </center>
+
+
+    The remaining set of geometric and dynamic parameters, such as mass, inertia or friction,
+    are given within the world file accessible at the bottom of the page.
+
+   <h2><a name="dimensions">Problem Dimensions</a></h2>
+
+   The dimensions of the problem are
+
+   <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nbr. of joints</th>
+      <td  align="center">4</td>
+    </tr>
+    <tr>
+      <th>Nbr. of states</th>
+      <td  align="center">8</td>
+    </tr>
+    <tr>
+      <th>Nbr. of actuators</th>
+      <td  align="center">1</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position equations </th>
+      <td  align="center">3</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position and velocity equations </th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>State-space manifold dimension</th>
+      <td  align="center">2</td>
+    </tr>
+    </table>
+    </center>
+    
+   <h2><a name="process">Process and Results</a></h2>
+
+   This example is used to visualise the results of the kinodynamic planner.
+
+   First, to plot the state space manifold, follow these steps (from the main CuikSuite folder):
+     - <b>Create an atlas of the state space manifold</b>:
+             - <i> \ref cuikatlas.c "bin/cuikatlas" examples/FourBars/FourBars_pendulum</i>
+             .
+     - <b>Plot a 3d projection (dimension 0, 5 and 6) of the atlas</b>: 
+             - <i> \ref cuiktriangulateatlas.c "bin/cuiktriangulateatlas" examples/FourBars/FourBars_pendulum 0 5 6 </i>
+	     .
+     - <b>Visualize</b>: 
+             - <i> geomview examples/FourBars/FourBars_pendulum_atlas_triang.gcl </i>
+	     .
+	     
+    <center>
+    <img src="../images/FourBars/manifold_fourbars.gif">
+    </center>
+
+   Now, to solve the kinodynamic planning problem, follow these steps (from the main CuikSuite folder):
+
+     - <b>Run the kinodynamic RRT algorithm</b>:
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/FourBars/FourBars_pendulum</i>
+             .
+     - <b>Plot a 3d projection (dimension 0, 5 and 6) of the RRT </b>:
+             - <i> \ref cuikplotatlasrrt.c "bin/cuikplotatlasrrt" examples/FourBars/FourBars_pendulum 0 5 6 </i>
+             .
+     - <b>Visualize the solutions</b>:
+             - <i> geomview examples/FourBars/FourBars_pendulum_atlas_triang.gcl examples/FourBars/FourBars_pendulum_atlas.gcl FourBars_pendulum_rrt.gcl </i>
+             .
+
+    <center>
+    <img src="../images/FourBars/manifoldRRT_fourbars.gif">
+    </center>	   
+
+     - <b>Execute the trajectory</b>:
+             - <i>\ref cuikplay.c "scripts/cuikplayer" examples/FourBars/FourBars_pendulum examples/FourBars/FourBars_pendulum_traj</i>
+             .
+
+
+    <center>
+    <img src="../images/FourBars/trajectory_fourbars.gif">
+    </center>	
+*/

@@ -1,0 +1,395 @@
+/** \cond */
+[CONSTANTS]
+
+
+% Leg lenghts
+rho1:= 1.519640
+rho2:= 1.922131
+rho3:= 1.812880
+rho4:= 1.380117
+rho5:= 1.715536
+rho6:= 1.714524
+
+% Now we define the base and the platforma as equilater triangles
+% with the given parameters
+
+% Size of the base and platform sides
+
+lb:=2
+lp:=2
+
+a := pi/3
+s:=sin(a)
+c:=cos(a)
+
+% Base Points (wrt the base reference frame)
+
+a1x := 0
+a1y := 0
+a1z := 0
+
+a2x := lb*c/2
+a2y := lb*s/2
+a2z := 0
+
+a3x := lb*c
+a3y := lb*s
+a3z := 0
+
+a4x :=  lb/2+lb*c/2
+a4y :=  lb*s/2
+a4z :=  0
+
+a5x :=  lb
+a5y :=  0
+a5z :=  0
+
+a6x :=  lb/2
+a6y :=  0
+a6z :=  0
+
+% Platform Points (wrt the platform reference frame)
+
+b1x := 0 
+b1y := 0 
+b1z := 0
+
+b2x := -lp*c/2
+b2y :=  lp*s/2
+b2z := 0
+
+b3x := lp*c/2
+b3y := lp*s/2
+b3z := 0
+
+b4x := lp*c+lp*c/2
+b4y := lp*s/2
+b4z := 0
+
+b5x := lp*c
+b5y := 0
+b5z := 0
+
+b6x :=   lp*c/2
+b6y := - lp*s/2
+b6z := 0
+
+sx := (b1x+b2x+b3x+b4x+b5x+b6x)/6
+sy := (b1y+b2y+b3y+b4y+b5y+b6y)/6
+sz := (b1z+b2z+b3z+b4z+b5z+b6z)/6+1
+
+rl := 0.03
+
+[LINKS]
+
+base    : body "bodies/triangle1" color (0.1,0.1,0.1)
+
+platform: body "bodies/triangle2" color (0.1,0.1,0.1)
+          sphere 1.5*rl (sx,sy,sz) red
+          cylinder rl*0.8 (b2x,b2y,b2z) (sx,sy,sz) color (0.1,0.1,0.1)
+          cylinder rl*0.8 (b4x,b4y,b4z) (sx,sy,sz) color (0.1,0.1,0.1)
+          cylinder rl*0.8 (b6x,b6y,b6z) (sx,sy,sz) color (0.1,0.1,0.1)
+
+[JOINTS]
+
+SPH_SPH leg1 :  base     (a1x,a1y,a1z)
+                platform (b1x,b1y,b1z)
+	        length rho1
+	        radius rl 
+	        color (0.9,0.9,0.9)
+
+SPH_SPH leg2 :  base     (a2x,a2y,a2z)
+                platform (b2x,b2y,b2z)
+	        length rho2
+	        radius rl
+	        color (0.9,0.9,0.9)
+
+SPH_SPH leg3 :  base     (a3x,a3y,a3z)
+                platform (b3x,b3y,b3z)
+	        length rho3
+	        radius rl
+	        color (0.9,0.9,0.9)
+
+SPH_SPH leg4 :  base     (a4x,a4y,a4z)
+                platform (b4x,b4y,b4z)
+	        length rho4
+	        radius rl
+	        color (0.9,0.9,0.9)
+
+SPH_SPH leg5 :  base     (a5x,a5y,a5z)
+                platform (b5x,b5y,b5z)
+	        length rho5
+	        radius rl
+	        color (0.9,0.9,0.9)
+
+SPH_SPH leg6 :  base     (a6x,a6y,a6z)
+                platform (b6x,b6y,b6z)
+	        length rho6
+	        radius rl
+	        color (0.9,0.9,0.9)
+
+/** \endcond */
+
+/** \file Griffis-Duffy.world
+
+   \brief An architecturally singular 6-6 \ref examples/ParallelPlatform "parallel platform". 
+
+   <center>
+   <img src="../images/ParallelPlatform/griffis.jpg">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>    <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+   <h2><a name="intro">Introduction</a></h2>
+
+   For a \ref examples/ParallelPlatform "general Stewart-Gough platform", 
+   once the lengths of all legs are fixed, the entire structure becomes 
+   rigid (although the same lengths may be compatible with up to 40 endplate 
+   locations). In the special case above, however, <i>any choice</i> for such 
+   lengths makes the endplate mobile with one degree-of-freedom 
+   <a href="#husty2000">[Husty and Karger 2000]</a>. This linkage is 
+   actually a sub-case of the so-called Griffis-Duffy platform, a parallel 
+   platform invented by M. Griffis and 
+   J. Duffy <a href="#griffis1993">[Griffis and Duffy 1993]</a>, whose 
+   special geometry allows a closed-form solution for its direct kinematic problem, 
+   with the advantage of having all of its spherical joints separated (which facilitates 
+   its physical construction).
+
+   <h2><a name="geom">Geometry</a></h2>
+
+   In <a href="#griffis1993">[Griffis and Duffy 1993]</a> the authors propose two types of mechanisms, referred to as 
+   the "midline to apex" and "apex to apex" embodiements. The linkage of this benchmark is 
+   a special case of the "midline to apex" embodiement. Specifically, the base and platform 
+   bodies must be equilateral triangles, and every leg connects one vertex of a triangle with 
+   an edge midpoint of the other triangle, as shown in the figure above. Provided the
+   mechanism can actually be assembled, any leg lengths will let the one-dimensional 
+   self-motion occur.
+
+   The geometric parameters of this parallel platform are (the leg lengths computed  
+   by randomly placing the top platform):
+
+   <center>
+   <table border="1">
+   <tr>
+    <td></td>
+    <th colspan="6" align="center">Base Points</th>
+  </tr>
+  <tr>
+    <th>Coord.</th>
+    <th align="center">B<sub>1</sub></th>
+    <th align="center">B<sub>2</sub></th>
+    <th align="center">B<sub>3</sub></th>
+    <th align="center">B<sub>4</sub></th>
+    <th align="center">B<sub>5</sub></th>
+    <th align="center">B<sub>6</sub></th>
+  </tr>
+  <tr>
+    <th>x</th>
+    <td  align="center">0</td>
+    <td  align="center">-0.5</td>
+    <td  align="center">0.5</td>
+    <td  align="center">1.5</td>
+    <td  align="center">1</td>
+    <td  align="center">0.5</td>
+  </tr>
+  <tr>
+    <th>y</th>
+    <td  align="center">0</td>
+    <td  align="center">0.866025</td>
+    <td  align="center">0.866025</td>
+    <td  align="center">0.866025</td>
+    <td  align="center">0</td>
+    <td  align="center">-0.866025</td>
+  </tr>
+  <tr>
+    <th>z</th>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+  </tr>
+  </table>
+
+   <table border="1">
+   <tr>
+    <td></td>
+    <th colspan="6" align="center">Platform Points</th>
+  </tr>
+  <tr>
+    <th>Coord.</th>
+    <th align="center">A<sub>1</sub></th>
+    <th align="center">A<sub>2</sub></th>
+    <th align="center">A<sub>3</sub></th>
+    <th align="center">A<sub>4</sub></th>
+    <th align="center">A<sub>5</sub></th>
+    <th align="center">A<sub>6</sub></th>
+  </tr>
+  <tr>
+    <th>x</th>
+    <td  align="center">0</td>
+    <td  align="center">0.5</td>
+    <td  align="center">1</td>
+    <td  align="center">1.5</td>
+    <td  align="center">2</td>
+    <td  align="center">1</td>
+  </tr>
+  <tr>
+    <th>y</th>
+    <td  align="center">0</td>
+    <td  align="center">0.866025</td>
+    <td  align="center">1.732051</td>
+    <td  align="center">0.866025</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+  </tr>
+  <tr>
+    <th>z</th>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+  </tr>
+  </table>
+
+  <br>
+  <table border="1">
+  <tr>
+    <th>leg</th>
+    <th  align="center">1</th>
+    <th  align="center">2</th>
+    <th  align="center">3</th>
+    <th  align="center">4</th>
+    <th  align="center">5</th>
+    <th  align="center">6</th>
+  </tr>
+  <tr>
+    <th>length</th>
+    <td  align="center">1.519640</td>
+    <td  align="center">1.922131</td>
+    <td  align="center">1.812880</td>
+    <td  align="center">1.380117</td>
+    <td  align="center">1.715536</td>
+    <td  align="center">1.714524</td>
+  </tr>
+  </table>
+  </center>
+
+   <h2><a name="process">Process</a></h2>
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/ParallelPlatform/Griffis-Duffy</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/ParallelPlatform/Griffis-Duffy </i>
+             .
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/ParallelPlatform/Griffis-Duffy</i>
+             .
+     - <b>Visualize the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/ParallelPlatform/Griffis-Duffy examples/ParallelPlatform/Griffis-Duffy_1</i>
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/ParallelPlatform/Griffis-Duffy examples/ParallelPlatform/Griffis-Duffy_2</i>
+             .
+     - <b>Visualize the configuration space</b>:
+             - <i>\ref cuikplot3d.c "bin/cuikplot3d" examples/ParallelPlatform/Griffis-Duffy_1 3 9 11 0 gd_1.gcl</i>
+             - <i>\ref cuikplot3d.c "bin/cuikplot3d" examples/ParallelPlatform/Griffis-Duffy_2 3 9 11 0 gd_2.gcl</i>
+	     - <i>geomview gd_1.gcl gd_2.gcl</i>
+	     .
+     .
+
+
+  If you want to trace the red point on the platform execute:
+     - <b>Generate the equations</b>: First, ensure that the \ref CT_REPRESENTATION "REPRESENTATION" is set to LINKS (or just not set)
+       in the parameter file (this is the default for this example)
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/ParallelPlatform/Griffis-Duffy</i>
+             .
+     - <b>Add the equations of the point to trace</b>:
+             - <i> \ref cuikmerge.c "bin/cuikmerge" _trace examples/ParallelPlatform/Griffis-Duffy examples/ParallelPlatform/Griffis-Duffy_extra</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute (this will take  longer than the cuik on the problem without the point to trace)
+             - <i> \ref cuik.c "bin/cuik" examples/ParallelPlatform/Griffis-Duffy_trace </i>
+             .
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/ParallelPlatform/Griffis-Duffy_trace</i>
+             .
+     - <b>Visualize one of the traced curves</b>: 
+             - <i>\ref cuikplot3d.c "bin/cuikplot3d" examples/ParallelPlatform/Griffis-Duffy_trace_1 25 26 27 0 gd_trace.gcl</i>
+	     .
+     - <b>Visualize the solutions</b>: Eventual jumps at the end of the animation are due ot clustering and can be elimanted with smaller
+       resolution.
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/ParallelPlatform/Griffis-Duffy examples/ParallelPlatform/Griffis-Duffy_trace_1</i>
+             - Pause the animation and load the gd_trace.gcl file (using the geomview main menu).
+             .
+     .
+
+    <h2><a name="st">Statistics</a></h2>
+
+
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">6</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">8</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints (including composited joints) </th>
+     <td  align="center">6</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 30 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 30 </td>
+    </tr>
+    </table>
+    </center>
+ 
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 805 </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 971 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 200 </td>
+    </tr>
+    </table>
+    </center>
+
+
+   <h2><a name="res">Results</a></h2>
+
+   By changing the colors of the two plotted curbes you should get something like the figure below from the first sequence of commands in the <a href="#process">process</a> section.
+
+   <center><img src="../images/ParallelPlatform/gd.png"></center>
+  
+   The result of second set of commands of the <a href="#process">process</a> section gives you a plot as (actually this is just a snapshot as the mechanism will move tracing the curbe).
+   
+   <center><img src="../images/ParallelPlatform/gd_trace.png"></center>
+
+
+   <h2><a name="refs">References</a></h2>
+  
+   - <a name="husty2000">M. Husty</a> and A. Karger, "Self-Motions of Griffis-Duffy Type Parallel Manipulators", in <i> Proc. of the 2000 IEEE Robotics and Automation Conference </i>, San Francisco, CA, April 2000.
+   - <a name="griffis1993">M. Griffis</a> and J. Duffy, <a href="http://www.freepatentsonline.com/5179525.html" target=_top> "Method and Apparatus for Controlling Geometrically Simple Parallel Mechanisms with Distinctive Connections"</a>, US Patent # 5.179.525, 1993.
+   .
+
+*/

@@ -1,0 +1,5 @@
+%%%% Welding_open parameters %%%%
+
+REPRESENTATION = FLINKS
+
+SIGMA = 0.025

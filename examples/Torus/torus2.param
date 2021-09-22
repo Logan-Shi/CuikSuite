@@ -1,0 +1,86 @@
+%%%%                      PARAMETERS                          %%%%
+
+%------------------------------
+% Representation parameters
+
+% REPRESENTATION = DOF
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parametes
+
+RHO = 0.95
+ERROR_SPLIT = TRUE
+DUMMIFY = 1
+LR2TM_Q=0.25
+LR2TM_S=0.1
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% dof-based representation
+
+% GBF
+% R = 0.25         % 0.4 blocks
+% SR = 0.75
+% E = 0.1
+% CE = 0.1
+
+% RRT
+% R = 0.5
+% SR = 1.5
+% E = 0.05
+% CE = 0.05
+
+%------------------------------
+% non-dof representation 
+
+% This do not work with WAFR
+% R = 0.5
+% SR = 1.5
+% E = 0.25
+% CE = 0.25
+
+% WAFR
+% R = 0.2
+% SR = 0.6
+% E = 0.1
+
+% ISSR
+% R = 0.75
+% SR = 2.25
+% E = 0.5
+% CE = 0.5 
+
+% TRO
+% R = 0.3
+% SR = 0.9
+% E = 0.25	
+% CE=0.1
+
+%------------------------------
+
+% AtlasRRT*
+R = 0.4
+SR = 2
+E = 0.1
+CE = 0.1
+GAMMA = 4
+
+%------------------------------
+% other path-planning parameters
+%
+MAX_PLANNING_ITERATIONS = 10001
+MAX_PLANNING_TIME = 36000
+MAX_CHARTS = 250000
+
+DELTA = 0.05
+BETA = 1.1
+
+N_DOF = 2
+
+MAX_NEWTON_ITERATIONS = 50

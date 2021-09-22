@@ -1,0 +1,139 @@
+[CONSTANTS]
+
+   % Geometric parameters of the triangle forming the base
+     % side to the triangle
+     s:=5
+
+     % height of the base
+     h:=0.05
+
+     % height (size in y) of the base : s*sin(60)
+     sy:=s*sqrt(3)/2
+
+     % distance from the vertices to the center of the base
+     % used to define the cable length
+     sc:=s/sqrt(3)
+
+     % Vertices defining the triangle
+     p1x:=-s/2
+     p1y:=-sy/3
+     p1z:= 0
+
+     p2x:= 0
+     p2y:= 2*sy/3
+     p2z:= 0
+
+     p3x:=+s/2
+     p3y:=-sy/3
+     p3z:= 0
+
+
+   % cable length (same for all)
+
+   l:= sc*2.5 %3.779644730092273%
+
+   % cable width
+   w:=0.01
+
+   % ball radious
+   r:=3*h
+
+   % Prismatic length
+   pl:=6*h
+
+   % Prismatic witdh
+   pw:=3*h
+
+   % Bounds of the prismatic joints
+   m:=sqrt(l^2-sc^2) % minimum height of the prismatic so that ball touches the base
+   lp:=0         % lower bound
+   up:=15*m       % upper bound
+
+   % dynamic parameters
+   massPrismatic:=0.1
+   massBall:=0.25
+
+   maxVel:=5
+   maxForce:=5
+
+[LINKS]
+   base: prism (p1x,p1y,p1z) (p2x,p2y,p2z) (p3x,p3y,p3z) h black
+
+         cylinder h (p1x,p1y,p1z) (p1x,p1y,p1z+m+up+10*h) black
+
+	 cylinder pw (p1x,p1y,p1z+m-1.5*pl) (p1x,p1y,p1z+m-0.5*pl) black
+	 cylinder pw (p1x,p1y,p1z+m+up+0.5*pl) (p1x,p1y,p1z+m+up+1.5*pl) black
+
+         cylinder h (p2x,p2y,p2z) (p2x,p2y,p2z+m+up+10*h) black
+
+	 cylinder pw (p2x,p2y,p2z+m-1.5*pl) (p2x,p2y,p2z+m-0.5*pl) black
+	 cylinder pw (p2x,p2y,p2z+m+up+0.5*pl) (p2x,p2y,p2z+m+up+1.5*pl) black
+
+         cylinder h (p3x,p3y,p3z) (p3x,p3y,p3z+m+up+10*h) black
+
+	 cylinder pw (p3x,p3y,p3z+m-1.5*pl) (p3x,p3y,p3z+m-0.5*pl) black
+	 cylinder pw (p3x,p3y,p3z+m+up+0.5*pl) (p3x,p3y,p3z+m+up+1.5*pl) black
+
+   p1: cylinder pw (0,0,-pl/2) (0,0,pl/2) red
+       mass massPrismatic
+
+   p2: cylinder pw (0,0,-pl/2) (0,0,pl/2) green
+       mass massPrismatic
+
+   p3: cylinder pw (0,0,-pl/2) (0,0,pl/2) blue
+       mass massPrismatic
+
+   ball: sphere r (0,0,0) red
+         mass massBall
+
+   lx
+   ly
+
+[JOINTS]
+  prismatic: base (p1x,p1y,p1z+m)+(0,0,1)
+             p1 (0,0,0)+(0,0,1)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (p2x,p2y,p2z+m)+(0,0,1)
+             p2 (0,0,0)+(0,0,1)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (p3x,p3y,p3z+m)+(0,0,1)
+             p3 (0,0,0)+(0,0,1)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (0,0,0)+(1,0,0)
+             lx (0,0,0)+(1,0,0)
+             range [p1x-10,p3x+10]
+
+  prismatic: lx (0,0,0)+(0,1,0)
+             ly (0,0,0)+(0,1,0)
+             range [p1y-10,p2y+10]
+
+  prismatic: ly (0,0,0)+(0,0,1)
+             ball (0,0,0)+(0,0,1)
+             range [0-10,up+10]
+
+  c_cable c1 : p1 (0,0,0)
+               ball (0,0,r)
+	       radius w
+	       black
+
+  c_cable c2 : p2 (0,0,0)
+               ball (0,0,0)
+	       radius w
+	       black
+
+  c_cable c3 : p3 (0,0,0)
+               ball (0,0,0)
+	       radius w
+	       black
+
+[EQUATIONS]
+  EQFILE: "cable_eqs.cuik"

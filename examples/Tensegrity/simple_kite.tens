@@ -1,0 +1,59 @@
+/** \cond */
+[constants]
+  ls:=1         % length of struts
+  fs:=-4        % max. compression 
+  lc:=2         % max. length of cables
+  sc:=1         % stiffness of cables
+
+[planar structure]
+  strut s1: n1 n2
+            length ls 
+            force [fs,0.1*fs]
+	    
+  strut s2: n3 n4 
+            length ls 
+            force [fs,0.1*fs]
+	    
+  cable c1: n1 n3 
+            length [0.1*lc,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+  cable c2: n2 n3 
+            length [0.1*lc,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+  cable c3: n1 n4
+            length [0.1*lc,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+  cable c4: n2 n4 
+            length [0.1*lc,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+[fixed points]
+  n1=(0,0,0)
+  n2=(ls,0,0)
+  
+/** \endcond */
+
+/** \file simple_kite.tens
+
+   \brief The simplest possible planar tensegrity structure.
+
+   <center>
+   <img src="../images/Tensegrity/simple_kite.png">
+   </center>
+
+   Simple tensegrity example used in our the paper
+     - J. M . Porta and S. Hernandez "Path planning for active tensegrity structures", in preparation.
+     .
+
+   This is Example 1 in the ppaer and it is presented as a
+   basic illustration of how to define a tensegrity in
+   the CuikSytem.
+
+*/

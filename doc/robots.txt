@@ -1,0 +1,216 @@
+/** \file robots.txt
+
+    \brief List of robots modelled in the CuilSuite
+    
+    Here you have a list of robots and linkages modelled in the CuikSuite with pointers to additional information. Note the large variety of problems that can be tackled 
+    with the same tools.
+
+    <center>
+    <table>
+      <tr>
+        <td align="center"><img src="../images/robots/barrett_small.jpg"></td>
+        <td align="left">The Barrett arm \ref examples/Barret "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/baxter_small.jpg"></td>
+        <td align="left">The Baxter torso \ref examples/Baxter "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/panda_small.jpg"></td>
+        <td align="left">The Panda arm \ref examples/Panda "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/protein_small.png"></td>
+        <td align="left">Several biomolecules (including protein loops) \ref examples/Bio "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/checkers_small.gif"></td>
+        <td align="left"> Several checkers-like linkages \ref examples/Checkers "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/bicyclohexane_small.jpg"></td>
+        <td align="left"> The bicyclohexane \ref Bicyclohexane.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/cyclohexane_small.jpg"></td>
+        <td align="left"> The cyclohexane \ref Cyclohexane.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/cycloheptane_small.jpg"></td>
+        <td align="left"> The cycloheptane \ref Cycloheptane.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/cyclooctane_small.jpg"></td>
+        <td align="left"> The cyclooctane \ref Cyclooctane.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/delta_small.jpg"></td>
+        <td align="left"> The delta manipulator \ref examples/DeltaManipulator "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/disulfide_small.jpg"></td>
+        <td align="left"> The disulfide bond \ref examples/Disulfide "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/doublebutterfly_small.jpg"></td>
+        <td align="left"> The double butterfly linkage \ref examples/DoubleButterfly "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fivebars_small.png"></td>
+        <td align="left"> A five bars linkage \ref examples/FiveBars "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fourbars_small.png"></td>
+        <td align="left"> A four bars linkage \ref examples/FourBars "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/marylandmanipulator_small.jpg"></td>
+        <td align="left"> The Maryland manipulator \ref examples/MarylandManipulator "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/dietmeier_small.jpg"></td>
+        <td align="left"> The general parallel platform \ref Dietmeier.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/griffis_small.jpg"></td>
+        <td align="left"> The Griffys-Duffy parallel manipulator \ref Griffis-Duffy.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/rotational_small.png"></td>
+        <td align="left"> A rotational parallel manipulator \ref Rotational.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/pr2_small.jpg"></td>
+        <td align="left"> The PR2 robot \ref examples/PR2 "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/reem_small.png"></td>
+        <td align="left"> The REEM robot \ref examples/REEM "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/mai_small.jpg"></td>
+        <td align="left"> The MA-I robot hand \ref RobotHand.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/sah_small.png"></td>
+        <td align="left"> The DLR-II robot hand \ref SAHand.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/abb_2400_small.jpg"></td>
+        <td align="left"> The ABB 2400 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/abb_5400_small.jpg"></td>
+        <td align="left"> The ABB 5400 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/abb_6640_small.jpg"></td>
+        <td align="left"> The ABB 6640 manipulator \ref abb_planning.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fanuc_lrmate200_small.png"></td>
+        <td align="left"> The Fanuc LRMate 200 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fanuc_M10_small.jpg"></td>
+        <td align="left"> The Fanuc M10 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fanuc_M16_small.jpg"></td>
+        <td align="left"> The Fanuc M16 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fanuc_M20_small.png"></td>
+        <td align="left"> The Fanuc M20 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fanuc_M430_small.jpg"></td>
+        <td align="left"> The Fanuc M430 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/motoman_mh5_small.jpg"></td>
+        <td align="left"> The Motoman MH5 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/motoman_sia5_small.png"></td>
+        <td align="left"> The Motoman SIA5 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/motoman_sia20_small.png"></td>
+        <td align="left"> The Motoman SIA20 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/staubli_rx160_small.jpg"></td>
+        <td align="left"> The Staubli RX160 manipulator \ref examples/ROSIndustrial "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/staubli_rx60_small.jpg"></td>
+        <td align="left"> The Staubli RX60 manipulator \ref Serial6RRX60.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/serial6R_small.png"></td>
+        <td align="left"> A generic 6R loop \ref Serial6R.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/bricard_small.jpg"></td>
+        <td align="left">The Bricard 6R loop \ref Serial6RBricard.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/smartbird_small.jpg"></td>
+        <td align="left">The linkage of the Smart Bird wing \ref examples/SmartBird "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/star_small.png"></td>
+        <td align="left"> A planar star-like linkage \ref Star3.world "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/symmetry_small.png"></td>
+        <td align="left"> A collection of symmetric structures \ref examples/Symmetry "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/trisector_small.jpg"></td>
+        <td align="left"> A angle trisector linkage \ref examples/Trisector "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/twoarms_small.png"></td>
+        <td align="left"> Two planar arms cooperating \ref examples/TwoArms "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/fourRX60_small.png"></td>
+        <td align="left"> Several industrial robots cooperating \ref examples/TwoRX60 "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/universalrobot_small.jpg"></td>
+        <td align="left"> The Universal robots \ref examples/UniversalRobot "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/wattbaranov_small.png"></td>
+        <td align="left"> The Watt-Baranov linkage \ref examples/Watt-Baranov "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/welding_small.png"></td>
+        <td align="left"> The simple welding robot (tutorial example) \ref examples/Welding "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/wunderlich_small.jpg"></td>
+        <td align="left"> The Wunderlich linkage \ref examples/Wunderlich "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/youbot_small.png"></td>
+        <td align="left"> The YouBot robot \ref examples/YouBot "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/jaco_small.png"></td>
+        <td align="left"> The jaco robot \ref examples/Jaco "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/tensegrity_robot_small.jpg"></td>
+        <td align="left"> A tensegrity robot \ref examples/Tensegrity/robot.tens "[more]"</td>
+      </tr>
+      <tr>
+        <td align="center"><img src="../images/robots/tensegrity_small.png"></td>
+        <td align="left"> Several tensegrity structures \ref examples/Tensegrity "[more]"</td>
+      </tr>
+    </table>
+    </center>
+*/

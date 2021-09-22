@@ -1,0 +1,97 @@
+/** \dir examples/ROSIndustrial
+
+   \brief A collection of robots from the <a href="http://rosindustrial.org">ROS-Industrial</a> project.
+
+   <center> 
+   <img src="../images/ROSIndustrial/logo.png">
+   </center>
+
+   <a href="http://rosindustrial.org">ROS-Industrial</a> is an open-source project that extends the 
+   advanced capabilities of the Robot Operating System (ROS) software to new industrial applications.
+
+   The project modelled a large collection of industrial manipulators using the ROS standard URDF format.
+   Here we can directly import these robot models into the cuiksuite. The sequence of commands
+   to execute to obtain the .world files is the following:
+        - \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/abb abb_common/urdf/irb_2400.urdf examples/ROSIndustrial/abb_irb_2400.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/abb abb_common/urdf/irb_5400.urdf examples/ROSIndustrial/abb_irb_5400.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/abb abb_common/urdf/irb_6640.urdf examples/ROSIndustrial/abb_irb_6640.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_lrmate200ic_support/urdf/lrmate200ic.urdf examples/ROSIndustrial/fanuc_lrmate200ic.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_lrmate200ic_support/urdf/lrmate200ic5h.urdf examples/ROSIndustrial/fanuc_lrmate200ic5h.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_lrmate200id_support/urdf/lrmate200id.urdf examples/ROSIndustrial/fanuc_lrmate200id.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_m10ia_support/urdf/m10ia.urdf examples/ROSIndustrial/fanuc_m10ia.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_m16ib_support/urdf/m16ib20.urdf examples/ROSIndustrial/fanuc_m16ib20.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_m20ia_support/urdf/m20ia.urdf examples/ROSIndustrial/fanuc_m20ia.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_m20ia_support/urdf/m20ia10l.urdf examples/ROSIndustrial/fanuc_m20ia10l.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_m430ia_support/urdf/m430ia2f.urdf examples/ROSIndustrial/fanuc_m430ia2f.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/fanuc fanuc_m430ia_support/urdf/m430ia2p.urdf examples/ROSIndustrial/fanuc_m430ia2p.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/motoman motoman_mh5_support/urdf/mh5.urdf examples/ROSIndustrial/motoman_mh5.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/motoman motoman_sia10d_support/urdf/sia10d.urdf examples/ROSIndustrial/motoman_sia10d.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/motoman motoman_sia20d_support/urdf/sia20d.urdf examples/ROSIndustrial/motoman_sia20d.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/motoman motoman_sia5d_support/urdf/sia5d.urdf examples/ROSIndustrial/motoman_sia5d.world
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/ROSIndustrial/staubli staubli_rx160_support/urdf/rx160.urdf examples/ROSIndustrial/staubli_rx160.world
+        .
+   The generated world files can be manipulted as usual.
+
+   Note that the world files alone do not define a path planning problem. For this, you have to define
+   the objects in the environment, the object to manipulate and the start and goal configurations.
+
+   These are some of the robots imported in using the above commands:
+
+   <center>
+    <table width="400">
+    <tr> 
+       <td align="center"><img src="../images/ROSIndustrial/abb_2400.jpg" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/abb_5400.jpg" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/abb_6640.jpg" width="100"></td>
+    </tr>
+    <tr>
+      <td align="center">The ABB 2400</td>
+      <td align="center">The ABB 5400</td>
+      <td align="center">The ABB 6640</td>
+     </tr>
+
+    <tr> 
+       <td align="center"><img src="../images/ROSIndustrial/fanuc_lrmate200ic.png" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/fanuc_M10.jpg" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/fanuc_M16.jpg" width="100"></td>
+    </tr>
+    <tr>
+      <td align="center">The Fanuc LRMate 200</td>
+      <td align="center">The Fanuc M10</td>
+      <td align="center">The Fanuc M16</td>
+     </tr>
+
+    <tr> 
+       <td align="center"><img src="../images/ROSIndustrial/fanuc_M20.png" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/fanuc_M430.jpg" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/motoman_mh5.jpg" width="100"></td>
+    </tr>
+    <tr>
+      <td align="center">The Fanuc M20</td>
+      <td align="center">The Fanuc M430</td>
+      <td align="center">The Motoman MH5</td>
+     </tr>
+
+    <tr> 
+       <td align="center"><img src="../images/ROSIndustrial/motoman_sia5.png" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/motoman_sia20.png" width="100"></td>
+       <td align="center"><img src="../images/ROSIndustrial/staubli_rx160.jpg" width="100"></td>
+    </tr>
+    <tr>
+      <td align="center">The Motoman SIA5D</td>
+      <td align="center">The Motoman SIA20D</td>
+      <td align="center">The Staubli RX160</td>
+     </tr>
+
+    </table>
+    </center>
+
+    This folder includes several files to show the possible use of the imported models
+         - The \ref fanuc_IK.world is an example of how to solve inverse kinematic problems with discrete solution sets with the CuikSuite.
+         - The \ref motoman_IK.world is an example of how to solve inverse kinematic problems with one-dimensional solution sets the CuikSuite.
+         - The \ref abb_planning.world Is a simple planning problem with an ABB 6640 robot that has to insert a bar into a hole.
+	 - In the \ref abb_staubli_planning.world ABB 6640 and a Staubli RX160 robots cooperate
+	 .
+    Note that we can change the robots or even combine different robots in the same problem and solve the
+    corresponding problems without modifying or adding anything in the CuikSuite algorithms.
+*/

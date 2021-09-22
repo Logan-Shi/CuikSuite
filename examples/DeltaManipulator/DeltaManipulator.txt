@@ -1,0 +1,18 @@
+/** \dir examples/DeltaManipulator
+   
+    \brief The Delta parallel manipulator.
+    
+    <center>
+    <img src="../images/DeltaManipulator/DeltaScheme.gif">
+    </center>
+
+    The Delta parallel manipulator is a 3 degrees-of-freedom parallel platform designed by 
+    Reymond Clavel. This folder includes two versions of this manipulator:
+
+      - \ref DeltaManipulator.world which  closely follows the original design. wW mainly use it for position analysis purposes. 
+      - \ref Delta_dynamics.world which is a simplified version where the four bar mechanisms in the legs are replaced by a couple
+         of universal joints (the resulting mobility is the same). We use this version mainly for kinodynamic planning since it
+	 includes al the dynamic variables (masses, frictions, etc.). 
+      .
+       
+*/

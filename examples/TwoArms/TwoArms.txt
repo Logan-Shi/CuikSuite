@@ -1,0 +1,45 @@
+/** \dir examples/TwoArms
+
+    \brief Two robot arms cooperatively manipulating an object.
+    
+    <center>
+    <img src="../images/TwoArms/TwoArms.png">
+    </center>
+
+    Two planar robot arms cooperatively to move an object among obstacles
+
+    This example was provided by <a href="http://homepages.laas.fr/jcortes/">Juan Cortes</a>.
+
+    We used this example in our
+    <a href="http://www.iri.upc.edu/people/porta/Docs/iros07.pdf">IROS-07</a> paper to
+    evaluate our first path planner for systems with kinematic constraints.
+    Note that this planer is not included in the CuikSuite since our recent developments
+    clearly improved this planner.
+
+    The two instances of this problem in this folder are only different on the set of
+    obstacles surrounding the robots.
+
+   The key data for this problem are:
+   <center>
+   <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 6 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 3 </td>
+     </tr>
+     <tr>
+       <th>Average planning time (for \ref TwoArmsA.world) with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 0.3 </td>
+     </tr>
+     <tr>
+       <th>Average planning time (for \ref TwoArmsB.world) with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 0.5 </td>
+     </tr>
+   </table>
+   </center>
+
+   Please, check each individual file for details on how to process them
+      - \ref TwoArmsA.world A case with only the obstacles around the start and goal configurations.
+      - \ref TwoArmsB.world A case with additional obstacles.
+      .
+
+*/

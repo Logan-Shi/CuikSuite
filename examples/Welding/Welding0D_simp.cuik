@@ -1,0 +1,41 @@
+%****************************************
+% Simplified system 
+% SIMPLIFICATION_LEVEL: 2
+% Variable reduction 27 -> 2
+% Num syst+secu+vel variables in original  : 27 
+% Num syst+secu+ve variables in simplified: 2 
+%   link1_u_x=link1_u_x
+%   link1_u_y=link1_u_y
+%   link1_u_z= -0
+%   link1_v_x=-link1_u_y
+%   link1_v_y=link1_u_x
+%   link1_v_z= -0
+%   link1_w_x= -0
+%   link1_w_y= -0
+%   link1_w_z= +1
+%   link2_u_x=-link1_u_x +0.25
+%   link2_u_y=-link1_u_y +0.75
+%   link2_u_z= -0
+%   link2_v_x=link1_u_y -0.75
+%   link2_v_y=-link1_u_x +0.25
+%   link2_v_z= -0
+%   link2_w_x= -0
+%   link2_w_y= -0
+%   link2_w_z= +1
+%   link3_u_x= -0
+%   link3_u_y= +1
+%   link3_u_z= -0
+%   link3_v_x= -1
+%   link3_v_y= -0
+%   link3_v_z= -0
+%   link3_w_x= -0
+%   link3_w_y= -0
+%   link3_w_z= +1
+
+[SYSTEM VARS]
+   link1_u_x : [-0.750000000035,1]
+   link1_u_y : [-0.250000000025,1]
+
+[SYSTEM EQS]
+   link1_u_x^2+link1_u_y^2 = 1;
+   0.5*link1_u_x+1.5*link1_u_y = 0.625;

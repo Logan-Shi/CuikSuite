@@ -1,0 +1,171 @@
+/** \dir examples/Wheelie
+
+   \brief The Wheelie family of mechanisms.
+
+
+   <center>
+   <img src="../images/Wheelie/wheelie6to10.jpg">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+
+   <h2><a name="intro">Introduction</a></h2>
+
+   All members of the \e Wheelie family have two particularities: 
+       - They cannot be solved in closed form.
+       - Their position analysis cannot be decomposed into simpler problems. In other words,
+         it cannot be solved by merging the solutions 
+         of sub-linkage modules.
+       .
+   The first property derives from the fact that the linkage graphs are planar and triconnected and, 
+   by the Owen-Power theorem, this implies their solution cannot be found by ruler-and-compass 
+   methods <a href="#owen2007">[Owen 2007]</a>.
+   The second property can be proved by showing that such graphs only contain a single 
+   triconnected component. Thus, solvers based on ruler-and-compass methods or on modular 
+   kinematics cannot solve such linkages. 
+   Therefore, the \e Wheelie linkages are a perfect scalable testbed for 
+   general position analysis algorithms.
+   
+   <h2><a name="geom">Geometry<a></h2>
+
+   <center>
+   <img src="../images/Wheelie/wheel8_4steps.jpg">
+   </center>
+
+   As it can be seen in the figure above, a \e T-Wheelie linkage 
+   is formed by a loop of \e T equally sized isosceles triangles 
+   generated from two concentric circles and where the triangles are connected  
+   with the following pattern:
+     - Two consecutive triangles around the circle are connected by two bars.
+     - Two triangles with one triangle in between are directly connected by one bar.
+     - The linkage is made rigig adding (T-6)/2 bars, creating (T-6)/2 adjacent triangles 
+       in the interior circle. 
+     .
+
+   <h2><a name="process">Process</a></h2>
+
+   Please, see the individual files for the instructions on how to process them:
+      - \ref Wheelie6.world "Wheelie6" A wheelie with 6 triangles. 
+      - \ref Wheelie8.world "Wheelie8" A wheelie with 8 triangles. 
+      - \ref Wheelie10.world "Wheelie10" A wheelie with 10 triangles.
+      - \ref Wheelie6mobile.world "Wheelie6mobile" A wheelie with 6 triangles where
+        one of the bars is removed. With this, the configuration space is one-dimensional
+        instead of zero-dimensional.
+      .
+
+   <h2><a name="st">Statistics</a></h2>
+
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <td> </td>
+      <td  align="center">Wheelie6</td>
+      <td  align="center">Wheelie8</td>
+      <td  align="center">Wheelie10</td>
+      <td  align="center">Wheelie6Mobile</td>
+    </tr>
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center"> 10 </td>
+      <td  align="center"> 14 </td>
+      <td  align="center"> 18 </td>
+      <td  align="center"> 9</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center"> 21</td>
+      <td  align="center"> 29</td>
+      <td  align="center"> 37</td>
+      <td  align="center"> 20</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center"> 18</td>
+      <td  align="center"> 24</td>
+      <td  align="center"> 30</td>
+      <td  align="center"> 18</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center"> 40 </td>
+      <td  align="center"> 56</td>
+      <td  align="center"> 72</td>
+      <td  align="center"> 37</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center"> 40 </td>
+      <td  align="center"> 56 </td>
+      <td  align="center"> 72</td>
+      <td  align="center"> 38</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <td> </td>
+      <td  align="center">Wheelie6</td>
+      <td  align="center">Wheelie8</td>
+      <td  align="center">Wheelie10</td>
+      <td  align="center">Wheelie6Mobile</td>
+    </tr>	
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center"> 1485 </td>
+      <td  align="center"> 4135 </td>
+      <td  align="center"> 12671 </td>
+      <td  align="center"> 5867</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center"> 19</td>
+      <td  align="center"> 17</td>
+      <td  align="center"> 25 </td>
+      <td  align="center"> 2595</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center"> 300 </td>
+      <td  align="center"> 1800 </td>
+      <td  align="center"> 7600 </td>
+      <td  align="center"> 1900</td>
+    </tr>
+    </table>
+    </center>
+
+   The execution times can be significantly reduced executing \ref cuik.c "cuik" on a cluster of 
+   computers. This is easy using the rmpicuik script (assuming that you have a properly
+   configured cluster of computers).
+
+   <h2><a name="res">Results</a></h2>
+
+   These are the 19 valid configuraions of the  \ref Wheelie6.world problem:
+
+   <center>
+   <img src="../images/Wheelie/wheel6_collage.jpg">
+   </center>
+
+   This is a projection of the one-dimensional configuration space of the \ref Wheelie6mobile.world problem.
+
+   <center>
+   <img src="../images/Wheelie/wheel6mobile_cs.png">
+   </center>
+
+   Actually, this configuration space contains 16 connected components, corresponding to 16 different assembly modes of the linkage. 
+   One of such modes is rigid, and the remaining ones are mobile. The mobile modes show up as disjoint closed curves in the above plot 
+   (they are better appreciated in the 3d plot, as seen with geomview).
+
+   <h2><a name="refs">References</a></h2>
+ 
+   - <a name="owen2007">J. C. Owen </a>, S. C. Power, "The non-solvability by radicals of generic 3-connected planar graphs",  <i>Transactions of the American Mathematical Society</i>  no. 359, pp. 2269-2303, 2007.
+   .
+
+   <br><br> 
+*/

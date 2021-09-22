@@ -1,0 +1,183 @@
+/** \cond */
+
+[CONSTANTS]
+
+deg2rad:=pi/180
+
+[LINKS]
+
+world : body "bodies/plane.off" yellow %  color(0.9,0.9,0.9) 
+
+wb1
+wb2
+
+% The base
+
+base: body "bodies/base_frame.off" color (0,0,0)	
+
+frw : body "bodies/front-right_wheel.off" color (0.619,0.346,0.035)
+flw : body "bodies/front-left_wheel.off" color (0.619,0.346,0.035)
+brw : body "bodies/back-right_wheel.off" color (0.619,0.346,0.035)
+blw : body "bodies/back-left_wheel.off" color (0.619,0.346,0.035)
+
+%first arm
+
+arm_base_1: body "bodies/arm_base_frame.off" color (0,0,0)
+
+arm_joint1_1: body "bodies/arm_joint_1.off" color (0.619,0.346,0.035)
+
+arm_joint2_1: body "bodies/arm_joint_2.off" color (0.619,0.346,0.035)
+
+arm_joint3_1: body "bodies/arm_joint_3.off" color (0.619,0.346,0.035)
+
+arm_joint4_1: body "bodies/arm_joint_4.off" color (0.619,0.346,0.035)
+
+arm_joint5_1: body "bodies/arm_joint_5.off" color (0,0,0)
+
+gripper_base_1: body "bodies/gripper_base_frame.off" color (0,0,0)
+
+left_finger_1: body "bodies/gripper_left_finger.off" color (1,1,1)
+
+right_finger_1: body "bodies/gripper_right_finger.off" color (1,1,1)
+
+% Second arm 
+
+arm_base_2: body "bodies/arm_base_frame.off" color (0,0,0)
+
+arm_joint1_2: body "bodies/arm_joint_1.off" color (0.619,0.346,0.035)
+
+arm_joint2_2: body "bodies/arm_joint_2.off" color (0.619,0.346,0.035)
+
+arm_joint3_2: body "bodies/arm_joint_3.off" color (0.619,0.346,0.035)
+
+arm_joint4_2: body "bodies/arm_joint_4.off" color (0.619,0.346,0.035)
+
+arm_joint5_2: body "bodies/arm_joint_5.off" color (0,0,0)
+
+gripper_base_2: body "bodies/gripper_base_frame.off" color (0,0,0)
+
+left_finger_2: body "bodies/gripper_left_finger.off" color (1,1,1)
+
+right_finger_2: body "bodies/gripper_right_finger.off"  color (1,1,1)
+
+wrench: body "bodies/wrench.off" black
+
+[JOINTS]
+
+% The base moves w.r.t. the world
+
+prismatic: world (0,0,0) (1,0,0) 
+	   wb1 (0,0,0) (1,0,0)
+           range [-1,1]
+
+prismatic: wb1 (0,0,0) (0,1,0) 
+	   wb2 (0,0,0) (0,1,0)
+           range [-1,1]
+
+revolute: wb2 (0,0,0) (0,0,1) 
+	  base (0,0,0) (0,0,1)
+           
+fix: base frw Txyz( 0.228,-0.158,-0.034)
+fix: base flw Txyz( 0.228, 0.158,-0.034)
+fix: base brw Txyz(-0.228,-0.158,-0.034)
+fix: base blw Txyz(-0.228, 0.158,-0.034)
+
+% First arm
+
+fix: base arm_base_1 Txyz(0.143,0,0.046)
+
+revolute: arm_base_1 (0.024,0,0.115)+(0,0,-1)
+ 	  arm_joint1_1 (0,0,0)+(0,0,1)
+	  range [-169*deg2rad,169*deg2rad] +(1,0,0) +(1,0,0)
+
+revolute: arm_joint1_1 (0.033,0,0)+(0,-1,0)
+ 	  arm_joint2_1 (0,0,0)+(0,0,1)
+	  range [-65*deg2rad,90*deg2rad] +(1,0,0) +(0,1,0)
+
+revolute: arm_joint2_1 (0.155,0,0)+(0,0,1)
+ 	  arm_joint3_1 (0,0,0)+(0,0,1)
+	  range [-151*deg2rad,146*deg2rad] +(1,0,0) +(0,1,0)
+	  
+revolute: arm_joint3_1 (0,0.135,0)+(0,0,1)
+ 	  arm_joint4_1 (0,0,0)+(0,0,1)
+	  range [-102.5*deg2rad,102.5*deg2rad] +(1,0,0) +(1,0,0)
+
+revolute: arm_joint4_1 (0,0.1136,0)+(0,1,0)
+ 	  arm_joint5_1 (0,0,0)+(0,0,1)
+	  range [-165*deg2rad,165*deg2rad] +(1,0,0) +(1,0,0)
+
+fix: arm_joint5_1 gripper_base_1 Txyz(0,0,0.05716)*Rz(180*deg2rad)
+
+prismatic: gripper_base_1 (0,0.0082,0) +(0,1,0)
+           left_finger_1 (0,0,0) +(0,0,1)
+	   range [0,0.0125]
+
+prismatic: gripper_base_1 (0,-0.0082,0) +(0,-1,0)
+           right_finger_1 (0,0,0) +(0,0,1)
+	   range [0,0.0125]
+
+fix: gripper_base_1
+     wrench
+     Ty(0.025)*Tz(0.125)*Ry(pi)*Rx(pi/2)*Tx(-0.2)
+
+% Second arm
+
+fix: base arm_base_2 Txyz(-0.143,0,0.046)*Rz(180*deg2rad)
+
+revolute: arm_base_2 (0.024,0,0.115)+(0,0,-1)
+ 	  arm_joint1_2 (0,0,0)+(0,0,1)
+	  range [-169*deg2rad,169*deg2rad] +(1,0,0) +(1,0,0)
+
+revolute: arm_joint1_2 (0.033,0,0)+(0,-1,0)
+ 	  arm_joint2_2 (0,0,0)+(0,0,1)
+	  range [-65*deg2rad,90*deg2rad] +(1,0,0) +(0,1,0)
+
+revolute: arm_joint2_2 (0.155,0,0)+(0,0,1)
+ 	  arm_joint3_2 (0,0,0)+(0,0,1)
+	  range [-151*deg2rad,146*deg2rad] +(1,0,0) +(0,1,0)
+	  
+revolute: arm_joint3_2 (0,0.135,0)+(0,0,1)
+ 	  arm_joint4_2 (0,0,0)+(0,0,1)
+	  range [-102.5*deg2rad,102.5*deg2rad] +(1,0,0) +(1,0,0)
+
+revolute: arm_joint4_2 (0,0.1136,0)+(0,1,0)
+ 	  arm_joint5_2 (0,0,0)+(0,0,1)
+	  range [-165*deg2rad,165*deg2rad] +(1,0,0) +(1,0,0)
+
+fix: arm_joint5_2 gripper_base_2 Txyz(0,0,0.05716)*Rz(180*deg2rad)
+
+prismatic: gripper_base_2 (0,0.0082,0) +(0,1,0)
+           left_finger_2 (0,0,0) +(0,0,1)
+	   range [0,0.0125]
+
+prismatic: gripper_base_2 (0,-0.0082,0) +(0,-1,0)
+           right_finger_2 (0,0,0) +(0,0,1)
+	   range [0,0.0125]
+
+
+
+/** \endcond */
+
+/** \file youBot2.world
+   
+   \brief The <a href="http://youbot-store.com">youBot</a> robot with two arms.
+
+   <center>
+   <img src="../images/YouBot/youBot2.png">
+   </center>
+
+   The <a href="http://youbot-store.com">youBot</a> robot with two arms.
+
+   To interactively play with this robot please execute
+     - \ref cuikmove.c "scripts/cuikmove" examples/YouBot/youBot2 examples/YouBot/youBot2 0 5
+     .  
+     
+   This is just the open loop version of the youBot robot with two arms. The problemes
+   will be defined in separate files. 
+
+   In the current state, the two arms hold a wrench, but more work should be done
+   to define a problem where the two arm actually do something with it.
+
+     <center><img src="../images/YouBot/youbot2_simp.png"></center>
+
+*/

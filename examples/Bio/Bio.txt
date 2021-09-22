@@ -1,0 +1,291 @@
+/** \dir examples/Bio
+
+    \brief Some molecules to test the bridge to OpenBabel.
+
+    <center>
+    <img src="../images/Bio/energy_landscape.png">
+     </center>
+
+    <center>
+    <a href="#intro">[Introduction]</a>  <a href="#landscapes">[Energy landscapes]</a>  <a href="#paths">[Path planning]</a>  <a href="#loops">[Protein loops]</a>  <a href="#hinges">[Protein hinges]</a>  <a href="#refs">[References]</a><br>
+    </center>
+
+   <h2><a name="intro">Introduction</a></h2>
+
+    This folder includes some molecules to test the interface CuikSuite-OpenBabel.
+    This interface allows to define worlds (i.e., mechanical
+    structures) from PDB files (or any other file accepted in
+    OpenBabel). The worlds can be then used to identify
+    all valid conformations. For each conformation the
+    corresponding energy can be computed using again
+    the CuikSuite-OpenBabel interface.
+
+    Several issues must be considered before using this
+    interface.The atom positions
+    in the pdb's are not very accurate and they do not fulfilf the
+    rigid geometry assumption (the distance and angle between atoms
+    of the same time slightly vary). Geometrically this has a large
+    consequence (significantly changes the manifold of
+    conformations). Therefore, in when necessary, we use a world (_orig.world) file
+    to generate equations that take into account the exact
+    geometry. These files are used to generate equations
+    (via \ref cuikequations.c "cuikequations") and then to generate one valid
+    conformation (via \ref cuiknewton.c "cuiknewton"). This conformation is then
+    used to get a valid set of atom positions (via 
+    \ref cuiksamples2atoms.c "cuiksamples2atoms"). If available, these atom
+    positions are used when defining the world form the pdb, instead
+    of the atom positions in the pdb. To replace the atom positions, 
+    it is very imporant that the atoms in the _orig.word are given
+    in the same order as atoms in the pdb.
+   
+    When analysing a protein loop, the residues forming the loop
+    (i.e., the flexible residues) are given in a separate file (with
+    extension .res). The residues might not need to be consecutive
+    (if so, rigid parts are considered in between consecutive flexible
+    residues).
+   
+    When analyzing the motion of rigid parts of a molecule connected
+    by molecular hinges, the atoms forming the solids are given in 
+    a separate file (with extension .rigids) and the bonds forming the hinges are
+    given also explicitly in a file (with extension .hinges).
+    
+    In our experiments pdb's are visualized using 
+    <a href="http://avogadro.openmolecules.net">Avogadro</a>.
+
+    Many of the results reported here are described in detail in <a href="#porta2013">Porta and Jaillet 2013</a>.
+
+    <h2><a name="landscapes">Energy landscapes</a></h2>
+
+    <center><img src="../images/Bio/c8.png"></center>
+
+    In the cyclooctane case (c8) the conformational space is composed
+    by two manifolds
+    joined by a singularity set. Each manifold can be isolated 
+    using the appropriate sample (in c8.joints), using c8_a or c8_b
+    and executing with parameter \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS" 0
+    if  \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS" is set to 1 (or to 2) the whole manifold
+    is recovered from the two starting points.
+
+    The sequence of commands to perform the analysis of a given
+    molecule is:
+
+    - <b>Generate the world from the pdb</b> For this we take the atom
+       positions from a pre-existing world (c8_orig) modelling the
+       ideal geometry. Note that if the exact atom positions with
+       perfect geometry is not required the first two steps can be skiped:
+        - <i> \ref cuiksamples2atoms.c "bin/cuiksamples2atoms" examples/Bio/c8_orig examples/Bio/c8_a </i> 
+        - <i> \ref cuikatoms2samples.c "bin/cuikatoms2samples" examples/Bio/c8_a.pdb </i> 
+        - <i> ln -s c8_a_a2s.joints examples/Bio/c8_a.joints</i>
+        - <i> \ref cuikpdb2world.c "bin/cuikpdb2world" examples/Bio/c8_a.pdb </i> 
+        .
+    - <b>Generate the atlas</b>
+        - <i> \ref cuikequations.c "bin/cuikequations" examples/Bio/c8_a </i> 
+        - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/c8_a </i> 
+        .
+    - <b>Compute the energy for each chart center</b>
+        - <i> \ref cuikatlascenters.c "bin/cuikatlascenters" examples/Bio/c8_a </i> 
+        - <i> \ref cuikenergy.c "bin/cuikenergy" log examples/Bio/c8_a.pdb examples/Bio/c8_a_center </i> 
+        .
+    - <b>Plot the atlas colored according to the energy</b>
+        - <i> \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Bio/c8_a examples/Bio/c8_a_center 0 1 2 </i> 
+        - <i>  geomview examples/Bio/c8_a_atlas.gcl </i> 
+        .
+    - <b>Visualize one of the conformations</b> The first one in the
+       file of solutions
+        - <i> \ref cuiksols2samples.c "bin/cuiksols2samples" examples/Bio/c8_a examples/Bio/c8_a_center </i> 
+        - <i> \ref cuiksample2pdb.c "bin/cuiksample2pdb" examples/Bio/c8_a.pdb examples/Bio/c8_a_center.pdb </i> 
+        - <i> [in Mac OS X] open -a avogadro examples/Bio/c8_a_sample.pdb </i> 
+        .
+    .
+      
+    For the c8_b example is the same but using the second starting
+    point in c8_orig.joints.
+
+    <center><img src="../images/Bio/energy_landscape.png"></center>
+
+    The other examples (csh and csh2 can be processed
+    analogously).  For instance with csh2 (note the projection
+    variables for cuikplotatlas):
+
+      - <i> \ref cuiksamples2atoms.c "bin/cuiksamples2atoms" examples/Bio/csh2_orig examples/Bio/csh2 </i> 
+      - <i> ln -s csh2_orig.param examples/Bio/csh2.param</i>
+      - <i> \ref cuikatoms2samples.c "bin/cuikatoms2samples" examples/Bio/csh2.pdb </i> 
+      - <i> ln -s csh2_a2s.joints examples/Bio/csh2.joints</i>
+      - <i> \ref cuikpdb2world.c "bin/cuikpdb2world" examples/Bio/csh2.pdb </i> 
+      - <i> \ref cuikequations.c "bin/cuikequations" examples/Bio/csh2</i>
+      - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/csh2 </i> 
+      - <i> \ref cuikatlascenters.c "bin/cuikatlascenters" examples/Bio/csh2 </i> 
+      - <i> \ref cuikenergy.c "bin/cuikenergy" log examples/Bio/csh2.pdb examples/Bio/csh2_center </i> 
+      - <i> \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Bio/csh2 examples/Bio/csh2_center 13 7 18 </i> 
+      - <i>  geomview examples/Bio/csh2_atlas.gcl </i> 
+      - <i> \ref cuiksols2samples.c "bin/cuiksols2samples" examples/Bio/csh2 examples/Bio/csh2_center </i> 
+      - <i> \ref cuiksample2pdb.c "bin/cuiksample2pdb" examples/Bio/csh2.pdb </i> 
+      - <i> [in Mac OS X] open -a avogadro examples/Bio/csh2_sample.pdb </i> 
+      .
+
+    The only problem with csh is that the atlas is too
+    large and some symmetries must be considered (this aspect is not
+    yet included in the CuikSuite).
+
+
+   <h2><a name="paths">Path planning</a></h2>
+
+   <center><img src="../images/Bio/c8_min.png"></center>
+
+    Besides fully generating the atlas and computing the energy, we
+    can perform more local explorations of the energy landscape
+    - <b>Generate the world from the pdb</b> For this we take the atom
+       positions from a pre-existing world (c8_orig) modelling the
+       ideal geometry:
+        - <i> \ref cuikpdb2world.c "bin/cuikpdb2world" examples/Bio/c8_planning.pdb </i> 
+        .
+    - <b>Perform local minimization</b> Ensure that the
+       first line in c8_planning.joints has the point from where to
+       start the minimization.
+        - <i> \ref cuikbiominimize.c "bin/cuikbiominimize" examples/Bio/c8_planning.pdb </i> 
+	.
+    - <b>Generate the atlas</b> To be used as a reference when plotting
+	- <i> \ref cuikequations.c "bin/cuikequations"  examples/Bio/c8_planning </i> 
+	- <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/c8_planning </i> 
+	- <i> \ref cuikatlascenters.c "bin/cuikatlascenters" examples/Bio/c8_planning </i> 
+	- <i> \ref cuikenergy.c "bin/cuikenergy" log examples/Bio/c8_planning.pdb examples/Bio/c8_planning_center </i> 
+        .
+    - <b>Plot the atlas and the two minimization paths</b>
+        - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Bio/c8_planning examples/Bio/c8_planning_path_0 0 4 6 </i> 
+        - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Bio/c8_planning examples/Bio/c8_planning_path_1 0 4 6 </i> 
+        - <i> \ref  cuikplotatlas.c "bin/cuikplotatlas" examples/Bio/c8_planning examples/Bio/c8_planning_center 0 4 6 </i> 
+        - <i>  geomview examples/Bio/c8_planning_atlas.gcl examples/Bio/c8_planning_path_0.gcl  examples/Bio/c8_planning_path_1.gcl </i> 
+	.
+    - <b> Visualize the conformations along a path</b> There is some shakiness due to the size of the steps in the minimization.
+        - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Bio/c8_planning examples/Bio/c8_planning_path_0</i>
+	.
+    .
+
+    <center><img src="../images/Bio/c8_path.png"></center>
+    
+    We can also connect two samples along minimum energy paths:
+      - <b>Generate the world from the pdb</b> For this we take the atom
+       positions from a preexisting world (c8_orig) modelling the
+       ideal geometry:
+        - <i> \ref cuikpdb2world.c "bin/cuikpdb2world" examples/Bio/c8_planning.pdb </i> 
+        . 
+      - <b>Determine the path connecting the samples</b> <b>IMPORTANT</b> Ensure that the
+       first two lines in c8_planning.joints have the points to
+       connect. Please,  deactivate the \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS"
+       in the paremeter filem, set the \ref CT_VDW_RATIO "VDW_RATIO"
+       very low, e.g. 0.1 since this planner is energy driven and not collision-driven and set
+       \ref CT_DELTA "DELTA" to 0.05
+        - <i> \ref cuikbioatlastrrt.c "bin/cuikbioatlastrrt" examples/Bio/c8_planning.pdb </i> 
+        .
+      - <b>Generate the atlas</b> (Also without bifurcations) To be used as a reference when plotting. 
+	- <i> \ref cuikequations.c "bin/cuikequations"  examples/Bio/c8_planning </i> 
+	- <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/c8_planning </i> 
+	- <i> \ref cuikatlascenters.c "bin/cuikatlascenters" examples/Bio/c8_planning </i> 
+	- <i> \ref cuikenergy.c "bin/cuikenergy" log examples/Bio/c8_planning.pdb examples/Bio/c8_planning_center </i> 
+        . 
+      - <b>Plot the atlas and the planned path</b>
+        - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Bio/c8_planning examples/Bio/c8_planning_path 0 1 2 </i> 
+        - <i> \ref  cuikplotatlas.c "bin/cuikplotatlas" examples/Bio/c8_planning examples/Bio/c8_planning_center 0 1 2 </i> 
+        - <i>  geomview examples/Bio/c8_planning_atlas.gcl examples/Bio/c8_planning_path.gcl </i> 
+        . 
+      - <b> Visualize the conformations along a path</b> 
+        - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Bio/c8_planning examples/Bio/c8_planning_path</i>
+	.
+      .
+
+   <h2><a name="loops">Protein loops</a></h2>
+
+   <center><img src="../images/Bio/1EJ0.png"></center>
+
+   To analyze the mobility of protein loops we can use:
+      - <i> \ref cuikpdb2world.c  "bin/cuikpdb2world"  examples/Bio/1EJ0.pdb 25 </i> 
+      - <i> \ref cuikpdb2sample.c  "bin/cuikpdb2sample" examples/Bio/1EJ0.pdb </i> 
+      - <i> \ref cuikequations.c "bin/cuikequations" examples/Bio/1EJ0 </i>  (skip this step if you want to avoid steric clashes).
+      - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/1EJ0 </i> 
+      - <i> \ref cuikatlascenters.c "bin/cuikatlascenters"  examples/Bio/1EJ0 </i> 
+      - <i> \ref cuikenergy.c "bin/cuikenergy" log examples/Bio/1EJ0.pdb examples/Bio/1EJ0_center </i>
+      - <i> \ref cuikplotatlas.c "bin/cuikplotatlas"  examples/Bio/1EJ0 examples/Bio/1EJ0_center 2 4 5 </i>
+      - <i> \ref cuikbioatlastrrt.c "bin/cuikbioatlastrrt" examples/Bio/1EJ0.pdb  </i> (this is somehow slow. To trade off efficiency and speed adjust the \ref CT_COEF_TEMP "COEF_TEMP" and  \ref CT_NFAIL_MAX "NFAIL_MAX" parameters). 
+      - <i> \ref cuikplotpath.c "bin/cuikplotpath"  examples/Bio/1EJ0 2 4 5 </i>
+      - <i> geomview examples/Bio/1EJ0_atlas.gcl examples/Bio/1EJ0_path.gcl</i>
+      .
+
+   <center><img src="../images/Bio/1EJ0_atlas.png"></center>
+   <center><img src="../images/Bio/1EJ0_path.png"></center>
+
+   A similar procedure can be followed to analyze the 3DFR.pdb
+   molecular loop.
+
+
+   <h2><a name="hinges">Protein hinges</a></h2>
+
+   <center><img src="../images/Bio/2LAO.png"></center>
+
+   The CuikSuite tools can also be used to model the motion of large rigid parts of a protein connected
+   by some chains forming a protein hinge. This is joint work 
+   with <a href="http://www.math.yorku.ca/~adnanslj/">Adnan Sljoka</a> that is able to identify
+   the rigid parts of the protein and the chains forming the hinge. The information he provided
+   was used to define the file with the ridigs (2LAO.rigids) and the one with the
+   joints defining the hinge (2LAO.hinges).
+
+   To get the atlas (i.e., the full possible motion) of the protein hinge execute:
+      - <i> \ref cuikpdb2world.c  "bin/cuikpdb2world" examples/Bio/2LAO.pdb 25 </i> 
+      - <i> \ref cuikpdb2sample.c  "bin/cuikpdb2sample" examples/Bio/2LAO.pdb </i> 
+      - <i> \ref cuikequations.c "bin/cuikequations" examples/Bio/2LAO </i> (Skip this step to isolate the collision-free conformational space).
+      - <i> ln -s 2LAO_pdb.joints examples/Bio/2LAO.joints</i>
+      - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/2LAO </i>  
+      - <i> \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Bio/2LAO 5 7 17 </i>
+      - <i>  geomview examples/Bio/2LAO_atlas.gcl </i> 
+      .
+
+   Use geomview to differentiate between the full atlas (2LAO_atlas.gcl) and the 
+   collision free (2LAO_atlas.gcl) part of the atlas. You can get a plot as the one below:
+
+   <center><img src="../images/Bio/2LAO_atlas.png"></center>
+
+   To have a look at the collision-free conformations execute (the cuikplayer take some time to start up)
+      - <i> rm  examples/Bio/2LAO.cuik </i>
+      - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/2LAO </i>  
+      - <i> \ref cuikatlascenters.c "bin/cuikatlascenters"  examples/Bio/2LAO </i> 
+      - <i> \ref cuikplay.c "scripts/cuikplayer"  examples/Bio/2LAO  examples/Bio/2LAO_center </i> 
+      .
+
+    Some of the configurations are actually in collision since the atlas includes the borders of the
+    collision-free configuration space.
+
+   The energy landscape can be obtained executing;
+      - <i> \ref cuikpdb2world.c  "bin/cuikpdb2world" examples/Bio/2LAO.pdb 25 </i> 
+      - <i> \ref cuikpdb2sample.c  "bin/cuikpdb2sample" examples/Bio/2LAO.pdb </i> 
+      - <i> \ref cuikequations.c "bin/cuikequations" examples/Bio/2LAO </i> 
+      - <i> ln -s 2LAO_pdb.joints examples/Bio/2LAO.joints</i>
+      - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/2LAO </i>  
+      - <i> \ref cuikatlascenters.c "bin/cuikatlascenters"  examples/Bio/2LAO </i>  
+      - <i> \ref cuikenergy.c "bin/cuikenergy"  log examples/Bio/2LAO.pdb   examples/Bio/2LAO_center </i>  
+      - <i> \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Bio/2LAO examples/Bio/2LAO_center 5 7 17 </i>
+      - <i> geomview examples/Bio/2LAO_atlas.gcl </i>
+      .
+
+   <center><img src="../images/Bio/2LAO_atlas_energy.png"></center>
+
+   The one dimensional path can be optained as 
+      - <i> \ref cuikpdb2world.c  "bin/cuikpdb2world" examples/Bio/2LAO_1D.pdb 25 </i> 
+      - <i> \ref cuikpdb2sample.c  "bin/cuikpdb2sample" examples/Bio/2LAO_1D.pdb </i> 
+      - <i> \ref cuikequations.c "bin/cuikequations" examples/Bio/2LAO_1D </i> 
+      - <i> ln -s 2LAO_1D_pdb.joints examples/Bio/2LAO_1D.joints</i>
+      - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Bio/2LAO_1D </i>  
+      - <i> \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Bio/2LAO_1D 5 6 16 </i>
+      - <i>  geomview examples/Bio/2LAO_atlas.gcl examples/Bio/2LAO_1D_atlas.gcl</i> 
+      .
+
+   <center><img src="../images/Bio/2LAO_1D.png"></center>
+
+    <h2><a name="refs">References</a></h2> 
+
+    - <a name="porta2013">J. M. Porta</a>, L. Jaillet, <a href="http://www.iri.upc.edu/people/porta/Docs/jcc13.pdf">"Exploring the energy landscapes of flexible molecular loops using higher-dimensional continuation"</a>, <i>Journal of Computation Chemistry</i>, 34(3): 234-244, 2013. 
+    .
+
+*/
+
+
+
+

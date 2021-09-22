@@ -1,0 +1,27 @@
+
+/** \dir examples/Baxter
+
+   \brief The Baxter robot
+
+   <center> 
+   <img src="../images/Baxter/baxter.jpg">
+   </center>
+
+   The robot arms developed by <a href="http://www.rethinkrobotics.com">Rethink Robotics</a>.
+      
+   We use this example to define CuikSuite robot models form ROS URDF files. The files in the
+   folder examples/Baxter/baxter_description have been downloaded from the 
+   <a href="https://github.com/RethinkRobotics/baxter_common">Rethink Robotics GitHub</a>. With these files we can execute
+	- \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/Baxter baxter_description/urdf/baxter.urdf examples/Baxter/baxter
+	.
+
+   to automatically generate a baxter.world file that can be manipulated as the usual word files. For instance you can execute
+      - ref cuikmove.c "scripts/cuikmove" examples/Baxter/baxter.world
+      .
+   to manipulate the robot (colors will not match those in the actual robot).
+
+   Note that the URDF does not model the grippers and, thus, they are not included in the world file.
+
+   Beside the imported file, this folder includes a planning example with the Baxter robot (see the \ref baxter_box.world ).
+
+*/

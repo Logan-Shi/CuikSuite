@@ -1,0 +1,112 @@
+/** \cond */
+
+[CONSTANTS]
+
+r1:=1
+r2:=0.5
+
+[LINKS]
+ 
+ground
+
+link1 
+
+%link2: sphere 0.0975  (0,0,0) red
+link2: sphere 0.0875  (0,0,0) red
+
+[JOINTS]
+
+revolute: ground (0,0,0)+(0,0,1)
+          link1  (0,0,0)+(0,0,1)
+
+revolute: link1 (r1,0,0)+(0,1,0)
+          link2 (r2,0,0)+(0,1,0)
+  
+
+[OBSTACLES]
+ 
+obs1: body "bodies/body1" green
+obs2: body "bodies/body2" green
+obs3: body "bodies/body3" green
+
+[COLLISIONS]
+
+Check: all
+
+/** \endcond */
+
+/** \file torus.world
+
+    \brief A point moving on a torus with obstacles.
+
+   <center>
+   <img src="../images/Torus/torus.png">
+   </center>
+
+    A point moving on a torus with obstacles.
+    A very simple example used to test path planning algorihtms. The nice thing of this
+    example is that results can be easily visualized.
+
+   Note that the torus can be formulated using just two parameters (this can be obtained
+   usig a JOINTS \ref CT_REPRESENTATION "REPRESENTATION"), but we use an implicit
+   formulation (using the LINKS \ref CT_REPRESENTATION "REPRESENTATION"). 
+   The variables are used to represent the position and orientation of the
+   ball and constraints are added to limit their valid values to those on the torus.
+   In this way we obtain a embedded manifold.
+
+   The key data for this problem are:
+   <center>
+   <table>
+     <tr>
+       <th>Ambient space dimension (in the simplified problem)</th> <td align="center"> 7 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 2 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 0.1 </td>
+     </tr>
+   </table>
+   </center>
+
+    This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Adjust the parameters</b>: Different algorithms use different parameter settings. Just
+       check the parameter file and uncomment the appropriate lines. If you do not use the correct
+       parameters, the planning might get blocked.
+     - <b>Solve the path planning problem</b>: using the graph-based search
+             - <i> \ref cuikatlasGBF.c "bin/cuikatlasGBF" examples/Torus/torus</i>
+             .
+     - <b>Solve the path planning problem</b>: using a RRT-like algorithm
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Torus/torus</i>
+             .
+     - <b>Visualize the solution path</b>: The torus is not shown (only the obstacles and the ball are displayed).
+       However you can load the torus from examples/Torus/bodies/torus.bez, once geomview is open.
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Torus/torus examples/Torus/torus_path</i>
+	     .
+     - <b>Visualize the solution path on the torus</b>: We plot the path and show it
+       on the tours. We also show the obstacles, but, plesase take into account that
+       the moving object is a ball, thus, the narrow corridor is narrower that what
+       is seen (should be narrowed by the radii of the moving ball):
+             - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Torus/torus examples/Torus/torus_path 12 13 14</i>
+	     - <i> geomview examples/Torus/torus_path.gcl examples/Torus/bodies/body1 examples/Torus/bodies/body2 examples/Torus/bodies/body3 examples/Torus/bodies/torus.bez</i>
+	     .
+     .
+
+   This is an example of the kind of paths you will get (note that we changed the appearance of the elements in the plot using geomview):
+
+   <center>
+   <img src="../images/Torus/torus_path.png">
+   </center>
+
+   The path can be smoothed executing:
+       - <i> \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Torus/torus</i>
+       - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Torus/torus examples/Torus/torus_path_s 12 13 14</i>
+       - <i> geomview examples/Torus/torus_spath.gcl examples/Torus/bodies/body1 examples/Torus/bodies/body2 examples/Torus/bodies/body3 examples/Torus/bodies/torus.bez</i>
+       .
+
+   This is an example of smoothed path:
+   <center>
+   <img src="../images/Torus/torus_spath.png">
+   </center>
+*/

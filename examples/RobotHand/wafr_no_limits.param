@@ -1,0 +1,34 @@
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = LINKS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% parameters to generate the atlas
+
+R = 0.5
+SR = 1.5
+E = 0.5
+CE = 0.5
+
+%------------------------------
+% other path-planning parameters
+
+% the degrees of freedom are 4, but they will
+% be 2 after adding the coupling equations.
+% (see the use of cuikmerge in the instructions
+% given in wafr_no_limits.world)
+N_DOF = 2
+
+% DETECT_BIFURCATIONS = 1
+
+MAX_CHARTS = 500000
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

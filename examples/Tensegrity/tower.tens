@@ -1,0 +1,287 @@
+/** \cond */
+[CONSTANTS]
+
+  % Length of vertical cables
+  lc_v:= 0.25
+
+  % radius of cables
+  rc := 0.002
+
+  % length of vertical spring
+  lp := lc_v
+  
+  % radius of spring
+  rp := 0.004
+
+  % Length of horizontal cables
+  lc_h1:=0.35
+  lc_h2:=0.15
+  lc_h3:=0.2
+  
+  % Length for diagonal cables
+  lc_d1:=sqrt(lc_h1^2+lc_v^2)
+  lc_d2:=sqrt(lc_h3^2+lc_v^2)
+
+  % Length of struts
+  ls:=sqrt((lc_h1+lc_h2)^2+lc_v^2)
+
+  % radius of struts
+  rs := 0.005
+
+  % Force for struts
+  c_s1:=-0.263906648013670
+  c_s2:=-0.130555546803407
+
+  % Tension for cables
+  t_v :=0.059636425436121
+  t_d1:=0.100451443365802
+  t_d2:=0.151142726546752
+  t_h1:=0.154304580171290
+  t_h2:=0.352817712865899
+  t_h3:=0.022354318249200
+
+  k_v :=2
+  k_p :=0.397576169574137
+  k_d1:=1
+  k_d2:=5
+  k_h1:=5
+  k_h2:=10
+  k_h3:=1
+
+  % Rest length for the cables
+  r_v :=lc_v-t_v/k_v
+  r_p := 0.1
+  r_d1:=lc_d1-t_d1/k_d1
+  r_d2:=lc_d2-t_d2/k_d2
+  r_h1:=lc_h1-t_h1/k_h1
+  r_h2:=lc_h2-t_h2/k_h2
+  r_h3:=lc_h3-t_h3/k_h3
+
+  safety := 4
+
+[PLANAR STRUCTURE]
+
+  strut s1 : n1 n4
+             length ls
+	     force [safety*c_s1,0]
+	     radius rs
+	  
+  strut s2 : n2 n3
+             length ls
+	     force [safety*c_s1,0]
+	     radius rs
+
+  strut s3 : n5 n8
+             length ls
+	     force [safety*c_s2,0]
+	     radius rs
+	  
+  strut s4 : n6 n7
+             length ls
+	     force [safety*c_s2,0]
+	     radius rs
+
+  strut s5 : n9 n12
+             length ls
+	     force [safety*c_s1,0]
+	     radius rs
+
+  strut s6 : n10 n11
+             length ls
+	     force [safety*c_s1,0]
+	     radius rs
+
+
+  cable c1 : n1 n2
+             length [0,safety*lc_v]
+             stiffness k_v
+	     rest [0,safety*r_v]
+	     radius rc
+	     hidden
+	     
+  spring c2: n11 n12
+             length [0,safety*lp]
+             stiffness k_p
+	     rest r_p
+	     radius rp
+	     loops 20
+
+  cable c3 : n1 n6
+             length [0,safety*lc_d1]
+             stiffness k_d1
+	     rest [0,safety*r_d1]
+	     radius rc
+	    
+  cable c4 : n2 n5
+             length [0,safety*lc_d1]
+             stiffness k_d1
+	     rest [0,safety*r_d1]
+	     radius rc
+
+  cable c5 : n7 n12
+             length [0,safety*lc_d1]
+             stiffness k_d1
+	     rest [0,safety*r_d1]
+	     radius rc
+
+  cable c6 : n8 n11
+             length [0,safety*lc_d1]
+             stiffness k_d1
+	     rest [0,safety*r_d1]
+	     radius rc
+  	     
+  cable c7 : n3 n10
+             length [0,safety*lc_d2]
+             stiffness k_d2
+	     rest [0,safety*r_d2]
+	     radius rc
+	     
+  cable c8 : n4 n9
+             length [0,safety*lc_d2]
+             stiffness k_d2
+	     rest [0,safety*r_d2]
+	     radius rc
+
+  cable c9 : n1 n5
+             length [0,safety*lc_h1]
+             stiffness k_h1
+	     rest [0,safety*r_h1]
+	     radius rc
+
+  cable c10: n2 n6
+             length [0,safety*lc_h1]
+             stiffness k_h1
+	     rest [0,safety*r_h1]
+	     radius rc
+	     
+  cable c11: n5 n3
+             length [0,safety*lc_h2]
+             stiffness k_h2
+	     rest [0,safety*r_h2]
+	     radius rc
+	     
+  cable c12: n6 n4
+             length [0,safety*lc_h2]
+             stiffness k_h2
+	     rest [0,safety*r_h2]
+	     radius rc
+	     
+  cable c13: n3 n9
+             length [0,safety*lc_h3]
+             stiffness k_h3
+	     rest [0,safety*r_h3]
+	     radius rc
+	     
+  cable c14: n4 n10
+             length [0,safety*lc_h3]
+             stiffness k_h3
+	     rest [0,safety*r_h3]
+	     radius rc
+
+  cable c15: n9 n7
+             length [0,safety*lc_h2]
+             stiffness k_h2
+	     rest [0,safety*r_h2]
+	     radius rc
+
+  cable c16: n10 n8
+             length [0,safety*lc_h2]
+             stiffness k_h2
+	     rest [0,safety*r_h2]
+	     radius rc
+	     
+  cable c17: n7 n11
+             length [0,safety*lc_h1]
+             stiffness k_h1
+	     rest [0,safety*r_h1]
+	     radius rc
+	     
+  cable c18: n8 n12
+             length [0,safety*lc_h1]
+             stiffness k_h1
+	     rest [0,safety*r_h1]
+	     radius rc
+
+	     
+[FIXED POINTS]
+
+  n2(x)=0
+  n2(y)=lc_v
+
+[OBSTACLES]
+  plane : box (-0.025,-0.5,-0.5)+(0.025,1,1) green
+  redbox: box (1.05,0,-0.05)+(0.25,0.2,0.1) red
+
+[COLLISIONS]
+  check: redbox
+
+/** \endcond */
+
+/** \file examples/Tensegrity/tower.tens
+
+   \brief A complex planar tensegrity structure.
+
+   <center>
+   <img src="../images/Tensegrity/tower.png">
+   </center>
+
+   This file defines a large planar tower-like tensegrity structure.
+   The structure has a large number of degrees of freedom (15 actually)
+   and it is used to show the capability of the CuikSuite to solve
+   path planning problems in large dimensional spaces.
+   The objective of this planning problem is to move the tower around
+   an obstacle (the red box).
+
+   To understant the complexity of this problem, you can try to solve
+   it interactively executing
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/Tensegrity/tower
+      .
+   You can select the degrees of freedom to actuate and increase/decrease them,
+   trying to surround the obstacle.
+
+   The planning problem to connect the following configuration
+    <center>
+      <table width="500">
+        <tr> 
+          <td><img src="../images/Tensegrity/tower_start.png" width="200"></td>
+          <td><img src="../images/Tensegrity/tower_goal.png" width="200"></td>
+        </tr>
+      </table>
+    </center>
+   can be solved automatically executing
+      - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/tower
+      .
+   The solution path can be visualized executing
+      - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/tower examples/Tensegrity/tower_path
+      .
+   This path can be smoothed executing
+      - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/tower 
+      - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/tower examples/Tensegrity/tower_path_s effort 1000
+      .
+   In this way we first reduce the length of the path and the the control effort.
+   This process is more effective
+   than directly reducing the path effort on the original path: the shortcut path is very
+   effective and it returns a path that is not far from the minimum control effort path
+   (recall that if all elements in the tensegrity are elastic, the control effort and the
+   path length are the same).
+
+   The smoothed path can be visualized executing
+      - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/tower examples/Tensegrity/tower_path_s_e
+      .
+   
+   The compressions/tensions along the path can be obtained executing
+      - \ref cuikworldforces.c "bin/cuikworldforces" examples/Tensegrity/tower examples/Tensegrity/tower_path_s
+      .
+   which generates a file that can be manipulated using, for instance, Matlab
+      - F=load('examples/Tensegrity/tower_path_s.forces');
+      - plot(F(:,1))
+      .
+   Similarly, the potential energy along the path can be analized executing:
+      - \ref cuikenergy.c "bin/cuikenergy" noscale examples/Tensegrity/tower examples/Tensegrity/tower_path_s
+      .
+   The energy values can be plotted using Matlab executing
+        - E=load('examples/Tensegrity/tower_path_.cost');
+	- plot(E)
+	.
+*/
+  

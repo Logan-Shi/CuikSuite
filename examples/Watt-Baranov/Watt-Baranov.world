@@ -1,0 +1,227 @@
+/** \cond */
+[CONSTANTS]
+
+p1_x:=12
+p1_z:=8
+
+p4_x:=9
+p4_z:=11
+
+p7_x:=10
+p7_z:=14
+
+p10_x:=14
+p10_z:=15
+
+p13_x:=17
+p13_z:=13
+
+p16_x:=16
+p16_z:=10
+
+d_1_2:=sqrt(58)
+d_1_18:=sqrt(41)
+d_2_18:=sqrt(13)
+
+d_4_5:=sqrt(34)
+d_4_3:=sqrt(64)
+d_5_3:=sqrt(18)
+
+d_7_8:=sqrt(68)
+d_7_6:=sqrt(74)
+d_8_6:=sqrt(10)
+
+d_10_11:=sqrt(89)
+d_10_9:=sqrt(68)
+d_11_9:=sqrt(9)
+
+d_13_14:=sqrt(65)
+d_13_12:=sqrt(65)
+d_14_12:=sqrt(26)
+
+d_16_17:=sqrt(81)
+d_16_15:=sqrt(40)
+d_17_15:=sqrt(13)
+
+d_2_3:=sqrt(52)
+d_5_6:=sqrt(50)
+d_8_9:=sqrt(65)
+d_11_12:=sqrt(61)
+d_14_15:=sqrt(113)
+d_17_18:=sqrt(68)
+
+p1x:=(d_1_2^2+d_1_18^2-d_2_18^2)/(2*d_1_2)
+p1z:=sqrt(d_1_18^2-p1x^2)
+
+p2x:=(d_4_5^2+d_4_3^2-d_5_3^2)/(2*d_4_5)
+p2z:=sqrt(d_4_3^2-p2x^2)
+
+p3x:=(d_7_8^2+d_7_6^2-d_8_6^2)/(2*d_7_8)
+p3z:=sqrt(d_7_6^2-p3x^2)
+
+p4x:=(d_10_11^2+d_10_9^2-d_11_9^2)/(2*d_10_11)
+p4z:=sqrt(d_10_9^2-p4x^2)
+
+p5x:=(d_13_14^2+d_13_12^2-d_14_12^2)/(2*d_13_14)
+p5z:=sqrt(d_13_12^2-p5x^2)
+
+p6x:=(d_16_17^2+d_16_15^2-d_17_15^2)/(2*d_16_17)
+p6z:=sqrt(d_16_15^2-p6x^2)
+
+r1:=0.2
+r2:=0.1
+r3:=0.5
+
+[LINKS]
+
+ground: white 
+        cylinder r1 (p1_x,0,p1_z) (p4_x,0,p4_z) 
+        cylinder r1 (p4_x,0,p4_z) (p7_x,0,p7_z)
+        cylinder r1 (p7_x,0,p7_z) (p10_x,0,p10_z)
+        cylinder r1 (p10_x,0,p10_z) (p13_x,0,p13_z)
+        cylinder r1 (p13_x,0,p13_z) (p16_x,0,p16_z)
+        cylinder r1 (p16_x,0,p16_z) (p1_x,0,p1_z)
+	sphere r3 (p1_x,0,p1_z) black
+	sphere r3 (p4_x,0,p4_z) black
+	sphere r3 (p7_x,0,p7_z) black
+	sphere r3 (p10_x,0,p10_z) black
+	sphere r3 (p13_x,0,p13_z) black
+	sphere r3 (p16_x,0,p16_z) black
+
+link1: red
+       cylinder r1 (0,0,0) (d_1_2,0,0)
+       cylinder r1 (0,0,0) (p1x,0,p1z)
+       cylinder r1 (p1x,0,p1z) (d_1_2,0,0)
+
+link2: blue
+       cylinder r1 (0,0,0) (d_4_5,0,0)
+       cylinder r1 (0,0,0) (p2x,0,p2z)
+       cylinder r1 (p2x,0,p2z) (d_4_5,0,0)
+
+link3: green
+       cylinder r1 (0,0,0) (d_7_8,0,0)
+       cylinder r1 (0,0,0) (p3x,0,p3z)
+       cylinder r1 (p3x,0,p3z) (d_7_8,0,0)
+
+link4: red
+       cylinder r1 (0,0,0) (d_10_11,0,0)
+       cylinder r1 (0,0,0) (p4x,0,p4z)
+       cylinder r1 (p4x,0,p4z) (d_10_11,0,0)
+
+link5: blue
+       cylinder r1 (0,0,0) (d_13_14,0,0)
+       cylinder r1 (0,0,0) (p5x,0,p5z)
+       cylinder r1 (p5x,0,p5z) (d_13_14,0,0)
+
+link6: green
+       cylinder r1 (0,0,0) (d_16_17,0,0)
+       cylinder r1 (0,0,0) (p6x,0,p6z)
+       cylinder r1 (p6x,0,p6z) (d_16_17,0,0)
+
+link7: black
+       cylinder r2 (0,0,0) (d_2_3,0,0)
+       sphere r3 (0,0,0)
+       sphere r3 (d_2_3,0,0) 
+
+link8: black
+       cylinder r2 (0,0,0) (d_5_6,0,0)
+       sphere r3 (0,0,0)
+       sphere r3 (d_5_6,0,0)
+
+link9: black
+       cylinder r2 (0,0,0) (d_8_9,0,0)
+       sphere r3 (0,0,0)
+       sphere r3 (d_8_9,0,0)
+
+link10: black
+        cylinder r2 (0,0,0) (d_11_12,0,0)
+        sphere r3 (0,0,0)
+	sphere r3 (d_11_12,0,0)
+
+link11: black
+        cylinder r2 (0,0,0) (d_14_15,0,0)
+        sphere r3 (0,0,0)
+	sphere r3 (d_14_15,0,0)
+
+link12: black
+        cylinder r2 (0,0,0) (d_17_18,0,0)
+        sphere r3 (0,0,0)
+	sphere r3 (d_17_18,0,0)
+
+[JOINTS]
+
+revolute: ground (p1_x,0,p1_z)+(0,1,0)
+          link1 (0,0,0)+(0,1,0)
+
+revolute: ground (p4_x,0,p4_z)+(0,1,0)
+          link2 (0,0,0)+(0,1,0)
+
+revolute: ground (p7_x,0,p7_z)+(0,1,0)
+          link3 (0,0,0)+(0,1,0)
+
+revolute: ground (p10_x,0,p10_z)+(0,1,0)
+          link4 (0,0,0)+(0,1,0)
+
+revolute: ground (p13_x,0,p13_z)+(0,1,0)
+          link5 (0,0,0)+(0,1,0)
+
+revolute: ground (p16_x,0,p16_z)+(0,1,0)
+          link6 (0,0,0)+(0,1,0)
+
+revolute: link1 (d_1_2,0,0)+(0,1,0)
+          link7 (0,0,0)+(0,1,0)
+revolute: link7 (d_2_3,0,0)+(0,1,0)
+          link2 (p2x,0,p2z)+(0,1,0)
+
+revolute: link2 (d_4_5,0,0)+(0,1,0)
+          link8 (0,0,0)+(0,1,0)
+revolute: link8 (d_5_6,0,0)+(0,1,0)
+          link3 (p3x,0,p3z)+(0,1,0)
+
+revolute: link3 (d_7_8,0,0)+(0,1,0)
+          link9 (0,0,0)+(0,1,0)
+revolute: link9 (d_8_9,0,0)+(0,1,0)
+          link4 (p4x,0,p4z)+(0,1,0)
+
+revolute: link4 (d_10_11,0,0)+(0,1,0)
+          link10 (0,0,0)+(0,1,0)
+revolute: link10 (d_11_12,0,0)+(0,1,0)
+          link5 (p5x,0,p5z)+(0,1,0)
+
+revolute: link5 (d_13_14,0,0)+(0,1,0)
+          link11 (0,0,0)+(0,1,0)
+revolute: link11 (d_14_15,0,0)+(0,1,0)
+          link6 (p6x,0,p6z)+(0,1,0)
+
+revolute: link6 (d_16_17,0,0)+(0,1,0)
+          link12 (0,0,0)+(0,1,0)
+revolute: link12 (d_17_18,0,0)+(0,1,0)
+          link1 (p1x,0,p1z)+(0,1,0)
+
+/** \endcond */
+
+/** \file Watt-Baranov.world
+
+    \brief A 13-link Watt-Baranow truss.
+
+   <center>
+   <img src="../images/Watt-Baranov/Watt-Baranov.png">
+   </center>
+
+   A 13-link Watt-Baranov truss taken from <a href="http://www.iri.upc.edu/thesis/show/49">Nico's thesis</a>.
+
+   
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Watt-Baranov/Watt-Baranov </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Watt-Baranov/Watt-Baranov </i>
+             .
+     - <b>Examine the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Watt-Baranov/Watt-Baranov examples/Watt-Baranov/Watt-Baranov </i>
+             .
+     .
+*/

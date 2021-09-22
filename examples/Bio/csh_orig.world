@@ -1,0 +1,370 @@
+/** \cond */
+
+% Note that this world is not the one generated from a pdb and, thus
+% it is not valid to be used with the cuikbio tools.
+% This file is used to generate samples strictly fulfill the rigid
+% geometry assumption (atom coordiantes in the pdb typically do
+% not fullfil this assumption). This sample is latter used
+% to generate atom coordiantes (with cuikatoms) to replace
+% those in the pdb during the process to generate a world
+% "syncronized" with the pdb (using cuikbio)
+
+[CONSTANTS]
+
+% in MMFF94 C is 1, S is 15, and H is 5 (for this case)
+
+% ---------------------------------------------------------
+% Parameters taken from the force field definition
+% reference bond lenghts
+% CHb:=1.093
+% CSb:=1.805
+% SSb:=2.050
+
+% reference angles
+% SCSa:=111.896*pi/180      %  15  1 15
+% HCSa:=109.609*pi/180      %   5  1 15 
+% CSSa:=100.316*pi/180      %   1 15 15
+% ---------------------------------------------------------
+
+% ---------------------------------------------------------
+% Artificial parameters used in previous papers
+% reference bond lenghts
+CHb:=1.120
+CSb:=1.805
+SSb:=2.019
+
+% reference angles
+SCSa:=109.5*pi/180      %  15  1 15
+HCSa:=109.5*pi/180      %   5  1 15 
+CSSa:=135.0*pi/180      %   1 15 15
+% ---------------------------------------------------------
+
+% local coordinates of the H and C atoms from the Carbon corners
+Hx:=0
+Hy:=0
+Hz:=CHb
+
+d:= CSb*sqrt(2-2*cos(SCSa))
+x:= d/sqrt(3)
+y:= d/2
+z:=-sqrt(CSb^2-x^2)
+
+S1x:= x
+S1y:= 0
+S1z:= z
+
+S2x:=-x/2
+S2y:= y
+S2z:= z
+
+S3x:=-x/2
+S3y:=-y
+S3z:= z
+
+% Rotation of the C-S bond
+CSbx:=CSb*cos(CSSa)
+CSby:=CSb*sin(CSSa)
+
+% Reduction over the Van der Waals radious
+VdWRatio:=0.25 % 0.7
+
+% Radious of the spheres representing atoms 
+rC:=1.7*VdWRatio
+rH:=1.1*VdWRatio
+rS:=1.8*VdWRatio
+
+% Radious of the cylinders representing bonds
+rCS:=0.15
+rCH:=0.15
+rSS:=0.15
+
+% Colors for the atoms
+Cr:=0.2
+Cg:=0.6
+Cb:=0.6
+
+Hr:=1
+Hg:=1
+Hb:=1
+
+Sr:=1
+Sg:=1
+Sb:=0
+
+
+[LINKS]
+
+% Atoms in the first ring
+
+C1: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S1: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S2: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+C2: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S3: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S4: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+C3: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S5: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S6: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+C4: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S7: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S8: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+% Atoms in the second ring
+
+C5: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S9: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S10: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+     cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+C6: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S11: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+     cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S12: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+     cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+C7: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S13: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+     cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S14: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+     cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+C8: sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+    sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+    cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+    cylinder rCS (0,0,0) (S1x/2,S1y/2,S1z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S2x/2,S2y/2,S2z/2) color (Cr,Cg,Cb) decoration
+    cylinder rCS (0,0,0) (S3x/2,S3y/2,S3z/2) color (Cr,Cg,Cb) decoration
+
+S15: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+     cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S16: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+     cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (SSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+% Sulfulre atoms joining the two rings
+
+S17: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (CSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S18: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (CSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S19: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (CSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+S20: sphere rS (0,0,0) color (Sr,Sg,Sb) decoration
+    cylinder rCS (0,0,0) (CSbx/2,CSby/2,0) color (Sr,Sg,Sb) decoration
+    cylinder rSS (0,0,0) (CSb/2,0,0) color (Sr,Sg,Sb) decoration
+
+[JOINTS]
+
+% first ring C-S-S-C-S-S-C-S-S-C-S-S
+revolute: C1 (0,0,0) (S1x,S1y,S1z)
+          S1 (CSbx,CSby,0) (0,0,0)
+
+revolute: S1 (0,0,0) (SSb,0,0)
+	  S2 (SSb,0,0) (0,0,0)
+
+revolute: C2 (0,0,0) (S2x,S2y,S2z)
+          S2 (CSbx,CSby,0) (0,0,0)
+
+revolute: C2 (0,0,0) (S1x,S1y,S1z)
+          S3 (CSbx,CSby,0) (0,0,0)
+
+revolute: S3 (0,0,0) (SSb,0,0)
+	  S4 (SSb,0,0) (0,0,0)
+
+revolute: C3 (0,0,0) (S2x,S2y,S2z)
+          S4 (CSbx,CSby,0) (0,0,0)
+
+revolute: C3 (0,0,0) (S1x,S1y,S1z)
+          S5 (CSbx,CSby,0) (0,0,0)
+
+revolute: S5 (0,0,0) (SSb,0,0)
+	  S6 (SSb,0,0) (0,0,0)
+
+revolute: C4 (0,0,0) (S2x,S2y,S2z)
+          S6 (CSbx,CSby,0) (0,0,0)
+
+revolute: C4 (0,0,0) (S1x,S1y,S1z)
+          S7 (CSbx,CSby,0) (0,0,0)
+
+revolute: S7 (0,0,0) (SSb,0,0)
+	  S8 (SSb,0,0) (0,0,0)
+
+revolute: C1 (0,0,0) (S2x,S2y,S2z)
+          S8 (CSbx,CSby,0) (0,0,0)
+
+
+% second ring C-S-S-C-S-S-C-S-S-C-S-S
+revolute: C5 (0,0,0) (S3x,S3y,S3z)
+          S9 (CSbx,CSby,0) (0,0,0)
+
+revolute: S9 (0,0,0) (SSb,0,0)
+	  S10 (SSb,0,0) (0,0,0)
+
+revolute: C6 (0,0,0) (S2x,S2y,S2z)
+          S10 (CSbx,CSby,0) (0,0,0)
+
+revolute: C6 (0,0,0) (S3x,S3y,S3z)
+          S11 (CSbx,CSby,0) (0,0,0)
+
+revolute: S11 (0,0,0) (SSb,0,0)
+	  S12 (SSb,0,0) (0,0,0)
+
+revolute: C7 (0,0,0) (S2x,S2y,S2z)
+          S12 (CSbx,CSby,0) (0,0,0)
+
+revolute: C7 (0,0,0) (S3x,S3y,S3z)
+          S13 (CSbx,CSby,0) (0,0,0)
+
+revolute: S13 (0,0,0) (SSb,0,0)
+	  S14 (SSb,0,0) (0,0,0)
+
+revolute: C8 (0,0,0) (S2x,S2y,S2z)
+          S14 (CSbx,CSby,0) (0,0,0)
+
+revolute: C8 (0,0,0) (S3x,S3y,S3z)
+          S15 (CSbx,CSby,0) (0,0,0)
+
+revolute: S15 (0,0,0) (SSb,0,0)
+	  S16 (SSb,0,0) (0,0,0)
+
+revolute: C5 (0,0,0) (S2x,S2y,S2z)
+          S16 (CSbx,CSby,0) (0,0,0)
+
+
+% joining the two rings
+
+revolute: C1 (0,0,0) (S3x,S3y,S3z)
+          S17 (CSbx,CSby,0) (0,0,0)
+
+revolute: C5 (0,0,0) (S1x,S1y,S1z)
+          S17 (CSb,0,0) (0,0,0) 
+
+revolute: C2 (0,0,0) (S3x,S3y,S3z)
+          S18 (CSbx,CSby,0) (0,0,0)
+
+revolute: C6 (0,0,0) (S1x,S1y,S1z)
+          S18 (CSb,0,0) (0,0,0) 
+
+revolute: C3 (0,0,0) (S3x,S3y,S3z)
+          S19 (CSbx,CSby,0) (0,0,0)
+
+revolute: C7 (0,0,0) (S1x,S1y,S1z)
+          S19 (CSb,0,0) (0,0,0) 
+
+revolute: C4 (0,0,0) (S3x,S3y,S3z)
+          S20 (CSbx,CSby,0) (0,0,0)
+
+revolute: C8 (0,0,0) (S1x,S1y,S1z)
+          S20 (CSb,0,0) (0,0,0) 
+
+
+/** \endcond */
+
+/** \file csh_orig.world
+    
+    \brief A synthetic molecule with many loops.
+
+   <center>
+   <img src="../images/Bio/csh.png">
+   </center>
+
+   A synthetic molecule with many loops. One of the two molecules 
+   used to test the CuikSuite-OpenBabel interface.
+
+
+   This corresponds to the cube example in " Macromolecular flexibility"
+   by M.F. Thorpe and M. Lei. It was also used in "A Methodology for 
+   Efficiently Sampling the Conformation Space of Molecular Structures"	
+   A. Lee, O. Brock and I. Streinu.
+*/

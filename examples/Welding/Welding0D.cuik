@@ -1,0 +1,73 @@
+% Kinematic equations
+
+[SYSTEM VARS]
+   link1_u_x : [-1,1]
+   link1_u_y : [-1,1]
+   link1_u_z : [-1,1]
+   link1_v_x : [-1,1]
+   link1_v_y : [-1,1]
+   link1_v_z : [-1,1]
+   link1_w_x : [-1,1]
+   link1_w_y : [-1,1]
+   link1_w_z : [-1,1]
+   link2_u_x : [-1,1]
+   link2_u_y : [-1,1]
+   link2_u_z : [-1,1]
+   link2_v_x : [-1,1]
+   link2_v_y : [-1,1]
+   link2_v_z : [-1,1]
+   link2_w_x : [-1,1]
+   link2_w_y : [-1,1]
+   link2_w_z : [-1,1]
+   link3_u_x : [-1,1]
+   link3_u_y : [-1,1]
+   link3_u_z : [-1,1]
+   link3_v_x : [-1,1]
+   link3_v_y : [-1,1]
+   link3_v_z : [-1,1]
+   link3_w_x : [-1,1]
+   link3_w_y : [-1,1]
+   link3_w_z : [-1,1]
+
+[SYSTEM EQS]
+   link1_u_x^2+link1_u_y^2+link1_u_z^2 = 1;
+   link1_v_x^2+link1_v_y^2+link1_v_z^2 = 1;
+   link1_u_x*link1_w_x+link1_u_y*link1_w_y+link1_u_z*link1_w_z = 0;
+   link1_u_y*link1_w_z-link1_u_z*link1_w_y+link1_v_x = -0;
+   link1_u_x*link1_w_z-link1_u_z*link1_w_x-link1_v_y = 0;
+   link1_u_x*link1_w_y-link1_u_y*link1_w_x+link1_v_z = -0;
+   link2_u_x^2+link2_u_y^2+link2_u_z^2 = 1;
+   link2_v_x^2+link2_v_y^2+link2_v_z^2 = 1;
+   link2_u_x*link2_w_x+link2_u_y*link2_w_y+link2_u_z*link2_w_z = 0;
+   link2_u_y*link2_w_z-link2_u_z*link2_w_y+link2_v_x = -0;
+   link2_u_x*link2_w_z-link2_u_z*link2_w_x-link2_v_y = 0;
+   link2_u_x*link2_w_y-link2_u_y*link2_w_x+link2_v_z = -0;
+   link3_u_x^2+link3_u_y^2+link3_u_z^2 = 1;
+   link3_v_x^2+link3_v_y^2+link3_v_z^2 = 1;
+   link3_u_x*link3_w_x+link3_u_y*link3_w_y+link3_u_z*link3_w_z = 0;
+   link3_u_y*link3_w_z-link3_u_z*link3_w_y+link3_v_x = -0;
+   link3_u_x*link3_w_z-link3_u_z*link3_w_x-link3_v_y = 0;
+   link3_u_x*link3_w_y-link3_u_y*link3_w_x+link3_v_z = -0;
+   link1_w_x = -0;
+   link1_w_y = -0;
+   link1_w_z = 1;
+   link1_w_x-link2_w_x = 0;
+   link1_w_y-link2_w_y = 0;
+   link1_w_z-link2_w_z = 0;
+   link2_w_x-link3_w_x = 0;
+   link2_w_y-link3_w_y = 0;
+   link2_w_z-link3_w_z = 0;
+   link3_u_x = -0;
+   link3_u_y = 1;
+   link3_u_z = -0;
+   link3_v_x = -1;
+   link3_v_y = -0;
+   link3_v_z = -0;
+   link3_w_x = -0;
+   link3_w_y = -0;
+   link3_w_z = 1;
+   link1_u_x+link2_u_x = 0.25;
+   link1_u_y+link2_u_y = 0.75;
+   link1_u_z+link2_u_z = 0;
+
+

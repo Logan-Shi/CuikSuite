@@ -1,0 +1,52 @@
+%%%%  CYCLOOTANE PARAMETERS %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = DOF
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-8
+
+%------------------------------
+% cuik solver parametes
+
+RHO = 0.45
+SIGMA = 0.2
+SMALL_SIGMA = 0.1
+DUMMIFY = 1
+SIMPLIFICATION_LEVEL=2
+LR2TM_Q=0.5
+LR2TM_S=0.25
+
+%------------------------------
+% atlas parametes
+%------------------------------
+
+R = 0.2
+SR = 2
+E = 0.2
+CE = 0.2
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+
+N_DOF = 2
+
+MAX_NEWTON_ITERATIONS = 50
+
+DETECT_BIFURCATIONS = 0
+
+%------------------------------
+% bio-related parameters
+
+VDW_RATIO = 0.8
+
+% visualization parameters
+%CUT_X =  1.75
+%CUT_Y = 1
+%%CUT_Z =  -1

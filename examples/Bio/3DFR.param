@@ -1,0 +1,62 @@
+%%%%  1EJ0 PARAMETERS %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = DOF
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-8
+
+%------------------------------
+% cuik solver parametes
+
+RHO = 0.45
+SIGMA = 0.2
+SMALL_SIGMA = 0.1
+DUMMIFY = 1
+SIMPLIFICATION_LEVEL=2
+LR2TM_Q=0.5
+LR2TM_S=0.25
+
+%------------------------------
+% atlas parametes
+%------------------------------
+
+R = 0.4
+SR = 2
+E = 0.1
+CE = 0.1
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+
+N_DOF = 4
+
+MAX_NEWTON_ITERATIONS = 50
+
+DETECT_BIFURCATIONS = 0
+
+MAX_NODES_RRT = 25000
+MAX_PLANNING_TIME = 3600
+MAX_CHARTS = 500000
+
+
+%------------------------------
+% bio-related parameters
+
+% With values larger than 0.41 the PBB configuration is in collision.
+VDW_RATIO = 0.41
+
+% Parameters for T-RRT
+COEF_TEMP = 1.5
+NFAIL_MAX = 5
+
+% visualization parameters
+%CUT_X =  1.75
+CUT_Y = 0.1
+CUT_Z = -1.5

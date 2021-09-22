@@ -1,0 +1,73 @@
+% Kinematic equations
+
+[SYSTEM VARS]
+   platform_u_x : [-1,1]
+   platform_u_y : [-1,1]
+   platform_u_z : [-1,1]
+   platform_v_x : [-1,1]
+   platform_v_y : [-1,1]
+   platform_v_z : [-1,1]
+
+[DUMMY VARS]
+   platform_w_x : [-1,1]
+   platform_w_y : [-1,1]
+   platform_w_z : [-1,1]
+   platform_wp_x : [-1,1]
+   platform_wp_y : [-1,1]
+   platform_wp_z : [-1,1]
+
+[SYSTEM VARS]
+   leg1_u_x : [-1,1]
+   leg1_u_y : [-1,1]
+   leg1_u_z : [-1,1]
+   leg2_u_x : [-1,1]
+   leg2_u_y : [-1,1]
+   leg2_u_z : [-1,1]
+   leg3_u_x : [-1,1]
+   leg3_u_y : [-1,1]
+   leg3_u_z : [-1,1]
+   leg4_u_x : [-1,1]
+   leg4_u_y : [-1,1]
+   leg4_u_z : [-1,1]
+   leg5_u_x : [-1,1]
+   leg5_u_y : [-1,1]
+   leg5_u_z : [-1,1]
+   leg6_u_x : [-1,1]
+   leg6_u_y : [-1,1]
+   leg6_u_z : [-1,1]
+
+[SYSTEM EQS]
+   platform_u_x*platform_v_x+platform_u_y*platform_v_y+platform_u_z*platform_v_z = 0;
+   platform_u_x^2+platform_u_y^2+platform_u_z^2 = 1;
+   platform_v_x^2+platform_v_y^2+platform_v_z^2 = 1;
+   leg1_u_x^2+leg1_u_y^2+leg1_u_z^2 = 1;
+   leg2_u_x^2+leg2_u_y^2+leg2_u_z^2 = 1;
+   leg3_u_x^2+leg3_u_y^2+leg3_u_z^2 = 1;
+   leg4_u_x^2+leg4_u_y^2+leg4_u_z^2 = 1;
+   leg5_u_x^2+leg5_u_y^2+leg5_u_z^2 = 1;
+   leg6_u_x^2+leg6_u_y^2+leg6_u_z^2 = 1;
+   0.542805*platform_u_x+leg1_u_x-0.645275*leg2_u_x = 1.107915;
+   0.542805*platform_u_y+leg1_u_y-0.645275*leg2_u_y = -0;
+   0.542805*platform_u_z+leg1_u_z-0.645275*leg2_u_z = -0;
+   0.956919*platform_u_x-0.528915*platform_v_x+leg1_u_x-1.086284*leg3_u_x = 0.549094;
+   0.956919*platform_u_y-0.528915*platform_v_y+leg1_u_y-1.086284*leg3_u_y = 0.756063;
+   0.956919*platform_u_z-0.528915*platform_v_z+leg1_u_z-1.086284*leg3_u_z = -0;
+   0.6658849999999999*platform_u_x-0.353482*platform_v_x+1.402538*platform_w_x-1.402538*platform_wp_x+leg1_u_x-1.503439*leg4_u_x = 0.735077;
+   0.6658849999999999*platform_u_y-0.353482*platform_v_y+1.402538*platform_w_y-1.402538*platform_wp_y+leg1_u_y-1.503439*leg4_u_y = -0.223935;
+   0.6658849999999999*platform_u_z-0.353482*platform_v_z+1.402538*platform_w_z-1.402538*platform_wp_z+leg1_u_z-1.503439*leg4_u_z = 0.525991;
+   0.478359*platform_u_x+1.158742*platform_v_x+0.107672*platform_w_x-0.107672*platform_wp_x+leg1_u_x-1.281933*leg5_u_x = 0.514188;
+   0.478359*platform_u_y+1.158742*platform_v_y+0.107672*platform_w_y-0.107672*platform_wp_y+leg1_u_y-1.281933*leg5_u_y = -0.526063;
+   0.478359*platform_u_z+1.158742*platform_v_z+0.107672*platform_w_z-0.107672*platform_wp_z+leg1_u_z-1.281933*leg5_u_z = -0.368418;
+   0.137087*platform_u_x+0.235121*platform_v_x-0.353913*platform_w_x+0.353913*platform_wp_x-leg1_u_x+0.771071*leg6_u_x = -0.590473;
+   0.137087*platform_u_y+0.235121*platform_v_y-0.353913*platform_w_y+0.353913*platform_wp_y-leg1_u_y+0.771071*leg6_u_y = -0.094733;
+   0.137087*platform_u_z+0.235121*platform_v_z-0.353913*platform_w_z+0.353913*platform_wp_z-leg1_u_z+0.771071*leg6_u_z = 0.205018;
+
+[DUMMY EQS]
+   platform_u_y*platform_v_z-platform_w_x = 0;
+   platform_u_z*platform_v_x-platform_w_y = 0;
+   platform_u_x*platform_v_y-platform_w_z = 0;
+   platform_u_z*platform_v_y-platform_wp_x = 0;
+   platform_u_x*platform_v_z-platform_wp_y = 0;
+   platform_u_y*platform_v_x-platform_wp_z = 0;
+
+

@@ -1,0 +1,33 @@
+%%%%                      PARAMETERS                          %%%%
+
+% REPRESENTATION = JOINTS
+% MAX_NEWTON_ITERATIONS = 50
+
+EPSILON = 1e-5
+
+RHO = 0.45
+
+SIGMA = 0.05
+
+ERROR_SPLIT = TRUE
+DUMMIFY = 1
+
+SAFE_SIMPLEX =1
+
+LR2TM_Q=0.1
+LR2TM_S=0.1
+
+% Paht planning and atlas parameters
+
+R = 0.25
+SR = 0.5
+E = 0.1
+CE = 0.1
+
+BETA = 1.1
+DELTA = 0.05
+
+N_DOF=2
+
+
+

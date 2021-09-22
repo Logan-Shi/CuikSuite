@@ -1,0 +1,26 @@
+
+/** \dir examples/UniversalRobot
+
+   \brief Universal Robots
+
+   <center>
+   <img src="../images/UniversalRobots/ur.jpg">
+   </center>
+
+   The robot arms developed by <a href="http://www.universal-robots.com">Universal Robots</a>.
+      
+   We use this example to define CuikSuite robot models form ROS URDF files. The files in the
+   folder examples/UniversalRobots/universal_robot have been downloaded from the 
+   <a href="http://wiki.ros.org/universal_robot">ROS repository</a>. With these files we can execute
+        - \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/UniversalRobot/universal_robot ur_description/urdf/ur5_robot.urdf examples/UniversalRobot/ur5
+	.
+
+   To automatically generate a ur5.world file that can be manipulated as the usual word files. For instance you can execute
+      - ref cuikmove.c "scripts/cuikmove" examples/UniversalRobot/ur5.world
+      .
+
+   In the same way, we can generate the CuikSuite model for the ur10 robot 
+        - \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/UniversalRobot/universal_robot ur_description/urdf/ur10_robot.urdf examples/UniversalRobot/ur10
+	.
+
+*/

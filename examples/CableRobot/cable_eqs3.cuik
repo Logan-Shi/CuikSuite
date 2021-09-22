@@ -1,0 +1,14 @@
+[SYSTEM EQS]
+
+p1x^2-2*p1x*d_base_lx_0_2+2*p1x*d_base_p1_0_0+p1y^2+p1z^2-2*p1z*d_lx_ball_0_3+d_base_lx_0_2^2-2*d_base_lx_0_2*d_base_p1_0_0+d_base_p1_0_0^2+d_lx_ball_0_3^2=L1^2;
+p2x^2-2*p2x*d_base_lx_0_2+2*p2x*d_base_p2_0_1+p2y^2+p2z^2-2*p2z*d_lx_ball_0_3+d_base_lx_0_2^2-2*d_base_lx_0_2*d_base_p2_0_1+d_base_p2_0_1^2+d_lx_ball_0_3^2=L2^2;
+
+
+
+% matlab test of a solution
+%   s=5;sy=s*sqrt(3)/2;sc=s/sqrt(3);p1(1)=-s/2; p1(2)=-sy/3; p1(3)= 0; p2(1)= 0;p2(2)= 2*sy/3;p2(3)= 0; p3(1)=+s/2; p3(2)=-sy/3; p3(3)= 0;l= sc*1.5;m=sqrt(l^2-sc^2);
+%   p=[... the solution point ...]
+%   pc=p(4:6);pp1=p1+[0 0 m+p(1)];pp2=p2+[0 0 m+p(2)];pp3=p3+[0 0 m+p(3)];
+%   norm(pp1-pc)-l
+%   norm(pp2-pc)-l
+%   norm(pp3-pc)-l

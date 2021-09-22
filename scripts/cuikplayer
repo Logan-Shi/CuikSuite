@@ -1,0 +1,15 @@
+#!/bin/tcsh
+
+if ($#argv < 2) then
+  printf "  Script to use visualize solution animations\n"
+  printf "  Usage:\n" 
+  printf "        cuikplayer <world file> <solution file> \n"
+  printf "    where\n" 
+  printf "      <world file> is the geometry to animate\n"
+  printf "      <solution file> is the file with the configuraitons to use\n"
+  printf "         in the animation (typically solution files properly\n"
+  printf "         sorted using cuiksort).\n"
+else
+  geomview -run ./bin/cuikplay $1 $2 $3 $4
+endif
+

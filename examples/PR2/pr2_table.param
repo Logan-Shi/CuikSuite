@@ -1,0 +1,65 @@
+%%%% PR2 table %%%%
+
+%------------------------------
+% Collision detection method
+
+% CD_ENGINE = PQP
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS 
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parametes
+
+RHO = 0.9
+SIGMA = 0.01
+SMALL_SIGMA = 1e-4
+ERROR_SPLIT = TRUE
+DUMMIFY = 1
+LR2TM_Q=0.4
+LR2TM_S=0.1
+% SAFE_SIMPLEX=6
+% SIMPLIFICATION_LEVEL=0
+% N_SOLUTIONS = 1
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% joint-based representation
+
+R = 1.0
+SR = 7
+E = 0.1
+CE = 0.1
+
+%------------------------------
+% non-joint representation 
+
+% R = 2
+% SR = 4
+% E = 0.25
+% CE = 0.25
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+BETA = 1.1
+
+N_DOF = 4
+
+DETECT_BIFURCATIONS = 0
+
+MAX_NEWTON_ITERATIONS = 50
+
+% SAMPLING = KDTREE_SAMPLING
+% DYNAMIC_DOMAIN = 20*DELTA
+
+%------------------------------

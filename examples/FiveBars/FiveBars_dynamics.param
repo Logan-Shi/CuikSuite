@@ -1,0 +1,52 @@
+%%%%                      PARAMETERS                          %%%%
+
+% Dynamic related parameters ---------
+
+DYNAMICS = 1  % 1->implicit trapezoid in local  2->Euler in local  3->RK4 in local  4->Euler  5->RK4
+
+N_DYNAMIC_ACTIONS = 0 % 0 for LQR, 2*n_u=4 for random action
+
+DYNAMIC_GOAL_ERROR = 0.1*sqrt(10)
+
+LQR_PLANNING_TIME = 1.5
+
+INTEGRATION_TIME = (N_DYNAMIC_ACTIONS>0 ? 0.1 : LQR_PLANNING_TIME)
+
+TAU = 1 % weight used in the time term of the LQR cost
+
+G_AXIS = -Y % gravity axis
+
+DEFAULT_MAX_VELOCITY = 25
+
+% Path planning parameters -----------
+
+N_DOF=(DYNAMICS?4:2)
+
+R = N_DOF/2
+SR= 2*R
+E = 0.05*sqrt(10)
+CE= 0.1
+
+DELTA = 0.02*R
+
+BI_RRT = TRUE
+
+MAX_NODES_RRT = 1000000
+MAX_PLANNING_TIME = 1000
+MAX_CHARTS = 100000
+
+% Formulation parameters -----------
+
+REPRESENTATION = JOINTS
+
+% Numerical parameters -----------
+
+EPSILON = 1e-8
+
+MAX_NEWTON_ITERATIONS = 50
+
+% Representation parameters -----------
+
+CUT_X=0.1
+% CUT_Y=-0.1
+CUT_Z=0.1

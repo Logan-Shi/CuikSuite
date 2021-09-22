@@ -1,0 +1,75 @@
+/** \cond */
+ 
+[INCLUDE] 
+  robot_abb: "abb_irb_6640.world"
+
+[INCLUDE] 
+  robot_staubli: "staubli_rx160.world"
+
+[CONSTANTS]
+  R:=0.05
+
+[LINKS]
+   bar: cylinder R (-1,0,0) (1.5,0,0) blue
+   dummy1
+   dummy2
+   dummy3
+
+   hole: body "bodies/box_with_hole.off"
+
+[JOINTS]
+   // fix the Staubli robo w.r.t. the ABB robot
+   fix: robot_abb::base_link robot_staubli::base_link Txyz(2.5,-0.75,0)	
+
+   // fix the bar to the ABB end-effector
+   fix: robot_abb::tool0 bar Tx(R/2)*Rz(pi/2)
+
+   // fix the bar to the Staubli end-effector
+   fix: robot_staubli::tool0 bar Ry(pi/2)*Tx(-R)*Ty(0.5)*Rz(pi/2)
+
+   // fix the hole w.r.t. the ABB robot base
+   fix: robot_abb::base_link hole Txyz(1.5,0.5,0.5)
+   
+   // constraint the bar motions so that it can only translate (no rotation allowed)
+   prismatic: robot_abb::base_link (0,0,0)+(1,0,0) dummy1 (0,0,0)+(1,0,0) range [0,2]
+   prismatic: dummy1 (0,0,0)+(0,1,0) dummy2 (0,0,0)+(0,1,0) range [-2,2]
+   prismatic: dummy2 (0,0,0)+(0,0,1) dummy3 (0,0,0)+(0,0,1) range [0,2]
+   fix: dummy3 bar Rz(pi/2)
+
+[COLLISIONS]
+   do not check: all
+   check: bar,hole
+
+/** \endcond */
+/**
+   \file abb_staubli_planning.world
+
+   \brief A planning example with an ABB and a Staubli industrial robots.
+
+   <center> 
+   <img src="../images/ROSIndustrial/abb_staubli.png">
+   </center>
+
+   This is an example to show that we can easily mix different robots and solve
+   path planning problems without changing our algorithms. In particular here
+   we extend the \ref abb_planning.world problem and use two robots, an ABB
+   and a Staubli robot, to manipulate a bar that has to be inserted into a hole.
+
+   First we have to import the abb and staubli robot models from the urdf files:
+      - \ref cuikurdf2world.cpp "bin/cuikurdf2world"  examples/ROSIndustrial/abb abb_common/urdf/irb_6640.urdf examples/ROSIndustrial/abb_irb_6640
+      - \ref cuikurdf2world.cpp "bin/cuikurdf2world"  examples/ROSIndustrial/staubli staubli_rx160_support/urdf/rx160.urdf examples/ROSIndustrial/staubli_rx160
+      .
+
+   Then, to solve this path planning problem execute
+      - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/ROSIndustrial/abb_staubli_planning
+      . 
+   and visualize the solution path with
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/abb_staubli_planning examples/ROSIndustrial/abb_staubli_planning_path.sol 
+      . 
+   This path can be smoothed executing
+      - \ref cuiksmoothpath.c "bin/cuiksmoothpath examples/ROSIndustrial/abb_staubli_planning
+      . 
+   and the smoothed path can be visualized with
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/abb_staubli_planning examples/ROSIndustrial/abb_staubli_planning_path_s
+      . 
+*/

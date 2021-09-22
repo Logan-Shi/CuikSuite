@@ -1,0 +1,337 @@
+/** \cond */
+[CONSTANTS]
+
+% INPUT PARAMETERS. Fix this for direct kinematics
+
+theta1_min:= pi/3-0.2
+theta1_max:= theta1_min
+
+theta2_min:= pi/3
+theta2_max:= theta2_min
+
+theta3_min:= pi/3+0.2
+theta3_max:= theta3_min
+
+% PARAMETERS OF THE PLATFORM
+
+% radius of the circunference inscribing the base triangle
+r_b:=1
+
+% angles from the center of the base to the legs anchor points
+beta1_b:=0
+beta2_b:=beta1_b+(2*pi/3)
+beta3_b:=beta2_b+(2*pi/3)
+
+% radius of the circunference inscribing the platform triangle
+r_p:=1
+
+% angles from the center of the platform to the legs anchor points
+beta1_p:=0
+beta2_p:=beta1_p+(2*pi/3)
+beta3_p:=beta2_p+(2*pi/3)
+
+% Length of the bottom part of each leg
+lenght_A:=1
+
+% Length of the upper part of each leg (i.e., the long bar of the 4 bar)
+length_B:=1
+
+% Length of the short bar forming the 4 bars in the upper part of each leg
+length_B1:=0.1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% nothing to be modified behond this point
+
+% Anchor points of the legs in the base
+x1_b:=r_b*cos(beta1_b)
+y1_b:=r_b*sin(beta1_b)
+
+x2_b:=r_b*cos(beta2_b)
+y2_b:=r_b*sin(beta2_b)
+
+x3_b:=r_b*cos(beta3_b)
+y3_b:=r_b*sin(beta3_b)
+
+% Tangent vectors to the sphere inscribing the base triangle at the
+% leg anchor points
+alpha1_b:=beta1_b+pi/2
+alpha2_b:=beta2_b+pi/2
+alpha3_b:=beta3_b+pi/2
+
+% Anchor points of the legs in the platform
+x1_p:=r_p*cos(beta1_p)
+y1_p:=r_p*sin(beta1_p)
+
+x2_p:=r_p*cos(beta2_p)
+y2_p:=r_p*sin(beta2_p)
+
+x3_p:=r_p*cos(beta3_p)
+y3_p:=r_p*sin(beta3_p)
+
+% Tangent vectors to the sphere inscribing the plotform triangle at the
+% leg anchor points
+alpha1_p:=beta1_p+pi/2
+alpha2_p:=beta2_p+pi/2
+alpha3_p:=beta3_p+pi/2
+
+% radius of the bars used in the representation. The bars for the
+% base/platform are 1.5 times this radius
+rb:=0.025
+
+
+[LINKS]
+
+base : 0.5*red
+       % One sphere at each vertex of the triangle
+       sphere rb*1.5 (x1_b,y1_b,0) 
+       sphere rb*1.5 (x2_b,y2_b,0)
+       sphere rb*1.5 (x3_b,y3_b,0)
+
+       % Three bars forming the triangle
+       cylinder rb*1.5 (x1_b,y1_b,0)(x2_b,y2_b,0)
+       cylinder rb*1.5 (x1_b,y1_b,0)(x3_b,y3_b,0) 
+       cylinder rb*1.5 (x2_b,y2_b,0)(x3_b,y3_b,0) 
+
+       % Part of the revolute joint with the first leg fixed at the base
+       cylinder rb (x1_b-length_B1*cos(alpha1_b),y1_b-length_B1*sin(alpha1_b),0) 
+                   (x1_b-0.5*length_B1*cos(alpha1_b),y1_b-0.5*length_B1*sin(alpha1_b),0)
+       sphere rb (x1_b-length_B1*cos(alpha1_b),y1_b-length_B1*sin(alpha1_b),0)
+       cylinder rb (x1_b+0.5*length_B1*cos(alpha1_b),y1_b+0.5*length_B1*sin(alpha1_b),0) 
+                   (x1_b+    length_B1*cos(alpha1_b),y1_b+    length_B1*sin(alpha1_b),0)
+       sphere rb (x1_b+ length_B1*cos(alpha1_b),y1_b+ length_B1*sin(alpha1_b),0)
+
+       % Part of the revolute joint with the second leg fixed at the base
+       cylinder rb (x2_b-length_B1*cos(alpha2_b),y2_b-length_B1*sin(alpha2_b),0) 
+                   (x2_b-0.5*length_B1*cos(alpha2_b),y2_b-0.5*length_B1*sin(alpha2_b),0)
+       sphere rb (x2_b-length_B1*cos(alpha2_b),y2_b-length_B1*sin(alpha2_b),0)
+       cylinder rb (x2_b+0.5*length_B1*cos(alpha2_b),y2_b+0.5*length_B1*sin(alpha2_b),0) 
+                   (x2_b+    length_B1*cos(alpha2_b),y2_b+    length_B1*sin(alpha2_b),0)
+       sphere rb (x2_b+ length_B1*cos(alpha2_b),y2_b+ length_B1*sin(alpha2_b),0)
+
+       % Part of the revolute joint with the third leg fixed at the base
+       cylinder rb (x3_b-length_B1*cos(alpha3_b),y3_b-length_B1*sin(alpha3_b),0) 
+                   (x3_b-0.5*length_B1*cos(alpha3_b),y3_b-0.5*length_B1*sin(alpha3_b),0)
+       sphere rb (x3_b-length_B1*cos(alpha3_b),y3_b-length_B1*sin(alpha3_b),0)
+       cylinder rb (x3_b+0.5*length_B1*cos(alpha3_b),y3_b+0.5*length_B1*sin(alpha3_b),0) 
+                   (x3_b+    length_B1*cos(alpha3_b),y3_b+    length_B1*sin(alpha3_b),0)
+       sphere rb (x3_b+ length_B1*cos(alpha3_b),y3_b+ length_B1*sin(alpha3_b),0)
+
+
+platform: 0.5*green
+          sphere rb*1.5 (x1_p,y1_p,0) 
+          sphere rb*1.5 (x2_p,y2_p,0)
+          sphere rb*1.5 (x3_p,y3_p,0)
+          cylinder rb*1.5 (x1_p,y1_p,0)(x2_p,y2_p,0)
+          cylinder rb*1.5 (x1_p,y1_p,0)(x3_p,y3_p,0) 
+          cylinder rb*1.5 (x2_p,y2_p,0)(x3_p,y3_p,0)
+
+          cylinder rb (x1_p-length_B1*cos(alpha1_p),y1_p-length_B1*sin(alpha1_p),0) 
+                      (x1_p+length_B1*cos(alpha1_p),y1_p+length_B1*sin(alpha1_p),0)
+
+          cylinder rb (x2_p-length_B1*cos(alpha2_p),y2_p-length_B1*sin(alpha2_p),0) 
+                      (x2_p+length_B1*cos(alpha2_p),y2_p+length_B1*sin(alpha2_p),0)
+
+          cylinder rb (x3_p-length_B1*cos(alpha3_p),y3_p-length_B1*sin(alpha3_p),0) 
+                      (x3_p+length_B1*cos(alpha3_p),y3_p+length_B1*sin(alpha3_p),0)
+
+leg1_a: cylinder rb (0,0,0) (0,0,lenght_A)
+        cylinder rb (-0.5*length_B1,0,0) 
+                    (+0.5*length_B1,0,0)
+        cylinder rb (-length_B1,0,lenght_A) 
+                    (+length_B1,0,lenght_A)
+         
+leg2_a: cylinder rb (0,0,0) (0,0,lenght_A)
+        cylinder rb (-0.5*length_B1,0,0) 
+                    (+0.5*length_B1,0,0)
+        cylinder rb (-length_B1,0,lenght_A) 
+                    (+length_B1,0,lenght_A)
+
+leg3_a: cylinder rb (0,0,0) (0,0,lenght_A)
+        cylinder rb (-0.5*length_B1,0,0) 
+                    (+0.5*length_B1,0,0)
+        cylinder rb (-length_B1,0,lenght_A) 
+                    (+length_B1,0,lenght_A)
+        
+
+[JOINTS]
+%---------------------------------------------------------
+
+revolute: base   (x1_b,y1_b,0)+(cos(alpha1_b),sin(alpha1_b),0)
+          leg1_a (0,0,0)+(1,0,0)
+          range [theta1_min,theta1_max] +(cos(beta1_b),sin(beta1_b),0) +(0,-1,0)
+
+sph_sph: leg1_a  (-length_B1,0,lenght_A)
+         platform (x1_p-length_B1*cos(alpha1_p),y1_p-length_B1*sin(alpha1_p),0) 
+         length length_B
+	 radius rb 
+	 0.25*white
+
+sph_sph: leg1_a  (+length_B1,0,lenght_A)
+         platform (x1_p+length_B1*cos(alpha1_p),y1_p+length_B1*sin(alpha1_p),0) 
+         length length_B
+	 radius rb 
+	 0.25*white
+
+%---------------------------------------------------------
+
+revolute: base   (x2_b,y2_b,0)+(cos(alpha2_b),sin(alpha2_b),0)
+          leg2_a (0,0,0)+(1,0,0)
+          range [theta2_min,theta2_max] +(cos(beta2_b),sin(beta2_b),0) +(0,-1,0)
+
+sph_sph: leg2_a  (-length_B1,0,lenght_A)
+         platform (x2_p-length_B1*cos(alpha2_p),y2_p-length_B1*sin(alpha2_p),0) 
+         length length_B
+	 radius rb 
+	 0.25*white
+
+sph_sph: leg2_a  (+length_B1,0,lenght_A)
+         platform (x2_p+length_B1*cos(alpha2_p),y2_p+length_B1*sin(alpha2_p),0) 
+         length length_B
+	 radius rb 
+	 0.25*white
+
+%---------------------------------------------------------
+
+revolute: base   (x3_b,y3_b,0)+(cos(alpha3_b),sin(alpha3_b),0)
+          leg3_a (0,0,0)+(1,0,0)
+          range [theta3_min,theta3_max] +(cos(beta3_b),sin(beta3_b),0) +(0,-1,0)
+
+sph_sph: leg3_a  (-length_B1,0,lenght_A)
+         platform (x3_p-length_B1*cos(alpha3_p),y3_p-length_B1*sin(alpha3_p),0) 
+         length length_B
+	 radius rb 
+	 0.25*white
+
+sph_sph: leg3_a  (+length_B1,0,lenght_A)
+         platform (x3_p+length_B1*cos(alpha3_p),y3_p+length_B1*sin(alpha3_p),0) 
+         length length_B
+	 radius rb 
+	 0.25*white
+
+%---------------------------------------------------------
+% fix: base platform Tz(1)
+
+/** \endcond */
+/**
+  \file DeltaManipulator.world
+
+  \brief The Delta parallel manipulator.
+
+  The Delta parallel manipulator.
+
+ 
+    <center><a href="#intro">[Introduction]</a>    <a  href="#process">[Process]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+    <h2><a name="intro">Introduction</a></h2>
+
+    The Delta parallel manipulator is a 3 degrees-of-freedom parallel platform designed by 
+    Reymond Clavel. 
+
+    The key idea in the design is the use of a four bar loop
+    in each leg.
+
+    Note that the design is very similar to that of the 
+    \ref examples/MarylandManipulator "Maryland Manipulator" but here
+    spherical joints are used to connect the four bars forming the
+    upper part of the leg instead of revolute joints.
+    The result is a simpler formulation since a couple of spherical-spherical composite joints
+    generate less variables and constraints that four bars connected with revolute joints (even
+    taking into account the simplifications due to the fact that the axes of the revolute
+    joints are parallel).
+  
+    Note that using spherical joints, the four bars forming the upper part of the legs are
+    not forced to be coplanar, as it is the case with the Maryland manipulator. The consequence
+    is that for the same inputs, the Delta formulation give more solutions that the
+    Maryland one. In practice 
+    springs between the two long bars in the upper limb for each leg
+    are used to force the planar configuration.
+
+    See <a href="#bonev2001">[Bonev, 2001]</a> for a complete description and analysis of this
+    mechanism and its applications.
+
+    <h2><a name="geom">Geometry</a></h2>
+
+    Three identical limbs connect the base and the platform. Each leg is formed by a
+    lower arm and an upper arm.
+    The upper upper is formed by a couple of spherical-spherical pairs that connect
+    the lower arm and the platform.
+
+    In the simplest possible version of this mechanism, the platform parameters are the 
+    lengths of the limbs and the the anchor points of the legs at the base/platform.
+    The axis of the revolute joints connecting the base and the legs can be taken as
+    tangent to the circunference inscribing the triangle formed by the anchor points.
+
+    <h2><a name="process">Process</a></h2>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/DeltaManipulator/DeltaManipulator</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/DeltaManipulator/DeltaManipulator </i>
+             .
+     - <b>Animate the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/DeltaManipulator/DeltaManipulator examples/DeltaManipulator/DeltaManipulator</i>
+             .
+     .
+
+    <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">5</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">5</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints (including composite joints)</th>
+     <td  align="center">9</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 32 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 35 </td>
+    </tr>
+    </table>
+    </center>
+ 
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 135 </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 8 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 30 </td>
+    </tr>
+    </table>
+    </center>
+
+    <h2><a name="res">Results</a></h2>
+
+    This is one of the configurations that you will obtain:
+
+     <center><img src="../images/DeltaManipulator/configuration.png"></center>
+
+    <h2><a name="refs">References</a></h2>
+    
+    - <a name="bonev2001">I. Bonev</a>, <a href="http://www.parallemic.org/Reviews/Review002.html">Delta Parallel Robot - the Story of Success</a>, 2001.
+    .
+
+*/

@@ -1,0 +1,46 @@
+/** \dir examples/Cycloalkanes
+
+    \brief The cyclohexane, bicyclohexane, cycloheptane, and cyclooctane.
+    
+   <center>
+   <img src="../images/Cycloalkanes/cycloalkanes.jpg">
+   </center>
+
+    The <a href="http://en.wikipedia.org/wiki/Cycloalkane">cycloalkanes</a>
+    are molecules that include loops of carbon atoms. The presence of
+    a loop constraint makes \b CuikSuite specially adequate tool
+    to analyze their conformational space.
+    
+    Note that the formulation we use here for the cycloalkanes is not
+    based on distances (as we did in our 
+    <a href="#porta2007">JCC paper</a>), but on vectors
+    and rotation matrices, as in our more recent <a href="#porta2008">TRO paper</a>.
+
+    Moreover, note that in the formulation of the cycloalkanes, we use a variant of
+    the formulation described in our recent
+    <a href="#porta2008">TRO paper</a>. 
+    We do not use orthonormal reference frames for the links but
+    we use the two vectors aligned with the rotation axis coincident in each carbon
+    to defined a non-orthogonal reference frame. This produces equation sets that 
+    can be easily simplified avoiding numerical issues.
+    <br>
+    The generalization to use non-orthonormal reference frames whe it is advantageous
+    is applied in general and not only in these examples, howerver the effect is specially
+    relevant in the cycloalkanes.
+
+    Please, check the individual files for details on these
+    experiments:
+     - \ref Cyclohexane.world "Cyclohexane". 
+     - \ref Bicyclohexane.world "Bicyclohexane". 
+     - \ref Cycloheptane.world "Cycloheptane". 
+     - \ref Cyclooctane.world "Cyclooctane". 
+     .
+    
+    <h2>References</h2>
+
+    - <a name="porta2007">J. M. Porta</a>, L. Ros, F. Thomas, F. Corcho, J. Cant&oacute;,J. P&eacute;rez, <a href="http://www.iri.upc.edu/people/porta/Docs/jcc07.pdf">"Complete Maps of Molecular Loop Conformational Spaces"</a>, <i>Journal of Computation Chemistry</i>, Vol. 28, pp. 2170-2189, 2007. 
+    - <a name="porta2008">J. M. Porta</a>, L. Ros, and F. Thomas, <a href="http://www.iri.upc.edu/people/porta/Docs/tro09.pdf">"A Linear Relaxation Technique for the Position Analysis of Multi-loop Linkages"</a>, <i>IEEE Transactions on Robotics</i>, 25(2): 225-239, 2009.
+    .
+
+
+*/

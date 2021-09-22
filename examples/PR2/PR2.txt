@@ -1,0 +1,23 @@
+/** \dir examples/PR2
+
+    \brief The PR2 robot by <a href="http://www.willowgarage.com/">Willow Garage</a>.
+    
+   <center>
+   <img src="../images/PR2/pr2.jpg">
+   </center>
+
+   The mobile platorm with two arms build by <a href="http://www.willowgarage.com/">Willow Garage</a>.
+  
+   For more information about this robot see <a href="http://www.willowgarage.com/pages/pr2/overview">this</a>.
+
+   For details on our experiments with this robot see:
+
+      - \ref pr2.world The PR2 robot in open loop. Just to play with it.
+      - \ref pr2_fridge.world The PR2 robot opening a fidge.
+      - \ref pr2_pitcher.world The PR2 robot putting a pitcher inside a fridge.
+      - \ref pr2_pitcher3.world The PR2 robot putting a pitcher inside a fridge. This is just more constrained than \ref pr2_pitcher.world.
+      - \ref pr2_table.world The PR2 robot moving a box from below to the top of a table.
+      - \ref pr2_table_simple.world A simplified version of \ref pr2_table.world.
+      .
+
+*/

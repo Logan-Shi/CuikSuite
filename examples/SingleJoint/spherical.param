@@ -1,0 +1,18 @@
+%%%%                      PARAMETERS                          %%%%
+
+EPSILON = 1e-6
+
+RHO = 0.95
+
+SIGMA = 0.1
+
+ERROR_SPLIT = TRUE
+DUMMIFY = 0
+
+SAFE_SIMPLEX =1
+
+LR2TM_Q=0.5
+LR2TM_S=0.1
+
+
+

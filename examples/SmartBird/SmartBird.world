@@ -1,0 +1,144 @@
+/** \cond */
+[CONSTANTS]
+
+% The dimensions of the links are approximated
+
+% Parameters for ground link:
+  x7p:=  24.00
+  z7p:=  40.00
+
+% Parameters for Link 1:
+  l1:=  14.25
+
+% Parameters for Link 2:
+  l2:=  22.50
+  x4:=  34.50
+  z4:=   4.00
+
+% Parameters for Link 3:
+  l3:= 155.25
+  x7:=  38.50
+  z7:=  -6.50
+
+% Parameters for Link 4:
+  l4:= 155.00
+  x8:= 166.00
+  z8:=  -0.25
+
+% Parameters for Link 5:
+  l5:=  13.25
+
+% Parameters for Link 6:
+  l6:=  11.50
+
+% Parameters for Link 7:
+  l7:=   9.50
+  x10:=  5.50
+  z10:=-19.50
+  x11:=  0.25
+  z11:=-43.75
+
+% Representation parameters
+  rs:= 1.0
+  rc:= 0.5
+
+[LINKS]
+
+  ground
+
+  link1: sphere rs (0,0,0) red
+         cylinder rc (0,0,0) (l1,0,0) black
+
+  link2: sphere rs (0,0,0) red
+         cylinder rc (0,0,0) (l2,0,0) black
+	 sphere rs (l2,0,0) red
+         cylinder rc (l2,0,0) (x4,0,z4) black
+         cylinder rc (0,0,0) (x4,0,z4) black
+
+  link3: sphere rs (0,0,0) red
+         cylinder rc (0,0,0) (l3,0,0) black
+         cylinder rc (0,0,0)  (x7,0,z7) black
+         sphere rs (x7,0,z7) red
+         cylinder rc (x7,0,z7) (l3,0,0) black
+
+  link4: sphere rs (0,0,0) red
+         cylinder rc (0,0,0) (l4,0,0) black
+         cylinder rc (l4,0,0) (x8,0,z8) black
+
+  link5: sphere rs (0,0,0) red
+         cylinder rc (0,0,0) (l5,0,0) black
+
+  link6: sphere rs (0,0,0) red
+         cylinder rc (0,0,0) (l6,0,0) black
+
+  link7: sphere rs (0,0,0) red
+         cylinder rc (0,0,0) (l7,0,0) black
+	 sphere rs (l7,0,0) red
+         cylinder rc (0,0,0) (x10,0,z10) black
+         cylinder rc (l7,0,0) (x10,0,z10) black
+         sphere rc (x10,0,z10) black
+         cylinder rc  (x10,0,z10)  (x11,0,z11) black
+         sphere rc (x11,0,z11) black
+
+
+[JOINTS]
+
+  revolute: ground (0,0,0)+(0,1,0)
+            link1 (0,0,0)+(0,1,0)
+
+  revolute: ground (x7p,0,z7p)+(0,1,0)
+            link3 (x7,0,z7)+(0,1,0)
+
+  revolute: link1 (l1,0,0)+(0,1,0)
+            link2 (0,0,0)+(0,1,0)
+
+  revolute: link2 (x4,0,z4)+(0,1,0)
+            link3 (0,0,0)+(0,1,0)
+
+  revolute: link2 (l2,0,0)+(0,1,0)
+            link4 (0,0,0)+(0,1,0)
+
+  revolute: link3 (l3,0,0)+(0,1,0)
+            link5 (0,0,0)+(0,1,0)
+
+  revolute: link3 (l3,0,0)+(0,1,0)
+            link6 (l6,0,0)+(0,1,0)
+
+  revolute: link4 (l4,0,0)+(0,1,0)
+            link6 (0,0,0)+(0,1,0)
+
+  revolute: link4 (x8,0,z8)+(0,1,0)
+            link7 (0,0,0)+(0,1,0)
+
+  revolute: link7 (l7,0,0)+(0,1,0)
+            link5 (l5,0,0)+(0,1,0)
+
+/** \endcond */
+
+/** 
+   \file SmartBird.world
+
+   \brief A planar mechanism modelling a wing.
+
+   This example can be processed as follows:
+       - <b>Generate the equations</b>:
+           Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/SmartBird/SmartBird</i>
+       - <b>Solve the positional analysis problem</b>: Execute (this takes about half a minute)
+             - <i> \ref cuik.c "bin/cuik" examples/SmartBird/SmartBird </i>
+             .
+       - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/SmartBird/SmartBird</i>
+             .
+       - <b>Visualize the solutions</b>: This example has 8 different connected components and only one of them
+          corresponds to the correct wing movement.
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/SmartBird/SmartBird examples/SmartBird/SmartBird_7</i>
+             .
+       - <b>Visualize the configuration space</b>: In the plot some of the connected compnents seems to intersect, but
+            this is just an artifact of the projection
+             - <i>\ref cuikplot3d.c "bin/cuikplot3d" examples/SmartBird/SmartBird 9 21 37 0 sb.gcl</i>
+             - <i>geomview sb.gcl</i>
+             .
+       .
+
+*/

@@ -1,0 +1,93 @@
+/** \cond */
+ 
+[INCLUDE] 
+  robot: "abb_irb_6640.world"
+
+[CONSTANTS]
+  R:=0.05
+
+[LINKS]
+   bar: cylinder R (-0.5,0,0) (1.5,0,0) blue
+   dummy1
+   dummy2
+   dummy3
+
+   hole: body "bodies/box_with_hole.off"
+
+[JOINTS]
+   // fix the bar to the end-effector
+   fix: robot::tool0 bar Tx(R/2)*Rz(pi/2)
+
+   // fix the hole w.r.t. the robot base
+   fix: robot::base_link hole Txyz(1.5,0.5,0.5)
+   
+   // constraint the bar motions so that it can only translate (no rotation allowed)
+   prismatic: robot::base_link (0,0,0)+(1,0,0) dummy1 (0,0,0)+(1,0,0) range [0,2]
+   prismatic: dummy1 (0,0,0)+(0,1,0) dummy2 (0,0,0)+(0,1,0) range [-2,2]
+   prismatic: dummy2 (0,0,0)+(0,0,1) dummy3 (0,0,0)+(0,0,1) range [0,2]
+   fix: dummy3 bar Rz(pi/2)
+
+[COLLISIONS]
+   do not check: all
+   check: bar,hole
+
+/** \endcond */
+/**
+   \file abb_planning.world
+
+   \brief A planning example with an ABB industrial robot.
+
+   <center> 
+   <img src="../images/ROSIndustrial/abb.png">
+   </center>
+
+   A simple example of how to solve a path planning problem with the models imported
+   from the ROSIndustrial repository.
+   
+   In this simple example the robot has to move a bar (without rotating it) and insert
+   it in a hole. 
+
+   First you have to import the abb robot description from the urdf file:
+      - \ref cuikurdf2world.cpp "bin/cuikurdf2world"  examples/ROSIndustrial/abb abb_common/urdf/irb_6640.urdf examples/ROSIndustrial/abb_irb_6640
+      .
+
+   Then, you can solve the planning system executing:
+      - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/ROSIndustrial/abb_planning.world
+      .
+   This is a simple problem and, thus it is solved quite fast (less than 0.1 seconds). The solution path can be visualized
+   executing:
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/abb_planning.world examples/ROSIndustrial/abb_planning_path.sol
+      . 
+   The raw path is probably jerky. You can optimize this path executing
+      - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/ROSIndustrial/abb_planning
+      .
+   The smoothed path can be visualized executing
+      - \ref cuikplay.c "scripts/cuikplayer" examples/ROSIndustrial/abb_planning examples/ROSIndustrial/abb_planning_path_s
+      . 
+
+   If you want to define you own start and goal configurations for planning you can proceed as follows.
+   First, you can generate several valid configurations for the robot-and-bar system executing:
+      - \ref cuikequations.c "bin/cuikequations" examples/ROSIndustrial/abb_planning.world
+      - \ref cuiknewton.c "bin/cuiknewton" examples/ROSIndustrial/abb_planning.cuik 20 > examples/ROSIndustrial/abb_planning_configurations.sol
+      - rm examples/ROSIndustrial/abb_planning.cuik
+      . 
+   The generated configurations can be visualized as
+      - \ref cuikmove.c "scripts/cuikmove" examples/ROSIndustrial/abb_planning.world examples/ROSIndustrial/abb_planning_configurations.sol
+      .
+   Just pick one configuration that is close to you desired start/goal configuration copy it in the first line of the 
+   examples/ROSIndustrial/abb_planning.joints file and adjust the configuration using
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/ROSIndustrial/abb_planning.world
+      .
+   In this case it is intuitive to manipulate the robot-bar system using the prismatic joints. 
+   You can store the configuration with the SAFE button.
+
+   The start and goal configurations for the planning have to be stored
+   in the examples/ROSIndustrial/abb_planning.joints file.
+
+    
+   Note that in this example we import the ABB 6640 robot, but any other robot can be used instead. In this
+   case, however, you have to adequately scale and move the box with the hole and
+   the manipulated bar. Nothing has to be changed in the planning algorihtms since they are completely
+   general and this generality is achieved without a lose in efficiency. 
+   This is the main advantage of the CuikSuite tools.
+*/

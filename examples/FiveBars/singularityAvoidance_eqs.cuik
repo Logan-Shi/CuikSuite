@@ -1,0 +1,8 @@
+[NON DYNAMIC VARS]
+   dum : [-max_dummy,max_dummy]
+
+
+[NON DYNAMIC EQS]
+  % dum=1;
+  
+  dum*sin(d_link3_link4_0_2)-1=0;

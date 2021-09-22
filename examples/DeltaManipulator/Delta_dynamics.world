@@ -1,0 +1,486 @@
+/** \cond */
+
+[CONSTANTS]
+
+   % ----------------------------------------------------------------------
+   % Dynamic parameters
+   % ----------------------------------------------------------------------
+
+   % Masses
+   massLink:=0.1
+   massPlatform:=1
+
+   % maximum torque
+   maxTorque:=11
+   % maximum velocity
+   maxVel:= 25
+   jc:= (maxTorque)^2
+   % Joint damping (active and passive joints)
+   Kd:=0.8
+   Kd_passive:=0.05
+	 
+   % ----------------------------------------------------------------------
+   % Gemetric parameters
+   % ----------------------------------------------------------------------
+
+   a:=pi/3       % interior angle
+
+   r:=0.05       % radius of cylinders representing revolute
+   rl:=0.025     % radius of cyclinders represenging legs
+   rl2:=rl/2     % smaller radius for the universal joints
+
+   b:=1.0        % size base (side)
+   s1:=0.1*b     % size of the cylinders
+   s2a:=s1       % size of universals
+   s2b:=1.5*s1   % size of universals
+   s1s:=s1*sin(a)
+   s1c:=s1*cos(a)
+
+   l1:=b        % length leg 1
+   l2:=b        % length leg 2
+   l3:=b        % length leg 3
+   l1b:=b       % length leg 1b
+   l2b:=b       % length leg 2b
+   l3b:=b       % length leg 3b
+
+   % Coordinates of the base corners
+   p1x:=-b/2
+   p1y:=-b/2*sin(a)
+
+   p2x:= 0
+   p2y:=+b/2*sin(a)
+
+   p3x:=+b/2
+   p3y:=-b/2*sin(a)
+
+   p:=0.5  % Size of the platform (side)
+
+   % Triangle in the base
+   p4x:= -p/2
+   p4y:= +p/2*sin(a)
+
+   p5x:=+p/2
+   p5y:=+p/2*sin(a)
+
+   p6x:= 0
+   p6y:=-p/2*sin(a)
+
+   % Rotation axis in the base
+   % we define 4 point per axis for plotting purposes
+   p4ax:=p4x-s1c
+   p4ay:=p4y-s1s
+
+   p4bx:=p4x+s1c
+   p4by:=p4y+s1s
+
+   p4cx:=p4ax-s1s
+   p4cy:=p4ay+s1c
+
+   p4dx:=p4bx-s1s
+   p4dy:=p4by+s1c
+
+   p5ax:=p5x-s1c
+   p5ay:=p5y+s1s
+
+   p5bx:=p5x+s1c
+   p5by:=p5y-s1s
+
+   p5cx:=p5ax+s1s
+   p5cy:=p5ay+s1c
+
+   p5dx:=p5bx+s1s
+   p5dy:=p5by+s1c
+
+   p6ax:=p6x+s1
+   p6ay:=p6y
+
+   p6bx:=p6x-s1
+   p6by:=p6y
+
+   p6cx:=p6ax
+   p6cy:=p6ay-s1
+
+   p6dx:=p6bx
+   p6dy:=p6by-s1
+
+   % External triangle in the platform
+   p7x:=p4x-s1s
+   p7y:=p4y+s1c
+
+   p8x:=p5x+s1s
+   p8y:=p5y+s1c
+
+   p9x:=p6x
+   p9y:=p6y-s1
+
+   % Coordinates to define the box in the end-effector (corners of the box)
+   p10x:=-0.17*p
+   p10y:=-0.1*p
+   p10z:=-0.5*p
+
+   p11x:=0.17*p
+   p11y:=0.24*p
+   p11z:=0
+
+   % Coordinates of the obstacles
+   ro:=0.025
+
+   zplane:=-0.6*(l1+l1b)
+
+   p12x:=p3x-0.3*b
+   p12y:=p3y
+
+   p13x:=p3x-0.3*b*cos(a)
+   p13y:=p3y+0.3*b*sin(a)
+
+   p14x:=(p12x+p13x)/2
+   p14y:=(p12y+p13y)/2
+
+   % auxiliar variables to represent the first rotation of each leg
+   % at the base
+   c1:=b/2-1.5*s1
+   c2:=c1+s1
+   c3:=c2+s1
+   c4:=c3+s1
+
+   % Two points used to define the axis of rotation at the base
+   cc:=b/2
+   ca:=cc-s1
+   cb:=cc+s1
+
+   % range for the revolute joints in the base
+   amin:=-25.0*pi/180.0
+   amax:=+70.0*pi/180.0
+
+   % Triangles on the belt
+   tw:=0.0001   % witdh
+   t1y:=-1.25
+   t2y:=0
+   t3y:=+1.25
+
+   % width of the box (of the walls of the box)
+   bw:=0.005
+
+   % height of the box (size in Z)
+   bh:=0.2
+
+   % Position of the box (original 0.2 0.2 zplane)
+   pbx:=0.2
+   pby:=0.0
+   pbz:=zplane
+
+   % other boxes
+   pby2:=-1.5
+   pby3:= 1.25
+
+   % Box size in X and Y (original 0.3 0.3)
+   bx:=0.4
+   by:=0.4
+
+[LINKS]
+
+  base: black
+        % The base
+	body "bodies/base.off" decoration
+	
+	% The ground
+	box (-2,-4.25,zplane-0.45-r) (+2,+4.25,zplane-0.45) white
+
+	mass 1                     % Actually not relevant since this is the ground link.
+        inertia matrix 1,0,0,1,0,1 % Not used. Identity just to init it.
+	inertial frame Id          % Center of mass
+
+   leg1: black
+   	 cylinder r (0,-s1/2,0) (0,s1/2,0)
+	 sphere r (0,-s1/2,0) 
+         cylinder rl (0,0,0) (l1,0,0) 
+	 sphere rl (l1,0,0)
+
+	 mass massLink
+	 inertia matrix 0,0,0,(1/3)*massLink*l1^2,0,(1/3)*massLink*l1^2  
+	 inertial frame Tx(l1/2) 
+	 
+   leg1b: white
+	  body "bodies/bar1.off" 
+	  body "bodies/bar2.off" 
+	  body "bodies/spring1.off" 
+	  body "bodies/spring2.off" 
+	  sphere 0.75*rl2 (0,0,-0.9*s2b/2) black
+	  sphere 0.75*rl2 (l1b,0,-0.9*s2b/2) black
+	  sphere 0.75*rl2 (0,0,+0.9*s2b/2) black
+	  sphere 0.75*rl2 (l1b,0,+0.9*s2b/2) black
+	  cylinder 0.75*rl2 (0,0,-0.9*s2b/2) (0,0,+0.9*s2b/2) black
+	  cylinder 0.75*rl2 (l1b,0,-0.9*s2b/2) (l1b,0,+0.9*s2b/2) black
+
+	  mass massLink
+	  inertia matrix 0,0,0,(1/3)*massLink*l1b^2,0,(1/3)*massLink*l1b^2
+	  inertial frame Tx(l1b/2) 
+
+   leg2: black
+   	 cylinder r (0,-s1/2,0) (0,s1/2,0)
+	 sphere r (0,-s1/2,0)
+         cylinder rl (0,0,0) (l1,0,0)
+	 sphere rl (l1,0,0)
+
+	 mass massLink
+	 inertia matrix 0,0,0,(1/3)*massLink*l1^2,0,(1/3)*massLink*l1^2 
+	 inertial frame Tx(l1/2) 
+
+   leg2b: white
+	  body "bodies/bar1.off" 
+	  body "bodies/bar2.off" 
+	  body "bodies/spring1.off" 
+	  body "bodies/spring2.off" 
+	  sphere 0.75*rl2 (0,0,-0.9*s2b/2) black
+	  sphere 0.75*rl2 (l1b,0,-0.9*s2b/2) black
+	  sphere 0.75*rl2 (0,0,+0.9*s2b/2) black
+	  sphere 0.75*rl2 (l1b,0,+0.9*s2b/2) black
+	  cylinder 0.75*rl2 (0,0,-0.9*s2b/2) (0,0,+0.9*s2b/2) black
+	  cylinder 0.75*rl2 (l1b,0,-0.9*s2b/2) (l1b,0,+0.9*s2b/2) black
+
+	  mass massLink
+	  inertia matrix 0,0,0,(1/3)*massLink*l1b^2,0,(1/3)*massLink*l1b^2
+	  inertial frame Tx(l1b/2) 
+
+   leg3: black
+   	 cylinder r (0,-s1/2,0) (0,s1/2,0)
+	 sphere r (0,-s1/2,0)
+	 cylinder rl (0,0,0) (l1,0,0)
+	 sphere rl (l1,0,0)
+
+	 mass massLink
+	 inertia matrix 0,0,0,(1/3)*massLink*l1^2,0,(1/3)*massLink*l1^2  
+	 inertial frame Tx(l1/2) 
+
+   leg3b: white
+	  body "bodies/bar1.off" 
+	  body "bodies/bar2.off" 
+	  body "bodies/spring1.off" 
+	  body "bodies/spring2.off" 
+	  sphere 0.75*rl2 (0,0,-0.9*s2b/2) black
+	  sphere 0.75*rl2 (l1b,0,-0.9*s2b/2) black
+	  sphere 0.75*rl2 (0,0,+0.9*s2b/2) black
+	  sphere 0.75*rl2 (l1b,0,+0.9*s2b/2) black
+	  cylinder 0.75*rl2 (0,0,-0.9*s2b/2) (0,0,+0.9*s2b/2) black
+	  cylinder 0.75*rl2 (l1b,0,-0.9*s2b/2) (l1b,0,+0.9*s2b/2) black
+
+	  mass massLink
+	  inertia matrix 0,0,0,(1/3)*massLink*l1b^2,0,(1/3)*massLink*l1b^2
+	  inertial frame Tx(l1b/2) 
+
+   platform: black
+             prism (p4x,p4y,r/2) (p5x,p5y,r/2) (p6x,p6y,r/2) r
+
+	     cylinder rl2 (p4x,p4y,0) (p7x,p7y,0)
+	     sphere rl (p7x,p7y,0)
+
+	     cylinder rl2 (p5x,p5y,0) (p8x,p8y,0)
+	     sphere rl (p8x,p8y,0)
+
+	     cylinder rl2 (p6x,p6y,0) (p9x,p9y,0)
+	     sphere rl (p9x,p9y,0)
+
+	     % Box at the platform
+			 box (p10x,p10y,p10z) (p11x,p11y,p11z) green hidden
+	     body "bodies/speaker.off" decoration
+
+	     mass massPlatform
+	     inertia matrix (1/12)*massPlatform*((p11y-p10y)^2+(p11z-p10z)^2),0,0,
+	                      (1/12)*massPlatform*((p11x-p10x)^2+(p11z-p10z)^2),0,
+				 (1/12)*massPlatform*((p11x-p10x)^2+(p11y-p10y)^2)
+	     inertial frame Tz((p11z-p10z)/2)
+
+[JOINTS]
+
+   revolute: base (p1x+cc*cos(a),p1y+cc*sin(a),0) (p1x+ca*cos(a),p1y+ca*sin(a),0)
+             leg1 (0,0,0) (0,s1,0)
+	     range [amin,amax] +(-cos(pi/2-a),+sin(pi/2-a),0) +(1,0,0)
+	     velocity maxVel
+	     torque maxTorque
+	     cost jc
+	     damping Kd
+	 
+   universal: leg1  (l1,0,0) (l1,s1,0)
+              leg1b (0,0,0) (0,s1,0)
+	      reference (l1,0,1) (0,0,-1)
+	      velocity maxVel
+	      damping Kd_passive
+
+   universal: leg1b (l1b,0,0) (l1b,s1,0)
+              platform (p7x,p7y,0) (p4cx,p4cy,0)
+	      reference (l1b,0,-1) (p7x,p7y,-1)
+	      velocity maxVel
+	      damping Kd_passive
+
+   revolute: base (p3x-cc*cos(a),p3y+cc*sin(a),0) (p3x-cb*cos(a),p3y+cb*sin(a),0)
+             leg2 (0,0,0) (0,s1,0)
+	     range [amin,amax] +(+cos(pi/2-a),+sin(pi/2-a),0) +(1,0,0)
+	     velocity maxVel
+	     torque maxTorque
+       	     cost jc
+	     damping Kd
+
+   universal: leg2  (l2,0,0) (l2,s1,0)
+              leg2b (0,0,0) (0,s1,0)
+              reference (l2,0,1) (0,0,-1)
+	      velocity maxVel
+	      damping Kd_passive
+
+   universal: leg2b (l2b,0,0) (l2b,s1,0)
+              platform (p8x,p8y,0) (p5cx,p5cy,0)
+  	      reference (l2b,0,-1) (p8x,p8y,-1)
+	      velocity maxVel
+	      damping Kd_passive
+
+   revolute: base (p1x+cc,p1y,0) (p1x+cb,p1y,0)
+             leg3 (0,0,0) (0,s1,0)
+	     range [amin,amax] +(0,-1,0) +(1,0,0)
+	     velocity maxVel
+	     torque maxTorque
+	     cost jc
+	     damping Kd
+
+   universal: leg3  (l3,0,0) (l3,s1,0)
+              leg3b (0,0,0) (0,s1,0)
+	      reference (l3,0,1) (0,0,-1)
+	      velocity maxVel
+	      damping Kd_passive
+
+   universal: leg3b (l3b,0,0) (l3b,s1,0)
+              platform (p9x,p9y,0) (p6cx,p6cy,0)
+ 	      reference (l2b,0,-1)(p9x,p9y,-1)
+	      velocity maxVel
+	      damping Kd_passive
+
+[OBSTACLES]
+
+    conveyor1: body "bodies/conveyor1.off" decoration
+    conveyor2: body "bodies/conveyor2.off" decoration
+
+    
+    % planes over the conveyors for obstacle detection
+    ob1 : box (-0.75,-2,zplane-rl) (-0.1,2,zplane) %hidden
+    ob2 : box (0.1,-2,zplane-rl) (0.75,2,zplane) %hidden
+
+    % the box
+    box1: body "bodies/box1.off"
+
+    % another box
+    box2: body "bodies/box2.off"
+
+    % yet another box
+    box3: body "bodies/box3.off"
+    
+    % A speaker still to be picked  
+    speaker1: body "bodies/speaker1.off"
+    
+    % A speaker inside box3
+    speaker2: body "bodies/speaker2.off"
+
+[COLLISIONS]
+
+  do not check: all
+
+  check: platform,ob1
+  check: platform,ob2
+  check: platform,box1
+
+
+/** \endcond */
+
+/**
+    \file Delta_dynamics.world
+
+    \brief A delta robot with dynamics.
+
+    This task consists in picking a loudspeaker from a conveyor belt moving at a
+    certain speed, to later place it inside a static box on a second belt. Obstacles play a
+    major role in this example, as the planner has to avoid the collisions of the robot with
+    the conveyor belts, the boxes, and the supporting structure, while respecting the joint limits.
+
+    <center>
+    <table border="1" width="800">
+    <tr>
+      <td  style="vertical-align: bottom;"><img width="390px" src="../images/DeltaManipulator/delta_start.png"></td>
+      <td  style="vertical-align: bottom;"><img width="390px" src="../images/DeltaManipulator/delta_goal.png"></td>
+    </tr>
+    <tr>
+      <td  align="center">Start</td>
+      <td  align="center">Goal</td>
+    </tr>
+    </table>
+    </center>
+
+    <center><a href="#param">[Model]</a><a href="#dimensions">[Problem Dimensions]</a><a href="#process">[Process and Results]</a></center>
+
+    <h2><a name="param">Model</a></h2>
+
+    The robot is formed by a fixed base connected
+    to a moving platform by means of three legs. Each leg is an <i>R-R-Pa-R</i> chain, where <i>R</i> and <i>Pa</i> refer to a
+    revolute and a parallelogram joint respectively. The <i>Pa</i> joint is a planar four-bar mechanism whose opposite sides are of equal length.
+    While it seems that such a leg should be modelled with
+    seven joint angles, we use the fact that the leg is kinematically equivalent to an <i>R-U-U</i> chain,
+    where <i>U</i> refers to a universal joint. By noting that a <i>U</i> joint is equivalent to two <i>R</i> joints with
+    orthogonal axes, we conclude that only five angles are needed to define a leg configuration. See a leg of a Delta robot (left) and its equivalent <i>R-U-U</i> chain (right).
+
+    <center>
+    <img  width="600" src="../images/DeltaManipulator/delta-leg.png">
+    </center>
+    
+    Note that only the three base joints are actuated. 
+
+    The set of geometric and dynamic parameters
+    are given within the world file accessible at the bottom of the page.
+
+    <h2><a name="dimensions">Problem Dimensions</a></h2>
+
+    Considering we are using the equivalent <i>R-U-U</i> chain, the dimensions of the problem are
+
+   <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nbr. of joints</th>
+      <td  align="center">15</td>
+    </tr>
+    <tr>
+      <th>Nbr. of states</th>
+      <td  align="center">30</td>
+    </tr>
+    <tr>
+      <th>Nbr. of actuators</th>
+      <td  align="center">3</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position equations </th>
+      <td  align="center">12</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position and velocity equations </th>
+      <td  align="center">24</td>
+    </tr>
+    <tr>
+      <th>State-space manifold dimension</th>
+      <td  align="center">6</td>
+    </tr>
+    </table>
+    </center>
+    
+   <h2><a name="process">Process and Results</a></h2>
+
+   This example is used to show how the kinodynamic planner treats multi-loop mechanisms surrounded by obstacles.
+
+   To solve the kinodynamic planning problem, follow these steps (from the main CuikSuite folder):
+
+     - <b>Run the kinodynamic RRT algorithm</b>:
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/DeltaManipulator/Delta_dynamics</i>
+             .
+     - <b>Execute the trajectory</b>:
+             - <i>\ref cuikplay.c "scripts/cuikplayer" examples/DeltaManipulator/Delta_dynamics examples/DeltaManipulator/Delta_dynamics_traj.sol</i>
+             .
+
+
+    <center>
+    <img src="../images/DeltaManipulator/trajectory_delta.gif">
+    </center>
+
+*/

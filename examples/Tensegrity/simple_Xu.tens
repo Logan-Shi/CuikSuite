@@ -1,0 +1,111 @@
+/** \cond */
+[constants]
+  ls:=sqrt(2)   % length of struts
+  fs:=-4        % max. compression 
+  lc:=2         % max. length of cables
+  sc:=1         % stiffness of cables
+ 
+  rad:=0.02
+
+  x1:=-0.063907076477190
+  y1:= 0.892724035478908
+
+[planar structure]
+  strut s1: n1 n3 
+            length ls 
+            force [fs,0]
+	    radius rad
+	    
+  strut s2: n2 n4 
+            length ls 
+            force [fs,0]
+	    radius rad
+	    
+  cable c1: n1 n2 
+            length [0,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+  cable c2: n2 n3 
+            length [0,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+  cable c3: n3 n4
+            length [0,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+  cable c4: n1 n4 
+            length [0,lc] 
+            stiffness sc 
+            rest [0,lc]
+	    
+[fixed points]
+  n1=(0,0,0)
+  n2(y)=0
+  
+  % n2=(1,0,0)
+  % n3=(1,1,0)
+  % n4=(1-ls*cos(35*pi/180),ls*sin(35*pi/180),0)
+
+[obstacles]
+  obs : box (-0.2,y1,-0.05) (x1,1.2,0.05) red
+
+[collisions]
+  check: obs
+
+/** \endcond */
+
+/** \file simple_Xu.tens
+
+   \brief Simple tensegrity example.
+
+   <center>
+   <img src="../images/Tensegrity/simple_Xu.png">
+   </center>
+
+   Simple tensegrity example used in the paper:
+     - Collision-Free Path Planning of Tensegrity Structures
+          by Xian Xu, Fengxian Sun, Yaozhi Luo, and Yan Xu
+	  in J. Struct. Eng., 2014
+     .
+ 
+   This path planning problem with this structure is to connect the following
+   configurations:
+   
+    <center>
+      <table width="500">
+        <tr> 
+          <td><img src="../images/Tensegrity/simple_Xu_start.png" width="200"></td>
+          <td><img src="../images/Tensegrity/simple_Xu_goal.png" width="200"></td>
+        </tr>
+      </table>
+    </center>
+
+   This problem can be solved executing:
+     - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/simple_Xu 
+     .
+
+   The solution path can be visualized executing:
+     - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/simple_Xu examples/Tensegrity/simple_Xu_path
+     .
+     
+   The path is typically very long but it can be optimized executing:
+     - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/simple_Xu examples/Tensegrity/simple_Xu_path random
+     .
+   and the optimized path can be visualized with
+     - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/simple_Xu examples/Tensegrity/simple_Xu_path_r
+     .
+   
+
+   To gather statistics about the time take to solve this
+   problem execute
+     - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/simple_Xu 50
+     .
+     
+   which executes 50 times the planner and prints statistics about
+   the process (average execution time, etc.). In any new computer the execution time should be
+   below 0.05 seconds in average.
+
+*/

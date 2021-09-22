@@ -1,0 +1,23 @@
+/** \dir examples/REEM
+
+    \brief The REEM robot by <a href="http://www.pal-robotics.com">PAL robotics</a>.
+    
+   <center>
+   <img src="../images/reem/reem.png">
+   </center>
+
+   The mobile platorm with two arms build by <a href="http://www.pal-robotics.com">PAL robotics</a>.
+  
+   For more information about this robot see <a href="http://www.pal-robotics.com/robots/reem">this</a>.
+
+   The model for this robot was taken from <a href="https://github.com/pal-robotics/reem_common">this</a> repository.
+   
+   For details on our experiments with this robot see:
+
+      - \ref reem.world The REEM robot in open loop. Just to play with it.
+      - \ref reem_glass.world The REEM robot moving towards a glass.
+      - \ref reem_glass_sample.world Used to generate positions from where it is possible to reach a glass.
+      - \ref reem_table.world The REEM robot moving a box from under a table to put it on the table.
+      .
+*/
+

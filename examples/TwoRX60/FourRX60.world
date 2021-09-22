@@ -1,0 +1,324 @@
+% Four 6R Serial chain The Staubli-RX60 robots moving a large object.
+
+/** \cond */
+
+[CONSTANTS]
+
+  % For puma-like manipulators only 3 of the DH parameters
+  % are relevant. 
+  % Here we give those relevant parameters for the RX60 robot (in meters)
+
+  a2:=0.29
+  d3:=0.049
+  d4:=0.31
+
+  % Constants below are only relevant for decoration
+
+  % RX60 color (r,g,b)
+  cr:=0.9
+  cg:=0.6
+  cb:=0.2
+
+  % For the frame around the robot workspace
+  barRadius := 0.03
+
+  XLower:=-1+barRadius
+  XUpper:=1-barRadius
+  YLower:=XLower
+  YUpper:=XUpper
+  ZLower:=-0.341
+  ZUpper :=1
+
+  objectLength:=0.2
+
+  robotDistance:=1.5
+
+  objectRadius:=0.015
+
+[LINKS]
+
+  world: color (0,0,1)
+         body "bodies/b1.off" color (0.6,0.6,0.6)
+         body "bodies/box.off"  blue
+         body "bodies/bar1.off"        
+         body "bodies/bar2.off" 
+         body "bodies/bar3.off" 
+         body "bodies/bar4.off" 	       
+         body "bodies/plane.off" color (0.8,0.8,0.8) decoration
+         cylinder 0.12 (0,0,0.0+ZLower+0.25) (0,0,0.25+ZLower+0.25)  blue
+         sphere 0.12  (0,0,0.25+ZLower+0.25) blue
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  base_left: body "bodies/S0_rel.off" color (cr,cg,cb)
+
+  link1_left: color (cr,cg,cb)
+             body "bodies/S1_rel.off" 
+             body "bodies/S2_rel.off"  
+      
+  link2_left: color (cr,cg,cb)
+              body "bodies/S3_rel.off"   
+      	    
+  link3_left: color (cr,cg,cb)
+              body "bodies/S4_rel.off"   
+       
+  link4_left: body "bodies/S5_rel.off" color (cr,cg,cb)
+              body "bodies/S6_rel.off" color (0.75,0.75,0.75)   
+
+  link5_left: color (0.75,0.75,0.75)  
+              body "bodies/S7_rel.off" 
+ 
+  EndEffector_left: color (0.75,0.75,0.75)
+                    body "bodies/S8_rel.off" 
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  base_right: body "bodies/S0_rel.off" color (cr,cg,cb) 
+
+  link1_right: color (cr,cg,cb)
+               body "bodies/S1_rel.off" 
+               body "bodies/S2_rel.off" 
+      
+  link2_right: color (cr,cg,cb)
+               body "bodies/S3_rel.off"    
+      
+  link3_right: color (cr,cg,cb)
+               body "bodies/S4_rel.off"   
+       
+  link4_right: body "bodies/S5_rel.off" color (cr,cg,cb) 
+               body "bodies/S6_rel.off" color (0.75,0.75,0.75)  
+
+  link5_right: color (0.75,0.75,0.75)  
+               body "bodies/S7_rel.off" 
+ 
+  EndEffector_right: color (0.75,0.75,0.75)
+                     body "bodies/S8_rel.off" 
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  base_front: body "bodies/S0_rel.off" color (cr,cg,cb) 
+
+  link1_front: color (cr,cg,cb)
+               body "bodies/S1_rel.off" 
+               body "bodies/S2_rel.off" 
+      
+  link2_front: color (cr,cg,cb)
+               body "bodies/S3_rel.off"    
+      
+  link3_front: color (cr,cg,cb)
+               body "bodies/S4_rel.off"   
+       
+  link4_front: body "bodies/S5_rel.off" color (cr,cg,cb) 
+               body "bodies/S6_rel.off" color (0.75,0.75,0.75)  
+
+  link5_front: color (0.75,0.75,0.75)  
+               body "bodies/S7_rel.off" 
+ 
+  EndEffector_front: color (0.75,0.75,0.75)
+                     body "bodies/S8_rel.off" 
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  base_back: body "bodies/S0_rel.off" color (cr,cg,cb) 
+
+  link1_back: color (cr,cg,cb)
+              body "bodies/S1_rel.off" 
+              body "bodies/S2_rel.off" 
+      
+  link2_back: color (cr,cg,cb)
+              body "bodies/S3_rel.off"    
+      
+  link3_back: color (cr,cg,cb)
+              body "bodies/S4_rel.off"   
+       
+  link4_back: body "bodies/S5_rel.off" color (cr,cg,cb) 
+              body "bodies/S6_rel.off" color (0.75,0.75,0.75)  
+
+  link5_back: color (0.75,0.75,0.75)  
+              body "bodies/S7_rel.off" 
+ 
+  EndEffector_back: color (0.75,0.75,0.75)
+                    body "bodies/S8_rel.off" 
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  object:  body "bodies/doubleRing4.off" green
+  
+[JOINTS]
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  fix: world base_left Tx(-robotDistance/2)
+
+  revolute: base_left  (0,0,0) (0, 0,1)
+            link1_left (0,0,0) (0,-1,0)
+
+  revolute: link1_left (  0,0,0) (  0,0,1)
+            link2_left (-a2,0,0) (-a2,0,1) 
+
+  revolute: link2_left (0,0, 0) (0,0,   1) 
+            link3_left (0,d3,0) (0,d3+1,0) 
+
+  revolute: link3_left (0,0, 0) (0, 0,  1)
+            link4_left (0,d4,0) (0,d4-1,0)
+ 
+  revolute: link4_left (0,0,0) (0, 0,1)  
+            link5_left (0,0,0) (0,-1,0)
+
+  revolute: link5_left      (0,0,0) (0,0,1)
+            EndEffector_left (0,0,0) (0,0,1)
+
+  fix: EndEffector_left object Tz(0.55)*Rx(Pi/2)*Tz(-0.03)
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  fix: world base_right Rz(pi)*Tx(-robotDistance/2)
+           
+  revolute: base_right  (0,0,0) (0, 0,1)
+            link1_right (0,0,0) (0,-1,0)
+
+  revolute: link1_right (  0,0,0) (  0,0,1)
+            link2_right (-a2,0,0) (-a2,0,1) 
+
+  revolute: link2_right (0,0, 0) (0,0,   1) 
+            link3_right (0,d3,0) (0,d3+1,0) 
+
+  revolute: link3_right (0,0, 0) (0, 0,  1)
+            link4_right (0,d4,0) (0,d4-1,0)
+ 
+  revolute: link4_right (0,0,0) (0, 0,1)  
+            link5_right (0,0,0) (0,-1,0)
+
+  revolute: link5_right      (0,0,0) (0,0,1)
+            EndEffector_right (0,0,0) (0,0,1)
+
+  fix: EndEffector_right object Tz(0.36+objectLength)*Rx(-Pi/2)*Tz(-0.03)
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  fix: world base_front Ty(-robotDistance/2)
+
+  revolute: base_front  (0,0,0) (0, 0,1)
+            link1_front (0,0,0) (0,-1,0)
+
+  revolute: link1_front (  0,0,0) (  0,0,1)
+            link2_front (-a2,0,0) (-a2,0,1) 
+
+  revolute: link2_front (0,0, 0) (0,0,   1) 
+            link3_front (0,d3,0) (0,d3+1,0) 
+
+  revolute: link3_front (0,0, 0) (0, 0,  1)
+            link4_front (0,d4,0) (0,d4-1,0)
+ 
+  revolute: link4_front (0,0,0) (0, 0,1)  
+            link5_front (0,0,0) (0,-1,0)
+
+  revolute: link5_front      (0,0,0) (0,0,1)
+            EndEffector_front (0,0,0) (0,0,1)
+
+  fix: EndEffector_front object Tz(0.36+objectLength)*Ry(Pi/2)*Tz(-0.03)
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  fix: world base_back Rz(pi)*Ty(-robotDistance/2)
+
+  revolute: base_back  (0,0,0) (0, 0,1)
+            link1_back (0,0,0) (0,-1,0)
+
+  revolute: link1_back (  0,0,0) (  0,0,1)
+            link2_back (-a2,0,0) (-a2,0,1) 
+
+  revolute: link2_back (0,0, 0) (0,0,   1) 
+            link3_back (0,d3,0) (0,d3+1,0) 
+
+  revolute: link3_back (0,0, 0) (0, 0,  1)
+            link4_back (0,d4,0) (0,d4-1,0)
+ 
+  revolute: link4_back (0,0,0) (0, 0,1)  
+            link5_back (0,0,0) (0,-1,0)
+
+  revolute: link5_back      (0,0,0) (0,0,1)
+            EndEffector_back (0,0,0) (0,0,1)
+
+  fix: EndEffector_back object Tz(0.36+objectLength)*Ry(-Pi/2)*Tz(-0.03)
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[COLLISIONS]
+
+  do not check: all
+
+  check:  object, world
+  check: link1_left, world
+  check: link2_left, world
+  check: link3_left, world
+  check: link4_left, world
+  check: link5_left, world
+
+  check: link1_right, world
+  check: link2_right, world
+  check: link3_right, world
+  check: link4_right, world
+  check: link5_right, world
+
+  check: link1_front, world
+  check: link2_front, world
+  check: link3_front, world
+  check: link4_front, world
+  check: link5_front, world
+
+  check: link1_back, world
+  check: link2_back, world
+  check: link3_back, world
+  check: link4_back, world
+  check: link5_back, world
+
+/** \endcond */
+
+/** \file FourRX60.world
+   
+   \brief Four industrial Rx60 robots.
+
+   <center>
+   <img src="../images/TwoRX60/FourRX60.png">
+   </center>
+
+   Here we have four Rx60 robots (see \ref Serial6RRX60.world) cooperating to move
+   a large object.
+
+   This example is modelled after the PhD thesis of <a href="http://homepages.laas.fr/jcortes/">Juan Cortés</a>.
+  
+   This example was used in our <a href="http://www.iri.upc.edu/people/porta/Docs/tro13a.pdf">TRO-13</a> paper.
+ 
+   The key data for this problem are:
+   <center>
+   <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 24 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 6 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" using a DOF-based representation (in seconds)</th> <td align="center"> 16 </td>
+     </tr>
+   </table>
+   </center>
+
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Adjust the parameters</b>: Different algorithms use different parameter settings. Just
+       check the parameter file (Rotational.param) and uncomment the appropriate lines.
+     - <b>Solve the path planning problem</b>: using a RRT-like algorithm
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/TwoRX60/FourRX60</i>
+             .
+     - <b>Visualize the solution path</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/TwoRX60/FourRX60 examples/TwoRX60/FourRX60_path</i>
+             .
+     - <b>Smooth the path</b>:
+             - <i> \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/TwoRX60/FourRX60</i>
+	     .
+     - <b>Visualize the smoothed solution path</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/TwoRX60/FourRX60 examples/TwoRX60/FourRX60_path_s</i>
+             .
+     .
+*/

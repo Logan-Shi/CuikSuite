@@ -1,0 +1,151 @@
+[CONSTANTS]
+
+   % Distance from sliders axis
+     s:=3
+
+     % height of the base
+     h:=0.05
+
+     % height of the ceiling
+     H:=10
+
+     % Vertices defining the starting position of each slide
+     p1x:= 0
+     p1y:= 0
+     p1z:= H
+
+     p2x:= 0
+     p2y:= s
+     p2z:= H
+
+     p3x:= 0
+     p3y:= 2*s
+     p3z:= H
+
+   % radious of the ball
+   r:=7*h
+
+   % cable length (same for all)
+   l:= 8
+   % cable width
+   w:=0.01
+
+   % Prismatic length
+   pl:=10*h
+   % Prismatic witdh
+   pw:=5*h
+
+   % Bounds of the prismatic joints
+   lp:=0       % lower bound
+   up:=22      % upper bound
+   rp:=up-lp   % range
+
+   % position of the obstacle relative to the range [lp,up]
+   po:=0.6
+   % height of obstacle relative to the position of the ground and the guides
+   ho:=0.5
+   % width of obstacle
+   wo:=10*h
+
+   % dynamic parameters
+   massPrismatic:=0.1
+   massBall:=1
+
+   maxVel:=20
+   maxForce:=8
+
+[LINKS]
+   base: % guides
+         cylinder h (p1x+lp,p1y,p1z) (p1x+up+10*h,p1y,p1z) black decoration
+         cylinder h (p2x,p2y,p2z) (p2x+up+10*h,p2y,p2z) black decoration
+         cylinder h (p3x,p3y,p3z) (p3x+up+10*h,p3y,p3z) black decoration
+
+	 % left wall
+	 box (p1x+lp,p1y-h,p1z-H) (p3x,p3y,p3z)  white
+
+         % ground
+         box (p1x+lp,p1y-h,p1z-H) (p3x+up+l*0.6,p3y,p3z-H) white
+	 
+	 % obstacle
+         box (p1x+lp+rp*po-wo/2,p1y,p1z-H) (p3x+lp+rp*po+wo/2,p3y,p3z*ho) black
+
+	 % right support	 
+	 box (p1x+lp+rp+l*0.4,p1y,p1z-H) (p3x+lp+rp+l*0.6,p3y,p3z*0.4) black
+
+         % end-points along the guides
+         cylinder h (p1x+up+10*h,p1y,p1z) (p3x+up+10*h,p3y,p3z) black decoration
+
+
+	 %cylinder pw (p1x+lp+up+0.5*pl,p1y,p1z) (p1x+lp+up+1.5*pl,p1y,p1z) black
+	 %cylinder pw (p2x+lp+up+0.5*pl,p2y,p2z) (p2x+lp+up+1.5*pl,p2y,p2z) black
+	 %cylinder pw (p3x+lp+up+0.5*pl,p3y,p3z) (p3x+lp+up+1.5*pl,p3y,p3z) black
+
+   p1: cylinder pw (-pl/2,0,0) (pl/2,0,0) red
+       mass massPrismatic
+
+   p2: cylinder pw (-pl/2,0,0) (pl/2,0,0) green
+       mass massPrismatic
+
+   p3: cylinder pw (-pl/2,0,0) (pl/2,0,0) blue
+       mass massPrismatic
+
+   ball: sphere r (0,0,0) red
+         mass massBall
+
+   lx
+   ly
+
+[JOINTS]
+  prismatic: base (p1x,p1y,p1z)+(1,0,0)
+             p1 (0,0,0)+(1,0,0)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (p2x,p2y,p2z)+(1,0,0)
+             p2 (0,0,0)+(1,0,0)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (p3x,p3y,p3z)+(1,0,0)
+             p3 (0,0,0)+(1,0,0)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (0,0,0)+(1,0,0)
+             lx (0,0,0)+(1,0,0)
+             range [lp,up+l]
+
+  prismatic: lx (0,0,0)+(0,1,0)
+             ly (0,0,0)+(0,1,0)
+             range [0,2*s]
+
+  prismatic: ly (0,0,0)+(0,0,1)
+             ball (0,0,0)+(0,0,1)
+             range [0,H]
+
+  c_cable c1 : p1 (0,0,0)
+               ball (0,0,0)
+	       radius w
+	       black
+
+  c_cable c2 : p2 (0,0,0)
+               ball (0,0,0)
+	       radius w
+	       black
+
+  c_cable c3 : p3 (0,0,0)
+               ball (0,0,0)
+	       radius w
+	       black
+
+ [COLLISIONS]
+  check: base, ball
+  check: base, c1
+  check: base, c2
+  check: base, c3
+
+[EQUATIONS]
+  EQFILE: "cable_eqs2.cuik"

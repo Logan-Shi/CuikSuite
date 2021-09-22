@@ -1,0 +1,189 @@
+/** \cond */
+
+[CONSTANTS]
+
+% Length of links for leg 1
+length_1_1:=2.5
+length_1_2:=5.5
+length_1_3:=9
+
+% Length of links for leg 2
+length_2_1:=6
+length_2_2:=10
+length_2_3:=5
+
+% Length of links for leg 3
+length_3_1:=5
+length_3_2:=7.5
+length_3_3:=10
+
+% Anchor points for the 3 legs
+% (in the x-z) plane
+a1_x:= 0
+a1_z:= 0
+
+a2_x:= 2
+a2_z:= 3.5
+
+a3_x:=-4
+a3_z:= 3.5
+
+
+% Radii of cylinders and spheres used for representation
+rc := 0.1
+rs := 0.225
+
+[LINKS]
+  % A ground link without associated geometry
+  ground_link
+
+  % leg 1
+  link_1_1: cylinder rc (0,0,0) (length_1_1,0,0) yellow decoration
+	    sphere   rs (0,0,0)                 black decoration
+  link_1_2: cylinder rc (0,0,0) (length_1_2,0,0) green decoration
+	    sphere   rs (0,0,0)                  black decoration
+  link_1_3: cylinder rc (0,0,0) (length_1_3,0,0) yellow decoration
+	    sphere   rs (0,0,0)                  black decoration
+
+  % leg 1
+  link_2_1: cylinder rc (0,0.5,0) (length_2_1,0.5,0) yellow decoration
+	    sphere   rs (0,0.5,0)                  black decoration
+  link_2_2: cylinder rc (0,0.5,0) (length_2_2,0.5,0) green decoration
+	    sphere   rs (0,0.5,0)                  black decoration
+  link_2_3: cylinder rc (0,0.5,0) (length_2_3,0.5,0) yellow decoration
+	    sphere   rs (0,0.5,0)                  black decoration
+
+  % leg 1
+  link_3_1: cylinder rc (0,1,0) (length_3_1,1,0) yellow decoration
+	    sphere   rs (0,1,0)                  black decoration
+  link_3_2: cylinder rc (0,1,0) (length_3_2,1,0) green decoration
+	    sphere   rs (0,1,0)                  black decoration
+  link_3_3: cylinder rc (0,1,0) (length_3_3,1,0) yellow decoration
+	    sphere   rs (0,1,0)                  black decoration
+	    sphere   rs (length_3_3,1,0)         black decoration
+	    sphere   rs (length_3_3,0.5,0)         black decoration
+	    sphere   rs (length_3_3,0,0)         black decoration
+            cylinder rc (length_3_3,1,0) (length_3_3,-0.75,0) red
+	    sphere   rs (length_3_3,-0.75,0)        red
+
+[JOINTS]
+
+  REVOLUTE: ground_link (a1_x,0,a1_z)+(0,1,0)
+            link_1_1    (   0,0,   0)+(0,1,0)
+  REVOLUTE: link_1_1 (length_1_1,0,0)+(0,1,0)
+            link_1_2 (         0,0,0)+(0,1,0)
+  REVOLUTE: link_1_2 (length_1_2,0,0)+(0,1,0)
+            link_1_3 (         0,0,0)+(0,1,0)
+
+  REVOLUTE: ground_link (a2_x,0,a2_z)+(0,1,0)
+            link_2_1    (   0,0,   0)+(0,1,0)
+  REVOLUTE: link_2_1 (length_2_1,0,0)+(0,1,0)
+            link_2_2 (         0,0,0)+(0,1,0)
+  REVOLUTE: link_2_2 (length_2_2,0,0)+(0,1,0)
+            link_2_3 (         0,0,0)+(0,1,0)
+
+  REVOLUTE: ground_link (a3_x,0,a3_z)+(0,1,0)
+            link_3_1    (   0,0,   0)+(0,1,0)
+  REVOLUTE: link_3_1 (length_3_1,0,0)+(0,1,0)
+            link_3_2 (         0,0,0)+(0,1,0)
+  REVOLUTE: link_3_2 (length_3_2,0,0)+(0,1,0)
+            link_3_3 (         0,0,0)+(0,1,0)
+
+  REVOLUTE: link_1_3 (length_1_3,0,0)+(0,1,0)
+            link_2_3 (length_2_3,0,0)+(0,1,0)
+
+  REVOLUTE: link_2_3 (length_2_3,0,0)+(0,1,0)
+            link_3_3 (length_3_3,0,0)+(0,1,0)
+
+  REVOLUTE: link_1_3 (length_1_3,0,0)+(0,1,0)
+            link_3_3 (length_3_3,0,0)+(0,1,0)
+
+
+[OBSTACLES]
+  % In the WAFR example no obstacles are considered
+
+  % Obstacles shared in ISRR and IJRR
+  box1 : body "bodies/obstacle1" color (0.1,0.1,0.9) 
+  box2 : body "bodies/obstacle2" color (0.1,0.1,0.9) 
+  box3 : body "bodies/obstacle3" color (0.1,0.1,0.9)
+ 
+  % ISRR
+  % box4 : body "bodies/obstacle4" color (0.1,0.1,0.9)
+  % box5 : body "bodies/obstacle5" color (0.1,0.1,0.9)
+
+  % IJRR (bug trap)
+  box4 : body "bodies/obstacle6" color (0.1,0.1,0.9)
+  box5 : body "bodies/obstacle7" color (0.1,0.1,0.9)
+  
+[COLLISIONS]
+
+%  do not Check : all
+  Check:  link_3_3, box1
+  Check:  link_3_3, box2
+  Check:  link_3_3, box3
+  Check:  link_3_3, box4
+  Check:  link_3_3, box5
+
+/** \endcond */
+
+/** \file Star3.world
+
+    \brief A planar linkage forming a \ref examples/Star "star".
+ 
+    <center>
+    <img src="../images/Star/star_bug.png">
+    </center>
+
+    A \ref examples/Star "star" (or spider) planar mechanism with 3 legs and 3 links
+    per legs.
+
+    This is used for path planning. Actually we used this same file
+    for different experiments by commenting/uncommenting parts of
+    the file (basically the obstacles).
+    Note that different experiments (obstacles!) also require different
+    start/goal points in the .samples or .dof files (the first is used
+    for MATRIX based representations and the second when using DOFs).
+
+    Observe that the mechanism and the obstacles are at different planes
+    and that only the red rod at the central point of the mechanism can actually
+    touch the obstacles. Moreover, self-collisions (collisions between the links
+    forming the mechanisms) are not considered.
+
+    We used this example in our <a href="http://www.iri.upc.edu/people/porta/Docs/wafr10.pdf">WAFR-10</a>, 
+    <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr12.pdf">IJRR-12</a>, and
+    <a href="http://www.iri.upc.edu/people/porta/Docs/isrr11.pdf">ISSR-12</a> papers with
+    different obstacle settings and solved using different planners.
+
+   The key data for this problem is:
+   <center>
+   <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 12 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 5 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds) and with the bug-trap obstacle</th> <td align="center"> 35 </td>
+     </tr>
+   </table>
+   </center>
+
+    This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Adjust the files</b>: Set the obstacles to use (commenting/uncometing lines
+       in the world file), the parameters to use (different algorihtms use different
+       parameters) and the start/goal points to use (in the sample/dof file according
+       to the representation you set in the paremeter file).
+     - <b>Solve the path planning problem</b>: using the planner described in the 
+       <a href="http://www.iri.upc.edu/people/porta/Docs/tro13a.pdf">TRO-13</a>, which
+       is a refinement of the planner described in 
+       <a href="http://www.iri.upc.edu/people/porta/Docs/isrr11.pdf">ISSR-12</a>:
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Star/Star3</i>
+             .
+     - <b>Visualize the solution path</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Star/Star3 examples/Star/Star3_path</i>
+     .
+
+*/
+

@@ -1,0 +1,464 @@
+/** \cond */
+
+[CONSTANTS]
+
+  % We re-use the parametrization of the TwoPrism and we replace
+  % the vertical cables by springs
+
+  % Parametrization of a two-prism tower taken from 
+  %    C. Sultan, M. Corles and R. E. Skelton
+  %    The pre-estressability rpoblem of tensegrity structures: some
+  %    analytical results, International journal of solids and structures
+  %    vol 38, 20011
+  %
+  % We model a SVDB struture (section 4) which essentially has the same
+  % solutions as a SVD structure (section 3)
+  % We compute the constants that give a stable configuration and then
+  % leave some ranges around the equilibrium point to allow form motion.
+  % In this way we are sure to have valid ranges for the variables.
+
+  % The two driving parameters
+  alpha := 60*pi/180
+  delta := 30*pi/180
+ 
+  % Structural parameters (taken from the matlab file)
+  b := 0.27                   % Size of base/platform
+  l := 0.4                    % Length of struts
+  P := PARAMETER(PRETENSION)  % Pretension (taken from parameter file)
+  rs := 0.0025                % Radius to represent struts
+  rc := 0.00075               % Radius to represent cables
+  rp := 0.0025                % Radius to represent springs
+  ra := rs*6                  % Radius of the anchor elements 
+
+  % small value (used to compare alpha with pi/3 = 60 deg)
+  zero:=1e-10
+
+  % h is a zero-centered parametrization of the structure height 
+  u := sin(delta)*cos(alpha+pi/6)   % auxiliary
+  h := (abs(alpha-pi/3)<zero ? l*cos(delta)/2 :
+                               cos(delta)*(l*u+sqrt(b^2/3-3*l^2*u^2)-b/sqrt(3))/(2*u))
+
+  % Length of the different strings
+  D := sqrt(h^2+b^2/3+l^2-2*l*b*sin(delta)*sin(alpha)/sqrt(3)-2*l*h*cos(delta))
+  V := sqrt(b^2+l^2-2*l*b*sin(delta)*sin(alpha+pi/6))
+  S := sqrt(h^2+b^2/3+l^2*sin(delta)^2-2*l*b*sin(delta)*cos(alpha-pi/6)/sqrt(3))
+
+  % print D
+
+  % Tension of the different strings
+  T_d_0 := 1
+ 
+  T_v_0 := (abs(alpha-pi/3)<zero ? T_d_0*V*(3*l*sin(delta)/(2*b)-1)/D :
+                                   T_d_0*V*((l*cos(delta)/h-1)*sin(alpha-pi/6)-cos(alpha))/(D*sqrt(3)*cos(alpha+pi/6)))
+  T_s_0 := (abs(alpha-pi/3)<zero ? T_d_0 :
+                                   T_d_0*S*(l*cos(delta)/h-1)/D)
+
+  T_b_0 := (abs(alpha-pi/3)<zero ? T_d_0*(2*b^2-9*l*b*sin(delta)+9*l^2*sin(delta)^2)/(6*D*b) :
+                                   T_d_0*(3*l^2*sin(delta)*cos(delta)
+	  			          +6*b*h*cos(alpha-pi/3)
+				          -6*l*h*sin(delta)
+				          -2*sqrt(3)*b*l*cos(delta)*sin(alpha))/(6*D*sqrt(3)*h*cos(alpha+pi/6)))
+
+  % Compression of the struts (fixed an error from the paper!)
+  C_0 := (abs(alpha-pi/3)<zero ? T_d_0*(3*l^2*sin(delta)/(2*b)-l/2)/D :
+                                 T_d_0*(2*sqrt(3)*h*b*sin(delta)
+                                        -sqrt(3)*l*b*sin(2*delta)/2
+                                        +6*h^2*cos(delta)*sin(alpha-pi/3)
+                                        -6*l*h*(cos(delta)^2*sin(alpha-pi/3)+sin(alpha+pi/6)/sqrt(3))
+                                        +2*sqrt(3)*l^2*cos(delta)*cos(alpha)
+                                        +6*l^2*cos(delta)^3*sin(alpha-pi/3))/(6*D*h*sin(pi/3-alpha)))
+
+  % Normalize the tension/compression (to remove the pre-tension)
+  n := sqrt(6*(T_d_0^2+T_v_0^2+T_s_0^2++T_b_0^2+C_0^2))
+  T_d := P*T_d_0/n
+  T_v := P*T_v_0/n
+  T_s := P*T_s_0/n
+  T_b := P*T_b_0/n
+  C := P*C_0/n
+
+  % print T_d
+  % print T_v
+  % print T_s
+  % print T_b
+  % print C
+
+  % Physical quantities used to define the stiffness of the strings
+  E := 14e10  % N/m^2 Young modulus
+  s := 2.5e9  % N/m^2 maximum tendon stress 
+  g := 4      % safety margin
+
+  % The stiffness as defined int the paper
+  K_d_0 := (E*P*g/s)*T_d
+  K_v_0 := (E*P*g/s)*T_v
+  K_s_0 := (E*P*g/s)*T_s
+
+  % The rest lengths for the different cables
+  R_d := K_d_0*D/(T_d+K_d_0)
+  R_v := K_v_0*V/(T_v+K_v_0)
+  R_s := K_s_0*S/(T_s+K_s_0)
+
+  % print R_d
+  % print R_v
+  % print R_s
+  
+  % The stiffness as in appears in our models
+  K_d := K_d_0 / R_d
+  K_v := K_v_0 / R_v
+  K_s := K_s_0 / R_s
+
+  % print K_d
+  % print K_v
+  % print K_s
+
+  % range of compression forces supported by the struts
+  % For struts the rest lengt is set to 0 and the stiffnes
+  % is set to vary so that with a constant length, we can
+  % have different forces.
+  % If both the rest length and the stiffness are free we
+  % have an extra (useless) degree of freedom.
+  min_fs := -2*C  % compression is negative!
+  max_fs :=  0
+
+  % data for the cables on the base/platform: range of supported tensions
+  % These cables have constant length. We additionally fix the stiffness
+  % so that varying the rest length we can have different forces.
+  % If both the rest length and the stiffness are free we
+  % have an extra (useless) degree of freedom.
+  min_f_b := 0
+  max_f_b := 2*T_b
+  
+  % data for diagonal cables
+  min_lc_d := 0.1*D
+  max_lc_d := 2*D
+  min_r_d := 0
+  max_r_d := 2*R_d
+
+  % data for vertical springs 
+  min_lc_v := 0.1*V
+  max_lc_v := 2*V
+  % Adjust the rest length and the stiffnes to convert from
+  % cables to springs (lower stiffness and rest length)
+  % Moreover, spring rest length is constant
+  beta := 0.5
+  R_p := beta*V
+  K_p := T_v/(V-R_p)
+  
+
+  % data for saddle cables 
+  min_lc_s := 0.1*S
+  max_lc_s := 2*S
+  min_r_s := 0
+  max_r_s := 2*R_s
+
+[STRUCTURE]
+
+  strut s1 : n1 n2
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s2 : n3 n4
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s3 : n5 n6
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+
+  strut s4 : n7 n8
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s5 : n9 n10
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s6 : n11 n12
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+
+
+  % Cables in the same order as in the matlab file
+
+  cable c1  : n1 n11                         % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	       
+  spring c2 : n1 n6                          % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_p
+	      rest R_p
+	      radius rp
+	      
+  cable c3  : n3 n7                          % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  spring c4 : n3 n2                          % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_p
+	      rest R_p
+	      radius rp
+	      
+  cable c5  : n5 n9                          % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  spring c6 : n5 n4                          % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_p
+	      rest R_p
+	      radius rp
+	      
+  cable c7  : n7 n4                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c8  : n7 n2                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c9  : n9 n6                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c10 : n9 n4                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c11 : n11 n2                         % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c12 : n11 n6                         % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+
+  spring c13: n11 n8                         % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_p
+	      rest R_p
+	      radius rp
+	      
+  cable c14 : n2 n8                          % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  spring c15: n7 n10                         % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_p
+	      rest R_p
+	      radius rp
+	      
+  cable c16 : n4 n10                         % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  spring c17: n9 n12                         % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_p
+	      rest R_p
+	      radius rp
+	      
+  cable c18 : n6 n12                         % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  cable c19 : n1 n3                          % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+	            
+  cable c20 : n1 n5                          % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+      
+  cable c21 : n3 n5                          % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+
+  cable c22 : n8 n10                         % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+	            
+  cable c23 : n8 n12                         % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+      
+  cable c24 : n10 n12                        % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+  
+[ADDONS]
+             % The platform
+  platform : prism (-2*ra,ra,2*ra) (b*cos(pi/3),-b*sin(pi/3)-2*ra,2*ra) (b+2*ra,ra,2*ra) 0.005 red decoration
+
+  	     % The anchor points between the tensegrity and the platform
+  	     cylinder ra (0,0,ra) (0,0,2*ra) blue decoration
+             sphere ra (0,0,ra) blue decoration
+	     
+  	     cylinder ra  (b*cos(pi/3),-b*sin(pi/3),ra) (b*cos(pi/3),-b*sin(pi/3),2*ra) blue decoration
+	     sphere ra (b*cos(pi/3),-b*sin(pi/3),ra) blue decoration
+	     
+  	     cylinder ra  (b,0,2*ra) (b,0,ra) blue decoration
+             sphere ra (b,0,ra) blue decoration
+
+	     % The stick on the top of the platform
+  	     cylinder 2*rs (b/2,-b*sin(pi/3)/3,2*ra) (b/2,-b*sin(pi/3)/3,2*ra+0.25) red
+             sphere 2*rs (b/2,-b*sin(pi/3)/3,2*ra+0.25) red
+	     
+             (0,0,0) n8
+	     (b,0,0) n10
+	     (b*cos(pi/3),-b*sin(pi/3),0) n12 
+  
+[COUPLE]
+
+  % couple base/platform
+  force  : c19,c20,c21,c22,c23,c24
+  
+[FIXED POINTS]
+
+  % n1 is implicitly fixed
+
+  n3(z)=0
+
+  n5(y)=0
+  n5(z)=0
+
+[OBSTACLES]
+
+  plane: box (-0.2,-0.2,-2*ra-0.01)+(b+0.4,b*sin(pi/3)+0.4,0.005) green
+
+  base: prism (-2*ra,-ra,-2*ra-0.005)
+              (b+2*ra,-ra,-2*ra-0.005)
+	      (b*cos(pi/3),b*sin(pi/3)+2*ra,-2*ra-0.005)
+	      0.005 red
+  
+  anchor1: cylinder ra (0,0,-2*ra) (0,0,-ra) blue decoration
+  anchor1ball: sphere ra (0,0,-ra)  blue decoration
+  
+  anchor2: cylinder ra (b,0,-2*ra) (b,0,-ra) blue decoration
+  anchor2ball: sphere ra (b,0,-ra)  blue decoration
+  
+  anchor3: cylinder ra (b*cos(pi/3),b*sin(pi/3),-2*ra) (b*cos(pi/3),b*sin(pi/3),-ra) blue decoration
+  anchor3ball: sphere ra (b*cos(pi/3),b*sin(pi/3),-ra) blue decoration
+
+  hole1: body "bodies/box_with_hole1.off" yellow % decoration
+  % hole2: body "bodies/box_with_hole2.off" black decoration
+
+
+
+[COLLISIONS]
+
+  check: all
+  do not check: connected
+  
+/** \endcond */
+
+/** \file examples/Tensegrity/robot.tens
+
+   \brief Six degree of freedom tensegrity manipulator.
+
+   <center>
+   <img src="../images/Tensegrity/robot.png">
+   </center>
+   
+   A six degree of freedom tensegrity manipulator following the
+   design by the <a href="http://seniordesign.engr.uidaho.edu/2010-2011/tensegriteam/project_management.html">Tensegriteam</a>.
+
+   <center>
+   <img src="../images/Tensegrity/robot.jpg">
+   </center>
+   
+   <a href="https://www.youtube.com/watch?v=1nUjSetEoSQ">Here</a> and
+   <a href="https://www.youtube.com/watch?v=OO9bPJxkjFU">here</a> you have
+   videos of the actual robot moving.
+
+   This is very similar to the \ref tower3D.tens "Tower3D" example
+   but some of the cables are replaced by springs and the symmetry constraints
+   are removed. By controlling the cable rest lengths (and, thus, indirectly
+   the cable lenghts) the platform can be moved in six degrees of freedom.
+
+   To explore the motions of the platform execute
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/Tensegrity/robot 246 247 248 251 250 249
+      .
+   Where the numbers are used to select the dregrees of freedom of the
+   platform as control variables (in this way the motions are more intuitive).
+
+   We use this example to solve a path planning problem with a complex
+   tensegrity structure. The start and goal configurations are
+    <center>
+      <table width="500">
+        <tr> 
+          <td><img src="../images/Tensegrity/robot_start.png" width="200"></td>
+          <td><img src="../images/Tensegrity/robot_goal.png" width="200"></td>
+        </tr>
+      </table>
+    </center>
+   and the problem can be solved executing:
+       - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/robot
+       .
+   The output path can be smoothed
+       - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/robot
+       - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/robot examples/Tensegrity/robot_path_s effort 1000 
+       .
+   In this way the path length is reduced with a shortcut method and then the control effort is locally minimized
+   with a gradient method. This process is more effective
+   than directly reducing the path effort on the original path: the shortcut path is very
+   effective and it returns a path that is not far from the minimum control effort path
+   (recall that if all elements in the tensegrity are elastic, the control effort and the
+   path length are the same).
+
+    The smoothed path can be visualized with
+       - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/robot examples/Tensegrity/robot_path_s_e
+       .
+    The compression/tensions of the struts, cables, and springs can be stored in a file
+    with the command
+       - \ref cuikworldforces.c "bin/cuikworldforces" examples/Tensegrity/robot
+       .
+    Moreover, the potential energy along the solution path can be computed with
+       - \ref cuikenergy.c "bin/cuikenergy" examples/Tensegrity/robot examples/Tensegrity/robot_path_s
+       .
+   
+*/
+  

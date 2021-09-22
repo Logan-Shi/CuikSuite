@@ -1,0 +1,19 @@
+/** \dir examples/UPU3
+   
+    \brief The 3-UPU parallel manipulator.
+    
+    <center>
+    <img src="../images/3-UPU/3-UPU-Tsai.png">
+    </center>
+    
+    Several variations of the UPU3 parallel robot
+
+      - A traslational robot by Tsai: \ref UPU3_Tsai.world
+      - A translational robot with axis intersecting in a central point: \ref UPU3_central.world
+      - A rotational robot with axis intersecting in a central point: \ref UPU3_Herve.world
+      - A traslational robot by Lu and Hu: \ref UPU3_LuHu.world
+      - Our version of the translational robot: \ref UPU3_trans.world
+      - Our version of the rotational robot: \ref UPU3_rot.world
+      .
+
+*/

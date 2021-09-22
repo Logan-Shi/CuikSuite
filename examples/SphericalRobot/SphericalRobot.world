@@ -1,0 +1,366 @@
+/** \cond */
+[CONSTANTS]
+
+  % ---------------------------------------------------------------------------------
+  % ---------------------------------------------------------------------------------
+  % ---------------------------------------------------------------------------------
+  % Define the parameters. You can change those at your will and the design will be
+  % adjusted accoringly
+  
+  l1:=100         % length of first segment of the first link of first leg
+  l2:=100         % length of the second segment of the first lind of the first leg
+  
+  l3:=200         % Size in X-Y of the plate
+
+  a:=130*pi/180  % angle between the two segments of the first link of first leg (in radiants)
+
+  rc:=20          % radius of the cylinders representing co-axial axes
+  rl:=10       % radius of the cylinders representing legs
+
+  d:=2*rl        % distance between first revolute joints when aligned
+
+  h:=28       % vertical separation between legs (2nd and 3rd leg are separed h+5)
+ 
+  rb:=20          % radius of the ball
+
+  hp:=4       % eight of the plate (surface)
+
+  hs:=4       % height of the sticks suporting the plate
+
+  s:=30           % height of the main part in the platform (the one with the leg attachments)
+
+  rp:=50          % Radius of the platform. Its height is 's'. It is also the radius of the base
+
+  hb:= 50         % height of the base
+
+  sc:=0.5       % Scale used to define the second link. Use a tiny number for a direct connection
+
+  % ---------------------------------------------------------------------------------
+  % ---------------------------------------------------------------------------------
+  % ---------------------------------------------------------------------------------
+
+  % Nothing to be modified beyond this point
+
+  % derived angles (defined for convinience)
+  b:=pi-a        % complementary angle of 'a'
+  c:=a-pi/2      % used to compute the axes defining the revolution joints 
+
+  % End points of the first leg
+  p1_x:= l1
+  p1_y:= 0
+  p1_z:= 0
+
+  p2_x:= p1_x + l2*cos(b)
+  p2_y:= 0
+  p2_z:= p1_z + l2*sin(b)
+
+  % Rotation axis of the first leg
+  v1_x:=-cos(c)
+  v1_y:= 0
+  v1_z:= sin(c)
+
+  % Rotation center. Computed with the equation [p2_x;p2_y:p2_z]+la*[v1_x;v1_y;v1_z]=[0;0;c_z] 
+  % we solve 'la' with the 'x' equation and then compute 'cz' with the resulting 'la'
+  la:=-p2_x/v1_x
+  c_x:= 0
+  c_y:= 0
+  c_z:= p2_z+la*v1_z
+
+  % End points of the second leg
+  % This is computed moving the end point of leg 1 towards the rotation center (2*rl units)
+  % After, we ratate by 2*pi/3 radiants
+  p4_x_0:= (p2_x+d*v1_x)  % component in X before rotation (Y component is 0 and Z component is not affected by the rotation)
+  % apply the rotation
+  p4_x:= p4_x_0*cos(2*pi/3)
+  p4_y:= p4_x_0*sin(2*pi/3)
+  p4_z:= p2_z+d*v1_z
+
+  % We compute the intermediate link point from the end-point and p4 before its rotation (already fixed)
+  % We solve the equation [p3_x;p3_z]=[p4_x_0;p4_z]+la2*[cos(b) sin(b)] for p3_z=h
+  % Aftar determining x, we rotate by 2*pi/3
+  p3_z:= h
+  la2:= (p3_z-p4_z)/sin(b)
+  p3_x:= (p4_x_0+la2*cos(b))*cos(2*pi/3)
+  p3_y:= (p4_x_0+la2*cos(b))*sin(2*pi/3)
+
+  % Rotation axis of the second leg (the one for the first leg rotated by  2*pi/3)
+  v2_x:= v1_x*cos(2*pi/3)
+  v2_y:= v1_x*sin(2*pi/3)
+  v2_z:= v1_z
+
+  % End points of the third leg
+  % Computed in the same way as x2,y2,z2 but moving further along the axis (2*d in this case)
+  % In this case, at the end we rotate bu 4*pi/3
+  p6_x_0:= (p2_x+2*d*v1_x) % X component before rotation
+  p6_x:= p6_x_0*cos(4*pi/3) % rotation
+  p6_y:= p6_x_0*sin(4*pi/3)
+  p6_z:= p2_z+2*d*v1_z
+
+  % We compute the intermediate link point from the end-point and p5_z (fixed)
+  % Computed in a similar was as p3
+  p5_z:= 2*h+5
+  la3:=(p5_z-p6_z)/sin(b)
+  p5_x:= (p6_x_0+la3*cos(b))*cos(4*pi/3)
+  p5_y:= (p6_x_0+la3*cos(b))*sin(4*pi/3)
+
+  % Rotation axis of the third leg
+  % The same as the first leg but rotated by 4*pi/3
+  v3_x:= v1_x*cos(4*pi/3)
+  v3_y:= v1_x*sin(4*pi/3)
+  v3_z:= v1_z
+
+  % Distance from the origin of the local frame on the platform
+  % to the global center of rotation (this is a distance in Z)
+  dpc:=(rb+hp+hs+s)
+  
+  % distance from the revolutes in the platform to the rotation center
+  % This is used to normalize the vectors defining the platform revolutions
+  drc:=sqrt(rp^2+dpc^2)
+
+  % Revolute joints in the platform (in platform coordinates)
+  % We essentially take the vector (rp,0,0) and ratate it -pi/2 around Z
+  % We use the _l suffix to denote local coordinates of the platform
+  p7_x_l:=rp*cos(-pi/2)
+  p7_y_l:=rp*sin(-pi/2)
+  p7_z_l:=0
+
+  % local 2 global: Translation in Z to apply to transform a point from
+  % local coordinates in the platform to the global reference frame
+  l2g_z:=c_z-dpc
+
+  % Point 7 in global coordinates
+  p7_x:=p7_x_l
+  p7_y:=p7_y_l
+  p7_z:=p7_z_l+l2g_z
+
+  % We essentially take the vector (rp,0,0) and ratate it pi/6 around Z
+  p8_x_l:=rp*cos(+pi/6)
+  p8_y_l:=rp*sin(+pi/6)
+  p8_z_l:=0
+
+  % point 8 in global coordinates
+  p8_x:=p8_x_l
+  p8_y:=p8_y_l
+  p8_z:=p8_z_l+l2g_z
+
+  % We essentially take the vector (rp,0,0) and ratate it 5*pi/6 around Z
+  p9_x_l:=rp*cos(5*pi/6)
+  p9_y_l:=rp*sin(5*pi/6)
+  p9_z_l:=0
+
+  % point 9 in global coordiantes
+  p9_x:=p9_x_l
+  p9_y:=p9_y_l
+  p9_z:=p9_z_l+l2g_z
+
+  % Axes defining the revolute joints in the platform
+  % Normalized vectors connecting the centers of the revolute joints and the rotation center
+  v4_x:=(c_x-p7_x)/drc
+  v4_y:=(c_y-p7_y)/drc
+  v4_z:=(c_z-p7_z)/drc
+ 
+  v5_x:=(c_x-p8_x)/drc
+  v5_y:=(c_y-p8_y)/drc
+  v5_z:=(c_z-p8_z)/drc
+  
+  v6_x:=(c_x-p9_x)/drc
+  v6_y:=(c_y-p9_y)/drc
+  v6_z:=(c_z-p9_z)/drc
+
+  % Center of the revolute joint connecting leg 1 and the platform
+  p10_x:=p7_x-2*rl*v4_x
+  p10_y:=p7_y-2*rl*v4_y
+  p10_z:=p7_z-2*rl*v4_z
+
+  % Center of the revolute joint connecting leg 2 and the platform
+  p11_x:=p8_x-2*rl*v5_x
+  p11_y:=p8_y-2*rl*v5_y
+  p11_z:=p8_z-2*rl*v5_z
+  
+  % Center of the revolute joint connecting leg 2 and the platform
+  p12_x:=p9_x-2*rl*v6_x
+  p12_y:=p9_y-2*rl*v6_y
+  p12_z:=p9_z-2*rl*v6_z
+
+  % Center of the revolute joint in the link 2 of each leg connecting to link 1
+  p13_x:=p2_x+2*rl*v1_x
+  p13_y:=p2_y+2*rl*v1_y
+  p13_z:=p2_z+2*rl*v1_z
+
+  p14_x:=p4_x+2*rl*v2_x
+  p14_y:=p4_y+2*rl*v2_y
+  p14_z:=p4_z+2*rl*v2_z
+  
+  p15_x:=p6_x+2*rl*v3_x
+  p15_y:=p6_y+2*rl*v3_y
+  p15_z:=p6_z+2*rl*v3_z
+
+  % Intermediate points of the second links of the legs
+
+  % to the global rotation center
+  p16_x:=p10_x+sc*(p2_x-c_x)
+  p16_y:=p10_y+sc*(p2_y-c_y)
+  p16_z:=p10_z+sc*(p2_z-c_z)
+
+  p17_x:=p11_x+sc*(p4_x-c_x)
+  p17_y:=p11_y+sc*(p4_y-c_y)
+  p17_z:=p11_z+sc*(p4_z-c_z)
+  
+  p18_x:=p12_x+sc*(p6_x-c_x)
+  p18_y:=p12_y+sc*(p6_y-c_y)
+  p18_z:=p12_z+sc*(p6_z-c_z)
+
+[LINKS]
+
+  world:
+        % line connecting the origin of the global frame and the rotation center
+        line (0,0,0) (c_x,c_y,c_z) black decoration
+        % the base of the robot
+	cylinder rp (0,0,-rc) (0,0,-hb) red decoration
+
+  leg1: red
+        //body "bodies/link1_1.off"
+  	
+        cylinder rc  (0,0,-rc) (0,0,rl) decoration % coaxial axis
+	
+        cylinder rl  (0,0,p1_z) (p1_x,p1_y,p1_z) 
+	sphere   rl  (p1_x,p1_y,p1_z) 
+        cylinder rl  (p1_x,p1_y,p1_z) (p2_x,p2_y,p2_z) 
+        cylinder rl  (p2_x-rl*v1_x,p2_y-rl*v1_y,p2_z-rl*v1_z)
+	             (p2_x+rl*v1_x,p2_y+rl*v1_y,p2_z+rl*v1_z)
+	
+	line (p2_x,p2_y,p2_z) (c_x,c_y,c_z) decoration
+
+  leg2: green
+        //body "/Users/porta/cuik/CuikSuite/link2_1.off"
+	
+        cylinder 0.75*rc (0,0,0) (0,0,h+rl) decoration
+	
+        cylinder rl  (0,0,p3_z) (p3_x,p3_y,p3_z) 
+	sphere   rl  (p3_x,p3_y,p3_z) 
+        cylinder rl  (p3_x,p3_y,p3_z) (p4_x,p4_y,p4_z) 
+        cylinder rl  (p4_x-rl*v2_x,p4_y-rl*v2_y,p4_z-rl*v2_z)
+	             (p4_x+rl*v2_x,p4_y+rl*v2_y,p4_z+rl*v2_z)
+	
+	line (p4_x,p4_y,p4_z) (c_x,c_y,c_z) decoration
+
+  leg3: blue
+        cylinder 0.5*rc (0,0,0) (0,0,2*h+rl) decoration 
+	
+        cylinder rl  (0,0,p5_z) (p5_x,p5_y,p5_z) 
+	sphere   rl  (p5_x,p5_y,p5_z) 
+        cylinder rl  (p5_x,p5_y,p5_z) (p6_x,p6_y,p6_z) 
+        cylinder rl  (p6_x-rl*v3_x,p6_y-rl*v3_y,p6_z-rl*v3_z)
+	             (p6_x+rl*v3_x,p6_y+rl*v3_y,p6_z+rl*v3_z) 
+
+	line (p6_x,p6_y,p6_z) (c_x,c_y,c_z) decoration
+
+   % This leg connects leg1 and the platform
+   % We define it in the global frame for simplicity
+   leg4: blue
+	 cylinder rl (p10_x-rl*v4_x,p10_y-rl*v4_y,p10_z-rl*v4_z)
+	 	     (p10_x+rl*v4_x,p10_y+rl*v4_y,p10_z+rl*v4_z)
+		     
+         cylinder rl (p13_x-rl*v1_x,p13_y-rl*v1_y,p13_z-rl*v1_z)
+	             (p13_x+rl*v1_x,p13_y+rl*v1_y,p13_z+rl*v1_z)
+
+	 cylinder rl (p10_x,p10_y,p10_z) (p16_x,p16_y,p16_z)
+	 sphere   rl (p16_x,p16_y,p16_z)
+	 cylinder rl (p16_x,p16_y,p16_z) (p13_x,p13_y,p13_z)
+
+  leg5:  red
+	 cylinder rl (p11_x-rl*v5_x,p11_y-rl*v5_y,p11_z-rl*v5_z)
+	 	     (p11_x+rl*v5_x,p11_y+rl*v5_y,p11_z+rl*v5_z)
+		     
+         cylinder rl (p14_x-rl*v2_x,p14_y-rl*v2_y,p14_z-rl*v2_z)
+	             (p14_x+rl*v2_x,p14_y+rl*v2_y,p14_z+rl*v2_z)
+		     
+	 cylinder rl (p11_x,p11_y,p11_z) (p17_x,p17_y,p17_z)
+	 sphere   rl (p17_x,p17_y,p17_z)
+	 cylinder rl (p17_x,p17_y,p17_z) (p14_x,p14_y,p14_z)
+
+  leg6:  green
+         cylinder rl (p12_x-rl*v6_x,p12_y-rl*v6_y,p12_z-rl*v6_z)
+	 	     (p12_x+rl*v6_x,p12_y+rl*v6_y,p12_z+rl*v6_z)
+		     
+
+	 cylinder rl (p15_x-rl*v3_x,p15_y-rl*v3_y,p15_z-rl*v3_z)
+	             (p15_x+rl*v3_x,p15_y+rl*v3_y,p15_z+rl*v3_z)
+
+	 cylinder rl (p12_x,p12_y,p12_z) (p18_x,p18_y,p18_z)
+	 sphere   rl (p18_x,p18_y,p18_z)
+	 cylinder rl (p18_x,p18_y,p18_z) (p15_x,p15_y,p15_z)
+
+   platform: % The platform defined bottom top
+             % The main cylinder
+             cylinder rp      (0,0,0) (0,0,s) black 
+	     % The inner cylinder to host the guides
+   	     cylinder rp*0.77 (0,0,s) (0,0,s+hs) blue 
+	     % The guides supporting the plane
+	     cylinder hs/2    (-l3,-l3,s+hs/2) (+l3,+l3,s+hs/2) blue 
+	     cylinder hs/2    (-l3,+l3,s+hs/2) (+l3,-l3,s+hs/2) blue 
+	     % The plane
+	     box              (-l3,-l3,s+hs) (l3,l3,s+hs+hp) white
+	     % The ball
+	     sphere   rb      (0,0,dpc) black 
+
+	     % The part of the revolute joints attached to the platform
+	     cylinder rl (p7_x_l+2*rl*v4_x,p7_y_l+2*rl*v4_y,p7_z_l+2*rl*v4_z)
+	     	         (p7_x_l-rl*v4_x,p7_y_l-rl*v4_y,p7_z_l-rl*v4_z)
+	     line        (p7_x_l,p7_y_l,p7_z_l) (0,0,dpc) decoration
+
+	     cylinder rl (p8_x_l+2*rl*v5_x,p8_y_l+2*rl*v5_y,p8_z_l+2*rl*v5_z)
+	     	         (p8_x_l-rl*v5_x,p8_y_l-rl*v5_y,p8_z_l-rl*v5_z)
+	     line        (p8_x_l,p8_y_l,p8_z_l) (0,0,dpc) decoration
+
+	     cylinder rl (p9_x_l+2*rl*v6_x,p9_y_l+2*rl*v6_y,p9_z_l+2*rl*v6_z)
+	     	         (p9_x_l-rl*v6_x,p9_y_l-rl*v6_y,p9_z_l-rl*v6_z)
+	     line        (p9_x_l,p9_y_l,p9_z_l) (0,0,dpc) decoration
+
+[JOINTS]
+  revolute: world (0,0,0) (0,0,1)
+            leg1  (0,0,0) (0,0,1)
+  
+  revolute: world (0,0,0) (0,0,1)
+            leg2  (0,0,0) (0,0,1)
+	    
+  revolute: world (0,0,0) (0,0,1)
+            leg3  (0,0,0) (0,0,1)
+
+  revolute: leg1 (p2_x,p2_y,p2_z) (p2_x+v1_x,p2_y+v1_y,p2_z+v1_z)
+            leg4 (p2_x,p2_y,p2_z) (p2_x+v1_x,p2_y+v1_y,p2_z+v1_z)
+
+  revolute: leg4     (p7_x,p7_y,p7_z)       (p7_x+v4_x,p7_y+v4_y,p7_z+v4_z)
+            platform (p7_x_l,p7_y_l,p7_z_l) (p7_x_l+v4_x,p7_y_l+v4_y,p7_z_l+v4_z)
+
+  revolute: leg2 (p4_x,p4_y,p4_z) (p4_x+v2_x,p4_y+v2_y,p4_z+v2_z)
+            leg5 (p4_x,p4_y,p4_z) (p4_x+v2_x,p4_y+v2_y,p4_z+v2_z)
+
+  revolute: leg5     (p8_x,p8_y,p8_z)       (p8_x+v5_x,p8_y+v5_y,p8_z+v5_z)
+            platform (p8_x_l,p8_y_l,p8_z_l) (p8_x_l+v5_x,p8_y_l+v5_y,p8_z_l+v5_z)
+
+  revolute: leg3 (p6_x,p6_y,p6_z) (p6_x+v3_x,p6_y+v3_y,p6_z+v3_z)
+            leg6 (p6_x,p6_y,p6_z) (p6_x+v3_x,p6_y+v3_y,p6_z+v3_z)
+
+  revolute: leg6     (p9_x,p9_y,p9_z)       (p9_x+v6_x,p9_y+v6_y,p9_z+v6_z)
+            platform (p9_x_l,p9_y_l,p9_z_l) (p9_x_l+v6_x,p9_y_l+v6_y,p9_z_l+v6_z)
+
+  % This is only used when defining the platform. Do not use for its normal operation
+  % fix: world platform Tz(l2g_z)
+
+[COLLISIONS]
+  check: all
+  do not check: connected
+
+/** \endcond */
+/**
+  \file SphericalRobot.world
+
+   \brief The Spherical parallel manipulator designed at IRI
+    
+    <center>
+    <img src="../images/Spherical/Spherical.png">
+    </center>
+    
+    The spherical robot designed at IRI.
+*/

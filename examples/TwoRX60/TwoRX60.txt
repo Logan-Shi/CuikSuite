@@ -1,0 +1,18 @@
+/** \dir examples/TwoRX60
+
+    \brief Staubli RX60 robots cooperating.
+
+    <center>
+    <img src="../images/TwoRX60/TwoRx60.jpg">
+    </center>
+
+    This folder includes examples of Staubli RX60 robots cooperating to move objects.
+
+    The problem involving only one of these robots is described in \ref Serial6RRX60.world.
+
+    Please, see the two files included in this folder for details on the problems:
+       - \ref TwoRX60.world Two Rx60 moving a small object.
+       - \ref FourRX60.world  Four Rx60 moving a large object.
+       .
+    
+*/

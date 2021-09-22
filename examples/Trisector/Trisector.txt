@@ -1,0 +1,143 @@
+/** \dir examples/Trisector
+  
+   \brief Angle trisector.
+    
+
+   <center>
+   <img src="../images/Trisector/trisector.jpg">
+
+    <a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a><br>
+   </center>
+   
+   <h2><a name="intro">Introduction</a></h2>
+
+   <a href="http://mathworld.wolfram.com/AngleTrisection.html">Angle trisection</a> 
+   is the division of an arbitrary angle into three equal angles. 
+   It was one of the three geometric problems of antiquity for which solutions 
+   using only compass and straightedge were sought. The problem was algebraically 
+   proved impossible by Wantzel in 1836.
+
+   A variety of mechanisms have been devised for the solution of the trisection 
+   problem. Some of these mechanisms draw  the curves that aid in the solution of
+   the Trisection equation; others solve the equation directly, or are applicable
+   to the immediate division of the angle into three equal parts. An example of the
+   latter sort is "Laisant's Compass", shown in the figure above. It was proposed 
+   by M. Laisant in 1875 <a href="#brocard1875">[Brocard 1875]</a>, and is composed 
+   of four straight bars hinged together at one point and forced to make equal angles 
+   with each other. See <a href="#yates1941">[Yates 1941]</a> for an interesting review
+   of the trisection problem.
+
+   The benchmark is chosen to illustrate  \b cuik's performance on problems that
+   are unsolvable by ruler-and-compass solvers. While it is true this linkage 
+   <a href="http://www.jimloy.com/cindy/trisect1.htm" target="_top">can be 
+   simulated with dynamic geometry software like Cinderella</a> or Sketchpad, 
+   the resulting construction can only solve the reverse problem, angle triplication, 
+   and cannot sistematically trace all branches of the
+   linkage motion.
+
+   <h2><a name="geom">Geometry<a></h2>
+ 
+  The lengths are chosen so that <i>OB = OC</i>, <i>CS' = BS'</i>, <i>OD = OA</i>, and <i>AS = DS</i>, 
+  with <i>S</i> and <i>S'</i> as joints permitted to slide in straight grooves along the two trisecting bars. The triangles <i>OBS'</i>, <i>ODS'</i> and <i>OAS</i> are
+  congruent with equal angles at <i>O</i>. The bars <i>OS'</i> and <i>OS</i> are extended beyond <i>O</i> so that the third part can be set off upon the same arc. 
+
+   The particular trisector we use has the folowing sizes:
+      - \e OA = \e OB = \e OC = \e OD = \e AS = \e DS = \e BS' = \e CS' = 2.3
+      .
+
+   <h2><a name="process">Process</a></h2>
+
+    The instructions on how to process the examples are given in each
+    separate file:
+
+    - \ref Trisector_fixed.world Gives a formulation where the input angle is fixed. With this the solution space of the linkage becomes
+      0-dimensional.
+    - \ref Trisector.world Is a formulation that yields a 1-dof solution set since the input angle is let free.
+    .
+      
+
+    <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <td> </td>
+      <td  align="center">Fixed</td>
+      <td  align="center">Mobile</td>
+    </tr>
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center">4</td>
+      <td  align="center">4</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center">10</td>
+      <td  align="center">10</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center">9</td>
+      <td  align="center">9</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">14</td>
+      <td  align="center">15</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center">14</td>
+      <td  align="center">16</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <td> </td>
+      <td  align="center">Fixed</td>
+      <td  align="center">Mobile</td>
+    </tr>	
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center">0</td>
+      <td  align="center">4</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center">1</td>
+      <td  align="center">353</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center">0.2</td>
+      <td  align="center">27</td>
+    </tr>
+    </table>
+    </center>
+
+
+    <h2><a name="res">Results</a></h2>
+
+    This is the valid configuration for the problem with the input angle fixed:
+
+    <center><img src="../images/Trisector/trisector_fixed.png"></center>
+
+    This is the configuration space for the problem when the input angle is free
+
+    <center><img src="../images/Trisector/trisector_cs.png"></center>
+
+    And here you have an <a href="../videos/trisector.mov">animation</a>  of part of this configuration space.
+
+   <h2><a name="refs">References</a></h2>
+ 
+   - <a name="yates1941"> R.C. Yates</a>, <a href="http://www-iri.upc.es/groups/gmr/cuikweb/Trisector/yates1941.pdf">"The Trisection Problem"</a>,<i> National Mathematics Magazine</i>,  Vol. 15, No. 6, pp. 278-293, 1941.
+   - <a name="brocard1875"> H. Brocard</a>, <a href="http://www.numdam.org/numdam-bin/fitem?id=BSMF_1875__3__47_0">, "Note sur un compas trisecteur proposé par M. Laisant"</a>, <i>Bulletin de la S.M.F.</i>, tome 3, p. 47-48, 1875.
+   .
+
+*/

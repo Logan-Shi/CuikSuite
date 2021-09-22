@@ -1,0 +1,42 @@
+/** \cond */
+[LINKS]
+
+  ground: body "bodies/plane.off" color (0.9,0.9,0.9)
+
+  link: box (0,-0.25,-0.25)+(0.05,0.5,0.5) color (0.9,0.1,0.1)
+
+[JOINTS]
+
+  SPH_SPH leg : ground (0,0,0) % Attach point of the leg on 'ground' 
+                link   (0,0,0) % Attach point of the leg on 'link'
+		length 1       % Length of the leg
+		radius 0.025     % Radius of the cylinder represenging the leg
+		% color
+		% granularity
+		% shape status
+            
+
+/** \endcond */
+
+/** \file sph_sph.world
+
+    \brief Example of how to set up a spherical-spherical joint.
+
+    <center>
+    <img src="../images/SingleJoint/sph_sph.png">
+    </center>
+
+    Example of how to set up a spherical-spherical joint.
+
+    This example can be processed following the next steps:
+       - <i> \ref cuikequations.c "bin/cuikequations" examples/SingleJoint/sph_sph </i>
+       .
+    
+    You can also interactively explore the solution set executing:
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/SingleJoint/sph_sph </i>
+      .
+
+    Use the sliders in the graphical interface to move the leg.
+
+    \sa in_patch.world, revolute.world, universal.world, prismatic.world sph_prs_shp.world
+*/

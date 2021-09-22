@@ -1,0 +1,24 @@
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src/CuikBase/include)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src/CuikPlot3d/include)
+
+ADD_LIBRARY(cuikplot-common SHARED plot3d.c color.c)
+SET_TARGET_PROPERTIES(cuikplot-common PROPERTIES VERSION ${VERSION_STRING} SOVERSION ${VERSION_MAJOR}) 
+SET_TARGET_PROPERTIES(cuikplot-common PROPERTIES MACOSX_RPATH TRUE)
+
+
+TARGET_LINK_LIBRARIES(cuikplot-common cuik-common)
+
+ADD_EXECUTABLE(cuikplot3d cuikplot3d.c)
+
+TARGET_LINK_LIBRARIES(cuikplot3d cuik-common)
+TARGET_LINK_LIBRARIES(cuikplot3d cuikplot-common)
+TARGET_LINK_LIBRARIES(cuikplot3d m)
+
+FILE(GLOB includes "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+INSTALL(FILES ${includes} DESTINATION include/CuikSuite)
+
+INSTALL(TARGETS cuikplot-common cuikplot3d
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)

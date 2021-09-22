@@ -1,0 +1,126 @@
+/** \dir examples/Checkers
+
+   \brief The Checkers family of deployable mechanisms.
+
+   <center>
+   <img src="../images/Checkers/checkers3x3_4.gif">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a><a href="#geom">[Geometry]</a><a href="#forms">[Formulations]</a><a href="#stats">[Statistics]</a><a href="#refs">[References]</a></center>
+
+   <h2><a name="intro">Introduction</a></h2>
+
+   This series of linkages belongs to the family of 
+   <a href="http://mathworld.wolfram.com/HingedTessellation.html" target="_top">
+   <i>hinged tesselations</i></a>.
+   It illustrates the solver on simulating large deployable mechanisms. The tesselation 
+   shown above 
+   deploys with a one degree of freedom self-motion, and can actually 
+   be folded  to occupy a single square.
+
+   <h2><a name="geom">Geometry<a></h2>
+
+   Each linkage consists of <i>n x n</i> (with n uneven) square bodies hinged together 
+   at their corners by means of revolute joints to form a regular checkers pattern. 
+
+   <h2><a name="forms">Formulations</a></h2>
+
+   This directory includes the following \e Checkers mechanisms: 
+     - \ref Checker3.world "Checker3" A deployable checker with 3 squares. 
+     - \ref Checker5.world "Checker5" A deployable checker with 5 squares.  
+     - \ref Checker7.world "Checker7" A deployable checker with 7 squares.  
+     - \ref Checker9.world "Checker9" A deployable checker with 9 squares.  
+     .
+
+   Check each file for detailed instructions about how to solve them. 
+
+   <h2><a name="stats">Statistics</a></h2>
+   
+    Characteristics of the problems:
+   <center>
+   <table border="1">
+   <tr>
+    <td></td>
+    <td  align="center">3x3</td>
+    <td  align="center">5x5</td>
+    <td  align="center">7x7</td>
+    <td  align="center">9x9</td>
+   </tr>
+   <tr>
+    <th>Nr. of loops</th>
+    <td  align="center">4</td>
+    <td  align="center">16</td>
+    <td  align="center">36</td>
+    <td  align="center">64</td>
+   </tr>
+   <tr>
+    <th>Nr. of links</th>
+    <td  align="center">9</td>
+    <td  align="center">25</td>
+    <td  align="center">49</td>
+    <td  align="center">81</td>
+   </tr>
+   <tr>
+    <th>Nr. of joints</th>
+    <td  align="center">12</td>
+    <td  align="center">40</td>
+    <td  align="center">84</td>
+    <td  align="center">144</td>
+   </tr>
+   <tr>
+    <th>Nr. of equations (in the simplified system)</th>
+    <td  align="center">16</td>
+    <td  align="center">56</td>
+    <td  align="center">120</td>
+    <td  align="center">208</td>
+   </tr>
+   <tr>
+    <th>Nr. of variables (in the simplified system)</th>
+    <td  align="center">16</td>
+    <td  align="center">48</td>
+    <td  align="center">72</td>
+    <td  align="center">160</td>
+   </tr>
+   </table>
+   </center>
+ 
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+   <center>
+   <table border="1">
+   <tr>
+    <td  align="center"></td>
+    <td  align="center">3x3</td>
+    <td  align="center">5x5</td>
+    <td  align="center">7x7</td>
+    <td  align="center">9x9</td>
+   </tr>
+   <tr>
+    <th>Nr. of empty boxes</th>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+    <td  align="center">0</td>
+   </tr>
+   <tr>
+    <th>Nr. of solution boxes</th>
+    <td  align="center">802</td>
+    <td  align="center">798</td>
+    <td  align="center">801</td>
+    <td  align="center">789</td>
+   </tr>
+   <tr>
+    <th>Solver time (s)</th>
+    <td  align="center">11</td>
+    <td  align="center">65</td>
+    <td  align="center">240</td>
+    <td  align="center">721</td>
+   </tr>
+   </table>
+   </center>
+
+   <h2><a name="refs">References</a></h2>
+
+   - D. Wells, <i>The Penguin Dictionary of Curious and Interesting Geometry</i>, London, Penguin, pp. 101-103, 1991.
+   .
+
+*/

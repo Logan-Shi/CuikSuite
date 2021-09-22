@@ -1,0 +1,66 @@
+
+%%%%                      PARAMETERS                          %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON= 1e-6
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% joint-based representation
+
+% GBF
+% R = 0.2
+% SR = 0.3 
+% E = 0.1
+% CE = 0.1
+
+% RRT
+R = 1.0
+SR = 1.1
+E = 0.1
+CE = 0.1
+
+%------------------------------
+% non-joint representation 
+
+% WAFR
+% R = 0.4
+% SR = 0.6
+% E = 0.1
+
+% IJRR/ICRA
+% R = 1.5
+% SR = 2.25 
+% E = 0.5
+
+% ISRR
+% R = 0.75
+% SR = 1.2
+% E = 0.5
+% CE = 0.5
+
+% TRO
+% R = 3
+% SR = 4.5
+% E = 0.9
+% CE = 0.5
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+BETA = 1.1
+
+N_DOF = 5
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

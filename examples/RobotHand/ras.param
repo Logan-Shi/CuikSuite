@@ -1,0 +1,44 @@
+%% Parameters for the robot hand example
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% path planning parameters
+%------------------------------
+% joint-based representation
+
+R = 0.4
+SR = 1.0
+E = 0.1
+CE = 0.1
+
+GAMMA = 2.5
+MAX_PLANNING_ITERATIONS = 10001
+MAX_PLANNING_TIME = 36000
+MAX_CHARTS = 250000
+
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+BETA = 1.1
+
+N_DOF = 5
+
+DETECT_BIFURCATIONS = 0
+
+BI_RRT = TRUE
+RRT_GRAPH = TRUE
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

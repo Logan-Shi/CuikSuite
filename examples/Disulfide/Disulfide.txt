@@ -1,0 +1,131 @@
+/** \dir examples/Disulfide
+
+    \brief A disulfide bond.
+
+
+   <center>
+   <img src="../images/Disulfide/disulfide.jpg">
+   </center>
+
+    <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+
+   <h2><a name="intro">Introduction</a></h2> 
+
+     In chemistry, a disulfide bond is a single covalent bond derived from the coupling of thiol groups. 
+     The linkage is also called an SS-bond or disulfide bridge. The overall connectivity is therefore C-S-S-C.
+     The terminology is almost exclusively used in biochemistry and bioorganic chemistry. Formally the connection is called a 
+     persulfide, in analogy to a peroxide (R-O-O-R), but this terminology is rare.
+
+     Disulfide bonds play an important role in the folding and stability of some proteins, usually proteins secreted to the 
+     extracellular medium. In that context, disulfide bonds are C-S-S-C bridges connecting two atom pairs in the protein backbone,
+     a N-C pair, and a C-C pair, and a common problem is to determine the set of possible conformations of the whole chain, N-C-C-S-S-C-C-C, 
+     assuming the N-C and C-C terminii have a fixed, known position in 3-space. In the language of robot kinematics, and assuming the 
+     so-called rigid-geometry hypothesis, this problem is equivalent to the position analysis of a \ref examples/Serial6R "6R loop".
+
+   <h2><a name="geom">Geometry</a></h2>
+ 
+     Next figure depicts the distance model a disulfide bond. The model fixes the same 
+     atom-atom distances as the one in <a href="#wedemeyer1999">[Wedemeyer and Scheraga 1999]</a>. 
+     It is assumed that the 3D coordinates of \f$N_{A}\f$,\f$C_A^\alpha\f$, \f$C_B^\alpha\f$, 
+     \f$C_{B}\f$ are held fixed, while the positions   
+     of the four other atoms remain to be determined. All torsion angles are to be determined 
+     too, except \f$\Omega\f$ which is fixed to 90 degrees and determines the distance between the 
+     two \f$C^{\beta}\f$ atoms.
+
+    <center>
+    <img src="../images/Disulfide/disulfide_model.png">
+    </center>
+ 
+    <h2><a name="process">Process</a></h2>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Disulfide/Disulfide </i>
+             .
+     - <b>Simplify the problem</b>: To see the problem that is actually solved. Execute
+             - <i> \ref cuik.c "bin/cuiksimplify" examples/Disulfide/Disulfide</i>
+             - <i> cat examples/Disulfide/Disulfide_simp.cuik </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Disulfide/Disulfide </i>
+             .
+     - <b>Visualize the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Disulfide/Disulfide examples/Disulfide/Disulfide</i>
+             .
+     .
+
+    <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center">1</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">17</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center">17</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">	
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center">82</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center">8</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center">5</td>
+    </tr>
+    </table>
+    </center>
+
+    <h2><a name="res">Results</a></h2>
+
+    Here you have the 8 solutions you should obtain.
+    <center>
+    <table width="400">
+    <tr> 
+       <td><img src="../images/Disulfide/d1.png" width="100"></td>
+       <td><img src="../images/Disulfide/d2.png" width="100"></td>
+       <td><img src="../images/Disulfide/d3.png" width="100"></td>
+       <td><img src="../images/Disulfide/d4.png" width="100"></td>
+    </tr>
+    <tr>
+      <td><img src="../images/Disulfide/d5.png" width="100"></td>
+      <td><img src="../images/Disulfide/d6.png" width="100"></td>
+      <td><img src="../images/Disulfide/d7.png" width="100"></td>
+      <td><img src="../images/Disulfide/d8.png" width="100"></td>
+     </tr>
+    </table>
+    </center>
+
+   <h2><a name="refs">References</a></h2>
+
+    - <a name="wedemeyer1999">W. Wedemeyer</a> and H. Scheraga, "Exact Analytical Loop Closure in Proteins Using Polynomial Equations", <i>Journal of Computational Chemistry</i>, Vol. 20, No. 8, pp. 819-844, 1999.
+    .
+*/

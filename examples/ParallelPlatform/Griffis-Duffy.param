@@ -1,0 +1,33 @@
+%%%%                      PARAMETERS                          %%%%
+
+REPRESENTATION = LINKS
+
+EPSILON = 1e-6
+
+RHO = 0.95
+
+SIGMA = 0.05
+SMALL_SIGMA = 1e-4
+
+DUMMIFY = 1
+
+LR2TM_Q=0.1
+LR2TM_S=0.1
+
+SIMPLIFICATION_LEVEL=2
+
+% To generate the atlas
+
+% R = 0.25
+% SR = 1.2
+% E = 0.1
+% CE = 0.1
+
+% DELTA = 0.05
+
+% N_DOF = 2
+
+% DETECT_BIFURCATIONS = 0
+
+% MAX_NEWTON_ITERATIONS = 50
+

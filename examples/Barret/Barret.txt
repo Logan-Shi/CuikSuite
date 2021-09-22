@@ -1,0 +1,18 @@
+/** \dir examples/Barret
+
+   \brief The Barret arm and hand.
+
+   <center>
+   <img src="../images/Barret/barret.jpg">
+   </center>
+
+   The <a href="http://www.barrett.com/robot/index.htm">Barrett</a> arm and hand and a path. 
+
+   For details of the experiments we performed with this robot see:
+      - \ref BarretArm.world The Barrett arm in open loop.
+      - \ref BarretArm-Maze.world The Barrett arm holding a stick and moving it in a plannar maze.
+      - \ref BarretArm-Maze-FixRot.world A variant of \ref BarretArm-Maze.world where the hand can not rotate about the stick.
+      - \ref BarretArm-SimpleMaze-FixRot.world A variant of \ref  BarretArm-Maze-FixRot.world with a simple maze.
+      .
+
+*/

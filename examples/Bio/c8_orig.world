@@ -1,0 +1,220 @@
+/** \cond */
+
+% Note that this world is not the one generated from a pdb and, thus
+% it is not liable to be used with the cuikbio tools.
+% This pdb is used to generate samples strictly fulfill the rigid
+% geometry assumption (atom coordiantes in the pdb typically do
+% not fullfil this assumption). This sample is latter used
+% to generate atom coordiantes (with cuikatoms) to replace
+% those in the pdb during the process to generate a world
+% "syncronized" with the pdb (using cuikbio)
+
+[CONSTANTS]
+
+% in MMFF94 C is 20 and H is 5 (for this case)
+
+% reference bond lenghts
+CHb:=1.093
+CCb:=1.526
+
+% reference angles
+% MMFF94 defines two references values for CCC angle
+% the first one seems better (using 90 deg for the CCC
+% angle produces extrange cyclooctane configurations
+CCCa:=108.644*pi/180.0
+% CCCa:=90.294*pi/180.0
+
+% MMFF94 uses 113.94 as a reference for HCC angle
+% but 109.77 adjusts better the HCH angle (otherwise
+% the HCH angle is about 91 which is quite different
+% from the reference (109.107). Something in
+% betwen 109 and 113 (110.02) produces less combined error.
+% HCCa:=113.94*pi/180.0
+HCCa:=110.02*pi/180.0
+% HCCa:=109.77*pi/180
+
+HCHa:=109.107*pi/180.0
+
+CC2x:=CCb*cos(CCCa)
+CC2y:=CCb*sin(CCCa)
+
+% distance of non-bonded C-H (with a C in between them)
+% cosine rule
+CHb2:=sqrt(CCb^2+CHb^2-2*CCb*CHb*cos(HCCa))
+
+% The positions of H are determined intersecting 3 spheres
+% One with radius CHb at (0,0,0)
+% Two with radious CHb2 at (CCb,0,0) and (CC2x,CC2y,0)
+Hx:=(CHb^2-CHb2^2+CCb^2)/(2*CCb)
+Hy:=((Hx-CC2x)^2-(Hx-CCb)^2+CC2y^2)/(2*CC2y)
+Hz:=sqrt(CHb^2-Hx^2-Hy^2)
+
+% Reduction over the Van der Waals radious
+VdWRatio:=0.7
+
+% Radious of the spheres representing atoms
+rC:=1.7*VdWRatio
+rH:=1.1*VdWRatio
+
+% Radious of the cylinders representing bonds
+rCC:=0.15
+rCH:=0.15
+
+% Colors for the atoms
+Cr:=0.2
+Cg:=0.6
+Cb:=0.6
+
+Hr:=1
+Hg:=1
+Hb:=1
+
+[LINKS]
+
+C1 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C2 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C3 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C4 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C5 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C6 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C7 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C8 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+[JOINTS]
+
+% We define the revolute joints trying to use as much zeros as possible
+% in the two first points of the two axes in local coordinates. This produces
+% simpler equation sets.
+revolute: C1 (CCb,0,0) (0,0,0) 
+          C2 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C2 (CCb,0,0) (0,0,0) 
+          C3 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C3 (CCb,0,0) (0,0,0) 
+          C4 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C4 (CCb,0,0) (0,0,0) 
+          C5 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C5 (CCb,0,0) (0,0,0) 
+          C6 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C6 (CCb,0,0) (0,0,0) 
+          C7 (0,0,0) (CC2x,CC2y,0)
+
+revolute: C7 (CCb,0,0) (0,0,0) 
+          C8 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C8 (CCb,0,0) (0,0,0) 
+          C1 (0,0,0) (CC2x,CC2y,0) 
+
+
+[COLLISIONS]
+
+check:all
+
+/*
+do not check: all
+
+check : C1,C4
+check : C1,C5
+check : C1,C6
+
+check : C2,C5
+check : C2,C6
+check : C2,C7
+
+check : C3,C6
+check : C3,C7
+check : C3,C8
+
+check : C4,C7
+check : C4,C8
+
+check : C5,C8
+*/
+
+/** \endcond */
+
+/** \file c8_orig.world
+    
+    \brief The cyclooctane.
+
+    <center>
+    <img src="../images/Cycloalkanes/cyclooctane.jpg">
+    </center>
+
+   The cyclooctane. One of the two molecules used to test the CuikSuite-OpenBabel interface.
+*/

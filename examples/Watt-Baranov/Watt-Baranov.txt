@@ -1,0 +1,72 @@
+/** \dir examples/Watt-Baranov
+
+    \brief A 13-link Watt-Baranow truss.
+
+   <center>
+   <img src="../images/Watt-Baranov/Watt-Baranov.png">
+   </center>
+
+
+    A 13-link Watt-Baranov truss taken from <a href="http://www.iri.upc.edu/thesis/show/49">Nico's thesis</a>.
+    Note that in this example only the kinematic constraints are considered (i.e., selfcollisions are not taken into account).
+    
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">6</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">13</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints</th>
+     <td  align="center">18</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 24 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 24 </td>
+    </tr>
+    </table>
+    </center>
+ 
+
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Watt-Baranov/Watt-Baranov </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Watt-Baranov/Watt-Baranov </i>
+             .
+     - <b>Examine the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Watt-Baranov/Watt-Baranov examples/Watt-Baranov/Watt-Baranov </i>
+             .
+     .
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 1660  </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 76 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 30  </td>
+    </tr>
+    </table>
+    </center>
+
+*/

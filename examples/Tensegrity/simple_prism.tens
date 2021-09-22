@@ -1,0 +1,138 @@
+/** \cond */
+[CONSTANTS]
+
+  % length, stiffness, and force of the struts (stiffness is negative for struts)
+  ls :=  sqrt(2)
+  ss := -sqrt(3)
+  fs := ls*ss
+  max_fs := 2*fs
+
+  % nominal length, maximal length, stiffness, and rest of the cables in the base and in the platform
+  lc1 := 0.896575472168053 
+  max_cl1 := 2*lc1
+  sc1 := 0.175494628703572
+  
+  % nominal length, maximal length, stiffness and rest of the cables connecting the base and the platform
+  lc2 := 1.035276180410085
+  max_cl2 := 2*lc2 
+  sc2 := 0.303965613370022
+
+  % min cable length
+  min_cl := 0.01
+  
+[STRUCTURE]
+
+  strut s1 : n1 n2
+             length ls
+	     force [max_fs,0]
+	  
+  strut s2 : n3 n4
+             length ls
+	     force [max_fs,0]
+	  
+  strut s3 : n5 n6
+             length ls
+	     force [max_fs,0]
+
+  spring c1 : n1 n3
+              length [min_cl,max_cl1]
+              stiffness sc1
+	  
+  spring c2 : n3 n5
+              length [min_cl,max_cl1]
+              stiffness sc1
+	  
+  spring c3 : n1 n5
+              length [min_cl,max_cl1]
+              stiffness sc1
+	  
+  spring c4 : n2 n4
+              length [min_cl,max_cl1]
+              stiffness sc1
+	  
+  spring c5 : n4 n6
+              length [min_cl,max_cl1]
+              stiffness sc1
+	  
+  spring c6 : n2 n6
+              length [min_cl,max_cl1]
+              stiffness sc1
+	  	  
+  spring c7 : n1 n6
+              length [min_cl,max_cl2]
+              stiffness sc2
+	  
+  spring c8 : n2 n3
+              length [min_cl,max_cl2]
+              stiffness sc2
+	  
+  spring c9 : n4 n5
+              length [min_cl,max_cl2]
+              stiffness sc2
+
+[FIXED POINTS]
+
+  % Fix the position of some links 
+  n1(x)=0 % n1 is already (0,0,0) but anyway...
+  n1(y)=0
+  n1(z)=0
+
+  n3(y)=0
+  n3(z)=0
+  
+  n5(z)=0
+
+[OBSTACLES]
+
+  plane: box (-1,-1,-0.05)+(3,3,0.025) green
+
+[COLLISIONS]
+
+  do not check: all
+
+/** \endcond */
+
+/** \file simple_prism.tens
+
+   \brief First tensegrity example.
+
+   <center>
+   <img src="../images/Tensegrity/simple_prism.png">
+   </center>
+   
+   This file defines
+   the the simplest possible 3d-tensegity with 3 struts and 9 springs.
+   The file can be used as a starting point to define more complex
+   structures.
+
+   Probably the simplest way to manipulate this file is to execute
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/Tensegrity/simple_prism
+      .
+      
+   This application allows to select the different variables of the structure
+   and to increase/decrease them. The structure ajusts accordingly. Please note
+   that both the kinematic and force equations are taken into account
+   for this ajustment. So all the configurations are in equilibrium.
+  
+   The equilibrium manifold for this structure is bi-dimensional. So
+   we can easily plot it.
+   Execute
+      - \ref cuikatlas.c "bin/cuikatlas" examples/Tensegrity/simple_prism
+      - \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Tensegrity/simple_prism  1 33 54
+      - geomview examples/Tensegrity/simple_prism_atlas.gcl
+      .
+   To visualize such manifold. The first command generates a full atlas of
+   the equilibrium manifold departing from the point stored in the
+   \e simple_prism.links file. The second projects this manifold to three of the
+   problem variables (1, 33, and 54) and the last command visualizes the result.
+
+   Observe that due to the symmetry of this problem (all elements have the
+   same parameters) and due to the normalization of the forces, the
+   potential energy is the same all over the equilibrium manifold.
+   This can be easily check executing
+       - \ref cuikatlascenters.c "bin/cuikatlascenters" examples/Tensegrity/simple_prism 
+       - \ref cuikenergy.c "bin/cuikenergy" examples/Tensegrity/simple_prism examples/Tensegrity/simple_prism_center
+       .
+   
+*/
+  

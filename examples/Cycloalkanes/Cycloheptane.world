@@ -1,0 +1,286 @@
+/** \cond */
+
+[CONSTANTS]
+
+% We define a reference frame attache to each C atom with the  
+% X axis along one of the C-C bonds and with the X-Y plane in
+% the planed defined by the two bonds coincident in the C.
+ 
+% All distances are in Amstrongs and all angles are in radiants
+
+% H-C bond length
+HCb:=1.09
+
+% H-C distance for C the neighbouring C of the C to which H
+% is connected
+HCb2:=2.151077
+
+% C-C bond length
+CCb:=1.526
+
+% Bond bending angle
+BBa:=1.9111
+
+% The firts CC bond is aligned with the X axis and has lenght CCb
+% The second is in the XY plane at position:
+CC2x:=CCb*cos(BBa)
+CC2y:=CCb*sin(BBa)
+
+% x-y-z position of one of the H w.r.t. a frame attached to the C
+% The second H is symmetrically placed (w.r.t. the X-Y plane).
+% This H is at (Hx,Hy,Hz) that is at the intersection of three circunferences
+%   Hx^2+Hy^2+Hz^2=HCb^2
+%   (Hx-CCb)^2+Hy^2+Hz^2=HCb2^2
+%   (Hx-CC2x)^2+(Hy-CC2y)^2+Hz^2=HCb2^2
+%
+Hx:=(HCb^2-HCb2^2+CCb^2)/(2*CCb)
+Hy:=((Hx-CC2x)^2-(Hx-CCb)^2+CC2y^2)/(2*CC2y)
+Hz:=sqrt(Hx^2+Hy^2)
+
+% Radious of the spheres representing atoms (75% Van der Waals radii)
+rC:=1.7*0.25
+rH:=1.2*0.25
+
+% Radious of the cylinders representing bonds
+rCC:=0.15
+rCH:=0.15
+
+% Colors for the atoms
+Cr:=0.2
+Cg:=0.6
+Cb:=0.6
+
+Hr:=1
+Hg:=1
+Hb:=1
+
+[LINKS]
+
+C1 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C2 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C3 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C4 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C5 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C6 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C7 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+[JOINTS]
+
+% We define the revolute joints trying to use as much zeros as possible
+% in the two first points of the two axes in local coordinates. This produces
+% simpler equation sets.
+revolute: C1 (CCb,0,0) (0,0,0) 
+          C2 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C2 (CCb,0,0) (0,0,0) 
+          C3 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C3 (CCb,0,0) (0,0,0) 
+          C4 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C4 (CCb,0,0) (0,0,0) 
+          C5 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C5 (CCb,0,0) (0,0,0) 
+          C6 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C6 (CCb,0,0) (0,0,0) 
+          C7 (0,0,0) (CC2x,CC2y,0)
+
+revolute: C7 (CCb,0,0) (0,0,0) 
+          C1 (0,0,0) (CC2x,CC2y,0) 
+
+
+/** \endcond */
+
+/** \file Cycloheptane.world
+    
+    \brief A \ref examples/Cycloalkanes "cycloalkane" with a 7 carbon loop.
+
+    <center>
+    <img src="../images/Cycloalkanes/cycloheptane.jpg">
+    </center>
+
+    <center><a href="#intro">[Introduction]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+    <h2><a name="intro">Introduction</a></h2> 
+    
+    <a href="http://en.wikipedia.org/wiki/Cycloheptane" target=_top> Cycloheptane</a> 
+    is a cycloalkane with the molecular formula C<sub>7</sub>H<sub>14</sub>. 
+    Cycloheptane is used as a nonpolar solvent for the chemical industry and as an 
+    intermediate in the manufacture of chemicals and pharmaceutical drugs. 
+
+    The purpose of this benchmark is to show how, using CUIK, one can compute 
+    the set of cycloheptane conformations that are compatible with its 
+    <i>rigid-geometry</i> model. This model assumes that all bond lengths  
+    and angles are kept fixed, and only the torsion angles can vary. Conformations 
+    that satisfy such constraints are among the most stable ones. 
+    In the robotics language, this is equivalent to finding the possible 
+    configurations of a 7R loop: the links are the carbon atoms, and the 
+    revolutes are the free torsions around each C-C bond. Given that the 
+    loop involves more than six bodies (atoms), it is mobile with one 
+    degree of freedom. As we will see, though, the loop can be assembled 
+    in two different ways, corresponding to the chair and boat (mobile)
+    conformations of this molecule.
+
+    The same benchmark is used in <a href="#crippen1992">[Crippen 1992]</a> 
+    to illustrate the performance of the linear-embedding technique 
+    on this problem and our results are in agreement with Crippen's. It is 
+    worth mentioning that, while our  technique is complete (it guarantees 
+    all solutions are found) Crippen's method relies on an initial grid 
+    sampling, and hence may fail to find all solutions if the grid is not 
+    fine enough. 
+
+    <h2><a name="process">Process</a></h2>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Cycloalkanes/Cycloheptane </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Cycloalkanes/Cycloheptane </i>
+             .
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/Cycloalkanes/Cycloheptane </i>
+             .
+     - <b>Animate the solutions (the chair and boat components)</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Cycloalkanes/Cycloheptane.world examples/Cycloalkanes/Cycloheptane_1</i>
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Cycloalkanes/Cycloheptane.world examples/Cycloalkanes/Cycloheptane_2</i>
+             .
+     - <b>Plot and visualize the configuration space</b> (you will see the two one-dimensional solution sets):
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Cycloalkanes/Cycloheptane 11 21 33 0 c7.gcl</i>
+	     -  <i> geomview c7.gcl</i>
+	     .
+     .
+
+    <h2><a name="st">Statistics</a></h2>
+
+
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">1</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">7</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints</th>
+     <td  align="center">7</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 13 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 14 </td>
+    </tr>
+    </table>
+    </center>
+ 
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 494 </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 377 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 60 </td>
+    </tr>
+    </table>
+    </center>
+
+    <h2><a name="res">Results</a></h2>
+
+    The following figure shows the output boxes returned by the
+    algorithm on the cycloheptane loop. The problem with 
+    \ref CT_SIGMA "SIGMA" set to 0.75, 0,25, and 0.05. The
+    initial stages  (i.e., the ones with larger \ref CT_SIGMA "SIGMA"
+    are shown in transparency).
+
+    <center>
+    <img src="../images/Cycloalkanes/c7_steps.png">
+    </center>
+
+    <h2><a name="refs">References</a></h2> 
+
+    - <a name="crippen1992">D. Crippen</a>, "Exploring the Conformational 
+      Space of Cycloalkanes by Linearized Embedding", Journal of Computational 
+      Chemistry, vol. 13, no. 3, pp. 351-361, 1992.
+    .
+
+*/

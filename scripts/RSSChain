@@ -1,0 +1,64 @@
+#!/bin/tcsh
+
+if ($#argv < 2) then
+  printf "  Script to use on-line move mechanisms\n"
+  printf "  Usage:\n" 
+  printf "        RSSChain <world file> <num eigens> \n"
+  printf "    where\n" 
+  printf "      <world file> is the hand-object system to optimize\n"
+  printf "                   WITHOUT the .world extension.\n"
+  printf "      <num eigens> is the number of eigen equations to use.\n"
+else
+  #
+  # This should be used after using cuikmove to generate the initial
+  # grasp and the associated files generated when pressing "Save"
+  #
+  # We assume the script is executed from the main CuikSuite directory
+
+  # Generate the kinematic equations
+  bin/cuikequations $1
+
+  # Generate the contact variables and equations
+  #
+  matlab -nodesktop -nosplash -nojvm -r "addpath examples/RSS11Hand/matlab;GenerateContactEquations" 
+
+  # Merge the kinematic and contact equations
+  bin/cuikmerge _contact $1_kin.cuik $1_contact_*.cuik
+
+  # Merge the kinematic solution file with the contact ones
+  bin/cuikmergeboxes _contact $1_kin.sol $1_contact_*.sol
+  
+  # Refine the solution to get a sample
+  bin/cuiknewton $1_kin_contact
+  cp $1_kin_contact_newton_simp.sol $1_kin_contact_simp.sol
+
+  # Simplify the system
+  bin/cuiksimplify $1_kin_contact
+
+  # Refine the simplified system
+  bin/cuiknewton $1_kin_contact_simp
+  grep -v "*" $1_kin_contact_simp_newton.links > $1_kin_contact_simp.links
+
+
+  # Generate the eigengrasps
+  bin/cuikdof2samples $1 examples/RSS11Hand/matlab/hand_motions.dof
+  matlab -nodesktop -nosplash -nojvm -r "addpath examples/RSS11Hand/matlab;GenerateEigenEquations('$1',$2)" 
+  
+  # Merge with eigens
+  bin/cuikmerge _with_eigens $1_kin_contact_simp.cuik $1_kin_contact_simp_eigens.cuik
+  cp $1_kin_contact_simp.links $1_kin_contact_simp_with_eigens.links
+
+  # Generate the atlas
+  bin/cuikatlas $1_kin_contact_simp_with_eigens
+
+  # Extract the centers (in the form of boxes)
+  bin/cuikatlascenters $1_kin_contact_simp_with_eigens
+
+  # Unsimplify
+  bin/cuikunsimplify $1_kin_contact_simp_with_eigen $1_kin_contact
+
+  # Evaluate the manipulability
+  # (maybe generate the axis?) 
+
+  
+endif

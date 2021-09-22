@@ -1,0 +1,80 @@
+/** \dir examples/Tensegrity/Formfinding
+
+    \brief The CuikSuite form-finding procedures.
+
+    The CuikSuite includes several form-finding procedures. They are implemented as
+    MatLab scripts and they used
+    to generate tensegrity descriptions (i.e. .tens files) and tensegrity configurations (i.e., .links files)
+    that can be processed by the CuikSuite applications.
+
+    We provide a common interface to different form-finding methods:
+
+       - The trivial method that generates configurations analysing the
+       	  kernel of the transposed rigidigy matrix. To apply this method you will need:
+	      - The coordinates of all the nodes in the structure (quite a strong assumption).
+	      .
+       - The method by <a href="#Williamson2003">[Williamson 2003]</a>. We include our own implementation of
+	  this method, so any problem with it can only be attributed to us.
+	  This method is based on linear algebra operations and requires
+	      - The topology of the structure.
+	      - The vectors defining the bars (they must span R3).
+	      - The stiffness constants of the strings.
+	      .
+       - The method by <a href="#GomezEstrada2006">[Gomez-Estrada 2006]</a>. We include the code taken from the
+	  <a href="https://sites.google.com/site/giovaniestrada">author's web</a> site. This method only needs
+	       - The topology of the structure.
+	       .
+       - The method by <a href="#Hernandez2008">[Hernandez 2008]</a>.
+	  This method is particularly well suited for path planning since it can take into account collisions and
+	  constraints on the poses of the structure elements. Therefore, it can generate collision-free configuations with
+	  particular properties, which is exactly what is needed to generate start/goal configurations for planning.
+	  The drawback is that this form-finding method is more difficult to set up. i.e., it is more difficult to
+	  define new problems. In particular this method requires:
+	       - The topology of the structure (.ten file)
+	       - A description of the function to optimize: active elements, fixed, nodes, etc (.cst file)
+	       - A description of the collisions to avoid (.env file) 
+	       - The parameters to used in the optimization (.col file)
+	       .
+	   See the folder Toolbox/Sergi folder for examples of these files. To accelerate this method some of the
+	   functions are in C and compiled with the MEX system to be used from Matlab. However, the generation
+	   of the C files from the configuration files and their compilation is transparent to the user, provided that
+	   the MEX system properly configured in your Matlab.
+       .
+
+   To get an idea of how to use these different form-finding procedures, please, have a look at the included
+   examples.
+   
+   The form-finding procedures are encapsulated in high level matlab functions with the name 'defineX.m'
+   with X the name of the problem.
+   To execute them open Matlab, move to this folder and type
+        - startup   % To set up the path
+	- T=defineX;  % for instance, T=defineKite;
+	.
+ 
+   This generates a tensegrity structure 'T' and also several files:
+       - X.tens The description of the tensegrity structure.
+       - X.links A valid configuration for the tensegrity structure.
+       - X.param A set of CuikSuite parameters
+       .
+       
+   Once they are generated, you can exeucte, for instance
+       - \ref cuikerror.c "bin/cuikerror" examples/Tensegrity/FormFinding/X
+       .
+   To evaluate the error in the solution stored in the X.links file.
+
+   Any other CuikSuite command can be applied to the generated files.
+
+   Typically the output files are very basic, but they can be used as a starting point to define
+   more complex problems: fixing some of the nodes, defining symmetries, etc.
+   If the modifications on the X.tens files is done carefully, the same X.links solution file
+   can be re-used. This is important since obtaning points on the equilibrium
+   manifold is not a trivial problem.
+
+  <b>References</b>
+
+    - <a name="GomezEstrada2006"><b>[Gomez-Estrada 2006]</b></a>  G. Gomez-Estrada, H.-J. Bungartz, and C. Mohrdieck.  <a href="http://dx.doi.org/10.1016/j.ijsolstr.2006.02.012">Numerical form-finding of tensegrity structures</a> International Journal of Solids and Structures  43(22-23):6855-6868, 2006.
+    - <a name="Hernandez2008"><b>[Hernandez-Juan 2008]</b></a>  S. Hernandez-Juan and J.M. Mirats-Tur <a href="http://dx.doi.org/10.1109/IROS.2008.4650881">A method to generate stable, collision free configurations for tensegrity based robots</a>. In: IEEE/RSJ International Conference on Intelligent Robots and Systems, pp. 3769-3774, 2008.
+    - <a name="Williamson2003"><b>[Williamson 2003]</b></a> D. Williamson, R. E. Skelton, J. Han <a href="http://dx.doi.org/10.1016/S0020-7683(03)00400-1">Equilibrium conditions of a tensegrity structure</a> International Journal of Solids and Structures 40 (23), 6347-6367, 2003.
+    .
+
+*/

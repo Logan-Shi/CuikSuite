@@ -1,0 +1,438 @@
+/*! \mainpage The CuikSuite Documentation
+
+  <center>
+  \ref main_intro "[Introduction]  " \ref installing "[Installation]  " \ref examples/Welding "[Tutorial]  "   \ref support "[Support]  "  \ref applications "[Applications]  "  \ref examples "[Benchmarks]  " \ref disclaimer "[Disclaimer]"
+  </center>
+
+  <br>
+  <br>
+
+  <center>
+
+  \htmlonly 
+
+       <div id="banner">
+         <div class="window">
+            <div class="image_reel">
+                <img src="../images/banner/b1.png" width= "800px" alt="Computing atlases of manifold" />
+                <img src="../images/banner/b2.png" width= "800px" alt="Exploring the conformational space of protein loops" />
+                <img src="../images/banner/b3.png" width= "800px" alt="Grasp optimization" />
+                <img src="../images/banner/b4.png" width= "800px" alt="Workspace and singularity computation" />
+                <img src="../images/banner/b5.png" width= "800px" alt="Path planning with service robots" />
+                <img src="../images/banner/b6.png" width= "800px" alt="Kinodynamic planning with parallel robots" />
+                <img src="../images/banner/b7.png" width= "800px" alt="Kinodynamic planning for robot arms" />
+            </div>
+          </div> <!--end of window-->
+          <noscript class="noscript_banner">
+         <p> You have disabled scripts in your browser or your browser doesn't support it!.  Alternative links to imag
+              [<a href="../images/banner/b1.png">   View image 1</a>],
+              [<a href="../images/banner/b2.png">   View image 2</a>],
+              [<a href="../images/banner/b3.png">   View image 3</a>],
+              [<a href="../images/banner/b4.png">   View image 4</a>],
+              [<a href="../images/banner/b5.png">   View image 5</a>],
+              [<a href="../images/banner/b6.png">   View image 6</a>],
+              [<a href="../images/banner/b7.png">   View image 5</a>] </p>
+          </noscript>
+            <div class="paging"> 
+                    <a href="#" rel="1" title="Computing atlases of manifold"></a>  
+                    <a href="#" rel="2" title="Exploring the conformational space of protein loops"></a>
+                    <a href="#" rel="3" title="Grasp optimization"></a>
+                    <a href="#" rel="4" title="Workspace and singularity computation"></a>
+                    <a href="#" rel="5" title="Path planning with service robots"></a>
+                    <a href="#" rel="6" title="Kinodynamic planning with parallel robots"></a>
+                    <a href="#" rel="7" title="Kinodynamic planning for robot arms"></a>
+            </div>
+          <div id="banner_text">
+           <p font-size:12px> The CuikSuite is a software toolbox for the motion analysis of general closed-chain multibody systems. </p>
+          </div><!--end of banner_text-->
+       </div><!--end of banner-->
+
+  \endhtmlonly 
+
+  </center>
+
+  \anchor main_intro
+  \section Introduction
+
+  <p>The \b CuikSuite is a set of applications to solve position analysis
+  and path planning problems with applications mainly to
+  <a href="https://en.wikipedia.org/wiki/Robotics">robotics</a>, but also
+  to <a href="https://en.wikipedia.org/wiki/Structural_biology">structural biology</a> and
+  to <a href="https://en.wikipedia.org/wiki/Tensegrity">tensegrity structures</a>.</p>
+
+  <p>The \b CuikSuite algorithms are specially adequate for systems with one of more 
+  kinematic loops and with a dimension of the configuration space (much) below the cardinality 
+  of the problem (i.e., when the number of independent degrees of freedom of the system is lower than
+  the number of variables describing the problem). Such systems are quite common in practice and specially
+  hard to deal with other position analysis/path planning systems.</p>
+
+  <p>Some of the applications where the \b CuikSuite can be useful are:</p>
+      - <b>Kinodynamic motion planning</b> with holonomic and dynamic constraints. See the new \ref examples "examples" for more details. \image{inline} html "new.gif" width=75px 
+      - <b>Path planning</b> for systems with arbitrary kinematic constraints.
+      - <b>Assymptotically optimal path planning</b> for kinematically constrained problems.
+      - <b>Grasp synthesis and optimization</b> for general hands and objects.
+      - <b>Motion analysis for tensegrity</b> structures.
+      - <b>Motion analysis for molecular</b> systems.
+      - <b>Position analysis</b> (including direct/inverse kinematics) of arbitrary systems.
+      - <b>Singularity analysis</b> of arbitrary robotic systems.
+      .
+      
+  <p>Some of the key features of the \b CuikSuite are::</p>
+      - Parallel implementation (multi-core) of <b>branch-and-bound techniques</b>.
+      - Implementation of <b>higher-dimensional continuation</b> techniques.
+      - <b>Generation of kinematic and dynamic</b> equations from high-level robot, molecular, and tensegrity descriptions.
+      - <b>Import models</b> from ROS (URDF files).
+      - <b>Comprehensive set of tools to manipulate robot models</b> and to visualize solution sets and trajectories.
+      .
+
+  <p>This <a href="http://www.iri.upc.edu/people/porta/Docs/ram14.pdf">RAM-14</a> paper gives 
+  a general description to the basic tools included in the \b CuikSuite. Further details on 
+  the techniques and application implemented in the \b CuikSuite can be found in our publications:</p>
+  
+   <p><b> Works using branch-and-prune techniques:</b></p>
+      -	Linear relaxation techniques: <a href="http://www.iri.upc.edu/people/porta/Docs/icra06.pdf">ICRA-06</a>, 
+        <a href="http://www.iri.upc.edu/people/porta/Docs/rss06.pdf">RSS-06</a>,
+        <a href="http://www.iri.upc.edu/people/porta/Docs/jme07.pdf">JMD-07</a>,
+        <a href="http://www.iri.upc.edu/people/porta/Docs/tro09.pdf">TRO-09</a>.
+      - Workspace determination: <a href="http://www.iri.upc.edu/people/ros/Separates/cl6-ark-2010-ws.pdf">ARK-10</a>,
+        <a href="http://www.iri.upc.edu/people/ros/Separates/sci-16-r14-tro-workspaces.pdf">TRO-12</a>,
+	<a href="http://www.iri.upc.edu/people/ros/Separates/sci-17-r15-asme-workspace-stewart.pdf">JMR-13</a>.
+      - Grasp synthesis: <a href="http://www.iri.upc.edu/people/porta/Docs/icra08.pdf">ICRA-08</a>, 
+        <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a>.
+      - Singularity computation and classification: <a href="http://www.iri.upc.edu/people/ros/Separates/icra12-2012-st-paul-minnesota-computation-singularities.pdf">ICRA-12</a>,
+        <a href="http://www.iri.upc.edu/people/ros/Separates/sci-19-r17-mmt-singularities.pdf">MMT-13</a>,
+	<a href="http://www.iri.upc.edu/people/ros/Separates/sci-21-r19-tro-sclass.pdf">TRO-14</a>.
+      .
+    
+   <p></p>
+
+   <p> <b> Works using higher-dimensional continuation techniques:</b></p>
+      - Planning with graph-based techniques: <a href="http://www.iri.upc.edu/people/porta/Docs/wafr10.pdf">WAFR-10</a>, 
+        <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr12.pdf">IJRR-12</a>.
+      - Grasp optimization: <a href="http://www.iri.upc.edu/people/porta/Docs/rss11.pdf">RSS-11</a>.
+      - Atlas-RRT: <a href="http://www.iri.upc.edu/people/porta/Docs/isrr11.pdf">ISRR-11</a>, 
+        <a href="http://www.iri.upc.edu/people/porta/Docs/tro13a.pdf">TRO-13a</a>.
+      - Asymptotically-optimal planning: <a href="http://www.iri.upc.edu/people/porta/Docs/rss12.pdf">RSS-12</a>, 
+        <a href="http://www.iri.upc.edu/people/porta/Docs/ras13.pdf">RAS-13</a>.
+      - Singularity-free plath planning: <a href="http://www.iri.upc.edu/people/porta/Docs/icra12a.pdf">ICRA-12</a>.
+      - Computation of singularity-free, force-feasible paths: <a href="http://www.iri.upc.edu/people/ros/Separates/cl7-ark-2012-sfree.pdf">ARK-12</a>.
+      - Wrench-feasible path planning: <a href="http://www.iri.upc.edu/people/ros/Separates/cl8-ccon-2012-wfeas.pdf">ICCPR-12</a>.
+      - Testing molecular conjectures: <a href="http://www.iri.upc.edu/people/porta/Docs/ck13a.pdf">CK-13</a>.
+      - Exploring molecular energy-landscapes: <a href="http://www.iri.upc.edu/people/porta/Docs/jcc13.pdf">JCC-13</a>.
+      - Path planning for tensegrity structures: <a href="http://www.iri.upc.edu/people/porta/Docs/ijss15.pdf">IJSS-16</a>.
+      - Path planning for cable-suspended robots: <a href="http://www.iri.upc.edu/people/porta/Docs/cc17.pdf">ICCPR-17</a>.
+      - Kinodynamic planning avoiding forward singularities: <a href="http://www.iri.upc.edu/people/porta/Docs/ark18b.pdf">ARK-18</a>.
+      - Singularity-robust control: <a href="http://www.iri.upc.edu/people/porta/Docs/iros18.pdf">IROS-18</a>.
+      - Kinodynamic planing with holonomic constraints: <a href="http://www.iri.upc.edu/people/porta/Docs/icra18b.pdf">ICRA-18</a>,
+            <a href="http://www.iri.upc.edu/people/porta/Docs/tro20b.pdf">TRO-20</a>.
+      .
+
+  <p></p>
+  
+  <p>Please, note that there is a previous version of the \b CuikSuite that only included
+  the branch-and-prune methods based on linear relaxations and was basically oriented
+  to position analysis. This former version was used to obtain the results of our 
+  <a href="http://www.iri.upc.edu/people/porta/Docs/tro09.pdf">TRO-09</a> paper. This
+  version can be downloaded from 
+  <a href="http://www.iri.upc.edu/people/porta/Soft/CuikSuite-Doc/html/index.html">here</a>.</p>
+
+  <p>The \b CuikSuite has been developed in the context of a series of projects mainly 
+  founded by the Spanish Goverment. For more information about this project, 
+  including publications that introduce the algorihtms implemented in
+  the \b CuikSuite see the 
+  <a href="http://www.iri.upc.edu/research/webprojects/cuikweb/cuikproject.php">project webpage</a>.</p>
+  
+  \anchor installing
+  \section Installation
+ 
+  \subsection License
+
+  <p>The \b CuikSuite has been developed by the <a href="http://www.iri.upc.edu/research/kinematics">KRD group at IRI</a> 
+  and is licensed under <a href="http://www.gnu.org/licenses/gpl-3.0.html">GPLv3 License</a>.</p>
+
+  \subsection vm For the impatient
+
+  <p>If you are only interested in testing whether or not the <b>CuikSuite</b> is adequate for your needs (and you
+  have a large bandwidth) you can download this 
+  <a href="http://www.iri.upc.edu/people/porta/Soft/CuikSuite3VM.ova">virtual machine</a> (2.6Gb) that can be 
+  imported to <a href="https://www.virtualbox.org/">VirtualBox</a>. The virtual machine has an Ubuntu linux 18.04 LTS (64 bits) with
+  <b>CuikSuite</b> and the support software already installed. The performance of the suite, however, is low due to the virtualization. </p> 
+
+  <p>The virtual machine has just one user (cuiksuite) whose password is the username.</p>
+ 
+  \subsection apt For the Ubuntu-addicted
+
+  <p>For convenience, we offer pre-compiled <a href="http://www.ubuntu.com/">Ubuntu</a> pacakges to install the \b CuikSuite via 
+  <a href="https://help.ubuntu.com/lts/serverguide/apt.html">apt</a>. Only packages for 64 bits
+  Ubuntu 20.04 LTS (Focal Fossa) are provided. We are sorry but we do not provide 32 bit packages.</p>
+
+  <p><b>IMPORTANT:</b> This binary distribution have been tested on a clean Ubuntu install. If you already installed
+  some optional packages or you changed the installation, then the installation may generate conflicts.</p>
+
+  <p>To use the pre-compile packages execute the folowing commands in a terminal.</p>
+
+  <p>First, get the key used to sign the packages:</p>
+      <kbd>gpg -\-keyserver keyserver.ubuntu.com -\-recv 17325767</kbd>
+      <br>
+      <kbd>gpg -\-export -\-armor 17325767 | sudo apt-key add -</kbd>
+
+  <p>Then, add the address of the CuikSuite package repository to your system:</p>
+      <kbd>sudo add-apt-repository 'deb [arch=amd64] http://www.iri.upc.edu/cuik/ubuntu focal main'</kbd>
+       
+  <p>Now, you can install the \b CuikSuite executing:</p>
+     <kbd>sudo apt update</kbd>
+     <br>
+     <kbd>sudo apt install cuiksuite geomview xfig tcsh</kbd>
+        
+  <p>That should be it!</p>
+
+  <p>If you follow this procedure to install the CuikSuite, you will not have the examples included in the source
+     distribution. You can directly download them from here: <a href="http://www.iri.upc.edu/cuik/examples.tar.gz">examples</a></p>
+
+  \subsection rest For the rest of the world
+
+  <p>The \b CuikSuite requires of the following libraries and packages:</p>
+         - <a href="http://gcc.gnu.org">g++</a> a C and C++ compiler. If using a mac, please install gcc via <a href="https://brew.sh">brew</a> and avoid clang.
+	 - <a href="https://developer.gnome.org/glib">glib</a>, the core library for applications written in C.
+         - <a href="http://www.cmake.org/">cmake</a> a cross-platform build system to generate the makefiles.
+	 - <a href="https://github.com/westes/flex">flex</a>, a lexical analyzer generator.
+	 - <a href="http://www.gnu.org/software/bison/">bison</a>, a general purpose parser generator.
+	 - The <a href="http://www.netlib.org/blas/">CBLAS</a> and <a href="http://www.netlib.org/clapack/">CLAPACK</a> 
+	   (or <a href="http://www.netlib.org/lapack/lapacke.html">LAPACKE</a>) numerical libraries.
+	 - The <a href="https://www.maths.uq.edu.au/expokit/">expokit</a> library to compute matrix exponentials. This requires a <a href="https://gcc.gnu.org/wiki/GFortran">fortran</a> compiler.
+         - <a href="http://www.coin-or.org/projects/Clp.xml">CLP</a>, a linear programming library.
+	 - A least one of the following collision detection libraries:
+            - <a href="http://www.dtecta.com/files/solid-3.5.6.tgz">Solid</a>. This is the \b preferred option.
+            - <a href="http://gamma.cs.unc.edu/V-COLLIDE">V-collide</a> (relies on <a href="http://gamma.cs.unc.edu/OBB">Rapid</a>).
+            - <a href="http://gamma.cs.unc.edu/SSV">PQP</a>.
+            - <a href="http://gamma.cs.unc.edu/FCL/fcl_docs/webpage/generated/index.html">FCL</a> (relies on <a href="http://libccd.danfis.cz">CCD</a>).
+            .
+         - The <a href="http://www.netlib.org/blas/">CBLAS</a> and <a href="http://www.netlib.org/clapack/">CLAPACK</a> 
+	   (or <a href="http://www.netlib.org/lapack/lapacke.html">LAPACKE</a>) numerical libraries.
+	 - The <a href="https://www.maths.uq.edu.au/expokit/">expokit</a> library to compute matrix exponentials. This requires a <a href="https://gcc.gnu.org/wiki/GFortran">fortran</a> compiler.
+	 - A MPI library. The recomended option is to use <a href="http://www.open-mpi.org">OpenMPI</a>.
+	   This is only necessary if you want to execute <b>cuik</b> in a multi-core environment.
+           If the library is not available the sources will be automatically compiled in single CPU mode.
+	 - The <a href="http://assimp.sourceforge.net/">assimp</a> library to read mesh files (tested with
+	   version 3.0.1270). If not available, only OFF and binary STL files will be accepted.
+         - A kd-tree nearest neighbour library. This is optional, but recommended. Two possible options are
+            - The <a href="http://www.iri.upc.edu/people/porta/Soft/cuik_kdtree1_0_3.tar.gz">Cuik-KDtree</a> library.
+            - Our modified version of the <a href="http://www.iri.upc.edu/people/porta/Docs/MPNN.tar.gz">MPNN</a> nearest-neighbour search.
+            .
+	 - <a href="http://openbabel.org/">OpenBabel</a> for the bio-chemistry applications. If not installed, the
+	   interface for molecular problems will not be compiled.
+	 - The <a href="http://www.iri.upc.edu/people/porta/Soft/RigidCLL.tar.gz">RigidCLL</a> collision detection library for molecular structures. Only necessary if
+	   the interface for molecular problems is required.
+	 - <a href="https://github.com/leethomason/tinyxml2">tinyxml2</a>, a library to parse xml files
+	 - <a href="https://www.gtk.org/">gtk</a>, a library to create graphical user interfaces. In particular, we use the following libraries: libatk, libgtk, and libgdk-pixbuf.
+	 - <b>Optional:</b> (but recommended)
+	    - <a href="http://www.xfig.org">xfig</a> to visualize some 2D output plots.
+	    - <a href="http://www.geomview.org">Geomview</a> to visualize 3D output plots. 
+	    - <a href="https://www.tcsh.org/">tcsh</a> for the scripts.
+	    - A MPI library. The recomended option is to use <a href="http://www.open-mpi.org">OpenMPI</a>.
+	      This is only necessary if you want to execute <b>cuik</b> in a multi-core environment.
+              If the library is not available the sources will be automatically compiled in single CPU mode.
+	    - The <a href="http://assimp.sourceforge.net/">assimp</a> library to read mesh files (tested with
+	      version 3.0.1270). If not available, only OFF and binary STL files will be accepted.
+            - A kd-tree nearest neighbour library. This is optional, but recommended. Two possible options are
+               - The <a href="http://www.iri.upc.edu/people/porta/Soft/cuik-kdtree1_0_3.tar.gz">Cuik-KDtree</a> library.
+               - Our modified version of the <a href="http://www.iri.upc.edu/people/porta/Docs/MPNN.tar.gz">MPNN</a> nearest-neighbour search.
+               .
+	    - <a href="http://openbabel.org/">OpenBabel</a> for the bio-chemistry applications. If not installed, the
+	      interface for molecular problems will not be compiled.
+	    - The <a href="http://www.iri.upc.edu/people/porta/Soft/RigidCLL.tar.gz">RigidCLL</a> collision detection library for molecular structures. Only necessary if
+	      the interface for molecular problems is required.
+	    - <a href="https://github.com/leethomason/tinyxml2">tinyxml2</a>, a library to parse xml files. Mainly used to import URDF files.
+	    - <A href="http://www.doxygen.org">doxygen</a> and 
+	      <A href="http://www.graphviz.org">graphviz</a>. Only required to generate the documentation.
+	    .
+	 .
+  
+  <p>Most of these dependencies can be easily installed in linux ubuntu and mac using the corresponding packages managers
+     (<a href="https://help.ubuntu.com/lts/serverguide/apt.html">apt</a> or <a href="https://brew.sh">brew</a>, respectively), 
+     without any need to download and compile them from source. </p>
+
+  <p>After installing the dependencies, we can install the \b CuikSuite. Download the package:</p>
+       <kbd>wget http://www.iri.upc.edu/people/porta/Soft/CuikSuite3.tar.gz</kbd>
+       <br>
+       <kbd>tar xzf CuikSuite3.tar.gz</kbd>
+       
+  <p>Instead of <em>wget</em> in Mac you can use <em>curl -O</em>.</p>
+
+  <p>Generate the makefiles</p>
+       <kbd>cd CuikSuite3/build</kbd>
+       <br>
+       <kbd>cmake ..</kbd>
+       
+
+  <p>cmake will complain if some of the pre-requisites are still missing. If everything is found, you can compile the 
+  package executing</p>
+       <kbd>make</kbd>
+       
+  <p>At this point the \b CuikSuite executables are available localy in the <em>bin</em> folder. 
+  If necessary, you can install them into the system executing</p>
+       <kbd>make install</kbd>
+       
+  <p>In this documentation we assume this last step is not executed and, thus, all executables are assumed to be in the <em>bin</em> folder.</p>
+  <br>
+  <p>Finally, to generate this documentation type</p>
+       <kbd>make doc</kbd>
+       
+  <p>The html documentation can be browsed from doc/html/index.html</p>
+
+  \anchor support
+  \section Support
+
+  <p>The \b CuikSuite is in continuous development and thus, we can offer a limited support to external users.</p>
+
+  <p>Please, send us an e-mail at <i>porta at iri.upc.edu</i> if you have any troubles installing or using the suite.</p>
+
+  <p>For general questions about this software, please check the \b CuikSuite \ref FAQ.doxygen "FAQ"</p>
+
+  \anchor applications
+  \section Applications
+
+  <p>The \b CuikSuite includes different applications. 
+  Follow the links below to get
+  information about the functionality of each one of them and the way to use them.
+  The main applications are:</p>
+      - \ref cuik.c "cuik"
+      - \ref cuikatlasrrt.c "cuikatlasrrt"
+      - \ref cuikatlasrrtstar.c "cuikatlasrrtstar"
+      - \ref cuikatlasGBF.c "cuikatlasGBF"
+      - \ref cuikatlasAstar.c "cuikatlasAstar"
+      - \ref cuikatlastrrt.c "cuikatlastrrt"
+      - \ref cuikatlas.c "cuikatlas"
+      .
+  <p>But the suite also includes many auxiliary applications:</p>
+      - To manipulate world files (mechanisms and obstacles)
+           - \ref cuikequations.c "cuikequations"
+           - \ref cuikdim.c "cuikdim"
+           - \ref cuikurdf2world.cpp "cuikurdf2world"
+           - \ref cuikmove.c "cuikmove"
+           - \ref cuikexplore.c "cuikexplore"
+           - \ref cuikplay.c "cuikplayer"
+           - \ref cuiktransform.c "cuiktransform"
+           - \ref cuikworld2world.c "cuikworld2world"
+           .
+      - To manipulate equation files
+           - \ref cuikmerge.c "cuikmerge"
+           - \ref cuiksimplify.c "cuiksimplify"
+           - \ref cuikTWS.c "cuikTWS"
+           - \ref cuikaddjacobian.c "cuikaddjacobian"
+           - \ref cuiksingequations.c "cuiksingequations"
+           .
+      - To generate valid configurations
+           - \ref cuiknewton.c "cuiknewton"
+           - \ref cuikgradient.c "cuikgradient"
+           .
+      - To solve planning and path optimization problems
+           - \ref cuikccrrt.c "cuikccrrt"
+           - \ref cuikcbirrt.c "cuikcbirrt"
+           - \ref cuikrrtstar.c "cuikrrtstar"
+           - \ref cuikcctrrt.c "cuikcctrrt"
+           - \ref cuikkinoest.c "cuikkinoest"
+           - \ref cuikkinorrt.c "cuikkinorrt"
+           - \ref cuiksmoothpath.c "cuiksmoothpath"
+           - \ref cuiksilhouette.c "cuiksilhouette"
+           .
+      - To manipulate output files
+           - \ref cuiksols2samples.c "cuiksols2samples"
+           - \ref cuiksamples2sols.c "cuiksamples2sols"
+           - \ref cuiklinks2joints.c "cuiklinks2joints"
+           - \ref cuikjoints2links.c "cuikjoints2links"
+           - \ref cuikatlascenters.c "cuikatlascenters"
+           - \ref cuikatlas2graph.c "cuikatlas2graph"
+           - \ref cuikerror.c "cuikerror"
+           - \ref cuikcost.c "cuikcost"
+           - \ref cuikME.c "cuikME"
+	   - \ref cuikxdot.c "cuikxdot"
+	   - \ref cuikpathlength.c "cuikpathlength"
+           - \ref cuikcollisions.c "cuikcollisions"
+           - \ref cuikatlasvolume.c "cuikatlasvolume"
+           - \ref cuikmergeboxes.c "cuikmergeboxes"
+           - \ref cuikworldaxes.c "cuikworldaxes"
+           - \ref cuikrrtcosts.c "cuikrrtcosts"
+           - \ref cuiksingularcharts.c "cuiksingularcharts"
+           - \ref cuikrrtnodes.c "cuikrrtnodes"
+           - \ref cuiksort.c "cuiksort" 
+           - \ref cuikunsimplify.c "cuikunsimplify"
+           - \ref cuikatan2.c "cuikatan2"
+           .
+      - To visualize output files 
+           - \ref cuikanimate.c "cuikanimate"
+           - \ref cuikplay.c "cuikplay"
+           - \ref cuikplot.c "cuikplot"
+           - \ref cuikplot3d.c "cuikplot3d"
+           - \ref cuikplotatlas.c "cuikplotatlas"
+           - \ref cuiktriangulateatlas.c "cuiktriangulateatlas"
+           - \ref cuikplotpath.c "cuikplotpath"
+           - \ref cuikplotrrt.c "cuikplotrrt"
+           - \ref cuikplotatlasrrt.c "cuikplotatlasrrt"
+	   - \ref cuikplotforcefield.c "cuikplotforcefield"
+           .
+      - To deal with molecules
+           - \ref cuikpdb2world.c "cuikpdb2world"
+	   - \ref cuikbioatlastrrt.c "cuikbiotrrt"
+	   - \ref cuikenergy.c "cuikenergy"
+	   - \ref energy.cpp "cuikbabelenergy"
+	   - \ref cuikbiominimize.c "cuikbiominimize"
+	   - \ref cuiksample2pdb.c "cuiksample2pdb"
+	   - \ref cuikpdb2sample.c "cuikpdb2sample"
+	   - \ref cuiksamples2atoms.c "cuiksamples2atoms"
+	   - \ref cuikatoms2samples.c "cuikatoms2samples"
+	   - \ref cuikrmse.c "cuikrmse"
+	   - \ref cuiksamples2rgroups.c "cuiksamples2rgroups"
+           - \ref cuikminimize.c "cuikminimize"
+           .
+      - To deal with tensegrity structures
+	   - \ref cuikpatheffort.c "cuikpatheffort"
+	   - \ref cuikworldforces.c "cuikworldforces"
+	   .
+      - Future applications   
+           - \ref cuikslam.c "cuikslam"
+           - \ref cuikcad.c "cuikcad"
+           .
+      . 
+
+  <p> Beside the main applications, the \b CuikSuite also includes several \ref scripts.txt "scripts"
+  to automate different tasks.</p>
+
+  <p>Here you can find a brief description of the syntax used to describe problems, i.e.,
+  the <a href="../images/world.pdf">world</a> files and the <a href="../images/cuik.pdf">cuik</a> files.
+  This description is quite obsolete and its better if you check the \ref examples "examples".</p>
+
+  <p>The parameters that can be set for each problem (in the corresponding <b>.param</b> file)
+  are described \ref parameters.h "here".</p>
+
+  <p>To get an overview of the different files used in the \b CuikSuite have a look at 
+  <a href="filename_8h.html#_details">this</a>.</p>
+
+  \anchor disclaimer
+  \section Disclaimer
+
+  <p>The \b CuikSuite is distributed in the hope that it will be useful, but without any warranty. 
+  it is provided "as is" without warranty of any kind, either expressed or implied, including, 
+  but not limited to, the implied warranties of merchantability and fitness for a particular 
+  purpose. The entire risk as to the quality and performance of the program is with you. 
+  should the program prove defective, the KRD group does not assume the cost of any necessary 
+  servicing, repair  or correction.</p>
+
+  <p>In no event unless required by applicable law the author will be liable to you for damages, 
+  including any general, special, incidental or consequential damages arising out of the use or 
+  inability to use the program (including but not limited to loss of data or data being rendered 
+  inaccurate or losses sustained by you or third parties or a failure of the program to operate 
+  with any other programs), even if the author has been advised of the possibility of such damages. </p>
+  
+  <center>
+  <img src="../images/CuilSuite_Wordle.png">
+  </center>
+
+ */
+/**
+   \file main.doxygen
+  
+   \brief The main page for the CuikSuite documentation.
+
+   The main page for the CuikSuite documentation. It can be browsed from <a href="index.html">here</a>.
+*/

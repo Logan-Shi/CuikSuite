@@ -1,0 +1,18 @@
+%%%% Bricard loop parameters %%%%
+
+REPRESENTATION = LINKS
+
+RHO = 0.99
+
+SIGMA = 0.02
+SMALL_SIGMA = 1e-4
+
+DUMMIFY = 1
+
+LR2TM_Q=0.25
+LR2TM_S=0.25
+
+SIMPLIFICATION_LEVEL = 2
+
+
+

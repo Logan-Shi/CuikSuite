@@ -1,0 +1,477 @@
+% Modification over the equation file automatically generated
+% from tower3D.tens executing
+%      bin/cuikequations examples/Tensegrity/tower3D
+%
+% We added angular variables (alpha and delta) to closely replicate
+% the results in the paper
+%      C. Sultan, M. Corles and R. E. Skelton
+%      The pre-estressability problem of tensegrity structures: some
+%      analytical results
+%      International journal of solids and structures, vol 38, 2011
+%
+% To generate the atlas execute
+%      bin/cuikatlas examples/Tensegrity/tower3D_ext
+%
+% To plot the atlas in the (alpha,delta,h) space execute
+%       bin/cuikplotatlas examples/Tensegrity/tower3D_ext 168 169 167
+%
+% Actually variable 167 is not 'h' but the total heigth of the platform
+% (i.e., 'h' plus a constant offset).
+%
+% To replicate Fig. 6 in the paper execute (compression on struts)
+%       bin/cuikatlascenters examples/Tensegrity/tower3D_ext
+%       bin/cuikworldforces examples/Tensegrity/tower3D.tens examples/Tensegrity/tower3D_ext_center.sol 1 8
+%       bin/cuikplotatlas examples/Tensegrity/tower3D_ext examples/Tensegrity/tower3D_ext_center 168 169 167
+%       geomview examples/Tensegrity/tower3D_ext_atlas.gcl
+%
+% Observe that in the cuikworldforces commnand we use tower3D.tens as a 1st
+% parameter and not tower3D_ext.cuik. In the latter there is no
+% semantic information about which variables are force variables
+% and which are not. Since tower3D_ext.cuik is basically the
+% cuik file derived from tower3D.tens (we just added a couple
+% of variables AT THE END OF THE FILE!) the solutions for
+% tower3D_ext.cuik are "compatible" with the tower3D.tens file.
+%
+% Plot the tensions on the saddle cables (despite the caption, this is fig 9 in the paper)
+%       bin/cuikatlascenters examples/Tensegrity/tower3D_ext
+%       bin/cuikworldforces examples/Tensegrity/tower3D.tens examples/Tensegrity/tower3D_ext_center.sol 13
+%       bin/cuikplotatlas examples/Tensegrity/tower3D_ext examples/Tensegrity/tower3D_ext_center 168 169 167
+%       geomview examples/Tensegrity/tower3D_ext_atlas.gcl
+%
+% Plot the tensions on the vertical cables (this is fig 8 in the paper)
+%       bin/cuikatlascenters examples/Tensegrity/tower3D_ext
+%       bin/cuikworldforces examples/Tensegrity/tower3D.tens examples/Tensegrity/tower3D_ext_center.sol 7
+%       bin/cuikplotatlas examples/Tensegrity/tower3D_ext examples/Tensegrity/tower3D_ext_center 168 169 167
+%       geomview examples/Tensegrity/tower3D_ext_atlas.gcl
+%
+% Plot the tensions on the diagonal cables (despite the caption, this is fig 7 in the paper)
+%       bin/cuikatlascenters examples/Tensegrity/tower3D_ext
+%       bin/cuikworldforces examples/Tensegrity/tower3D.tens examples/Tensegrity/tower3D_ext_center.sol 6
+%       bin/cuikplotatlas examples/Tensegrity/tower3D_ext examples/Tensegrity/tower3D_ext_center 168 169 167
+%       geomview examples/Tensegrity/tower3D_ext_atlas.gcl
+%
+% For some reason Figs. 7 and 9 in the paper seem to be swapped (an error in the paper?). Fig. 7 seem to be
+% the one for diagonal cables and fig. 9 the one for saddle cables.
+%
+% To generate an RRT and visualize it overlaid on the atlas execute
+%       Fix the maximum nodes in the RRT in the examples/Tensegrity/tower3D_ext.param
+%       Set EXPLORATION_RRT to 1 in src/CuikAtlas/include/rrt.h
+%       Recompile (cd build; make)
+%       bin/cuikatlasrrt examples/Tensegrity/tower3D_ext
+%       bin/cuikplotrrt examples/Tensegrity/tower3D_ext 168 169 167
+%       geomview examples/Tensegrity/tower3D_ext_atlas.gcl examples/Tensegrity/tower3D_ext_rrt.gcl
+% If you want to build the same tree with different number of nodes (too see how it evolves) you have
+% to fix the random seed in src/CuikAtlas/cuikatlasrrt.c before recompiling.
+
+[SYSTEM VARS]
+   s1_u_x : [-1,1]
+   s1_u_y : [-1,1]
+   s1_u_z : [-1,1]
+   f_s1 : [-5.29568830772,0]
+   s2_u_x : [-1,1]
+   s2_u_y : [-1,1]
+   s2_u_z : [-1,1]
+   f_s2 : [-5.29568830772,0]
+   s3_u_x : [-1,1]
+   s3_u_y : [-1,1]
+   s3_u_z : [-1,1]
+   f_s3 : [-5.29568830772,0]
+   s4_u_x : [-1,1]
+   s4_u_y : [-1,1]
+   s4_u_z : [-1,1]
+   f_s4 : [-5.29568830772,0]
+   s5_u_x : [-1,1]
+   s5_u_y : [-1,1]
+   s5_u_z : [-1,1]
+   f_s5 : [-5.29568830772,0]
+   s6_u_x : [-1,1]
+   s6_u_y : [-1,1]
+   s6_u_z : [-1,1]
+   f_s6 : [-5.29568830772,0]
+   c1_u_x : [-1,1]
+   c1_u_y : [-1,1]
+   c1_u_z : [-1,1]
+   l_c1 : [0,4.01497197998]
+   r_c1 : [0,3.99712766007]
+   f_c1 : [0,978.537076015]
+   c2_u_x : [-1,1]
+   c2_u_y : [-1,1]
+   c2_u_z : [-1,1]
+   l_c2 : [0,7.06823881883]
+   r_c2 : [0,7.03682442408]
+   f_c2 : [0,191.409492626]
+   c3_u_x : [-1,1]
+   c3_u_y : [-1,1]
+   c3_u_z : [-1,1]
+   l_c3 : [0,4.01497197998]
+   r_c3 : [0,3.99712766007]
+   f_c3 : [0,978.537076015]
+   c4_u_x : [-1,1]
+   c4_u_y : [-1,1]
+   c4_u_z : [-1,1]
+   l_c4 : [0,7.06823881883]
+   r_c4 : [0,7.03682442408]
+   f_c4 : [0,191.409492626]
+   c5_u_x : [-1,1]
+   c5_u_y : [-1,1]
+   c5_u_z : [-1,1]
+   l_c5 : [0,4.01497197998]
+   r_c5 : [0,3.99712766007]
+   f_c5 : [0,978.537076015]
+   c6_u_x : [-1,1]
+   c6_u_y : [-1,1]
+   c6_u_z : [-1,1]
+   l_c6 : [0,7.06823881883]
+   r_c6 : [0,7.03682442408]
+   f_c6 : [0,191.409492626]
+   c7_u_x : [-1,1]
+   c7_u_y : [-1,1]
+   c7_u_z : [-1,1]
+   l_c7 : [0,4.01497197998]
+   r_c7 : [0,3.99712766007]
+   f_c7 : [0,978.537076015]
+   c8_u_x : [-1,1]
+   c8_u_y : [-1,1]
+   c8_u_z : [-1,1]
+   l_c8 : [0,4.01497197998]
+   r_c8 : [0,3.99712766007]
+   f_c8 : [0,978.537076015]
+   c9_u_x : [-1,1]
+   c9_u_y : [-1,1]
+   c9_u_z : [-1,1]
+   l_c9 : [0,4.01497197998]
+   r_c9 : [0,3.99712766007]
+   f_c9 : [0,978.537076015]
+   c10_u_x : [-1,1]
+   c10_u_y : [-1,1]
+   c10_u_z : [-1,1]
+   l_c10 : [0,4.01497197998]
+   r_c10 : [0,3.99712766007]
+   f_c10 : [0,978.537076015]
+   c11_u_x : [-1,1]
+   c11_u_y : [-1,1]
+   c11_u_z : [-1,1]
+   l_c11 : [0,4.01497197998]
+   r_c11 : [0,3.99712766007]
+   f_c11 : [0,978.537076015]
+   c12_u_x : [-1,1]
+   c12_u_y : [-1,1]
+   c12_u_z : [-1,1]
+   l_c12 : [0,4.01497197998]
+   r_c12 : [0,3.99712766007]
+   f_c12 : [0,978.537076015]
+   c13_u_x : [-1,1]
+   c13_u_y : [-1,1]
+   c13_u_z : [-1,1]
+   l_c13 : [0,7.06823881883]
+   r_c13 : [0,7.03682442408]
+   f_c13 : [0,191.409492626]
+   c14_u_x : [-1,1]
+   c14_u_y : [-1,1]
+   c14_u_z : [-1,1]
+   l_c14 : [0,4.01497197998]
+   r_c14 : [0,3.99712766007]
+   f_c14 : [0,978.537076015]
+   c15_u_x : [-1,1]
+   c15_u_y : [-1,1]
+   c15_u_z : [-1,1]
+   l_c15 : [0,7.06823881883]
+   r_c15 : [0,7.03682442408]
+   f_c15 : [0,191.409492626]
+   c16_u_x : [-1,1]
+   c16_u_y : [-1,1]
+   c16_u_z : [-1,1]
+   l_c16 : [0,4.01497197998]
+   r_c16 : [0,3.99712766007]
+   f_c16 : [0,978.537076015]
+   c17_u_x : [-1,1]
+   c17_u_y : [-1,1]
+   c17_u_z : [-1,1]
+   l_c17 : [0,7.06823881883]
+   r_c17 : [0,7.03682442408]
+   f_c17 : [0,191.409492626]
+   c18_u_x : [-1,1]
+   c18_u_y : [-1,1]
+   c18_u_z : [-1,1]
+   l_c18 : [0,4.01497197998]
+   r_c18 : [0,3.99712766007]
+   f_c18 : [0,978.537076015]
+   c19_u_x : [-1,1]
+   c19_u_y : [-1,1]
+   c19_u_z : [-1,1]
+   f_c19 : [0,0.264784415386]
+   c20_u_x : [-1,1]
+   c20_u_y : [-1,1]
+   c20_u_z : [-1,1]
+   f_c20 : [0,0.264784415386]
+   c21_u_x : [-1,1]
+   c21_u_y : [-1,1]
+   c21_u_z : [-1,1]
+   f_c21 : [0,0.264784415386]
+   c22_u_x : [-1,1]
+   c22_u_y : [-1,1]
+   c22_u_z : [-1,1]
+   f_c22 : [0,0.264784415386]
+   c23_u_x : [-1,1]
+   c23_u_y : [-1,1]
+   c23_u_z : [-1,1]
+   f_c23 : [0,0.264784415386]
+   c24_u_x : [-1,1]
+   c24_u_y : [-1,1]
+   c24_u_z : [-1,1]
+   f_c24 : [0,0.264784415386]
+   platform_u_x : [-1,1]
+   platform_u_y : [-1,1]
+   platform_u_z : [-1,1]
+   platform_v_x : [-1,1]
+   platform_v_y : [-1,1]
+   platform_v_z : [-1,1]
+   platform_w_x : [-1,1]
+   platform_w_y : [-1,1]
+   platform_w_z : [-1,1]
+   platform_r_x : [-inf,inf]
+   platform_r_y : [-inf,inf]
+   platform_r_z : [-inf,inf] % this will be used instead of 'h'
+                             % it is 'h' with a constant offset.
+   
+   % The two angular variables with their corresponding limits
+   alpha : [pi/6,pi/2]
+   delta : [0,pi/2]
+
+[SYSTEM EQS]
+   s1_u_x^2+s1_u_y^2+s1_u_z^2 = 1;
+   s2_u_x^2+s2_u_y^2+s2_u_z^2 = 1;
+   s3_u_x^2+s3_u_y^2+s3_u_z^2 = 1;
+   s4_u_x^2+s4_u_y^2+s4_u_z^2 = 1;
+   s5_u_x^2+s5_u_y^2+s5_u_z^2 = 1;
+   s6_u_x^2+s6_u_y^2+s6_u_z^2 = 1;
+   c1_u_x^2+c1_u_y^2+c1_u_z^2 = 1;
+   243.7220187077969*l_c1-243.7220187077969*r_c1-f_c1 = 0;
+   c2_u_x^2+c2_u_y^2+c2_u_z^2 = 1;
+   27.08022430086629*l_c2-27.08022430086629*r_c2-f_c2 = 0;
+   c3_u_x^2+c3_u_y^2+c3_u_z^2 = 1;
+   243.7220187077969*l_c3-243.7220187077969*r_c3-f_c3 = 0;
+   c4_u_x^2+c4_u_y^2+c4_u_z^2 = 1;
+   27.08022430086629*l_c4-27.08022430086629*r_c4-f_c4 = 0;
+   c5_u_x^2+c5_u_y^2+c5_u_z^2 = 1;
+   243.7220187077969*l_c5-243.7220187077969*r_c5-f_c5 = 0;
+   c6_u_x^2+c6_u_y^2+c6_u_z^2 = 1;
+   27.08022430086629*l_c6-27.08022430086629*r_c6-f_c6 = 0;
+   c7_u_x^2+c7_u_y^2+c7_u_z^2 = 1;
+   243.7220187077969*l_c7-243.7220187077969*r_c7-f_c7 = 0;
+   c8_u_x^2+c8_u_y^2+c8_u_z^2 = 1;
+   243.7220187077969*l_c8-243.7220187077969*r_c8-f_c8 = 0;
+   c9_u_x^2+c9_u_y^2+c9_u_z^2 = 1;
+   243.7220187077969*l_c9-243.7220187077969*r_c9-f_c9 = 0;
+   c10_u_x^2+c10_u_y^2+c10_u_z^2 = 1;
+   243.7220187077969*l_c10-243.7220187077969*r_c10-f_c10 = 0;
+   c11_u_x^2+c11_u_y^2+c11_u_z^2 = 1;
+   243.7220187077969*l_c11-243.7220187077969*r_c11-f_c11 = 0;
+   c12_u_x^2+c12_u_y^2+c12_u_z^2 = 1;
+   243.7220187077969*l_c12-243.7220187077969*r_c12-f_c12 = 0;
+   c13_u_x^2+c13_u_y^2+c13_u_z^2 = 1;
+   27.08022430086629*l_c13-27.08022430086629*r_c13-f_c13 = 0;
+   c14_u_x^2+c14_u_y^2+c14_u_z^2 = 1;
+   243.7220187077969*l_c14-243.7220187077969*r_c14-f_c14 = 0;
+   c15_u_x^2+c15_u_y^2+c15_u_z^2 = 1;
+   27.08022430086629*l_c15-27.08022430086629*r_c15-f_c15 = 0;
+   c16_u_x^2+c16_u_y^2+c16_u_z^2 = 1;
+   243.7220187077969*l_c16-243.7220187077969*r_c16-f_c16 = 0;
+   c17_u_x^2+c17_u_y^2+c17_u_z^2 = 1;
+   27.08022430086629*l_c17-27.08022430086629*r_c17-f_c17 = 0;
+   c18_u_x^2+c18_u_y^2+c18_u_z^2 = 1;
+   243.7220187077969*l_c18-243.7220187077969*r_c18-f_c18 = 0;
+   c19_u_x^2+c19_u_y^2+c19_u_z^2 = 1;
+   c20_u_x^2+c20_u_y^2+c20_u_z^2 = 1;
+   c21_u_x^2+c21_u_y^2+c21_u_z^2 = 1;
+   c22_u_x^2+c22_u_y^2+c22_u_z^2 = 1;
+   c23_u_x^2+c23_u_y^2+c23_u_z^2 = 1;
+   c24_u_x^2+c24_u_y^2+c24_u_z^2 = 1;
+   platform_u_x^2+platform_u_y^2+platform_u_z^2 = 1;
+   platform_v_x^2+platform_v_y^2+platform_v_z^2 = 1;
+   platform_u_x*platform_w_x+platform_u_y*platform_w_y+platform_u_z*platform_w_z = 0;
+   platform_u_y*platform_w_z-platform_u_z*platform_w_y+platform_v_x = -0;
+   platform_u_x*platform_w_z-platform_u_z*platform_w_x-platform_v_y = 0;
+   platform_u_x*platform_w_y-platform_u_y*platform_w_x+platform_v_z = -0;
+   c2_u_x*l_c2-0.4*s3_u_x-0.27*c20_u_x = -0;
+   c2_u_y*l_c2-0.4*s3_u_y-0.27*c20_u_y = -0;
+   c2_u_z*l_c2-0.4*s3_u_z-0.27*c20_u_z = -0;
+   c8_u_x*l_c8+c14_u_x*l_c14-0.4*s4_u_x = -0;
+   c8_u_y*l_c8+c14_u_y*l_c14-0.4*s4_u_y = -0;
+   c8_u_z*l_c8+c14_u_z*l_c14-0.4*s4_u_z = -0;
+   c2_u_x*l_c2+c8_u_x*l_c8-c9_u_x*l_c9-c15_u_x*l_c15-0.4*s1_u_x+0.4*s5_u_x = 0;
+   c2_u_y*l_c2+c8_u_y*l_c8-c9_u_y*l_c9-c15_u_y*l_c15-0.4*s1_u_y+0.4*s5_u_y = 0;
+   c2_u_z*l_c2+c8_u_z*l_c8-c9_u_z*l_c9-c15_u_z*l_c15-0.4*s1_u_z+0.4*s5_u_z = 0;
+   c3_u_x*l_c3+c8_u_x*l_c8-0.4*s1_u_x+0.27*c19_u_x = 0;
+   c3_u_y*l_c3+c8_u_y*l_c8-0.4*s1_u_y+0.27*c19_u_y = 0;
+   c3_u_z*l_c3+c8_u_z*l_c8-0.4*s1_u_z+0.27*c19_u_z = 0;
+   c4_u_x*l_c4-0.4*s1_u_x+0.27*c19_u_x = 0;
+   c4_u_y*l_c4-0.4*s1_u_y+0.27*c19_u_y = 0;
+   c4_u_z*l_c4-0.4*s1_u_z+0.27*c19_u_z = 0;
+   c2_u_x*l_c2-c5_u_x*l_c5-c9_u_x*l_c9-0.27*c20_u_x = -0;
+   c2_u_y*l_c2-c5_u_y*l_c5-c9_u_y*l_c9-0.27*c20_u_y = -0;
+   c2_u_z*l_c2-c5_u_z*l_c5-c9_u_z*l_c9-0.27*c20_u_z = -0;
+   c6_u_x*l_c6-0.4*s2_u_x-0.27*c19_u_x+0.27*c20_u_x = 0;
+   c6_u_y*l_c6-0.4*s2_u_y-0.27*c19_u_y+0.27*c20_u_y = 0;
+   c6_u_z*l_c6-0.4*s2_u_z-0.27*c19_u_z+0.27*c20_u_z = 0;
+   c7_u_x*l_c7-c8_u_x*l_c8+0.4*s1_u_x-0.4*s2_u_x-0.27*c19_u_x = 0;
+   c7_u_y*l_c7-c8_u_y*l_c8+0.4*s1_u_y-0.4*s2_u_y-0.27*c19_u_y = 0;
+   c7_u_z*l_c7-c8_u_z*l_c8+0.4*s1_u_z-0.4*s2_u_z-0.27*c19_u_z = 0;
+   c2_u_x*l_c2-c9_u_x*l_c9+c10_u_x*l_c10-0.4*s2_u_x-0.27*c19_u_x = 0;
+   c2_u_y*l_c2-c9_u_y*l_c9+c10_u_y*l_c10-0.4*s2_u_y-0.27*c19_u_y = 0;
+   c2_u_z*l_c2-c9_u_z*l_c9+c10_u_z*l_c10-0.4*s2_u_z-0.27*c19_u_z = 0;
+   c1_u_x*l_c1+c11_u_x*l_c11-0.4*s1_u_x = 0;
+   c1_u_y*l_c1+c11_u_y*l_c11-0.4*s1_u_y = 0;
+   c1_u_z*l_c1+c11_u_z*l_c11-0.4*s1_u_z = 0;
+   c1_u_x*l_c1-c2_u_x*l_c2+c12_u_x*l_c12 = 0;
+   c1_u_y*l_c1-c2_u_y*l_c2+c12_u_y*l_c12 = 0;
+   c1_u_z*l_c1-c2_u_z*l_c2+c12_u_z*l_c12 = 0;
+   c1_u_x*l_c1+c13_u_x*l_c13-c14_u_x*l_c14-0.4*s1_u_x = 0;
+   c1_u_y*l_c1+c13_u_y*l_c13-c14_u_y*l_c14-0.4*s1_u_y = 0;
+   c1_u_z*l_c1+c13_u_z*l_c13-c14_u_z*l_c14-0.4*s1_u_z = 0;
+   c8_u_x*l_c8-c15_u_x*l_c15+c16_u_x*l_c16-0.4*s1_u_x+0.4*s2_u_x+0.27*c19_u_x = 0;
+   c8_u_y*l_c8-c15_u_y*l_c15+c16_u_y*l_c16-0.4*s1_u_y+0.4*s2_u_y+0.27*c19_u_y = 0;
+   c8_u_z*l_c8-c15_u_z*l_c15+c16_u_z*l_c16-0.4*s1_u_z+0.4*s2_u_z+0.27*c19_u_z = 0;
+   c1_u_x*l_c1-c2_u_x*l_c2+c9_u_x*l_c9-c17_u_x*l_c17+0.4*s6_u_x = -0;
+   c1_u_y*l_c1-c2_u_y*l_c2+c9_u_y*l_c9-c17_u_y*l_c17+0.4*s6_u_y = -0;
+   c1_u_z*l_c1-c2_u_z*l_c2+c9_u_z*l_c9-c17_u_z*l_c17+0.4*s6_u_z = -0;
+   c1_u_x*l_c1-c2_u_x*l_c2-c18_u_x*l_c18+0.4*s6_u_x = -0;
+   c1_u_y*l_c1-c2_u_y*l_c2-c18_u_y*l_c18+0.4*s6_u_y = -0;
+   c1_u_z*l_c1-c2_u_z*l_c2-c18_u_z*l_c18+0.4*s6_u_z = -0;
+   c19_u_x-c20_u_x+c21_u_x = 0;
+   c19_u_y-c20_u_y+c21_u_y = 0;
+   c19_u_z-c20_u_z+c21_u_z = 0;
+   c8_u_x*l_c8+c14_u_x*l_c14-c15_u_x*l_c15+0.27*c22_u_x = 0;
+   c8_u_y*l_c8+c14_u_y*l_c14-c15_u_y*l_c15+0.27*c22_u_y = 0;
+   c8_u_z*l_c8+c14_u_z*l_c14-c15_u_z*l_c15+0.27*c22_u_z = 0;
+   c1_u_x*l_c1-c14_u_x*l_c14-0.4*s1_u_x+0.4*s6_u_x-0.27*c23_u_x = -0;
+   c1_u_y*l_c1-c14_u_y*l_c14-0.4*s1_u_y+0.4*s6_u_y-0.27*c23_u_y = -0;
+   c1_u_z*l_c1-c14_u_z*l_c14-0.4*s1_u_z+0.4*s6_u_z-0.27*c23_u_z = -0;
+   c1_u_x*l_c1+c8_u_x*l_c8-c15_u_x*l_c15-0.4*s1_u_x+0.4*s6_u_x-0.27*c24_u_x = -0;
+   c1_u_y*l_c1+c8_u_y*l_c8-c15_u_y*l_c15-0.4*s1_u_y+0.4*s6_u_y-0.27*c24_u_y = -0;
+   c1_u_z*l_c1+c8_u_z*l_c8-c15_u_z*l_c15-0.4*s1_u_z+0.4*s6_u_z-0.27*c24_u_z = -0;
+   s1_u_x*f_s1+c1_u_x*f_c1+c2_u_x*f_c2+c19_u_x*f_c19+c20_u_x*f_c20 = -0;
+   s1_u_y*f_s1+c1_u_y*f_c1+c2_u_y*f_c2+c19_u_y*f_c19+c20_u_y*f_c20 = -0;
+   s1_u_z*f_s1+c1_u_z*f_c1+c2_u_z*f_c2+c19_u_z*f_c19+c20_u_z*f_c20 = -0;
+   s1_u_x*f_s1+c4_u_x*f_c4+c8_u_x*f_c8+c11_u_x*f_c11-c14_u_x*f_c14 = 0;
+   s1_u_y*f_s1+c4_u_y*f_c4+c8_u_y*f_c8+c11_u_y*f_c11-c14_u_y*f_c14 = 0;
+   s1_u_z*f_s1+c4_u_z*f_c4+c8_u_z*f_c8+c11_u_z*f_c11-c14_u_z*f_c14 = 0;
+   s2_u_x*f_s2+c3_u_x*f_c3+c4_u_x*f_c4-c19_u_x*f_c19+c21_u_x*f_c21 = -0;
+   s2_u_y*f_s2+c3_u_y*f_c3+c4_u_y*f_c4-c19_u_y*f_c19+c21_u_y*f_c21 = -0;
+   s2_u_z*f_s2+c3_u_z*f_c3+c4_u_z*f_c4-c19_u_z*f_c19+c21_u_z*f_c21 = -0;
+   s2_u_x*f_s2+c6_u_x*f_c6+c7_u_x*f_c7+c10_u_x*f_c10-c16_u_x*f_c16 = 0;
+   s2_u_y*f_s2+c6_u_y*f_c6+c7_u_y*f_c7+c10_u_y*f_c10-c16_u_y*f_c16 = 0;
+   s2_u_z*f_s2+c6_u_z*f_c6+c7_u_z*f_c7+c10_u_z*f_c10-c16_u_z*f_c16 = 0;
+   s3_u_x*f_s3+c5_u_x*f_c5+c6_u_x*f_c6-c20_u_x*f_c20-c21_u_x*f_c21 = -0;
+   s3_u_y*f_s3+c5_u_y*f_c5+c6_u_y*f_c6-c20_u_y*f_c20-c21_u_y*f_c21 = -0;
+   s3_u_z*f_s3+c5_u_z*f_c5+c6_u_z*f_c6-c20_u_z*f_c20-c21_u_z*f_c21 = -0;
+   s3_u_x*f_s3+c2_u_x*f_c2+c9_u_x*f_c9+c12_u_x*f_c12-c18_u_x*f_c18 = 0;
+   s3_u_y*f_s3+c2_u_y*f_c2+c9_u_y*f_c9+c12_u_y*f_c12-c18_u_y*f_c18 = 0;
+   s3_u_z*f_s3+c2_u_z*f_c2+c9_u_z*f_c9+c12_u_z*f_c12-c18_u_z*f_c18 = 0;
+   s4_u_x*f_s4-c3_u_x*f_c3+c7_u_x*f_c7+c8_u_x*f_c8+c15_u_x*f_c15 = -0;
+   s4_u_y*f_s4-c3_u_y*f_c3+c7_u_y*f_c7+c8_u_y*f_c8+c15_u_y*f_c15 = -0;
+   s4_u_z*f_s4-c3_u_z*f_c3+c7_u_z*f_c7+c8_u_z*f_c8+c15_u_z*f_c15 = -0;
+   s4_u_x*f_s4+c13_u_x*f_c13+c14_u_x*f_c14-c22_u_x*f_c22-c23_u_x*f_c23 = 0;
+   s4_u_y*f_s4+c13_u_y*f_c13+c14_u_y*f_c14-c22_u_y*f_c22-c23_u_y*f_c23 = 0;
+   s4_u_z*f_s4+c13_u_z*f_c13+c14_u_z*f_c14-c22_u_z*f_c22-c23_u_z*f_c23 = 0;
+   s5_u_x*f_s5-c5_u_x*f_c5+c9_u_x*f_c9+c10_u_x*f_c10+c17_u_x*f_c17 = -0;
+   s5_u_y*f_s5-c5_u_y*f_c5+c9_u_y*f_c9+c10_u_y*f_c10+c17_u_y*f_c17 = -0;
+   s5_u_z*f_s5-c5_u_z*f_c5+c9_u_z*f_c9+c10_u_z*f_c10+c17_u_z*f_c17 = -0;
+   s5_u_x*f_s5+c15_u_x*f_c15+c16_u_x*f_c16+c22_u_x*f_c22-c24_u_x*f_c24 = 0;
+   s5_u_y*f_s5+c15_u_y*f_c15+c16_u_y*f_c16+c22_u_y*f_c22-c24_u_y*f_c24 = 0;
+   s5_u_z*f_s5+c15_u_z*f_c15+c16_u_z*f_c16+c22_u_z*f_c22-c24_u_z*f_c24 = 0;
+   s6_u_x*f_s6-c1_u_x*f_c1+c11_u_x*f_c11+c12_u_x*f_c12+c13_u_x*f_c13 = -0;
+   s6_u_y*f_s6-c1_u_y*f_c1+c11_u_y*f_c11+c12_u_y*f_c12+c13_u_y*f_c13 = -0;
+   s6_u_z*f_s6-c1_u_z*f_c1+c11_u_z*f_c11+c12_u_z*f_c12+c13_u_z*f_c13 = -0;
+   s6_u_x*f_s6+c17_u_x*f_c17+c18_u_x*f_c18+c23_u_x*f_c23+c24_u_x*f_c24 = 0;
+   s6_u_y*f_s6+c17_u_y*f_c17+c18_u_y*f_c18+c23_u_y*f_c23+c24_u_y*f_c24 = 0;
+   s6_u_z*f_s6+c17_u_z*f_c17+c18_u_z*f_c18+c23_u_z*f_c23+c24_u_z*f_c24 = 0;
+   f_s1^2+f_s2^2+f_s3^2+f_s4^2+f_s5^2+f_s6^2+f_c1^2+f_c2^2+f_c3^2+f_c4^2+f_c5^2+f_c6^2+f_c7^2+f_c8^2+f_c9^2+f_c10^2+f_c11^2+f_c12^2+f_c13^2+f_c14^2+f_c15^2+f_c16^2+f_c17^2+f_c18^2+f_c19^2+f_c20^2+f_c21^2+f_c22^2+f_c23^2+f_c24^2 = 1;
+   c19_u_z = 0;
+   c20_u_y = 0;
+   c20_u_z = 0;
+   s1_u_x+0.4999999999999998*s2_u_x+0.8660254037844388*s2_u_y = 0;
+   s1_u_y-0.8660254037844388*s2_u_x+0.4999999999999998*s2_u_y = 0;
+   s1_u_z-s2_u_z = 0;
+   s1_u_x+0.5000000000000004*s3_u_x-0.8660254037844384*s3_u_y = 0;
+   s1_u_y+0.8660254037844384*s3_u_x+0.5000000000000004*s3_u_y = 0;
+   s1_u_z-s3_u_z = 0;
+   s1_u_x-s5_u_x = 0;
+   s1_u_y-s5_u_y = 0;
+   s1_u_z-s5_u_z = 0;
+   s3_u_x-s4_u_x = 0;
+   s3_u_y-s4_u_y = 0;
+   s3_u_z-s4_u_z = 0;
+   s2_u_x-s6_u_x = 0;
+   s2_u_y-s6_u_y = 0;
+   s2_u_z-s6_u_z = 0;
+   f_s1-f_s2 = 0;
+   f_s1-f_s3 = 0;
+   f_s1-f_s4 = 0;
+   f_s1-f_s5 = 0;
+   f_s1-f_s6 = 0;
+   l_c1-l_c3 = 0;
+   l_c1-l_c5 = 0;
+   l_c1-l_c14 = 0;
+   l_c1-l_c16 = 0;
+   l_c1-l_c18 = 0;
+   r_c1-r_c3 = 0;
+   r_c1-r_c5 = 0;
+   r_c1-r_c14 = 0;
+   r_c1-r_c16 = 0;
+   r_c1-r_c18 = 0;
+   f_c1-f_c3 = 0;
+   f_c1-f_c5 = 0;
+   f_c1-f_c14 = 0;
+   f_c1-f_c16 = 0;
+   f_c1-f_c18 = 0;
+   l_c2-l_c4 = 0;
+   l_c2-l_c6 = 0;
+   l_c2-l_c13 = 0;
+   l_c2-l_c15 = 0;
+   l_c2-l_c17 = 0;
+   r_c2-r_c4 = 0;
+   r_c2-r_c6 = 0;
+   r_c2-r_c13 = 0;
+   r_c2-r_c15 = 0;
+   r_c2-r_c17 = 0;
+   f_c2-f_c4 = 0;
+   f_c2-f_c6 = 0;
+   f_c2-f_c13 = 0;
+   f_c2-f_c15 = 0;
+   f_c2-f_c17 = 0;
+   l_c7-l_c8 = 0;
+   l_c7-l_c9 = 0;
+   l_c7-l_c10 = 0;
+   l_c7-l_c11 = 0;
+   l_c7-l_c12 = 0;
+   r_c7-r_c8 = 0;
+   r_c7-r_c9 = 0;
+   r_c7-r_c10 = 0;
+   r_c7-r_c11 = 0;
+   r_c7-r_c12 = 0;
+   f_c7-f_c8 = 0;
+   f_c7-f_c9 = 0;
+   f_c7-f_c10 = 0;
+   f_c7-f_c11 = 0;
+   f_c7-f_c12 = 0;
+   f_c19-f_c20 = 0;
+   f_c19-f_c21 = 0;
+   f_c19-f_c22 = 0;
+   f_c19-f_c23 = 0;
+   f_c19-f_c24 = 0;
+   c14_u_x*l_c14+0.4*s1_u_x-platform_r_x = 0;
+   c14_u_y*l_c14+0.4*s1_u_y-platform_r_y = 0;
+   c14_u_z*l_c14+0.4*s1_u_z-platform_r_z = 0;
+   c8_u_x*l_c8-c15_u_x*l_c15-0.4*s1_u_x+0.27*platform_u_x+platform_r_x = -0;
+   c8_u_y*l_c8-c15_u_y*l_c15-0.4*s1_u_y+0.27*platform_u_y+platform_r_y = -0;
+   c8_u_z*l_c8-c15_u_z*l_c15-0.4*s1_u_z+0.27*platform_u_z+platform_r_z = -0;
+   c1_u_x*l_c1+0.4*s6_u_x-0.135*platform_u_x+0.2338268590217984*platform_v_x-platform_r_x = 0;
+   c1_u_y*l_c1+0.4*s6_u_y-0.135*platform_u_y+0.2338268590217984*platform_v_y-platform_r_y = 0;
+   c1_u_z*l_c1+0.4*s6_u_z-0.135*platform_u_z+0.2338268590217984*platform_v_z-platform_r_z = 0;
+
+   % The angular variables are related to the director vector of the first strut
+   s1_u_x*tan(alpha)=s1_u_y;
+   cos(delta)=s1_u_z;
+
+

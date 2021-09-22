@@ -1,0 +1,12 @@
+%%%% Welding2D_limited parameters %%%%
+
+REPRESENTATION = FLINKS
+
+SR=0.25
+R=0.2
+
+N_DOF = 2
+MAX_NEWTON_ITERATIONS = 50
+
+BI_RRT = FALSE
+

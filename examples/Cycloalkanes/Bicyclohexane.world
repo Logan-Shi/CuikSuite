@@ -1,0 +1,312 @@
+/** \cond */
+
+[CONSTANTS]
+
+% We define a reference frame attache to each C atom with the  
+% X axis along one of the C-C bonds and with the X-Y plane in
+% the planed defined by the two bonds coincident in the C.
+ 
+% All distances are in Amstrongs and all angles are in radiants
+
+% H-C bond length
+HCb:=1.09
+
+% H-C distance for C the neighbouring C of the C to which H
+% is connected
+HCb2:=2.151077
+
+% C-C bond length
+CCb:=1.526
+
+% C-C-C squared distnace
+CCC2:=6.212008043466126
+
+% Bond bending angle
+BBa:=1.911135530933790887
+% BBa:=pi/2
+
+% The firts CC bond is aligned with the X axis and has lenght CCb
+% The second is in the XY plane at position:
+CC2x:=CCb*cos(BBa)
+CC2y:=CCb*sin(BBa)
+
+% x-y-z position of one of the H w.r.t. a frame attached to the C
+% The second H is symmetrically placed (w.r.t. the X-Y plane).
+% This H is at (Hx,Hy,Hz) that is at the intersection of three circunferences
+%   Hx^2+Hy^2+Hz^2=HCb^2
+%   (Hx-CCb)^2+Hy^2+Hz^2=HCb2^2
+%   (Hx-CC2x)^2+(Hy-CC2y)^2+Hz^2=HCb2^2
+%
+Hx:=(HCb^2-HCb2^2+CCb^2)/(2*CCb)
+Hy:=((Hx-CC2x)^2-(Hx-CCb)^2+CC2y^2)/(2*CC2y)
+Hz:=sqrt(Hx^2+Hy^2)
+
+% x-y-z position of the Carbon atom in the "other" ring for atoms 4 and 5
+% This is like the H position but taking into account the correct C-C bond lenght
+%   Cx^2+Cy^2+Cz^2=CCb^2
+%   (Cx-CCb)^2+Cy^2+Cz^2=CCC2
+%   (Cx-CC2x)^2+(Cy-CC2y)^2+Cz^2=CCC2
+%
+Cx:=(2*CCb^2-CCC2)/(2*CCb)
+Cy:=((Cx-CC2x)^2-(Cx-CCb)^2+CC2y^2)/(2*CC2y)
+Cz:=sqrt(CCb^2-Cx^2-Cy^2)
+
+% Radious of the spheres representing atoms (75% Van der Waals radii)
+rC:=1.7*0.25
+rH:=1.2*0.25
+
+% Radii of the cylinders representing bonds
+rCC:=0.15
+rCH:=0.15
+
+% Colors for the atoms (Carbon/Hydrogen)
+Cr:=0.2
+Cg:=0.6
+Cb:=0.6
+
+Hr:=1
+Hg:=1
+Hb:=1
+
+[LINKS]
+
+C1 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C2 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C3 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C4 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCC (0,0,0) (Cx/2,Cy/2,-Cz/2) color (Cr,Cg,Cb) decoration
+
+C5 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCC (0,0,0) (Cx/2,Cy/2,-Cz/2) color (Cr,Cg,Cb) decoration
+
+C6 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+
+C7 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C8 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C9 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C10: sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+[JOINTS]
+
+% We define the revolute joints trying to use as much zeros as possible
+% in the two first points of the two axes in local coordinates. This produces
+% simpler equation sets.
+revolute: C1 (CCb,0,0) (0,0,0) 
+          C2 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C2 (CCb,0,0) (0,0,0) 
+          C3 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C3 (CCb,0,0) (0,0,0) 
+          C4 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C4 (CCb,0,0) (0,0,0) 
+          C5 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C5 (CCb,0,0) (0,0,0) 
+          C6 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C6 (CCb,0,0) (0,0,0) 
+          C1 (0,0,0) (CC2x,CC2y,0)     
+
+revolute: C4 (Cx,Cy,-Cz) (0,0,0) 
+          C7 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C7 (CCb,0,0) (0,0,0) 
+          C8 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C8 (CCb,0,0) (0,0,0) 
+          C9 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C9 (CCb,0,0) (0,0,0) 
+          C10 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C10 (CCb,0,0) (0,0,0) 
+          C5 (0,0,0) (Cx,Cy,-Cz)
+
+[COLLISIONS]
+
+CHECK : ALL
+
+/** \endcond */
+
+/** \file Bicyclohexane.world
+    
+    \brief A \ref examples/Cycloalkanes "cycloalkane" with a two rings of 6 carbons.
+
+    <center>
+    <img src="../images/Cycloalkanes/bicyclohexane.jpg">
+    </center>
+
+    <center><a href="#intro">[Introduction]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a></center>
+  
+    <h2><a name="intro">Introduction</a></h2> 
+
+    This benchmark illustrates CUIK's ability on dealing with multi-loop linkages or molecules. 
+    We refer here to interconnected loops where  the motion of any loop influences the motion of the others, 
+    so that the analysis of the overall conformational space is irreducible to the analysis of the individual 
+    loop spaces. 
+
+    <h2><a name="process">Process</a></h2>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Cycloalkanes/Bicyclohexane </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Cycloalkanes/Bicyclohexane </i>
+             .
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/Cycloalkanes/Bicyclohexane </i>
+             .
+     - <b>Animate the solutions (the flexible and the isolated)</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Bicycloalkanes/Cyclohexane examples/Cycloalkanes/Bicyclohexane_1</i>
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Bicycloalkanes/Cyclohexane examples/Cycloalkanes/Bicyclohexane_isol</i>
+             .
+     - <b>Plot and visualize the configuration space</b> (you will see the one-dim solution and the isolated small boxes):
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Cycloalkanes/Bicyclohexane_1 9 17 37 0 bc6_1.cgl</i>
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Cycloalkanes/Bicyclohexane_isol 9 17 37 0.025 bc6_isol.cgl</i>
+	     - <i> geomview bc6_1.gcl bc6_isol.gcl</i>
+	     .
+     .
+
+    <h2><a name="st">Statistics</a></h2>
+
+
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">2</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">10</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints</th>
+     <td  align="center">12</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 49 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 44 </td>
+    </tr>
+    </table>
+    </center>
+ 
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 5055 </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 374 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 2500 </td>
+    </tr>
+    </table>
+    </center>
+
+    <h2><a name="res">Results</a></h2>
+
+    Conformational space of the bicylohexane. The red boxes are the
+    (magnifed) isolated solutions.
+
+    <center>
+    <img width="700px" src="../images/Cycloalkanes/bicyclohexane_result.png">
+    </center>
+
+*/

@@ -1,0 +1,34 @@
+/** \dir examples/SmartBird
+
+    \brief The planar mechanism used in the wing of the Smart Bird
+
+    <center>
+   <img src="../images/SmartBird/SmartBird_picture.jpg">
+   </center>
+
+   A planar mechanism used in the wing of the <a href="http://www.festo.com/cms/en_corp/11369.htm">Smart Bird</a>.
+
+   The dimensions of the mechanism are approximated and taken from this <a href="http://youtu.be/N9b45bRSlG8">video</a>.
+
+   This example can be processed as follows:
+       - <b>Generate the equations</b>:
+           Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/SmartBird/SmartBird</i>
+       - <b>Solve the positional analysis problem</b>: Execute (this takes about half a minute)
+             - <i> \ref cuik.c "bin/cuik" examples/SmartBird/SmartBird </i>
+             .
+       - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/SmartBird/SmartBird</i>
+	     .
+       - <b>Visualize the solutions</b>: This example has 8 different connected components and only one of them
+          corresponds to the correct wing movement.
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/SmartBird/SmartBird examples/SmartBird/SmartBird_7</i>
+	     .
+       - <b>Visualize the configuration space</b>: In the plot some of the connected compnents seems to intersect, but
+	   this is just an artifact of the projection
+             - <i>\ref cuikplot3d.c "bin/cuikplot3d" examples/SmartBird/SmartBird 9 21 37 0 sb.gcl</i>
+             - <i>geomview sb.gcl</i>
+             .
+       .
+
+*/

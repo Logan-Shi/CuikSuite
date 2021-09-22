@@ -1,0 +1,11 @@
+%%%% Welding2D parameters %%%%
+
+REPRESENTATION = FLINKS
+
+R=0.25
+
+N_DOF = 2
+MAX_NEWTON_ITERATIONS = 50
+
+% MAX_CHARTS = 150
+% MAX_CHARTS = 500

@@ -1,0 +1,64 @@
+%%%%                      PARAMETERS                          %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parametes
+
+SMALL_SIGMA = 0.05
+ERROR_SPLIT = FALSE
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% joint-based representation
+
+% GBF
+% R = 0.4
+% SR = 0.75
+% E = 0.1
+% CE = 0.1
+% DELTA = 0.05
+
+% RRT
+R = 2
+SR = 3.5
+E = 0.1
+CE = 0.1
+DELTA = 0.05
+
+%------------------------------
+% non-joint representation 
+
+% ISRR
+% R = 0.75
+% SR = 1.5
+% E = 0.5
+% CE= 0.5
+% DELTA = 0.05
+
+% TRO
+% R = 1.5
+% SR = 2.5
+% E = 0.5
+% CE= 0.5
+% DELTA = 0.2
+	
+%------------------------------
+% other path-planning parameters
+
+BETA = 1.1
+
+N_DOF = 6
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

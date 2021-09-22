@@ -1,0 +1,86 @@
+/** \cond */
+
+[CONSTANTS]
+
+   size:=0.3
+
+[INCLUDE]
+    b1: "BarretArm.world"
+
+[INCLUDE]
+    b2: "BarretArm.world"
+
+[LINKS]
+    tshirt: cylinder 0.01 (0,0,0)+(size,0,0) blue
+            sphere 0.02 (0,0,0) red decoration
+	    sphere 0.02 (size,0,0) green decoration
+    dummy1
+
+[OBSTACLES]
+    base: box (-1,-1,-0.346-0.05) (2.5,1,-0.346)
+
+[JOINTS]
+
+    fix: b1::world b2::world Tx(1)*Rz(pi)
+
+    prismatic: b1::world (0.35,0,0)+(0,1,0)
+               dummy1 (0,0,0)+(0,1,0)
+	       range [-0.5,0.5]
+
+    prismatic: dummy1 (0,0,0)+(0,0,1)
+               tshirt (0,0,0)+(0,0,1)
+               range [-0.3,0.75]
+
+    revolute: b1::arm7 (0,0,0.2)+(0,1,0)
+              tshirt (0,0,0)+(0,1,0)
+
+    revolute: b2::arm7 (0,0,0.2)+(0,1,0)
+              tshirt (size,0,0)+(0,1,0)
+
+[COLLISIONS]
+  check: tshirt,b1::arm1
+  check: tshirt,b1::arm2
+  check: tshirt,b1::arm3
+  check: tshirt,b1::arm4
+  check: tshirt,b1::arm5
+  check: tshirt,b1::arm6
+  check: tshirt,b1::arm7
+
+  check: tshirt,b2::arm1
+  check: tshirt,b2::arm2
+  check: tshirt,b2::arm3
+  check: tshirt,b2::arm4
+  check: tshirt,b2::arm5
+  check: tshirt,b2::arm6
+  check: tshirt,b2::arm7
+
+/** \endcond */
+
+
+/**
+   \file TwoBarrets.world
+
+   \brief Two Barrett arms.
+
+   Two Barrett arms cooperating to move an object.
+
+   Example of how to integrate previously defined world files into
+   a new example.
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+      - <b>Solve the path planning problem</b> Execute
+             - <i>\ref cuikatlasrrt.c  "bin/cuikatlasrrt" examples/Barret/TwoBarrets</i>
+	     .
+      - <b>Visualize the path</b>: Whatever the procedure used to plan
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/Barret/TwoBarrets examples/Barret/TwoBarrets_path</i>
+	     .
+      - <b>To smooth an output path</b>: 
+             - <i>\ref cuiksmoothpath.c  "bin/cuiksmoothpath" examples/Barret/TwoBarrets</i>
+	     .
+      - <b>Visualize the smoothed path</b>: 
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/Barret/TwoBarrets examples/Barret/TwoBarrets_path_s</i>
+	     .
+      .
+      
+*/

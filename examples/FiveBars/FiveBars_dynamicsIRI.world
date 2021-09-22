@@ -1,0 +1,157 @@
+/** \cond */
+[CONSTANTS]
+
+  % Size of the Dextar-like robot (in meters)
+  l1:=0.25
+  l2:=0.2
+  l3:=0.15
+  l4:=0.15
+  l5:=0.2
+	ree:=0.03 %radius of load cylinder (or sphere)
+	
+  % Masses (in Kg). Assume 1 kb for a bar of 1 meter. 
+  mass_load:=1
+  mass_link1:=1.2093
+  mass_link2:=0.8925
+
+  % Representation parameters
+  r:=l1/10             % Radius of bars (and balls)
+  d:=l1/8              % length of the revolute joints
+  h:=(l2+l3)*1.1   % height of the pendulum
+
+  % Maximum torque
+  max_torque:=1.5
+
+  % Maximum velocity
+  max_vel:=40
+
+  % motor damping
+  damping_factor:=0.0176
+	damping_factor_passive:=0.00
+
+
+  [LINKS]
+
+    link1: black
+           % The base of the mechanism
+           box (-9*d-2*r,-h-2*r,-h-2*r) (+9*d+2*r,-h,l1+h+2*r) white
+	   cylinder 2*r (-9*d,-h,h+l1) (-9*d,0,h+l1)
+	   cylinder 2*r (-9*d,-h,-h) (-9*d,0,-h)
+	   cylinder 2*r (9*d,-h,h+l1) (9*d,0,h+l1)
+	   cylinder 2*r (9*d,-h,-h) (9*d,0,-h)
+           sphere 2*r (9*d,0,-h)
+	   sphere 2*r (9*d,0,h+l1)
+	   sphere 2*r (-9*d,0,-h)
+	   sphere 2*r (-9*d,0,h+l1)
+
+	   % Suport horizontal
+	   cylinder 2*r (-9*d,0,-h) (-9*d,0,h+l1) 
+	   cylinder 2*r (9*d,0,-h) (9*d,0,h+l1)
+           cylinder 2*r (-6*d,0,0) (-9*d+2*r,0,0) white
+           cylinder 2*r (+6*d,0,l1) (+9*d-2*r,0,l1) white
+
+	   % Dynamic parameters actually not used
+	   mass 0
+	   inertia matrix sphere 0
+	   inertial frame Id
+
+    link2: white
+           cylinder r (5*d,0,0) (5*d,0,l2)
+
+           cylinder r (4*d,0,0) (6*d,0,0)
+           cylinder r (4*d,0,l2) (6*d,0,l2)
+	   
+           mass mass_link1
+		 inertia matrix 0.007,0,0,0,0,0
+	   inertial frame Tz(0.11) %Tz(l2/2)
+	   
+    link3: black
+           cylinder r (3*d,0,0) (3*d,0,l3)
+	   
+           cylinder r (2*d,0, 0) (4*d,0,0)
+           cylinder r (2*d,0,l3) (4*d,0,l3)
+	   
+           mass mass_link2
+					 inertia matrix 0.0023,0,0,0,0,0
+	   inertial frame Tz(0.0746) % Tz(l3/2)
+	   
+     link4: black
+           cylinder r (-3*d,0,0) (-3*d,0,l4)
+
+           cylinder r (-2*d,0, 0) (-4*d,0,0)
+           cylinder r (-2*d,0,l3) (-4*d,0,l3)	
+
+           mass mass_link2
+					 inertia matrix 0.0023,0,0,0,0,0
+	   inertial frame Tz(0.0754) %Tz(l4/2)
+	   
+    link5: white
+           cylinder r (-5*d,0,0) (-5*d,0,l5)
+
+           cylinder r (-4*d,0, 0) (-6*d,0,0)
+           cylinder r (-4*d,0,l5) (-6*d,0,l5)
+
+           mass mass_link1
+					 inertia matrix 0.007,0,0,0,0,0
+	   inertial frame Tz(0.09) %Tz(l5/2)
+
+    hand: red
+		cylinder ree (-2*d,0,0) (2*d,0,0) red	  %load
+          mass mass_load
+	  inertia matrix 0,0,0,0,0,0 %solid sphere ree %this could be a cylinder
+	  inertial frame Tz(0)
+
+  [JOINTS]
+
+    REVOLUTE: link1 (0,0,l1) (1,0,l1)
+              link2 (0,0,0 ) (1,0,0 )
+              reference (0,-1,0) (0,-1,-l1)
+              velocity max_vel
+              torque max_torque
+							damping damping_factor
+
+    REVOLUTE: link2 (0,0,l2) (1,0,l2)
+              link3 (0,0, 0) (1,0,0 )
+              reference (0,-1,0) (0,-1,-l2)
+              velocity max_vel
+							damping damping_factor_passive
+							
+    REVOLUTE: link3 (0,0,l3) (1,0,l3)
+              link4 (0,0, 0) (1,0,0 )
+              reference (0,-1,0) (0,-1,-l3)
+              velocity max_vel
+							damping damping_factor_passive
+							
+    REVOLUTE: link4 (0,0,l4) (1,0,l4)
+              link5 (0,0, 0) (1,0,0 )
+              reference (0,-1,0) (0,-1,-l4)
+              velocity max_vel
+							damping damping_factor_passive
+							
+    REVOLUTE: link5 (0,0,l5) (1,0,l5)
+              link1 (0,0, 0) (1,0,0 )
+              reference (0,-1,0) (0,-1,-l5)
+              velocity max_vel
+              torque max_torque
+							damping damping_factor
+
+    FIX: link3 hand Tz(l3)
+
+[COLLISIONS]
+
+  do not check: all
+ // check: link1,link3
+ // check: link1,link4
+
+
+/** \endcond */
+
+/** \file FiveBars_dynamicsIRI.world
+
+    \brief A planar five bar mechanism with dynamic constraints.
+
+    This is just a variant of \ref FiveBars_dynamics.world changing some of the link sizes.
+    Please see \ref FiveBars_dynamics.world  for a description and instrucions on how
+    to process this example.
+
+*/

@@ -1,0 +1,155 @@
+/** \cond */
+
+[CONSTANTS]
+
+  % color for the arm (sort of grey)
+  cr:=0.6
+  cg:=0.6
+  cb:=0.6
+
+[LINKS]
+
+  world 
+
+  maze: body  "bodies/maze2.off"
+
+  arm0: body "bodies/barret-arm-0.off" color (cr,cg,cb)
+
+  arm1: body "bodies/barret-arm-1.off" color (cr,cg,cb) 
+
+  arm2: body "bodies/barret-arm-2.off" color (cr,cg,cb)
+
+  % Use a cylinder for simplified collision detection
+  arm3: body "bodies/barret-arm-3.off" color (cr,cg,cb) decoration
+        cylinder 0.05 (0,0,0.05) (0,0,0.5) hidden 
+
+  % Use a cylinder for simplified collision detection
+  arm4: body "bodies/barret-arm-4.off" color (cr,cg,cb) decoration
+        cylinder 0.05 (-0.045,-0.05,0) (-0.045,-0.29,0) hidden
+
+  arm5: body "bodies/barret-arm-5.off" color (cr,cg,cb)
+
+  arm6: body "bodies/barret-arm-6.off" color (cr,cg,cb)
+
+  %rigid hand
+  arm7: body "bodies/barret-fixHand-1.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-2.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-3.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-4.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-5.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-6.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-7.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-8.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-9.off" color (cr,cg,cb) decoration
+        body "bodies/barret-fixHand-10.off" color (cr,cg,cb) decoration
+        % stick in arm
+        cylinder 0.005 (0,0.05,0.17) (0,-0.350,0.17)
+        sphere 0.015 (0,0.02,0.17) black decoration
+
+  dummy1
+  dummy2
+
+[JOINTS]
+
+  fix: world maze Txyz(0.77,-0.14,-0.346)*Rz(Pi/2)
+
+  fix: world arm0 Txyz(-0.22,-0.14,-0.346)
+
+  revolute: arm0 (0.22,0.14,0.346)+(0,0,1)
+            arm1 (0,0,0)+(0,0,1)
+
+  revolute: arm1 (0,0,0)+(0,1,0)
+            arm2 (0,0,0)+(0,0,1)
+
+  revolute: arm2 (0,0,0)+(0,1,0)
+            arm3 (0,0,0)+(0,0,-1)
+
+  revolute: arm3 (0.045,0,0.55)+(0,1,0)
+            arm4 (0,0,0)+(0,0,1)
+
+  revolute: arm4 (-0.045,0,0)+(0,1,0)
+            arm5 (0,0,0)+(0,0,-1)
+
+  revolute: arm5 (0,0,0.3)+(0,1,0)
+            arm6 (0,0,0)+(0,0,1)
+
+  revolute: arm6 (0,0,0)+(0,1,0)
+            arm7 (0,0,0)+(0,0,-1)
+
+  prismatic: world (0.43, -0.2886, -0.356)+(1,0,0)
+             dummy1 (0,0,0)+(1,0,0)
+	     range [0,0.44] 
+
+  prismatic: dummy1 (0,0,0)+(0,1,0)
+             dummy2 (0,0,0)+(0,1,0)
+	     range [0,0.52]
+
+  fix: dummy2 arm7 Txyz(-0.17,0,0.350)*Rz(pi/2)*Rx(pi/2)
+
+[COLLISIONS]
+
+  do not check: all
+  check : arm7,maze
+  check : arm3,arm4
+  check : arm3,arm7
+  check : arm4,arm7
+  check : arm3, maze
+  check : arm4, maze
+  check : arm4, arm7
+
+/** \endcond */
+
+/**
+   \file BarretArm-Maze-FixRot.world
+
+   \brief The Barret arm holding a stick to solve a maze problem.
+
+   <center>
+   <img src="../images/Barret/BarretMaze.png">
+   </center>
+
+   The Barret arm holding a stick to solve a maze problem with the
+   orientation of the end effector fixed.
+   
+   This examples is used in the <a href="http://www.iri.upc.edu/people/porta/Docs/tro13a.pdf">TRO-13</a> paper.
+
+   The key data for this problem is:
+   <center>
+   <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 9 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 3 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 2.5 </td>
+     </tr>
+   </table>
+   </center>
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+      - <b>Solve the path planning problem</b> Execute
+             - <i>\ref cuikatlasrrt.c  "bin/cuikatlasrrt" examples/Barret/BarretArm-Maze-FixRot</i>
+	     .    
+      - <b>An alternative way to plan</b>: Note that different path planning algorithms use different
+        parameter setting. Just uncomment the right lines in the parameter file. In particular, deactivate the
+        bifurcation detection (set \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS" to 0 in the parameter file) and execute:
+             - <i>\ref cuikatlasGBF.c  "bin/cuikatlasGBF" examples/Barret/BarretArm-Maze-FixRot</i>
+	     .
+      - <b>An alternative ways to plan existing in the literature</b>: 
+             - <i>\ref cuikcbirrt.c  "bin/cuikcbirrt" examples/Barret/BarretArm-Maze-FixRot</i>
+             - <i>\ref cuikccrrt.c  "bin/cuikccrrt" examples/Barret/BarretArm-Maze-FixRot</i>
+	     .
+      - <b>Visualize the path</b>: Whatever the procedure used to plan
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/Barret/BarretArm-Maze-FixRot examples/Barret/BarretArm-Maze-FixRot_path</i>
+	     .
+      - <b>To smooth an output path</b>: 
+             - <i>\ref cuiksmoothpath.c  "bin/cuiksmoothpath" examples/Barret/BarretArm-Maze-FixRot</i>
+	     .
+      - <b>Visualize the smoothed path</b>: 
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/Barret/BarretArm-Maze-FixRot examples/Barret/BarretArm-Maze-FixRot_path_s</i>
+	     .
+      .
+*/

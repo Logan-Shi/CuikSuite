@@ -1,0 +1,122 @@
+/** \cond */
+
+[CONSTANTS]
+
+l1:=4
+l2:=2
+l3:=1
+
+range1_low:=-pi/3
+range2_low:=-pi/3
+range3_low:=-pi/3
+
+range1_up:=pi/3
+range2_up:=pi/3
+range3_up:=pi/3
+
+[LINKS]
+
+  base:  sphere 0.1 (0,0,0) red
+
+  link1: color (0.9,0.9,0.9)
+         cylinder 0.05 (0,0,0) (l1,0,0)
+	 sphere 0.1 (l1,0,0) red
+
+  link2: color (0.1,0.1,0.1)
+         cylinder 0.05 (0,0,0) (l2,0,0)
+	 sphere 0.1 (l2,0,0) red
+
+  link3: color (0.9,0.9,0.9)
+         cylinder 0.05 (0,0,0) (l3,0,0)
+ 
+  end_effector: sphere 0.1 (0,0,0) green
+
+[JOINTS]
+  revolute: base  (0,1,0)  (0,-1,0)
+            link1 (0,1,0)  (0,-1,0)
+	    range [range1_low,range1_up]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: link1 (l1,1,0) (l1,-1,0)
+            link2 (0 ,1,0) (0 ,-1,0)
+	    range [range2_low,range2_up]
+                  +(1,0,0) +(1,0,0)
+	    
+
+  revolute: link2 (l2,1,0) (l2,-1,0) 
+            link3 (0 ,1,0) (0 ,-1,0)
+	    range [range3_low,range3_up]
+                  +(1,0,0) +(1,0,0)
+
+  fix: link3 end_effector
+       Tx(l3)
+
+/** \endcond */
+
+/** \file 3R.world
+
+    \brief A planar 3R robot used to test the sigularity-related tools.
+
+   <center>
+   <img src="../images/WSSingularities/3R.png">
+   </center>
+
+    Determining the workspace boundaries of a 3R planar robot. 
+
+    You can get an idea of the workspace to bound executing;
+       - \ref cuikmove.c "scripts/cuikmove" examples/WSSingularities/3R
+       .
+
+    The point to track is the one in green. Each red dot is a revolute joint, where all rotation
+    axis are parallel.
+
+    <center>
+      <img src="../images/WSSingularities/3R_conf.png">
+    </center>
+
+    To process this problem you have to generate the equations executing either
+       - <i> \ref cuiksingequations.c "bin/cuiksingequations" examples/WSSingularities/3R </i>
+       - <i> \ref cuiksimplify.c "bin/cuiksimplify" examples/WSSingularities/3R_sing </i>
+       - <i> \ref cuikaddjacobian.c "bin/cuikaddjacobian" examples/WSSingularities/3R_sing_simp end_effector_r_x end_effector_r_z </i>
+       - <i> \ref cuik.c "bin/cuik" examples/WSSingularities/3R_sing_simp_J </i>
+       - <i> \ref cuikplot.c "bin/cuikplot" examples/WSSingularities/3R_sing_simp_J 9 10 workspace3R </i>
+       - <i> xfig workspace3R.fig </i>
+       .
+    or
+       - <i> \ref cuikTWS.c "bin/cuikTWS" examples/WSSingularities/3R end_effector </i>
+       - <i> \ref cuik.c "bin/cuik" examples/WSSingularities/3R_TWS </i>
+       - <i> \ref cuikplot.c "bin/cuikplot" examples/WSSingularities/3R_TWS 9 10 workspace3R </i>
+       - <i> xfig workspace3R.fig </i>
+       .
+
+    The output is a set of one-dimensional curves that bound the translational workspace of the robot. 
+    In both cases the process takes about 3 minutes and generates about 4800 boxes  
+       
+    \ref cuiksimplify.c "bin/cuiksimplify" and   \ref cuikaddjacobian.c "bin/cuikaddjacobian" are intended to be
+    tools to define the equation set to analyze the singularities on any subset of variables. The workspace
+    boundaries are singularities on the varariables giving the position of the end effector link.
+    \ref cuikTWS.c "bin/cuikTWS" is a tool specific to generate the equations characterizing translational
+    workspaces.
+
+    In both cases the execution takes about 200 seconds and generate about 4800 solution boxes. 
+    In both cases you will get a planar plot of the translatinal workspace of the interest variables
+    (the area reachable for the end effector, that is a particular point on the last link of the robot).
+
+    To obtain a 3D plot you can execute:
+       - \ref cuikplot3d.c "bin/cuikplot3d" examples/WSSingularities/3R_sing_simp_J 9 11 10 0 workspace3R
+       .
+    or
+       - \ref cuikplot3d.c "bin/cuikplot3d" examples/WSSingularities/3R_TWS 9 11 10 0 workspace3R
+       .
+    and then visualize the output
+       - <i> \ref cuikmove.c "scripts/cuikmove" examples/WSSingularities/3R </i>
+       - Load the file workspace3R.gcl using the geomview main menu (File->Open)
+       - Set the camera to orthographic view (geomview menu Inspect->Cameras and then set the Orthographic option)
+       - Look the full scene (Press button look) and rotate it until you view the image below (view the image orthogonal
+         to the X-Z plane containing the robot).
+       - Move the sliders to see how the end effector (the green dot) remains in the computed boundaries. The interesting
+         situations occur when the sliders (one or more than one) are in the extreme of their ranges.
+       .
+     <center><img src="../images/WSSingularities/3R_robot_conf.png"></center>
+
+*/

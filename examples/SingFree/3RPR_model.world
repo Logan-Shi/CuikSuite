@@ -1,0 +1,104 @@
+/** \cond */
+
+[CONSTANTS]
+
+% anchor points in the base
+a1x:=0
+a1y:=0
+a2x:=15.91
+a2y:=0
+a3x:=0
+a3y:=10
+
+% anchor points in the platform
+b1x:=0
+b1y:=0
+b2x:=17.04
+b2y:=0
+cos1:=(16.54^2-20.84^2-17.04^2)/(-2*20.84*17.04)
+sin1:=sqrt(1-cos1^2)
+b3x:=20.84*cos1
+b3y:=20.84*sin1
+
+% Lower/Upper range 
+l1:=10
+l2:=40
+
+l3:=l2-l1
+
+% radious of the cylinder of the lower part of the leg
+rc1:=0.15
+
+% radious of the cylinder of the upper part of the leg
+rc2:=0.1
+
+% radious of the cylinder for the platform
+rcp:=0.1
+
+[LINKS]
+
+base
+
+leg1_1: cylinder rc1 (0,0,0) (l1,0,0)
+leg2_1: cylinder rc1 (0,0,0) (l1,0,0)
+leg3_1: cylinder rc1 (0,0,0) (l1,0,0)
+
+leg1_2: cylinder rc2 (0,0,0) (l3,0,0)
+leg2_2: cylinder rc2 (0,0,0) (l3,0,0)
+leg3_2: cylinder rc2 (0,0,0) (l3,0,0)
+
+platform: cylinder rcp (b1x,0,b1y) (b2x,0,b2y)
+          cylinder rcp (b2x,0,b2y) (b3x,0,b3y)
+          cylinder rcp (b3x,0,b3y) (b1x,0,b1y)
+
+[JOINTS]
+
+revolute: base (a1x,0,a1y)+(0,1,0)
+	  leg1_1 (0,0,0)+(0,1,0)
+
+revolute: base (a2x,0,a2y)+(0,1,0)
+	  leg2_1 (0,0,0)+(0,1,0)
+
+revolute: base (a3x,0,a3y)+(0,1,0)
+	  leg3_1 (0,0,0)+(0,1,0)
+
+prismatic: leg1_1 (0,0,0)+(1,0,0)
+	   leg1_2 (0,0,0)+(1,0,0)
+           range [l1,l2]
+
+prismatic: leg2_1 (0,0,0)+(1,0,0)
+	   leg2_2 (0,0,0)+(1,0,0)
+           range [l1,l2]
+
+prismatic: leg3_1 (0,0,0)+(1,0,0)
+	   leg3_2 (0,0,0)+(1,0,0)
+           range [l1,l2]
+
+revolute: leg1_2 (l3,0,0)+(0,1,0)
+	  platform (b1x,0,b1y)+(0,1,0)
+
+revolute: leg2_2 (l3,0,0)+(0,1,0)
+	  platform (b2x,0,b2y)+(0,1,0)
+
+revolute: leg3_2 (l3,0,0)+(0,1,0)
+	  platform (b3x,0,b3y)+(0,1,0)
+
+/** \endcond */
+
+/** \file 3RPR_model.world
+
+    \brief The 3RPR manipulator.
+
+    <center>
+    <img src="../images/SingFree/3RPR.png">
+    </center>
+
+    The 3RPR manipulator. 
+
+    Note that this is only given as a reference since it is not actually used
+    in the Singularity free planning. We directly define the cuik file "by hand"
+    instead of deriving it from the world. Moreover, the cuik file includes
+    the singularity avoidance equations that can not (yet) be generated automatically
+    from the world.
+
+*/

@@ -1,0 +1,322 @@
+/** \cond */
+[CONSTANTS]
+
+  % Size of the Dextar-like robot
+  l1:=0.6472
+  l2:=1.14
+  l3:=0.9
+  l4:=0.9
+  l5:=1.14
+	
+  % Representation parameters
+  r:=0.05  % Radius of bars (and balls)
+  d:=0.1   % length of the revolute joints
+  h:=2.5   % height of the pendulum
+  rl:=2*d  % Radius of the load ball 
+
+  % Masses
+  mass_load:=1
+  mass_link:=0.5
+
+  % Maximum torque
+  max_torque:=15
+
+  % Maximum velocity
+  max_vel:=25
+
+  % Degree of the singularity avoidance (max. value for the dummy variable).
+  % This appears in the added equation file
+  max_dummy:=15
+
+  % Joint cost
+  jc:=(max_torque)^2
+
+  % motor damping
+  damping_factor:=0.2
+  damping_factor_passive:=0.05
+	
+  [LINKS]
+
+    link1: black
+	   % The base of the mechanism
+	   box (-9*d-2*r,-h-2*r,-h/4-2*r) (+9*d+2*r,-h,l1+h/4+2*r) grey
+	   box (-h,-h-4*r,-3*h) (h,-h-2*r,l1+3*h) white
+	   cylinder 1.5*r (-9*d,-h,h/4+l1) (-9*d,0,h/4+l1)
+	   cylinder 1.5*r (-9*d,-h,-h/4) (-9*d,0,-h/4)
+	   cylinder 1.5*r (9*d,-h,h/4+l1) (9*d,0,h/4+l1)
+	   cylinder 1.5*r (9*d,-h,-h/4) (9*d,0,-h/4)
+	   sphere 1.5*r (9*d,0,-h/4)
+	   sphere 1.5*r (9*d,0,h/4+l1)
+	   sphere 1.5*r (-9*d,0,-h/4)
+	   sphere 1.5*r (-9*d,0,h/4+l1)
+	       
+	   % Suport horizontal
+	   cylinder 1.5*r (-9*d,0,-h/4) (-9*d,0,h/4+l1)
+	   cylinder 1.5*r (9*d,0,-h/4) (9*d,0,h/4+l1)
+	   cylinder 2*r (-6*d,0,0) (-9.5*d+2*r,0,0) white
+	   cylinder 2*r (+6*d,0,l1) (+9.5*d-2*r,0,l1) white
+	       
+	   mass 0
+	   inertia matrix sphere 0
+	   inertial frame Id
+
+    link2: white
+           cylinder r (5*d,0,0) (5*d,0,l2)
+
+           cylinder r (4*d,0,0) (6*d,0,0)
+           sphere r (4*d,0,0)
+
+           cylinder r (4*d,0,l2) (6*d,0,l2)
+           sphere r (6*d,0,l2)
+
+           mass mass_link
+	   inertia matrix 1/12*mass_link*l2^2,0,0,1/12*mass_link*l2^2,0,0
+	   inertial frame Tz(l2/2)
+
+    link3: black
+           cylinder r (3*d,0,0) (3*d,0,l3)
+
+	   cylinder r (2*d,0,0) (4*d,0,0)
+           sphere r (2*d,0,0)
+
+           cylinder r (2*d,0,l3) (4*d,0,l3)
+           sphere r (4*d,0,l3)
+
+           mass mass_link
+	   inertia matrix 1/12*mass_link*l3^2,0,0,1/12*mass_link*l3^2,0,0
+	   inertial frame Tz(l3/2)
+
+    link4: black
+           cylinder r (-3*d,0,0) (-3*d,0,l4)
+
+           cylinder r (-2*d,0,0) (-4*d,0,0)
+           sphere r (-4*d,0,0)
+
+           cylinder r (-2*d,0,l4) (-4*d,0,l4)
+           sphere r (-2*d,0,l4)
+
+           mass mass_link
+	   inertia matrix 1/12*mass_link*l4^2,0,0,1/12*mass_link*l4^2,0,0
+	   inertial frame Tz(l4/2)
+
+    link5: white
+           cylinder r (-5*d,0,0) (-5*d,0,l5)
+
+           cylinder r (-4*d,0,0) (-6*d,0,0)
+           sphere r (-6*d,0,0)
+
+           cylinder r (-4*d,0,l5) (-6*d,0,l5)
+           sphere r (-4*d,0,l5)
+
+           mass mass_link
+	   inertia matrix 1/12*mass_link*l5^2,0,0,1/12*mass_link*l5^2,0,0
+	   inertial frame Tz(l5/2)
+
+    load: black
+          cylinder rl (-2*d,0,0) (2*d,0,0) red  %load
+
+	  mass mass_load
+	  inertia matrix 2/5*mass_load*rl^2,0,0,2/5*mass_load*rl^2,0,2/5*mass_load*rl^2
+	  inertial frame Id
+
+[JOINTS]
+
+    REVOLUTE: link1 (0,0,l1) (1,0,l1)
+              link2 (0,0,0 ) (1,0,0 )
+              reference (0,-1,l1) (0,-1,0)
+              velocity max_vel
+              torque max_torque
+	      cost jc
+	      damping damping_factor
+
+    REVOLUTE: link2 (0,0,l2) (1,0,l2)
+              link3 (0,0,0 ) (1,0,0 )
+              reference (0,-1,l2) (0,-1,0)
+              velocity max_vel
+	      damping damping_factor_passive
+
+    REVOLUTE: link3 (0,0,l3) (1,0,l3)
+              link4 (0,0,0 ) (1,0,0 )
+              reference (0,-1,l3) (0,-1,0)
+              velocity max_vel
+	      damping damping_factor_passive
+	      
+    REVOLUTE: link4 (0,0,l4) (1,0,l4)
+              link5 (0,0,0 ) (1,0,0 )
+              reference (0,-1,l4) (0,-1,0)
+              velocity max_vel
+	      damping damping_factor_passive
+							
+    REVOLUTE: link5 (0,0,l5) (1,0,l5)
+              link1 (0,0,0 ) (1,0,0 )
+              reference (0,-1,l5) (0,-1,0)
+              velocity max_vel
+              torque max_torque
+	      cost jc
+	      damping damping_factor
+
+    FIX: link3 load Tz(l3)
+
+% Comment out if we dont want to avoid singularities
+% [EQUATIONS]
+%   EQFILE: "singularityAvoidance_eqs.cuik"
+
+[COLLISIONS]
+
+  % Collisions are not rellevant in this problem
+  do not check: all
+
+/** \endcond */
+
+/** \file FiveBars_dynamics.world
+
+    \brief A planar five bar mechanism with dynamic constraints.
+
+    A planar five bar mechanism with dynamics.
+
+    This tasks consists in
+    throwing a given object from a certain position at a prescribed velocity, indicated with the red arrow.
+    This shows the planner ability to reach goal states \f${\bf x}_g\f$ with nonzero velocity, which would be difficult to achieve with conventional
+    C-space approaches.
+
+   <center>
+    <table border="1" width="800">
+    <tr>
+      <td  style="vertical-align: bottom;"><img width="390px" src="../images/FiveBars/five_bars_start.png"></td>
+      <td  style="vertical-align: bottom;"><img width="390px" src="../images/FiveBars/five_bars_goal.png"></td>
+    </tr>
+    <tr>
+      <td  align="center">Start</td>
+      <td  align="center">Goal</td>
+    </tr>
+    </table>
+   </center>
+
+    <center><a href="#param">[Model Parameters]</a><a href="#dimensions">[Problem Dimensions]</a><a href="#sing">[Forward Singularities]</a><a href="#process">[Process and Results]</a><a href="#refs">[References]</a></center>
+
+    <h2><a name="param">Model Parameters</a></h2>
+    The robot involves five links cyclically connected with revolute joints from which 
+    only the two base joints are actuated. 
+
+    The lenght of the links are set to
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>\f$L_0\f$</th>
+      <td  align="center">0.6472</td>
+    </tr>
+    <tr>
+      <th>\f$L_1\f$</th>
+      <td  align="center">1.14</td>
+    </tr>
+    <tr>
+      <th>\f$L_2\f$</th>
+      <td  align="center">0.9</td>
+    </tr>
+    <tr>
+      <th>\f$L_3\f$</th>
+      <td  align="center">0.9</td>
+    </tr>
+    <tr>
+      <th>\f$L_4\f$</th>
+      <td  align="center">1.14</td>
+    </tr>
+    </table>
+    </center>
+
+    The remaining set of geometric and dynamic parameters, such as mass, inertia or friction,
+    are given within the world file accessible at the bottom of the page.
+
+    <h2><a name="sing">Forward Singularities</a></h2>
+
+    Any parallel robot may present forward singularities, which are configurations in which the robot is locally underactuated.
+    In particular, a five-bar robot (with the two base joints actuated) is known to exhibit a forward singularity when its two distal links happen to be aligned.
+    Two examples of forward singularities are shown in the following image:
+    
+    <center>
+    <table border="1" width="800">
+    <tr>
+      <td  style="vertical-align: bottom;"><img width="390px" src="../images/FiveBars/five_bars_singularity1.png"></td>
+      <td  style="vertical-align: bottom;"><img width="390px" src="../images/FiveBars/five_bars_singularity2.png"></td>
+    </tr>
+    </table>
+    </center>
+
+    These configurations are difficult to manage, as they can only be crossed under very specific velocities and accelerations fulfilling certain rank-deficiency conditions.
+    However, since our planner trajectories result from simulating control policies \f${\bf u}(t)\f$ using forward dynamics, they naturally satisfy the mentioned conditions
+    at the singularities, and are thus kinematically and dynamically feasible even in such configurations.
+
+    <h2><a name="dimensions">Problem Dimensions</a></h2>
+
+   The dimensions of the problem are
+
+   <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nbr. of joints</th>
+      <td  align="center">5</td>
+    </tr>
+    <tr>
+      <th>Nbr. of states</th>
+      <td  align="center">10</td>
+    </tr>
+    <tr>
+      <th>Nbr. of actuators</th>
+      <td  align="center">2</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position equations </th>
+      <td  align="center">3</td>
+    </tr>
+    <tr>
+      <th>Nbr. of position and velocity equations </th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>State-space manifold dimension</th>
+      <td  align="center">4</td>
+    </tr>
+    </table>
+    </center>
+    
+    <h2><a name="process">Process and Results</a></h2>
+
+   This example is used to show how the kinodynamic planner is able to deal with start or goal states with non-zero velocity
+   and how it is able to cross forward singularities.
+
+   To solve the kinodynamic planning problem, follow these steps (from the main CuikSuite folder):
+
+     - <b>Run the kinodynamic RRT algorithm</b>:
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/FiveBars/FiveBars_dynamics</i>
+             .
+     - <b>Execute the trajectory</b>:
+             - <i>\ref cuikplay.c "scripts/cuikplayer" examples/FourBars/FourBars_pendulum examples/FourBars/FourBars_pendulum_traj.sol</i>
+             .
+
+
+   <center>
+    <img src="../images/FiveBars/trajectory_fivebars.gif">
+   </center>
+   
+
+
+   The video is slowed down when the robot is crossing forward singularities.
+   We see that the robot passes through these configurations in a smooth and predictable manner with no difficulty.
+
+
+   Note that, while such a trajectory would be difficult to execute using classical computed-torque controllers,
+   the LQR controller for closed kinematic chains presented in <a href="#r1">[1]</a> have no trouble in accomplishing this task. Forward singularities can still
+   be avoided by using the formulation presented in <a href="#r2">[2]</a>. In practice, just uncomment the corresponding lines in the world file to enable
+   the singularity avoidance constraints.
+
+
+
+   <h2><a name="refs">References</a></h2>
+
+   <a name="r1">[1]</a> R. Bordalba, J. M. Porta, and L. Ros. <a href="http://www.iri.upc.edu/files/scidoc/2081-A-Singularity-Robust-LQR-Controller-for-Parallel-Robots.pdf">A singularity-robust LQR controller for parallel robots.</a>  In IEEE/RSJ International Conference on Intelligent Robots and Systems, pages 270–276, 2018.
+
+   <a name="r2">[2]</a> R. Bordalba, J. M. Porta, and L. Ros. <a href="http://www.iri.upc.edu/files/scidoc/2082-Randomized-Planning-of-Dynamic-Motions-Avoiding-Forward-Singularities.pdf">Randomized planning of dynamic motions avoiding forward singularities.</a> In Advances in Robot Kinematics, pages 170–178, 2018.
+
+	
+*/

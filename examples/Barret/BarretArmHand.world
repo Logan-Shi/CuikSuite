@@ -1,0 +1,208 @@
+
+/** \cond */
+
+[CONSTANTS]
+
+  d1:=0.55
+  a1:=0.045
+
+  d2:= 0.3
+
+  % to facilitate fixing the arm configuration we
+  % define its position as an angle plus a range
+  % (the range is set to zero to fix the angle)
+
+  theta1:=-Pi/15.4
+  theta2:=Pi/2
+  theta3:=-Pi/2
+  theta4:=Pi/2
+  theta5:=Pi
+  theta6:=Pi/2
+  theta7:=Pi
+
+  theta8:=0
+  theta9:=0
+  theta10:=0
+  theta11:=0
+  theta12:=0
+
+  range1:=pi/2
+  range2:=pi/2
+  range3:=pi/2
+  range4:=pi/2
+  range5:=pi/2
+  range6:=pi/2
+  range7:=pi/2
+
+  range8:=pi/2
+  range9:=pi/2
+  range10:=pi/2
+  range11:=pi/2
+  range12:=pi/2
+
+  % color for the arm (sort of grey)
+  cr:=0.6
+  cg:=0.6
+  cb:=0.6
+
+[LINKS]
+
+  % arm
+
+  world
+
+  arm0: body "bodies/barret-arm-0.off" color (cr,cg,cb)
+  arm1: body "bodies/barret-arm-1.off" color (cr,cg,cb)
+  arm2: body "bodies/barret-arm-2.off" color (cr,cg,cb)
+  arm3: body "bodies/barret-arm-3.off" color (cr,cg,cb)
+  arm4: body "bodies/barret-arm-4.off" color (cr,cg,cb)
+  arm5: body "bodies/barret-arm-5.off" color (cr,cg,cb)
+  arm6: body "bodies/barret-arm-6.off" color (cr,cg,cb)
+  arm7: body "bodies/barret-arm-7.off" color (cr,cg,cb)
+      body "bodies/barret-arm-7-b.off" color (cr,cg,cb)
+
+
+  % hand
+
+  hand21: body "bodies/barret-arm-8.off" color (cr,cg,cb)
+  hand22: body "bodies/barret-arm-9.off" color (cr,cg,cb)
+
+
+  hand00: body "bodies/barret-arm-10.off" color (cr,cg,cb)
+  hand01: body "bodies/barret-arm-8.off" color (cr,cg,cb)
+  hand02: body "bodies/barret-arm-9.off" color (cr,cg,cb)
+
+
+  hand10: body "bodies/barret-arm-10.off" color (cr,cg,cb)
+  hand11: body "bodies/barret-arm-8.off" color (cr,cg,cb)
+  hand12: body "bodies/barret-arm-9.off" color (cr,cg,cb)
+
+[JOINTS]
+
+  % j0 
+  fix: world arm0 Txyz(-0.22,-0.14,-0.346)
+
+  % j1
+  revolute: arm0 (0.22,0.14,0.346)+(0,0,1)
+            arm1 (0,0,0)+(0,0,1)
+            range [theta1-range1,theta1+range1]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j2
+  revolute: arm1 (0,0,0)+(0,1,0)
+            arm2 (0,0,0)+(0,0,1)
+            range [theta2-range2,theta2+range2]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j3
+  revolute: arm2 (0,0,0)+(0,1,0)
+            arm3 (0,0,0)+(0,0,-1)
+            range [theta3-range3,theta3+range3]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j4
+  revolute: arm3 (0.045,0,0.55)+(0,1,0)
+            arm4 (0,0,0)+(0,0,1)
+            range [theta4-range4,theta4+range4]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j5
+  revolute: arm4 (-0.045,0,0)+(0,1,0)
+            arm5 (0,0,0)+(0,0,-1)
+            range [theta5-range5,theta5+range5]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j6
+  revolute: arm5 (0,0,0.3)+(0,1,0)
+            arm6 (0,0,0)+(0,0,1)
+            range [theta6-range6,theta6+range6]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  % j7
+  revolute: arm6 (0,0,0)+(0,1,0)
+            arm7 (0,0,0)+(0,0,-1)
+            range [theta7-range7,theta7+range7]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: arm7   (-0.05,0,0.1515)+(0,1,0)
+            hand21 (0,0,0)+(0,0,1)
+            range [theta8-range8,theta8+range8]
+                  +(0.707106781186548,0,0.707106781186548)
+                  +(1,0,0)          
+
+  revolute: hand21 (0.07,0,0)+(0,0,1)
+            hand22 (0,0,0)+(0,0,1)
+            range [theta9-range9,theta9+range9]
+                  +(0,1,0)
+                  +(1,0,0)
+
+  revolute: arm7   (0,-0.025,0.1515)+(0,0,1)
+            hand00 (0,0,0)+(0,0,1)
+            range [theta10-range10,theta10+range10]
+                  +(1,0,0)
+                  +(1,0,0)          
+
+  revolute: hand00 (0.05,0,0)+(0,-1,0)
+            hand01 (0,0,0)+(0,0,1)
+            range [theta11-range11,theta11+range11]
+                  +(-0.707106781186548,0,0.707106781186548)
+                  +(1,0,0)          
+  
+  revolute: hand01 (0.07,0,0)+(0,0,1)
+            hand02 (0,0,0)+(0,0,1)
+            range [theta12-range12,theta12+range12]
+                  +(0,1,0)
+                  +(1,0,0)
+
+  revolute: arm7   (0,0.025,0.1515)+(0,0,1)
+            hand10 (0,0,0)+(0,0,1)
+            range [theta10-range10,theta10+range10]
+                  +(1,0,0)
+                  +(1,0,0)          
+
+  revolute: hand10 (0.05,0,0)+(0,-1,0)
+            hand11 (0,0,0)+(0,0,1)
+            range [theta11-range11,theta11+range11]
+                  +(-0.707106781186548,0,0.707106781186548)
+                  +(1,0,0)          
+
+  revolute: hand11 (0.07,0,0)+(0,0,1)
+            hand12 (0,0,0)+(0,0,1)
+            range [theta12-range12,theta12+range12]
+                  +(0,1,0)
+                  +(1,0,0)
+
+/** \endcond */
+
+
+/**
+   \file BarretArmHand.world
+
+   \brief The Barret arm and hand.
+
+
+   The Barret arm in open loop. 
+
+   Note that the fingers are uncoupled, while in the true hand they
+   are coupled, and adapt to the held object. Mechanically coupled
+   joints can be modelled but not adaptive underactuated ones	
+   (see L. Birglen, C. Gosselin, and T. Laliberte, 
+   <a href="http://www.springer.com/engineering/robotics/book/978-3-540-77458-7">Underactuated 
+   robotic hands</a>, Tracks in Advanced Robotics. Springer Verlag, 2008, vol. 40.
+   for more details).
+
+   You can manipulate the different degrees of freedom using
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/Barret/BarretArm</i> 
+      .
+
+   <center>
+   <img src="../images/Barret/barret.jpg">
+   </center>
+*/

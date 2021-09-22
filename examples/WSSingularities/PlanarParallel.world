@@ -1,0 +1,156 @@
+/** \cond */
+
+[CONSTANTS]
+
+l1:=sqrt(2)
+l2:=sqrt(2)
+l3:=1
+
+u1:=2
+u2:=2
+u3:=3
+
+d1:=u1-l1
+d2:=u2-l2
+d3:=u3-l3
+
+[LINKS]
+
+  base: cylinder 0.05 (-1,0,0) (2,0,0) blue
+
+  lower1: sphere 0.1 (0,0,0) red
+          cylinder 0.075 (0,0,0) (l1,0,0) blue 
+
+  lower2: sphere 0.1 (0,0,0) red
+          cylinder 0.075 (0,0,0) (l1,0,0) blue 
+
+  lower3: sphere 0.1 (0,0,0) red
+          cylinder 0.075 (0,0,0) (l1,0,0) blue 
+      
+  upper1: cylinder 0.05 (0,0,0) (d1,0,0) yellow
+          sphere 0.1 (d1,0,0) red
+
+  upper2: cylinder 0.05 (0,0,0) (d2,0,0) yellow
+          sphere 0.1 (d2,0,0) red
+
+  upper3: cylinder 0.05 (0,0,0) (d3,0,0) yellow
+          sphere 0.1 (d3,0,0) red
+      
+  platform: cylinder 0.05 (0,0,0) (2,0,0) blue
+
+  end_effector: sphere 0.1 (0,0,0) green
+
+[JOINTS]
+  revolute: base   (-1,1,0)  (-1,-1,0)
+            lower1 ( 0,1,0)  ( 0,-1,0)
+
+  revolute: base   (1,1,0)  (1,-1,0)
+            lower2 (0,1,0)  (0,-1,0)
+
+  revolute: base   (2,1,0)  (2,-1,0)
+            lower3 (0,1,0)  (0,-1,0)
+
+  prismatic: lower1 (0,0,0)(1,0,0) 
+             upper1 (0,0,0)(1,0,0)
+             range [l1-d1,l1]
+
+  prismatic: lower2 (0,0,0)(1,0,0) 
+             upper2 (0,0,0)(1,0,0)
+             range [l2-d2,l2]
+
+  prismatic: lower3 (0,0,0)(1,0,0) 
+             upper3 (0,0,0)(1,0,0)
+             range [l3-d3,l3]
+
+  revolute: upper1   (d1,1,0) (d1,-1,0)
+            platform ( 0,1,0) ( 0,-1,0)
+
+  revolute: upper2   (d2,1,0) (d2,-1,0)
+            platform ( 0,1,0) ( 0,-1,0)
+
+  revolute: upper3   (d3,1,0) (d3,-1,0)
+            platform ( 2,1,0) ( 2,-1,0)
+
+  fix: platform end_effector
+       Tx(1)
+  
+
+/** \endcond */
+
+/** \file PlanarParallel.world
+
+    \brief A planar parallel platform used to test the sigularity-related tools.
+
+   <center>
+   <img src="../images/WSSingularities/planar.png">
+   </center>
+
+    Determining the workspace boundaries of a planar parallel platform.
+
+    You can get an idea of the workspace to bound executing;
+       - \ref cuikexplore.c "scripts/cuikexplore" examples/WSSingularities/PlanarParallel
+       .
+
+    The point to track is the one in green.
+
+    <center>
+      <img src="../images/WSSingularities/planar_conf.png">
+    </center>
+
+    Note that in this way you are actually exploring one of the possible working modes of
+    this robot. Four working modes exists and the workspace computation must be able to determine
+    all of them.
+
+    To process this problem you have to generate the equations executing either
+       - <i> \ref cuiksingequations.c "bin/cuiksingequations" examples/WSSingularities/PlanarParallel </i>
+       - <i> \ref cuiksimplify.c "bin/cuiksimplify" examples/WSSingularities/PlanarParallel_sing </i>
+       - <i> \ref cuikaddjacobian.c "bin/cuikaddjacobian" examples/WSSingularities/PlanarParallel_sing_simp end_effector_r_x end_effector_r_z </i>
+       - <i> \ref cuik.c "bin/cuik" examples/WSSingularities/PlanarParallel_sing_simp_J </i>
+       - <i> \ref cuikplot.c "bin/cuikplot" examples/WSSingularities/PlanarParallel_sing_simp_J 9 10 workspacePlanar </i>
+       - <i> xfig workspacePlanar.fig </i>
+       . 
+    or
+       - <i> \ref cuikTWS.c "bin/cuikTWS" examples/WSSingularities/PlanarParallel end_effector </i>
+       - <i> \ref cuik.c "bin/cuik" examples/WSSingularities/PlanarParallel_TWS </i>
+       - <i> \ref cuikplot.c "bin/cuikplot" examples/WSSingularities/PlanarParallel_TWS 9 10 workspacePlanar </i>
+       - <i> xfig workspacePlanar.fig </i>
+       .
+	
+
+    The output is a set of one-dimensional curves that bound the translational workspace of the robot.
+    In both cases the process takes about 7 minutes and generates about 3500 boxes     
+
+    \ref cuiksimplify.c "bin/cuiksimplify" and   \ref cuikaddjacobian.c "bin/cuikaddjacobian" are intended to be
+    tools to define the equation set to analyze the singularities on any subset of variables. The workspace
+    boundaries are singularities on the varariables giving the position of the end effector link.
+    \ref cuikTWS.c "bin/cuikTWS" is a tool specific to generate the equations characterizing translational
+    workspaces.
+   
+    In both cases the execution takes about 350 seconds and generate about 3500 solution boxes. 
+    In both cases you will get a planar plot of the translatinal workspace of the interest variables
+    (the area reachable for the end effector, that is a particular point on the moving platform).
+
+    Observe that the output has several separated components. The tools included in the CuikSuite are unique
+    in isolationg these kind of workspaces.
+
+    To obtain a 3D plot you can execute:
+       - \ref cuikplot3d.c "bin/cuikplot3d" examples/WSSingularities/PlanarParallel_sing_simp_J 9 11 10 0 workspacePlanar
+       .
+    or
+       - \ref cuikplot3d.c "bin/cuikplot3d" examples/WSSingularities/PlanarParallel_TWS 9 11 10 0 workspacePlanar
+       .
+    and then visualize the output
+       - <i> \ref cuikexplore.c "scripts/cuikexplore" examples/WSSingularities/PlanarParallel examples/WSSingularities/PlanarParallel</i>
+       - Load the file workspacePlanar.gcl using the geomview main menu (File->Open)
+       - Set the camera to orthographic view (geomview menu Inspect->Cameras and then set the Orthographic option)
+       - Look the full scene (Press button look) and rotate it until you view the image below (view the image orthogonal
+         to the X-Z plane containing the robot).
+       - Move the sliders to see how the end effector (the green dot) remains in the computed boundaries. The interesting
+         situations occur when the sliders (one or more than one) are in the extreme of their ranges.
+       .
+     Observe that only one of four working modes is explored in this way.
+  
+     <center><img src="../images/WSSingularities/PlanarParallel_robot_conf.png"></center>
+
+*/
+

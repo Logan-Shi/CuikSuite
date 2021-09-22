@@ -1,0 +1,72 @@
+%%%% Barret-Arm with maze parameters %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parametes
+
+RHO = 0.9
+SIGMA = 0.01
+SMALL_SIGMA = 1e-4
+ERROR_SPLIT = TRUE
+DUMMIFY = 1
+LR2TM_Q=0.4
+LR2TM_S=0.1
+% SAFE_SIMPLEX=6
+% SIMPLIFICATION_LEVEL=0
+% N_SOLUTIONS = 1
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% joint-based representation
+
+% GBF
+% R = 0.25
+% SR = 0.5
+% E = 0.1
+% CE = 0.1
+% DELTA = 0.025
+
+% RRT
+R = 1.0
+SR = 2
+E = 0.1
+CE = 0.1
+DELTA = 0.025
+
+%------------------------------
+% non-joint representation 
+
+% ICRA/ISRR
+% R = 0.75
+% SR = 1.5
+% E = 0.5
+% CE = 0.5
+% DELTA = 0.05
+
+% TRO
+% R = 1.0
+% SR = 2.0
+% E = 0.25
+% CE=0.4
+% DELTA = 0.05
+
+%------------------------------
+% other path-planning parameters
+
+BETA = 1.1
+
+N_DOF = 4
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

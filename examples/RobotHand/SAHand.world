@@ -1,0 +1,437 @@
+/** \cond */
+[CONSTANTS]
+
+% qji_k is a vector expressing the anchor point of reference frame i with respect to reference frame k of finger j.
+% if k is not given, it means it is respect to the palm, which in our case, it is the absoulute one.
+
+q11x := -4.3  
+q11y := -40.165
+q11z := 145.43
+%q11 = q12 
+
+q21x := -4.3
+q21y := 0
+q21z := 150.15
+%q21 = q22 
+
+q31x := -4.3
+q31y := 40.165
+q31z := 145.43
+%q31 = q32 
+
+q40x := -3
+q40y := 27.1
+q40z := 0
+
+q41x_0:= 97
+q41y_0:=  6
+q41z_0:=-87
+%q41_0 = q42_0 
+
+
+% These anchor points can be seen as the length of the phalanges, 
+% but that is because the phalanges are aligned with this vectors.
+q13x_2 := 67.8
+q13y_2 := 0
+q13z_2 := 0
+
+q14x_3 := 30
+q14y_3 := 0
+q14z_3 := 0
+
+
+q23x_2 := 67.8
+q23y_2 := 0
+q23z_2 := 0
+
+q24x_3 := 30
+q24y_3 := 0
+q24z_3 := 0
+
+
+q33x_2 := 67.8
+q33y_2 := 0
+q33z_2 := 0
+
+q34x_3 := 30
+q34y_3 := 0
+q34z_3 := 0
+
+
+q43x_2 := 67.8
+q43y_2 := 0
+q43z_2 := 0
+
+q44x_3 := 30
+q44y_3 := 0
+q44z_3 := 0
+
+
+% Fingertip point vectors, qj5_4, and fingertip normal vector, mj_4
+q15x_4 := 25
+q15y_4 := 0
+q15z_4 := 0
+m1x_4 := 0.707 
+m1y_4 := 0
+m1z_4 := 0.707
+
+q25x_4 := q15x_4
+q25y_4 := q15y_4
+q25z_4 := q15z_4
+m2x_4 := m1x_4 
+m2y_4 := m1y_4
+m2z_4 := m1z_4
+
+q35x_4 := q15x_4
+q35y_4 := q15y_4
+q35z_4 := q15z_4
+m3x_4 := m1x_4 
+m3y_4 := m1y_4
+m3z_4 := m1z_4
+
+q45x_4 := q15x_4
+q45y_4 := q15y_4
+q45z_4 := q15z_4
+m4x_4 := m1x_4 
+m4y_4 := m1y_4
+m4z_4 := m1z_4
+
+
+% Joint ranges
+
+% Two ranges for the universal joint connecting the palm and finger 1
+phi_1_1_min:=-pi/8
+phi_1_1_max:= pi/8
+
+phi_1_2_min:= 0
+phi_1_2_max:= pi/2
+
+% Range for the first rotation  in finger 1
+phi_1_3_min:= 0
+phi_1_3_max:= pi/2
+
+% Range for the second rotation  in finger 1
+phi_1_4_min:=  0
+phi_1_4_max:=  pi/2
+
+% Range for contact point in finger 1
+beta_1:= pi/6
+
+% Two ranges for the universal joint connecting the palm and finger 2
+phi_2_1_min:= phi_1_1_min
+phi_2_1_max:= phi_1_1_max
+
+phi_2_2_min:= phi_1_2_min
+phi_2_2_max:= phi_1_2_max
+
+% Range for the first rotation  in finger 2
+phi_2_3_min:= phi_1_3_min
+phi_2_3_max:= phi_1_3_max
+
+% Range for the second rotation  in finger 2
+phi_2_4_min:= phi_1_4_min
+phi_2_4_max:= phi_1_4_max
+
+% Range for contact point in finger 2
+beta_2:= beta_1
+
+% Two ranges for the universal joint connecting the palm and finger 3
+phi_3_1_min:= phi_1_1_min
+phi_3_1_max:= phi_1_1_max
+
+phi_3_2_min:= phi_1_2_min
+phi_3_2_max:= phi_1_2_max
+
+% Range for the first rotation  in finger 2
+phi_3_3_min:= phi_1_3_min
+phi_3_3_max:= phi_1_3_max
+
+% Range for the second rotation  in finger 2
+phi_3_4_min:= phi_1_4_min
+phi_3_4_max:= phi_1_4_max
+
+% Range for contact point in finger 3
+beta_3:= beta_1
+
+% Two ranges for the universal joint connecting the palm and finger 4
+phi_4_0_min:= 0
+phi_4_0_max:= pi
+
+phi_4_1_min:= phi_1_1_min
+phi_4_1_max:= phi_1_1_max
+
+phi_4_2_min:= phi_1_2_min
+phi_4_2_max:= phi_1_2_max
+
+% Range for the first rotation  in finger 2
+phi_4_3_min:= phi_1_3_min
+phi_4_3_max:= phi_1_3_max
+
+% Range for the second rotation  in finger 2
+phi_4_4_min:= phi_1_4_min
+phi_4_4_max:= phi_1_4_max
+
+% Range for contact point in finger 4
+beta_4:= beta_1
+
+
+
+% Radius of the spheres representing contact points on the object
+rc:=5
+
+% radius of the sphere modeling the fingertip
+rho:=13
+
+% INPUT TO OUR PROBLEM
+%--------------------------------------------------------------------
+% Object points (xj) and inward normals (nj) in object frame
+% This is the output of the grasp planning algorithm 
+% The change on the contact model, makes us to extend the contact 
+% point along the normal at that point. (xj_e)
+%--------------------------------------------------------------------
+n1x_o := 0
+n1y_o := -1
+n1z_o := 0
+x1x_o := 0
+x1y_o := 0
+x1z_o := 0
+x1x_o_e :=  x1x_o - rho*n1x_o
+x1y_o_e :=  x1y_o - rho*n1y_o 
+x1z_o_e :=  x1z_o - rho*n1z_o
+x1x_o_i :=  x1x_o + rho*n1x_o
+x1y_o_i :=  x1y_o + rho*n1y_o 
+x1z_o_i :=  x1z_o + rho*n1z_o
+     
+n2x_o := 0
+n2y_o := -1
+n2z_o := 0
+x2x_o := 40
+x2y_o := 0 
+x2z_o := 0
+x2x_o_e :=  x2x_o - rho*n2x_o
+x2y_o_e :=  x2y_o - rho*n2y_o
+x2z_o_e :=  x2z_o - rho*n2z_o
+x2x_o_i :=  x2x_o + rho*n2x_o
+x2y_o_i :=  x2y_o + rho*n2y_o
+x2z_o_i :=  x2z_o + rho*n2z_o
+
+n3x_o := 0
+n3y_o := -1
+n3z_o := 0
+x3x_o := 80
+x3y_o := 0
+x3z_o := 0
+x3x_o_e :=  x3x_o - rho*n3x_o
+x3y_o_e :=  x3y_o - rho*n3y_o
+x3z_o_e :=  x3z_o - rho*n3z_o
+x3x_o_i :=  x3x_o + rho*n3x_o
+x3y_o_i :=  x3y_o + rho*n3y_o
+x3z_o_i :=  x3z_o + rho*n3z_o
+   
+n4x_o := 0
+n4y_o := 1
+n4z_o := 0
+x4x_o := 40
+x4y_o := -40
+x4z_o := 0
+x4x_o_e :=  x4x_o - rho*n4x_o
+x4y_o_e :=  x4y_o - rho*n4y_o
+x4z_o_e :=  x4z_o - rho*n4z_o
+x4x_o_i :=  x4x_o + rho*n4x_o
+x4y_o_i :=  x4y_o + rho*n4y_o
+x4z_o_i :=  x4z_o + rho*n4z_o
+   
+
+
+%-------------------------------------------------------------------
+
+%--------------------------------------------------------------------
+
+
+[LINKS]
+
+% palm
+  palm: body "bodies/palmSAH.off" white
+        body "bodies/acs1palm.off" blue
+        body "bodies/acs2palm.off" blue
+        body "bodies/acs3palm.off"
+
+% finger 1
+  p12: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p13: body "bodies/p3.off" white
+   
+  p14: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+% finger 2
+  p22: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p23: body "bodies/p3.off" white
+   
+  p24: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+% finger 3
+  p32: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p33: body "bodies/p3.off" white
+   
+  p34: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+% finger 4
+  p40: body "bodies/p0thumb.off" white
+
+  p42: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p43: body "bodies/p3.off" white
+   
+  p44: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+
+% object: one small circle at the contact points plus cylinders
+%         connecting the contact points (representing the object body).
+  object: 0.75*red
+          sphere rc (x1x_o,x1y_o,x1z_o)
+          sphere rc (x2x_o,x2y_o,x2z_o)
+          sphere rc (x3x_o,x3y_o,x3z_o)
+          sphere rc (x4x_o,x4y_o,x4z_o)
+          cylinder rc*0.25 (x1x_o,x1y_o,x1z_o) (x1x_o_i,x1y_o_i,x1z_o_i)
+          cylinder rc*0.25 (x2x_o,x2y_o,x2z_o) (x2x_o_i,x2y_o_i,x2z_o_i)
+          cylinder rc*0.25 (x3x_o,x3y_o,x3z_o) (x3x_o_i,x3y_o_i,x3z_o_i)
+          cylinder rc*0.25 (x4x_o,x4y_o,x4z_o) (x4x_o_i,x4y_o_i,x4z_o_i)
+
+	      cylinder rc*0.5 (x1x_o,x1y_o,x1z_o) (x2x_o,x2y_o,x2z_o)
+	      cylinder rc*0.5 (x1x_o,x1y_o,x1z_o) (x3x_o,x3y_o,x3z_o)
+          cylinder rc*0.5 (x1x_o,x1y_o,x1z_o) (x4x_o,x4y_o,x4z_o)
+          cylinder rc*0.5 (x2x_o,x2y_o,x2z_o) (x3x_o,x3y_o,x3z_o)
+          cylinder rc*0.5 (x2x_o,x2y_o,x2z_o) (x4x_o,x4y_o,x4z_o)
+	      cylinder rc*0.5 (x3x_o,x3y_o,x3z_o) (x4x_o,x4y_o,x4z_o)
+
+[JOINTS]
+
+% finger 1
+  universal: palm (q11x,q11y,q11z)+(1,0,0) 
+             p12 (0,0,0)+(0,1,0)
+             range [phi_1_1_min,phi_1_1_max] +(0,-0.99941,0.034301) 
+                   [phi_1_2_min,phi_1_2_max] +(1,0,0)
+
+  revolute: p12 (q13x_2,q13y_2,q13z_2)+(0,-1,0)
+            p13 (0,0,0)+(0,-1,0)
+            range [phi_1_3_min,phi_1_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p13 (q14x_3,q14y_3,q14z_3)+(0,-1,0) 
+            p14 (0,0,0)+(0,-1,0)
+            range [phi_1_4_min,phi_1_4_max] +(1,0,0) +(1,0,0)
+
+% finger 2
+  universal: palm (q21x,q21y,q21z)+(1,0,0)
+             p22 (0,0,0)+(0,1,0)
+             range [phi_2_1_min,phi_2_1_max] +(0,-1,0) 
+                   [phi_2_2_min,phi_2_2_max] +(1, 0,0)
+
+  revolute: p22 (q23x_2,q23y_2,q23z_2)+(0,-1,0)
+            p23 (0,0,0)+(0,-1,0)
+            range [phi_2_3_min,phi_2_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p23 (q24x_3,q24y_3,q24z_3)+(0,-1,0) 
+            p24 (0,0,0)+(0,-1,0)
+            range [phi_2_4_min,phi_2_4_max] +(1,0,0) +(1,0,0)
+
+% finger 3
+  universal: palm (q31x,q31y,q31z)+(1,0,0)
+             p32 (0,0,0)+(0,1,0)
+             range [phi_3_1_min,phi_3_1_max] +(0,-0.99937,-0.035485) 
+                   [phi_3_2_min,phi_3_2_max] +(1, 0,0)
+
+  revolute: p32 (q33x_2,q33y_2,q33z_2)+(0,-1,0)
+            p33 (0,0,0)+(0,-1,0)
+            range [phi_3_3_min,phi_3_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p33 (q34x_3,q34y_3,q34z_3)+(0,-1,0) 
+            p34 (0,0,0)+(0,-1,0)
+            range [phi_3_4_min,phi_3_4_max] +(1,0,0) +(1,0,0)
+
+% finger 4
+  revolute: palm (q40x,q40y,q40z)+(0,0,-1)
+            p40 (0,0,0)+(-1,0,0)
+            range [phi_4_0_min,phi_4_0_max] +(0,-1,0) +(0,0,1)
+
+  universal: p40 (q41x_0,q41y_0,q41z_0)+(0.573580,0,0.81915)
+             p42 (0,0,0)+(0,1,0)
+             range [phi_4_1_min,phi_4_1_max] +(0,1,0) 
+                   [phi_4_2_min,phi_4_2_max] +(1,0,0)
+
+  revolute: p42 (q43x_2,q43y_2,q43z_2)+(0,-1,0)
+            p43 (0,0,0)+(0,-1,0)
+            range [phi_4_3_min,phi_4_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p43 (q44x_3,q44y_3,q44z_3)+(0,-1,0) 
+            p44 (0,0,0)+(0,-1,0)
+            range [phi_4_4_min,phi_4_4_max] +(1,0,0) +(1,0,0)
+
+% KINEMATIC OF THE OBJECT-FINGER CONTACT
+
+ SPHERICAL: p14 (q15x_4,q15y_4,q15z_4)
+              object (x1x_o_e,x1y_o_e,x1z_o_e)
+             range  [beta_1] (q15x_4+m1x_4,q15y_4+m1y_4,q15z_4+m1z_4) (x1x_o,x1y_o,x1z_o)
+
+ SPHERICAL: p24 (q25x_4,q25y_4,q25z_4)
+             object (x2x_o_e,x2y_o_e,x2z_o_e)
+             range  [beta_2] (q25x_4+m2x_4,q25y_4+m2y_4,q25z_4+m2z_4) (x2x_o,x2y_o,x2z_o)
+
+ SPHERICAL: p34 (q35x_4,q35y_4,q35z_4)
+             object (x3x_o_e,x3y_o_e,x3z_o_e)
+             range  [beta_3] (q35x_4+m3x_4,q35y_4+m3y_4,q35z_4+m3z_4) (x3x_o,x3y_o,x3z_o)
+
+ SPHERICAL: p44 (q45x_4,q45y_4,q45z_4)
+             object (x4x_o_e,x4y_o_e,x4z_o_e)
+             range  [beta_4] (q45x_4+m4x_4,q45y_4+m4y_4,q45z_4+m4z_4) (x4x_o,x4y_o,x4z_o)
+
+
+
+/** \endcond */
+
+/**
+   \file SAHand.world
+
+   \brief A generic robot anthropomorphic hand with 4 fingers..
+
+    <center><img src="../images/RobotHand/sah.png"></center>
+
+   The <a href="http://www.dlr.de/rm-neu/en/desktopdefault.aspx/tabid-3802/">DLR-II</a> 
+   robot hand.
+
+   Please, see the \ref RobotHand.world example for details on how to model a grasping
+   problem in the CuikSuite. In this case, the structure of the hand is slightly different
+   but the contact points between the hand and the object are defined exactly in the same way
+   (by giving points that must be in contact and normals that migth be aligned).
+
+   Please, see our <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> for
+   more information on the use of CuikSuite in the context of grasping.
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>: 
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/RobotHand/SAHand </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Use the parallel version of cuik since this
+       is a large problem with 190 variables and more than 150 equations. Observe that the process
+       stops as soon as the first solution is found. However, it can take extremely long.
+             - <i> scripts/rmpicuik examples/RobotHand/SAHand </i>
+             .
+     - <b>Visualize the obtained configuration</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/RobotHand/SAHand examples/RobotHand/SAHand</i>
+	     .
+     .
+*/

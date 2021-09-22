@@ -1,0 +1,386 @@
+%%%% DEFAULT SET OF PARAMETERS %%%%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Numerical tolerance
+% (This must be larger than 1e-6 (threshold used inside the simplex))
+% If you set epsilon below 1e-6, expect numerical issues.
+EPSILON = 1e-6
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Representation
+%   The mechanisms configurations can be represented in different ways
+%   See src/CuikWorld/include/link.h for the list of possible representations
+%   In short they are:
+%      LINKS      : A partial rotation matrix per link (2 vectors, 6 parameters,
+%                   the third vector is cross product of the first two).
+%      FLINKS     : A full rotation matrix per link (3 vectors, 9 parametres).
+%      QLINKS     : A rotation matrix per link using quaternions (4 parameters).
+%      JOINTS     : Directly use the DOF of the mechanism. This is the standard
+%                   non-redundant DH representation. In this case parameters are
+%                   associated with joints and not with links.
+REPRESENTATION = JOINTS
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parameters of the branch and prune process
+
+% Ratio to keep on reducing a given box
+RHO = 0.45
+
+% All returned boxes are below this size. This must be larger than
+% SMALL_SIGMA
+SIGMA = 1e-1
+
+% Box reduction is iterated (without bisection!) until the box reach this size.
+% After that, if the box is smaller than SIGMA, it is a solution, if not it its
+% bisected and the BoxReduction is repeated.
+% In practice, continuum solutions are discretized with boxes of size SIGMA
+% and discrete ones with boxes of size SMALL_SIGMA
+% This must be at least 2 order of magnitude larger than EPSILON
+SMALL_SIGMA = 1e-4
+
+% Number of box processed between two consecutive state savings. If, for any
+% reason cuik crashes, the next execution is restarted from the last saved
+% state (if the .state file is still present). 
+% This is useful when addressing large problems.
+% Set this to zero if you don't want to store any state 
+STATE_PERIOD = 1000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parameters to select the algorithm used to solve the problem
+
+% Box-split criterion: 
+%    0: if we use a size-based criterion
+%    1: if we use an error-based criterion
+%    2: if we select the split dimension at random
+SPLIT_TYPE = 1
+
+% Dummify level
+%    0 keep in original form
+%    1 keep lineal,circles and spheres (the rest are transformed into linear,parabolas and saddles)
+%    2 keep lineal (the rest are transformed into linear,parabolas and saddles)
+%    3 keep lineal,circles, spheres and all inequalities (the rest are transformed into linear,parabolas and saddles)
+%    4 keep lineal and all inequalities (the rest are transformed into linear,parabolas and saddles)
+DUMMIFY = 1
+
+% Trade off between speed and numerical stability when using the simplex
+% Possible values are 
+%    0 : no special numerical tricks are used
+%    1 : 0 + The output of the simplex are "corrected" to get safe bounds for the new ranges 
+%    2 : 1 + The simplex tableau is reseted before the  min/max for each range.
+%            This has no effect when using CLP.
+%            Equations where all variables have tiny ranges are not used.
+%    3 : 2 + The simplex tableau is reseted before any optimization.
+%            This has no effect when using CLP
+%    4 : 3 + Linear inequalities with extremely tiny right-hand sides are transformed into
+%            equalities. This enhances the numerical stability of the simplex but 
+%            can lead to loosing solutions. Use at your own risk.
+%    5 : 4 + Tiny ranges are removed from the linear inequalities and accumulated
+%            to the right-hand side of the equation.
+%    6 : 5 + Tiny ranges are removed from the linear constraints (inequalities or not) 
+%            constraints to the right-hand side of the equation.
+%    7 : 6 + Linear inequalities with tiny right-hand sides are transformed into
+%            inequalities. This enhances the numerical stability of the simplex but 
+%            the output boxes are less nice (they overlap).
+SAFE_SIMPLEX = 6
+
+% Trade off between speed and numerical stability when simplifying the given set of equations
+% Possible values are 
+%    0: No simplification is applied.
+%    1: Only equations of the form 'x=a' or 'x^2=0' are considered 
+%       (with 'x' a variable and 'a' a constant).
+%    2: Equations of the form 'x + a*y=b' are also considered
+%       (with 'x' and 'y' variables and 'a' and 'b' constants).
+%    3: Equations of the form 'a*x + b*y=c' are also considered
+%       (with 'x' and 'y' variables and 'a' and 'b' constants).
+SIMPLIFICATION_LEVEL = 2
+
+% Two thresholds to switch between linear relaxation and taylor models.
+% Linear relaxations use more constraints to bound the functions and, thus
+% they converge in less interations but each iteration are slower.
+% Morover, linear relaxations are prone to numerical inestabilities when
+% the ranges are small.
+% Taylor models converge in more (but faster) iterations and are numerically
+% more robust.
+% It make sense to use linear relaxations for large boxes and taylor models
+% for small ones. The thresholds below allow to switch from the two methods.
+% By setting the thresholds to 0 or to INF we can choose to use only one
+% of the methods all along the process.
+% For instance, by setting both of them to INF taylor models are used always.
+% The first threshold (LR2TM_Q) is used for quadratic functions (parabolas, circle
+% spheres) and the sencond one (LR2TM_S) for saddles.
+
+LR2TM_Q = 0.25
+LR2TM_S = 0.1
+
+% The number of solution boxes desired. Use 0 to isolated all possible solutions.
+N_SOLUTIONS = 0
+
+% Maximum number of iterations in the Newton-Raphson process
+% Also used for similar processes (Broyden etc)
+MAX_NEWTON_ITERATIONS = 0
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Atlas related parameters 
+% (only used to generate atlas in cuikatlas and cuikatlaspath)
+
+% Initial radius of the balls bounding local maps in tangent space
+% Note that the maximum error to the manifold is SIGMA
+R = 0.4
+
+% Sampling radius (used in cuikatlasrrt)
+% SR must be larger than R+2*DELTA. If this is not the case, the value
+% for SR is fixed internally. 
+% If SR is set to 0 then N_DOF is used. Here the idea is that the
+% more the degrees of freedom of the configuration space, the larger
+% the sampling radius.
+%
+% When sampling from a kd-tree, this parameter is used as the expansion
+% factor for the leaves of the tree.
+SR = 1.25
+
+% Maximum projection error between the charts and the manifold
+E = 0.4
+
+% Maximum oriented error cuvature between the charts and the manifold
+CE = 0.4
+
+% Size of the steps in the path connecting two configuration.
+% In between two steps no collision detection is performed.
+DELTA = 0.04
+
+% Cost penalty factor for atlasGBF (not used in any other application)
+BETA = 1.1
+
+% Number of degrees of freedom of the problem (used by the altas related
+% tools). If set to zero it is automatically defined assuming that the
+% first point is regular.
+N_DOF = 0
+
+% To (de)activate the search for bifurcations during the atlas construction
+%   0: No bifurcation detection
+%   1: Detect bifurcations between parent-child charts
+%   2: Detect bifurcations between all neighboring charts
+DETECT_BIFURCATIONS = 0
+
+% Maximum number of charts in at atlas
+MAX_CHARTS = 150000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Planning related parameters 
+
+% Determines whether the system dynamics should be considered.
+% When different form 0, the problems are  defined
+% in phase space. The velocity variables ane equations are
+% automatically defined. This extends the dimension of the
+% manifold by a factor of two (this is also automatically
+% set).
+% Beside the variable and equation generation, this has
+% effect in the AtlasRRT.
+% Values larger than 0 can be used to selecte different
+% integration methods:
+%     NONE (0)           : Do not consider dynamics. 
+%     LOCAL_TRAPEZOID (1): Implicit trapezoidal methods in local coordiantes (Broyden...)
+%     LOCAL_EULER (2)    : Euler in local coordinates
+%     LOCAL_RK$ (3)      : RK4 in local coordinates
+%     EULER (4)          : Euler (disregarding the manifold)
+%     RK4 (5)            : RK4 (disregarding the manifold)
+% Note that if active, the DUMMIFY parameter is set to 0.
+DYNAMICS = 0
+
+% Gravity axis: 0 for no gravity, 1 for X, 2 for Y, 3 for Z,
+% 4 for -X, 5 for -Y and 6 for -Z
+% The axis can be indicated symbolically (X,Y,Z)
+G_AXIS = -Z
+
+% Integration time for each action when using dynamics.
+% Only relevant for randomized steering (not for LQR-based steering)
+% where the integration time is computed.
+INTEGRATION_TIME = 0.0
+
+% Maximum velocity. Only used if the velocity can not
+% be taken from the wold information.
+DEFAULT_MAX_VELOCITY = 100.0
+
+% Number of actions used to sample the valid
+% accelerations (indirectly via forces/torques)
+% If set to 0, and LQR-based method will be used to
+% determine the action to execute.
+N_DYNAMIC_ACTIONS = 0
+
+% Balance between the time to reach the goal and the
+% control effort when determing the optimal action
+% using LQR. The lower TAU, the higher the relevance
+% of the control effort (i.e., the lower the relevance
+% of reaching the goal with minimal time).
+TAU = 1.0
+
+% This parameters gives the maximum planning temporal horizon
+% when using LQR to determine the policy.
+LQR_PLANNING_TIME = 0.0
+
+% Tolerance when aiming at a goal with dynamic constraints.
+DYNAMIC_GOAL_ERROR = 10*DELTA
+
+% Gravity compensation
+% If true actions are interpreted as variations over the action that
+% compensates the effect of gravity.
+G_COMPENSATION = FALSE
+
+% Force the Lagrange multipliers to be negative
+NEG_LM = FALSE
+
+% Select the sampling policy
+%    - AMBIENT_SAMPLING (0): Sampling in ambient space. 
+%                            Default mode for plain RRTs.
+%    - KDTREE_SAMPLING (1) : Sampling exploiting the information 
+%                            in the kd-tree (experimental).
+%                            With this option, parameter DYNAMIC_COMAIN 
+%                            determines the expansion factor for the sampling.
+%    - TANGENT_SAMPLING (2): Sampling in tangent spaces. 
+%                            Default mode for AtlasRRT.
+% By setting this parameter to TANGENT_SAMPLING, the plain RRTs 
+% use AMBIENT_SAMPLING (tangent spaces are not available in 
+% plain RRTs).
+SAMPLING = TANGENT_SAMPLING
+
+% Select the collision detection engine.
+% Up to now options are available
+%
+%    - SOLID     : extensively tested
+%    - VCOLLIDE  : not fully tested
+%    - PQP       : not fully tested
+%    - FCL       : not fully tested
+%    - C_FCL     : continuous collision detection with FCL
+%    - BULLET    : experimental!!!!
+%    - C_BULLET  : not fully implemented yet!!
+%    - RIGIDCLL  : not fully tested
+%    - NONE      : no collision detection is used)
+%
+% Please, note that VCOLLIDE, PQP and FCL approximate spheres 
+% and cylinders are approximated using triangles. Thus,
+% the collisions are only "approximately" correct.
+% This has an affect in path plannig: some
+% paths might be considered valid when they are not. 
+% For VCOLLIDE and FCL the accuracy of the triangular approximation 
+% of the spheres and cylinders can be set with the granularity keyworkd when
+% defining those primitives in the world files. If the accuracy
+% is critical please use SOLID. If approximations are fine or
+% you model is all polyhedral-based, VCOLLIDE, PQP and FCL are fine and
+% typically faster.
+%
+% Also note that due to numerical issues different collision detection
+% libraries can give a different answer in the same configuration if
+% two objects are almost in collision. This can lead to different
+% plans, even if the same random seed is used.
+%
+% Another source of differences between collision detection libraries
+% is that we detect only one collision between each pair of objects.
+% If more than one collision exist, the returned one is rather arbitrary.
+%
+% FCL offers the possiblitiy to use continouos collision detection
+% (assuming a lineal displacement between configurations).
+%
+% In the current state the integration with BULLET is experimental
+% BULLET has some safety margins that are anoying for path planning
+% where in narrow corridors we have to move very close to obstacles.
+% BULLET is integrated as a basis for future developments.
+%
+% The RigidCLL engine is only able to deal with systems
+% composed by balls (as it is the typical case of problems derived form
+% molecular information). For ball-based worlds this is the engine to
+% use but for other type of problems using this engine would result 
+% in an error.
+%
+CD_ENGINE = SOLID
+
+% Maximum time (in seconds) for path planning
+MAX_PLANNING_TIME = 600
+
+% Maximum planning iterations (basically used in RRT*)
+MAX_PLANNING_ITERATIONS = 10001
+
+% Maximum number of nodes in a RRT
+MAX_NODES_RRT = 250000
+
+% Bidirectional RRT
+% Some algorihtms (like ccrrt) are one-directional even if this
+% parameter is set to TRUE. Others like cbirrt are bidirectional
+% even if it is set to FALSE. 
+% AtlasRRT can be one or bi directional.
+BI_RRT = TRUE
+
+% GraphRRT. This parameter is only used by atlasrrtstar. The rest
+% of path planners ignore it.
+RRT_GRAPH = TRUE
+
+% Parameter to activate the dynamic domain technique for RRT-like planners.
+% In the AtlasRRT planner this includes an enhancement in order to	
+% reduce the large rejection ratio typically caused by the dynamic
+% domain.
+% Set to 0 to de-activate the dynamic domain.
+% Set to the initial radius (>0) to activate the dynamic domain.
+% Note that the implementation of the dynamic domain technique for
+% assymptotically optimal motion planers (RRT* and alike) is
+% very experimental.
+DYNAMIC_DOMAIN = 0
+
+% Constant part of the nearest-neighbour radious used in RRT*.
+% Note, this must be related to N_DOF and to the volume of
+% the ambient space. Assuming a [0,1] ambient space the
+% minimum value for GAMMA is
+%     N_DOF=2  1.382
+%     N_DOF=3  1.365
+%     N_DOF=4  1.418
+%     N_DOF=5  1.488
+%     N_DOF=6  1.560
+%     N_DOF=7  1.632
+%     N_DOF=8  1.703
+%     N_DOF=9  1.772
+%     N_DOF=10 1.838
+GAMMA = 4
+
+% Scale factor of the temperature parameter for Transition-based RRT
+COEF_TEMP = 1.1
+
+% Number of successive trnasition test failues requiered before 
+% increasing the temperature 
+NFAIL_MAX = 10
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bio-chemistry related parameters
+
+% Ratio over the Van der Waals radius used when converting molecular
+% information to mechanical structures (worlds).
+% Atoms ara represented as solid balls of radius 
+% VDW_RATIO*Van_der_Waals_radius of the atom.
+% The reduction is used to ensure that only very high energy conformations
+% are discarded by steric clashes (collsions between the balls representing
+% the atoms).
+VDW_RATIO = 0.8
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tensegrity parameteres
+
+% Pre-tension: Norm of the tension/compression forces in the tensegrity.
+% In equilibrium, these forces can be arbitrarily scaled preserving
+% the equilibrium. By imposing a norm to the forces this scale
+% factor (a short of useless degree of freedom) is cancelled.
+% If set to 0, the scale factor is not fixed.
+% Note that in general, the equilibrium forces can have more than
+% one degree of freedom (the kernel of the equilibrium matrix
+% can be larger than one). We only cancel one degree of fredom.
+% If there are more, they can be cancelled by fixing some tensions
+% or compressions to a constant value.
+PRETENSION = 1.0
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Visualization parameters 
+
+% Used when visualizing plots on variables with circular range.
+% In those cases, the variable are in the range [-pi,pi]. This
+% default ranges can produce cutted figures. These parameters
+% allow to move the cut to any given position (not only to +/-pi).
+CUT_X = 0.0
+CUT_Y = 0.0
+CUT_Z = 0.0

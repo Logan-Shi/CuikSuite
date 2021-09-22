@@ -1,0 +1,81 @@
+/** \cond */
+[constants]
+  l1:=1
+  l2:=1
+  l3:=1
+  x:=0.25
+  y:=0.75
+  theta:=pi/2
+
+[links]
+  ground: body "bodies/beam.off" blue
+  link1: body "bodies/link1.off" grey
+      	 sphere 0.04 (0,0,0) black
+         sphere 0.04 (l1,0,0.05) black
+  link2: body "bodies/link2.off" grey
+         sphere 0.04 (l1,0,0.1) black
+  link3: body "bodies/link3.off" grey
+         body "bodies/gripper.off" black
+	 % now some artistic representation of the welding tool
+         cylinder 0.03 (l3,0,0.1) (l3+0.2,0,0.1) white
+         sphere 0.03  (l3+0.2,0,0.1) white
+         cylinder 0.02 (l3+0.1,0,0.1) (l3+0.3,0,0.1) black decoration
+         sphere 0.02 (l3+0.3,0,0.1) red decoration
+  link4
+
+[joints]
+  revolute: ground (0,0,0) (0,0,1) 
+            link1  (0,0,0) (0,0,1)
+  revolute: link1 (l1,0,0) (l1,0,1) 
+            link2 (0,0,0) (0,0,1)
+  revolute: link2 (l2,0,0) (l2,0,1) 
+            link3 (0,0,0) (0,0,1)
+
+  fix: link4 link3
+       Rz(theta)
+
+  prismatic: link4 (0,0,0) (1,0,0) 
+             ground (x,y,0) (x+1,y,0) 
+             range[-20,20]
+
+/** \endcond */
+
+/** \file Welding1D.world
+
+    \brief The example of the RAM paper defining a 1-dimensional configuration space.
+
+    The example of the RAM paper allowing translations for the end-effector.
+
+    This example is treated following these steps (from the main CuikSuite folder):
+           - Generate the equations:
+	         - <i>\ref cuikequations.c "bin/cuikequations" examples/Welding/Welding1D</i>
+	         .
+           - Solve the problem: The 125 (approx) solution boxes are stored in the file <i>examples/Welding/Welding1D.sol</i>.
+              To isolate the same configuration space at different resolutions just adjust the \ref CT_SIGMA "SIGMA" parameter.
+	      Parameters are declared in the examples/Welding/Welding1D.param file.
+	         - <i> \ref cuik.c "bin/cuik" examples/Welding/Welding1D </i>
+	         .
+           - Sort and visualize the valid movements: The solutions are determined in no special order. We sort them so that
+	     we can visualize the solution configurations with continuity. 
+	     Use the slider to move backward and forward along the 1-dimensional  solution set:
+	         - <i> \ref cuiksort.c "bin/cuiksort" examples/Welding/Welding1D </i>
+	         - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Welding/Welding1D examples/Welding/Welding1D_1 </i>
+	         . 
+                      <center><img src="../images/Welding/play.png"></center>
+           - Visualize the configuration space: To obtain the colors of the plot shown below requires some manipulation
+	       in geomview (showing the bounding box, changing the colors for the faces to white, and changing the shading
+	       model to constant).
+	         - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Welding/Welding1D.sol 5 13 14 0 Welding1D.gcl</i>
+	         - <i> geomview Welding1D.gcl</i>
+	         . 
+                      <center><img src="../images/Welding/cs1D.png"></center>
+           . 
+
+    If your are new to geomview (the program used for visualization in the CuikSuite) this 
+    <a href="http://www.geomview.org/docs/html/Tutorial.html">tutorial</a> might help you.
+
+    Jump to the previous example: a \ref Welding0D.world "0-dimensional case".
+
+    Jump to the next example: determine the \ref Welding_open.world "workspace boundary".
+*/
+

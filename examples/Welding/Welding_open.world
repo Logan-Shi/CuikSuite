@@ -1,0 +1,86 @@
+/** \cond */
+[constants]
+  l1:=1
+  l2:=1
+  l3:=1
+  x:=0.25
+  y:=2.05
+  theta:=pi/2
+
+[links]
+  ground: body "bodies/beam.off" blue
+  link1: body "bodies/link1.off" grey
+      	 sphere 0.04 (0,0,0) black
+         sphere 0.04 (l1,0,0.05) black
+  link2: body "bodies/link2.off" grey
+         sphere 0.04 (l1,0,0.1) black
+  link3: body "bodies/link3.off" grey
+         body "bodies/gripper.off" black
+	 % now some artistic representation of the welding tool
+         cylinder 0.03 (l3,0,0.1) (l3+0.2,0,0.1) white
+         sphere 0.03  (l3+0.2,0,0.1) white
+         cylinder 0.02 (l3+0.1,0,0.1) (l3+0.3,0,0.1) black decoration
+         sphere 0.02 (l3+0.3,0,0.1) red decoration
+  end_effector
+
+[joints]
+  revolute: ground (0,0,0) (0,0,1) 
+            link1  (0,0,0) (0,0,1)
+  revolute: link1 (l1,0,0) (l1,0,1) 
+            link2 (0,0,0) (0,0,1)
+  revolute: link2 (l2,0,0) (l2,0,1) 
+            link3 (0,0,0) (0,0,1)
+
+  % the 'end_effector' will be the link whose displacement we want to analyze.
+  % It is fixed with respect to link3. It is  placed on the red
+  % sphere representing the tip of the welding tool
+  fix: link3 end_effector Tx(l3+0.3)
+
+[COLLISIONS]
+
+do not check: all
+check: ground,link3
+
+
+/** \endcond */
+
+/** \file Welding_open.world
+
+    \brief The example of the RAM paper used to analyse the reachable workspace.
+
+    The example of the RAM paper used to compute the rechable workspace of the
+    robot, without considering any constraint on the position of the welding tool.
+
+    This example is treated following these steps (from the main CuikSuite folder):
+           - On-line illustration of the possible robot motions without considering any constraint: Execute
+	         - <i>\ref cuikmove.c "scripts/cuikmove" examples/Welding/Welding_open</i>
+	         - Note that the collisions do not limit the motion (but they are detected and printed in the console).
+	         . 
+                      <center><img src="../images/Welding/move.png"></center>
+           - Generate the equations to compute the reachable workspace of the welding tool (called <i>end_effector</i> in the example)
+	         - <i> \ref cuikTWS.c "bin/cuikTWS" examples/Welding/Welding_open end_effector </i>
+	         .
+           - Isolate the borders of the reachable workspace: This takes about a minute on a Intel Core i7 at 2.93 Ghz running Mac OS X
+	         - <i>\ref cuik.c "bin/cuik" examples/Welding/Welding_open_TWS</i>
+	         .
+           - Plot the borders of the workspace
+	         - <i>\ref cuikplot3d.c "bin/cuikplot3d" examples/Welding/Welding_open_TWS 7 8 9 0 Welding_open_TWS.gcl</i>
+	         .
+           - and visualize it
+	         - <i>\ref cuikmove.c "scripts/cuikmove" examples/Welding/Welding_open</i>
+	         - Load  Welding_open_TWS.gcl using the geomview menu. The space can be better visualized 
+		   using the orthographic camera projection (geomview menu: inpect->cameras). The external circle is the
+		   border of the reachable workspace. The two other circles are internal barriers where
+		   some configurations lose dexterity. The fact that the beam where to weld is fully included
+		   in an area with full dexterity means that the task can be achieved without any concern.
+	         - Move the degrees of freedom to their extreme values to explore the detected borders.
+	         .
+              <center><img src="../images/Welding/welding_open_ws.png"></center>
+           - The workspace boundaries become more complex if there are limitations in the the rotations	
+	     of the three links forming the robot (this is illustrated in \ref examples/WSSingularities "another example").
+           .
+ 
+    Jump to the previous example: a \ref Welding1D.world "1-dimensional case".
+
+    Jump to the next example: a \ref Welding2D.world "2-dimensional case".
+*/

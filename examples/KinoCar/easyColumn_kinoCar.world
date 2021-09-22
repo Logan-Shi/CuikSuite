@@ -1,0 +1,109 @@
+/** \cond */
+
+[LINKS]
+
+ground: body "bodies/square.off"
+	      cylinder 2.5 (-15,-15,0) (-15,-15,5) blue
+	      sphere 2.5  (-15,-15,5) blue	   
+%	      sphere 2.5  (-15,-15,0) blue	      
+	      cylinder 2.5 (-15,-5,0) (-15,-5,5) blue
+	      sphere 2.5  (-15,-5,5) blue	   
+%	      sphere 2.5  (-15,-5,0) blue	
+	      cylinder 2.5 (-15,5,0) (-15,5,5) blue
+	      sphere 2.5  (-15,5,5) blue	   
+%	      sphere 2.5  (-15,5,0) blue	
+	      cylinder 2.5 (-15,15,0) (-15,15,5) blue
+	      sphere 2.5  (-15,15,5) blue	   
+%	      sphere 2.5  (-15,15,0) blue	
+	      cylinder 2.5 (-5,-15,0) (-5,-15,5) blue
+	      sphere 2.5  (-5,-15,5) blue	   
+%	      sphere 2.5  (-5,-15,0) blue	
+	      cylinder 2.5 (-5,-5,0) (-5,-5,5) blue
+	      sphere 2.5  (-5,-5,5) blue	   
+%	      sphere 2.5  (-5,-5,0) blue	
+	      cylinder 2.5 (-5,5,0) (-5,5,5) blue
+	      sphere 2.5  (-5,5,5) blue	   
+%	      sphere 2.5  (-5,5,0) blue	
+	      cylinder 2.5 (-5,15,0) (-5,15,5) blue
+	      sphere 2.5  (-5,15,5) blue	   
+%	      sphere 2.5  (-5,15,0) blue	
+	      cylinder 2.5 (5,-15,0) (5,-15,5) blue	
+	      sphere 2.5  (5,-15,5) blue	   
+%	      sphere 2.5  (5,-15,0) blue	
+	      cylinder 2.5 (5,-5,0) (5,-5,5) blue			      
+	      sphere 2.5  (5,-5,5) blue	   
+%	      sphere 2.5  (5,-5,0) blue	
+	      cylinder 2.5 (5,5,0) (5,5,5) blue 			      
+	      sphere 2.5  (5,5,5) blue	   
+%	      sphere 2.5  (5,5,0) blue	
+	      cylinder 2.5 (5,15,0) (5,15,5) blue 
+	      sphere 2.5  (5,15,5) blue	   
+%	      sphere 2.5  (5,15,0) blue	
+	      cylinder 2.5 (15,-15,0) (15,-15,5) blue
+	      sphere 2.5  (15,-15,5) blue	   
+%	      sphere 2.5  (15,-15,0) blue	
+	      cylinder 2.5 (15,-5,0) (15,-5,5) blue
+	      sphere 2.5  (15,-5,5) blue	   
+%	      sphere 2.5  (15,-5,0) blue	
+	      cylinder 2.5 (15,5,0) (15,5,5) blue
+	      sphere 2.5  (15,5,5) blue	   
+%	      sphere 2.5  (15,5,0) blue	
+	      cylinder 2.5 (15,15,0) (15,15,5) blue
+	      sphere 2.5  (15,15,5) blue	   
+%	      sphere 2.5  (15,15,0) blue	
+              cylinder 1 (0,-20,0) (0,-20,3)  yellow decoration
+	      sphere 1  (0,-20,3) yellow decoration	   
+              cylinder 1 (-10,-20,0) (-10,-20,3)	yellow decoration
+	      sphere 1  (-10,-20,3) yellow decoration	   				
+              cylinder 1 (0,0,0) (0,0,3) yellow decoration
+	      sphere 1  (0,0,3) yellow decoration	   				
+              cylinder 1 (-20,20,0) (-20,20,3)		yellow decoration	
+	      sphere 1  (-20,20,3) yellow decoration	   				
+              cylinder 1 (0,-10,0) (0,-10,3) yellow decoration
+	      sphere 1  (0,-10,3) yellow decoration	   				
+              cylinder 1 (0,10,0) (0,10,3)			yellow decoration
+	      sphere 1  (0,10,3) yellow decoration	   				
+              cylinder 1 (-10,20,0) (-10,20,3) yellow decoration
+	      sphere 1  (-10,20,3) yellow decoration	   				
+              cylinder 1 (0,20,0) (0,20,3)			yellow decoration
+	      sphere 1  (0,20,3) yellow decoration	   				
+
+
+dummy1
+dummy2
+car: body "bodies/car.off"
+covarience: sphere 1 (0,0,0) green
+
+[JOINTS]
+
+prismatic: ground (0,0,0)+ (1,0,0)
+	   	dummy1(0,0,0)+(1,0,0)
+		range[-30,30]
+
+prismatic: dummy1 (0,0,0)+ (0,1,0)
+	   	dummy2(0,0,0)+(0,1,0)
+		range[-30,30]
+
+revolute: dummy2 (0.0,0.0,0)+(0,0,1)
+          car (0.0,-0.0,0)+(0,0,1)
+
+
+[COLLISIONS]
+
+ Check: all
+do not check: car, covarience 
+
+/** \endcond */
+
+
+/**
+   \file easyColumn_kinoCar.world
+
+   \brief Easy difficulty column environment  for kinodynamic MP and car like model.
+
+            The Column env for kinodynamic MP and car like model.
+	    Difficulty is tuned by the radius of the column i.e. the size of the passage between them.
+
+	    This environement is used for testing EG-RRT guided searches
+	    Columns are in blue C shaped sensors (in yellow)
+*/

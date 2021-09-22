@@ -1,0 +1,61 @@
+
+[CONSTANTS]
+  /* Some of the contants of the world are repeated here. If the world
+     is changed the values here must be changed accordingly */
+ 
+  // length of leg 1
+  rho1:= 1.519640
+
+  // side of the triangle forming the platform
+  lp:=2
+
+  a := pi/3
+  s:=sin(a)
+  c:=cos(a)
+	
+  // geometry of the platform
+  b1x := 0 
+  b1y := 0 
+  b1z := 0
+
+  b2x := -lp*c/2
+  b2y :=  lp*s/2
+  b2z := 0
+
+  b3x := lp*c/2
+  b3y := lp*s/2
+  b3z := 0
+
+  b4x := lp*c+lp*c/2
+  b4y := lp*s/2
+  b4z := 0
+
+  b5x := lp*c
+  b5y := 0
+  b5z := 0
+
+  b6x :=   lp*c/2
+  b6y := - lp*s/2
+  b6z := 0
+
+  // position of the point to trace in local coordinates of the platform
+  sx := (b1x+b2x+b3x+b4x+b5x+b6x)/6
+  sy := (b1y+b2y+b3y+b4y+b5y+b6y)/6
+  sz := (b1z+b2z+b3z+b4z+b5z+b6z)/6+1
+
+
+[SECONDARY VARS] 
+  /* Variables representing the position of the point to trace */
+
+  x:[-10,10]
+  y:[-10,10]
+  z:[-10,10]
+
+[SYSTEM EQS]
+   /* Position of the point to trace using leg 1 to determine the position and the
+      rotation matrix of the platform to determine the orientation */
+   /* The equations below assume REPRESENTATION = LINKS in the parameters. */
+
+   rho1*leg1_u_x +platform_u_x*sx +platform_v_x*sy +platform_w_x*sz -platform_wp_x*sz = x;
+   rho1*leg1_u_y +platform_u_y*sx +platform_v_y*sy +platform_w_y*sz -platform_wp_y*sz = y;
+   rho1*leg1_u_z +platform_u_z*sx +platform_v_z*sy +platform_w_z*sz -platform_wp_z*sz = z;

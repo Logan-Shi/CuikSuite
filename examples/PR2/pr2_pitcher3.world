@@ -1,0 +1,495 @@
+/** \cond */
+[CONSTANTS]
+
+  DEG2RAD:=PI/180
+
+[LINKS]
+
+  world
+
+  fridge_base: body "bodies/Fridge/friA-01.off" color (0.3,0.88,1)
+               body "bodies/Fridge/friA-02.off" color (0.3,0.88,1)
+               body "bodies/Fridge/friA-03.off" color (0.3,0.88,1)
+               body "bodies/Fridge/friA-04.off" color (0.3,0.88,1)
+               body "bodies/plane.off" yellow
+
+  fridge_door:  body "bodies/Fridge/friB-01.off" color (0.3,0.88,1)
+                body "bodies/Fridge/friB-02.off" color (0.3,0.88,1)
+                body "bodies/Fridge/friB-03.off" color (0.3,0.88,1)
+
+  pitcher: body "bodies/pitcher.off"  color (0.25,0.25,0)
+
+  pitcher_virtual1
+  pitcher_virtual2
+  pitcher_virtual3
+
+  base_footprint: body "bodies/base_link.off" white
+  
+  base:  body "bodies/base_link.off" white
+
+  laser_tilt: body "bodies/laser_tilt_mount_link.off" white
+
+  wheel_rotation_1: body "bodies/bl_caster_rotation_link.off" white
+  wheel_1_left:  body "bodies/bl_caster_l_wheel_link.off" black
+  wheel_1_right: body "bodies/bl_caster_r_wheel_link.off" black
+
+  wheel_rotation_2: body "bodies/br_caster_rotation_link.off" white
+  wheel_2_left:  body "bodies/br_caster_l_wheel_link.off" black
+  wheel_2_right: body "bodies/br_caster_r_wheel_link.off" black
+
+  wheel_rotation_3: body "bodies/fl_caster_rotation_link.off" white
+  wheel_3_left:  body "bodies/fl_caster_l_wheel_link.off" black
+  wheel_3_right: body "bodies/fl_caster_r_wheel_link.off" black
+
+  wheel_rotation_4: body "bodies/fr_caster_rotation_link.off" white
+  wheel_4_left:  body "bodies/fr_caster_l_wheel_link.off" black
+  wheel_4_right: body "bodies/fr_caster_r_wheel_link.off" black
+
+  torso: body "bodies/torso_lift_link.off" white
+
+  head_pan: body "bodies/head_pan_link.off" white
+  head_tilt: body "bodies/head_tilt_link.off" white
+
+  l_shoulder_pan : body "bodies/l_shoulder_pan_link.off" white
+  l_shoulder_lift: body "bodies/l_shoulder_lift_link.off" white
+  l_upper_arm_roll: body "bodies/l_upper_arm_roll_link.off" white
+  l_upper_arm: body "bodies/l_upper_arm_link.off" white
+  l_elbow_flex: body "bodies/l_elbow_flex_link.off"  white
+  l_forearm_roll: body "bodies/l_forearm_roll_link.off" white
+  l_forearm: body "bodies/l_forearm_link.off" white
+  l_wrist_flex: body "bodies/l_wrist_flex_link.off" white
+  l_wrist_roll: body "bodies/l_wrist_roll_link.off" white
+  l_gripper_palm: body "bodies/l_gripper_palm_link.off" white
+  l_gripper_l_finger: body "bodies/l_gripper_l_finger_link.off" white
+  l_gripper_l_finger_tip: body "bodies/l_gripper_l_finger_tip_link.off" white
+  l_gripper_r_finger: body "bodies/l_gripper_r_finger_link.off" white
+  l_gripper_r_finger_tip: body "bodies/l_gripper_r_finger_tip_link.off" white
+
+
+  r_shoulder_pan : body "bodies/r_shoulder_pan_link.off" white
+  r_shoulder_lift: body "bodies/r_shoulder_lift_link.off" white
+  r_upper_arm_roll: body "bodies/r_upper_arm_roll_link.off" white
+  r_upper_arm: body "bodies/r_upper_arm_link.off" white
+  r_elbow_flex: body "bodies/r_elbow_flex_link.off"  white
+  r_forearm_roll: body "bodies/r_forearm_roll_link.off" white
+  r_forearm: body "bodies/r_forearm_link.off" white
+  r_wrist_flex: body "bodies/r_wrist_flex_link.off" white
+  r_wrist_roll: body "bodies/r_wrist_roll_link.off" white
+  r_gripper_palm: body "bodies/r_gripper_palm_link.off" white
+  r_gripper_l_finger: body "bodies/r_gripper_l_finger_link.off" white
+  r_gripper_l_finger_tip: body "bodies/r_gripper_l_finger_tip_link.off" white
+  r_gripper_r_finger: body "bodies/r_gripper_r_finger_link.off" white
+  r_gripper_r_finger_tip: body "bodies/r_gripper_r_finger_tip_link.off" white
+
+[JOINTS]
+
+  fix:  world fridge_base Rz(Pi/2)
+	
+  revolute: fridge_base (-0.3,-0.8,0)+(0,0,1)  
+            fridge_door(-0.3,-0.8,0)+(0,0,1)
+            range [-0.06,2.3]
+            +(1,0,0)
+            +(1,0,0)
+
+  fix: world base_footprint  Id
+
+  fix: base_footprint base
+       Txyz(0,0,0.051)
+
+  fix: torso laser_tilt
+       Txyz (0.09893,0,0.227)
+
+  fix: torso head_pan
+       Txyz(-0.01707,0,0.38145)
+
+  fix: head_pan head_tilt
+       Txyz(0.068,0,0)
+
+  /* Wheels */
+  fix: base wheel_rotation_1
+       Txyz (-0.2246,0.2246,0.0282)
+  fix: wheel_rotation_1 wheel_1_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_1 wheel_1_right
+       Txyz(0,-0.049,0)
+
+  fix: base wheel_rotation_2
+       Txyz (-0.2246,-0.2246,0.0282)
+  fix: wheel_rotation_2 wheel_2_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_2 wheel_2_right
+       Txyz(0,-0.049,0)
+
+  fix: base wheel_rotation_3
+       Txyz (0.2246,0.2246,0.0282)
+  fix: wheel_rotation_3 wheel_3_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_3 wheel_3_right
+       Txyz(0,-0.049,0)
+
+  fix: base wheel_rotation_4
+       Txyz (0.2246,-0.2246,0.0282)
+  fix: wheel_rotation_4 wheel_4_left
+       Txyz(0,0.049,0)
+  fix: wheel_rotation_4 wheel_4_right
+       Txyz(0,-0.049,0)
+ 
+  /* Torso and arms (with grippers) */
+  prismatic: base (-0.05,0,0.739675)+(0,0,1)
+             torso (0,0,0)+(0,0,1)
+             range [0,0.31]
+
+  revolute: torso (0,0.188,0)+(0,0,1)
+            l_shoulder_pan (0,0,0)+(0,0,1)
+            range [-40.9437*DEG2RAD,130.944*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_shoulder_pan (0.1,0,0)+(0,1,0)
+            l_shoulder_lift (0,0,0)+(0,1,0)
+            range [-30.0001*DEG2RAD,80.0021*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_shoulder_lift (0,0,0)+(1,0,0)
+            l_upper_arm_roll (0,0,0)+(1,0,0)
+            range [-45.8366*DEG2RAD,223.454*DEG2RAD]
+                  +(0,1,0)
+                  +(0,1,0)
+
+  fix: l_upper_arm_roll l_upper_arm
+       Id
+
+  revolute: l_upper_arm (0.4,0,0)+(0,1,0)
+            l_elbow_flex (0,0,0)+(0,1,0)
+            range [-133.001*DEG2RAD,0*DEG2RAD]
+                 +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_elbow_flex (0,0,0)+(1,0,0)
+            l_forearm_roll (0,0,0)+(1,0,0)
+            
+  fix: l_forearm_roll l_forearm
+       Id
+
+  revolute: l_forearm (0.321,0,0)+(0,1,0)
+            l_wrist_flex (0,0,0)+(0,1,0)
+            range [-124.905*DEG2RAD,0*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: l_wrist_flex (0,0,0)+(1,0,0)
+            l_wrist_roll (0,0,0)+(1,0,0)
+
+  fix: l_wrist_roll l_gripper_palm
+       Id
+
+  fix: l_gripper_palm l_gripper_l_finger
+        Txyz(0.07691,0.01,0) 
+
+  fix: l_gripper_l_finger l_gripper_l_finger_tip
+        Txyz(0.09137,0.00495,0)
+
+  fix: l_gripper_palm l_gripper_r_finger
+       Txyz(0.07691,-0.01,0)*Rx(pi)
+
+  fix: l_gripper_r_finger l_gripper_r_finger_tip
+       Txyz(0.09137,-0.00495,0)
+
+  revolute: torso (0,-0.188,0)+(0,0,1)
+            r_shoulder_pan (0,0,0)+(0,0,1)
+            range [-130.944*DEG2RAD,40.9437*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_shoulder_pan (0.1,0,0)+(0,1,0)
+            r_shoulder_lift (0,0,0)+(0,1,0)
+            range [-30.0001*DEG2RAD,80.0021*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_shoulder_lift (0,0,0)+(1,0,0)
+            r_upper_arm_roll (0,0,0)+(1,0,0)
+            range [-223.454*DEG2RAD,45.8366*DEG2RAD]
+                  +(0,1,0)
+                  +(0,1,0)
+
+  fix: r_upper_arm_roll r_upper_arm
+       Id
+
+  revolute: r_upper_arm (0.4,0,0)+(0,1,0)
+            r_elbow_flex (0,0,0)+(0,1,0)
+            range [-133.001*DEG2RAD,0*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_elbow_flex (0,0,0)+(1,0,0)
+            r_forearm_roll (0,0,0)+(1,0,0)
+
+  fix: r_forearm_roll r_forearm
+       Id
+
+  revolute: r_forearm (0.321,0,0)+(0,1,0)
+            r_wrist_flex (0,0,0)+(0,1,0)
+            range [-124.905*DEG2RAD,0*DEG2RAD]
+                  +(1,0,0)
+                  +(1,0,0)
+
+  revolute: r_wrist_flex (0,0,0)+(1,0,0)
+            r_wrist_roll (0,0,0)+(1,0,0)
+
+  fix: r_wrist_roll r_gripper_palm
+       Id
+
+  fix: r_gripper_palm r_gripper_l_finger
+       Txyz(0.07691,0.01,0)*Rz(pi/18)
+
+  fix: r_gripper_l_finger r_gripper_l_finger_tip
+       Txyz(0.09137,0.00495,0)
+
+  fix: r_gripper_palm r_gripper_r_finger
+        Txyz(0.07691,-0.01,0)*Rx(pi)*Rz(pi/18) 
+
+  fix: r_gripper_r_finger r_gripper_r_finger_tip
+        Txyz(0.09137,-0.00495,0)
+
+  revolute: r_wrist_roll (0.18,0,0)+(0,0,1)  
+            fridge_door(0.225,-0.748,0.93)+(0,0,1)
+
+  fix: l_wrist_roll pitcher    
+       Txyz(0.355,0.08,0)*Rz(Pi)
+
+  prismatic: world (0,0,0)+(1,0,0) 
+             pitcher_virtual1 (0,0,0)+(1,0,0)
+             range [0,1.5]
+
+  prismatic: pitcher_virtual1 (0,0,0)+(0,1,0) 
+             pitcher_virtual2 (0,0,0)+(0,1,0)
+             range [-0.5,1]
+
+  prismatic: pitcher_virtual2 (0,0,0)+(0,0,1) 
+             pitcher_virtual3 (0,0,0)+(0,0,1)
+             range [0.5,1.5]
+
+  fix: pitcher_virtual3  pitcher 
+       Rz(Pi)
+
+[COLLISIONS]
+
+  do not check: all
+  check : fridge_door,pitcher
+  check : fridge_base, pitcher
+  check : r_gripper_palm, fridge_door
+  check : r_gripper_l_finger, fridge_door
+  check : r_gripper_r_finger, fridge_door
+  check : pitcher, torso
+  check : r_shoulder_pan, fridge_door
+  check : r_shoulder_lift, fridge_door
+  check : r_upper_arm_roll, fridge_door
+  check : r_upper_arm, fridge_door
+  check : r_elbow_flex, fridge_door
+  check : r_forearm_roll, fridge_door
+  check : r_forearm, fridge_door
+  check : r_wrist_flex, fridge_door
+  check : r_wrist_roll , fridge_door
+  check : l_shoulder_pan, fridge_door
+  check : l_shoulder_lift, fridge_door
+  check : l_upper_arm_roll, fridge_door
+  check : l_upper_arm, fridge_door
+  check : l_elbow_flex, fridge_door
+  check : l_forearm_roll, fridge_door
+  check : l_forearm, fridge_door
+  check : l_wrist_flex, fridge_door
+  check : l_wrist_roll , fridge_door
+  
+  check : l_shoulder_pan, r_shoulder_pan
+  check : l_shoulder_lift, r_shoulder_pan
+  check : l_upper_arm_roll, r_shoulder_pan
+  check : l_upper_arm, r_shoulder_pan
+  check : l_elbow_flex, r_shoulder_pan	 
+  check : l_forearm_roll, r_shoulder_pan
+  check : l_forearm, r_shoulder_pan
+  check : l_wrist_flex, r_shoulder_pan
+  check : l_wrist_roll, r_shoulder_pan
+  
+  check : l_shoulder_pan, r_upper_arm_roll
+  check : l_shoulder_lift, r_upper_arm_roll
+  check : l_upper_arm_roll, r_upper_arm_roll
+  check : l_upper_arm, r_upper_arm_roll
+  check : l_elbow_flex, r_upper_arm_roll
+  check : l_forearm_roll, r_upper_arm_roll
+  check : l_forearm, r_upper_arm_roll
+  check : l_wrist_flex, r_upper_arm_roll
+  check : l_wrist_roll, r_upper_arm_roll
+  
+  check : l_shoulder_pan,  r_shoulder_lift
+  check : l_shoulder_lift,  r_shoulder_lift
+  check : l_upper_arm_roll,  r_shoulder_lift
+  check : l_upper_arm,  r_shoulder_lift
+  check : l_elbow_flex,  r_shoulder_lift
+  check : l_forearm_roll,  r_shoulder_lift
+  check : l_forearm,  r_shoulder_lift
+  check : l_wrist_flex,  r_shoulder_lift
+  check : l_wrist_roll,  r_shoulder_lift
+  
+  check : l_shoulder_pan, r_upper_arm
+  check : l_shoulder_lift, r_upper_arm
+  check : l_upper_arm_roll, r_upper_arm
+  check : l_upper_arm, r_upper_arm
+  check : l_elbow_flex, r_upper_arm
+  check : l_forearm_roll, r_upper_arm
+  check : l_forearm, r_upper_arm
+  check : l_wrist_flex, r_upper_arm
+  check : l_wrist_roll, r_upper_arm
+  
+  check : l_shoulder_pan,  r_elbow_flex
+  check : l_shoulder_lift,  r_elbow_flex
+  check : l_upper_arm_roll,  r_elbow_flex
+  check : l_upper_arm,  r_elbow_flex
+  check : l_elbow_flex,  r_elbow_flex
+  check : l_forearm_roll,  r_elbow_flex
+  check : l_forearm,  r_elbow_flex
+  check : l_wrist_flex,  r_elbow_flex
+  check : l_wrist_roll,  r_elbow_flex
+  
+  check : l_shoulder_pan,  r_forearm_roll
+  check : l_shoulder_lift,  r_forearm_roll
+  check : l_upper_arm_roll,  r_forearm_roll
+  check : l_upper_arm,  r_forearm_roll
+  check : l_elbow_flex,  r_forearm_roll
+  check : l_forearm_roll,  r_forearm_roll
+  check : l_forearm,  r_forearm_roll
+  check : l_wrist_flex,  r_forearm_roll
+  check : l_wrist_roll,  r_forearm_roll
+  
+  check : l_shoulder_pan, r_forearm
+  check : l_shoulder_lift, r_forearm
+  check : l_upper_arm_roll, r_forearm
+  check : l_upper_arm, r_forearm
+  check : l_elbow_flex, r_forearm
+  check : l_forearm_roll, r_forearm
+  check : l_forearm, r_forearm
+  check : l_wrist_flex, r_forearm
+  check : l_wrist_roll, r_forearm
+  
+  check : l_shoulder_pan, r_wrist_flex
+  check : l_shoulder_lift, r_wrist_flex
+  check : l_upper_arm_roll, r_wrist_flex
+  check : l_upper_arm, r_wrist_flex
+  check : l_elbow_flex, r_wrist_flex
+  check : l_forearm_roll, r_wrist_flex
+  check : l_forearm, r_wrist_flex
+  check : l_wrist_flex, r_wrist_flex
+  check : l_wrist_roll, r_wrist_flex
+  
+  check : l_shoulder_pan,  r_wrist_roll
+  check : l_shoulder_lift,  r_wrist_roll
+  check : l_upper_arm_roll,  r_wrist_roll
+  check : l_upper_arm,  r_wrist_roll
+  check : l_elbow_flex,  r_wrist_roll
+  check : l_forearm_roll,  r_wrist_roll
+  check : l_forearm,  r_wrist_roll
+  check : l_wrist_flex,  r_wrist_roll
+  check : l_wrist_roll,  r_wrist_roll
+  
+  check : l_shoulder_pan, pitcher 
+  check : l_shoulder_lift, pitcher
+  check : l_upper_arm_roll, pitcher
+  check : l_upper_arm, pitcher
+  check : l_elbow_flex, pitcher
+  check : l_forearm_roll, pitcher
+  check : l_forearm, pitcher
+  check : l_wrist_flex, pitcher
+  check : l_wrist_roll, pitcher
+  
+  check : l_shoulder_pan, fridge_base
+  check : l_shoulder_lift, fridge_base
+  check : l_upper_arm_roll, fridge_base
+  check : l_upper_arm, fridge_base
+  check : l_elbow_flex, fridge_base
+  check : l_forearm_roll, fridge_base
+  check : l_forearm, fridge_base
+  check : l_wrist_flex, fridge_base
+  check : l_wrist_roll, fridge_base
+  check : l_gripper_palm, fridge_base
+  check : l_gripper_l_finger, fridge_base
+  check : l_gripper_l_finger_tip, fridge_base
+  check : l_gripper_r_finger, fridge_base
+  check : l_gripper_r_finger_tip, fridge_base
+  
+  check : r_shoulder_pan,  pitcher 
+  check : r_shoulder_lift,  pitcher 
+  check : r_upper_arm_roll,  pitcher 
+  check : r_upper_arm,  pitcher 
+  check : r_elbow_flex,  pitcher 
+  check : r_forearm_roll,  pitcher 
+  check : r_forearm,  pitcher 
+  check : r_wrist_flex,  pitcher 
+  check : r_wrist_roll ,  pitcher 
+  check : r_gripper_palm,  pitcher 
+  check : r_gripper_l_finger,  pitcher 
+  check : r_gripper_l_finger_tip,  pitcher 
+  check : r_gripper_r_finger,  pitcher 
+  check : r_gripper_r_finger_tip,  pitcher 
+  
+  check : head_pan, pitcher
+  check : head_tilt, pitcher
+  
+/** \endcond */
+  
+/** \file pr2_pitcher3.world
+  
+    \brief The PR2 robot putting a pitcher in a fridge.
+      
+    <center>
+    <img src="../images/PR2/pr2_pitcher3.png">
+
+    <a href="../videos/pr2_pitcher3.mov">Video: planned trajectory</a>
+
+    <a href="../videos/pr2_pitcher3_smoothed.mov">Video: smoothed trajectory</a>
+    </center>
+
+    The PR2 robot by Willow Garage putting a sangria pitcher in a fridge.
+
+    The difference with respect to \ref  pr2_pitcher.world is that here the
+    orientation of the pitcher is fixed, but the gripper in the door
+    can rotate (about the door handle). Thus the two examples have the
+    same number of degrees of freedom.
+
+    This is an example used in the <a href="http://www.iri.upc.edu/people/porta/Docs/tro13a.pdf">TRO-13</a> paper.
+
+    The key data for this problem are:
+    <center>
+    <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 20 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 8 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 2 </td>
+     </tr>
+    </table>
+    </center>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+      - <b>Solve the path planning problem</b> 
+             - <i>\ref cuikatlasrrt.c  "bin/cuikatlasrrt" examples/PR2/pr2_pitcher3</i>
+	     .
+      - <b>An alternative ways to plan existing in the literature</b>: 
+             - <i>\ref cuikcbirrt.c  "bin/cuikcbirrt" examples/PR2/pr2_pitcher3</i>
+             - <i>\ref cuikccrrt.c  "bin/cuikccrrt" examples/PR2/pr2_pitcher3</i>
+	     .
+      - <b>Visualize the path</b>: 
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/PR2/pr2_pitcher3 examples/PR2/pr2_pitcher3_path</i>
+	     .
+      - <b>Smooth the path</b>:
+	     - <i> \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/PR2/pr2_pitcher3</i>
+	     .
+      - <b>Visualize the path</b>: 
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/PR2/pr2_pitcher3 examples/PR2/pr2_pitcher3_path_s</i>
+	     .
+      .
+*/

@@ -1,0 +1,199 @@
+/** \cond */
+[CONSTANTS]
+
+% length of the bar connecting two consecutive triangles
+l_in:=8
+l_out:=5.596459
+
+% length of the bar connecting  odd triangles spared by one triangle
+l_nc:=13.189931
+
+% radius of the cylinders representing the bars
+rc:=0.05
+% radius of the spheres used to decor the extremes of the bars
+rs:=0.1
+
+[LINKS]
+
+% Six triangles
+t1: body "bodies/triangle.off" yellow
+
+t2: body "bodies/triangle.off" yellow
+
+t3: body "bodies/triangle.off" yellow
+
+t4: body "bodies/triangle.off" yellow
+
+t5: body "bodies/triangle.off" yellow
+
+t6: body "bodies/triangle.off" yellow
+
+% Two bars between adjacent triangles
+b_1_2_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_1_2_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_2_3_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_2_3_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_3_4_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_3_4_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_4_5_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_4_5_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_5_6_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_5_6_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_6_1_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_6_1_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+% These bars do not include spheres since they would overlap with
+% the spheres of other bars.
+b_1_3: cylinder rc (0,0,0) (l_nc,0,0) black 
+b_3_5: cylinder rc (0,0,0) (l_nc,0,0) black
+
+[JOINTS]
+
+% Two bars between adjacent triangles
+revolute: t1 1+(0,1,0)
+          b_1_2_out 0+(0,1,0)
+revolute: b_1_2_out 1+(0,1,0)
+          t2 0+(0,1,0)
+
+revolute: t1 2+(0,1,0)
+          b_1_2_in 0+(0,1,0)
+revolute: b_1_2_in 1+(0,1,0)
+          t2 2+(0,1,0)
+
+revolute: t2 1+(0,1,0)
+          b_2_3_out 0+(0,1,0)
+revolute: b_2_3_out 1+(0,1,0)
+          t3 0+(0,1,0)
+
+revolute: t2 2+(0,1,0)
+          b_2_3_in 0+(0,1,0)
+revolute: b_2_3_in 1+(0,1,0)
+          t3 2+(0,1,0)
+
+revolute: t3 1+(0,1,0)
+          b_3_4_out 0+(0,1,0)
+revolute: b_3_4_out 1+(0,1,0)
+          t4 0+(0,1,0)
+
+revolute: t3 2+(0,1,0)
+          b_3_4_in 0+(0,1,0)
+revolute: b_3_4_in 1+(0,1,0)
+          t4 2+(0,1,0)
+
+revolute: t4 1+(0,1,0)
+          b_4_5_out 0+(0,1,0)
+revolute: b_4_5_out 1+(0,1,0)
+          t5 0+(0,1,0)
+
+revolute: t4 2+(0,1,0)
+          b_4_5_in 0+(0,1,0)
+revolute: b_4_5_in 1+(0,1,0)
+          t5 2+(0,1,0)
+
+revolute: t5 1+(0,1,0)
+          b_5_6_out 0+(0,1,0)
+revolute: b_5_6_out 1+(0,1,0)
+          t6 0+(0,1,0)
+
+revolute: t5 2+(0,1,0)
+          b_5_6_in 0+(0,1,0)
+revolute: b_5_6_in 1+(0,1,0)
+          t6 2+(0,1,0)
+
+revolute: t6 1+(0,1,0)
+          b_6_1_out 0+(0,1,0)
+revolute: b_6_1_out 1+(0,1,0)
+          t1 0+(0,1,0)
+
+revolute: t6 2+(0,1,0)
+          b_6_1_in 0+(0,1,0)
+revolute: b_6_1_in 1+(0,1,0)
+          t1 2+(0,1,0)
+
+% The bars between non-adjacent triangles
+revolute: t1 1+(0,1,0)
+          b_1_3 0+(0,1,0)
+revolute: b_1_3 1+(0,1,0)
+          t3 0+(0,1,0)
+
+revolute: t3 1+(0,1,0)
+          b_3_5 0+(0,1,0)
+revolute: b_3_5 1+(0,1,0)
+          t5 0+(0,1,0)
+
+
+/** \endcond */
+
+/**
+   \file Wheelie6mobile.world
+
+   \brief A modified 6-\ref examples/Wheelie "Wheelie" mechanism with one degree of freedom.
+	
+   <center>
+   <img src="../images/Wheelie/wheelie6mobile.png">
+   </center>
+
+   A modified 6-\ref examples/Wheelie "Wheelie" mechanism with one degree of freedom.
+   This is the same as \ref examples/Wheelie/Wheelie6.world "Wheelie6" but with one
+   bar less (the one connecting triangles t5 and t1, the last bar in the original file).
+   Removing one bar gives one degree of freedom to the mechanism.
+
+   See \ref examples/Wheelie "Wheelie" for a description of how
+   to define the members of the \e Wheelie family of mechanisms.
+
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Wheelie/Wheelie6mobile </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Wheelie/Wheelie6mobile </i>
+             .
+     - <b>Examine the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/Wheelie/Wheelie6mobile </i> 
+	     - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Wheelie/Wheelie6mobile examples/Wheelie/Wheelie6mobile_5 </i>
+	     - <i> You can animate up to 16 connected components. Some are tiny, but others capture large movements.</i>
+             .
+     - <b>Plot the configuration space</b>:
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Wheelie/Wheelie6mobile 9 21 39 0 Wheelie6mobile.gcl </i> 
+	     - <i> geomview Wheelie6mobile.gcl </i>
+	     .
+     .
+
+*/

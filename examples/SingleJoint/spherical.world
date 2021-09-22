@@ -1,0 +1,60 @@
+/** \cond */
+[LINKS]
+
+  ground: body "bodies/plane.off" color (0.9,0.9,0.9)
+
+  link: cylinder 0.1 (0,0,0)(1,0,0) color (0.9,0.1,0.1)
+
+[JOINTS]
+
+  SPHERICAL: ground (0,0,0)  % This is Q_i in the ground reference frame
+             link   (0,0,0)  % This is Q_i in the link reference frame
+             range  [pi/16] (0,0,1) (1,0,0) % Vector in the ground and vector in the
+                                       % link that coincide for angle 0. In other
+                                       % words the angle between those vectors (when in
+                                       % global coordinates) is the one we limit 
+                                       % to +/- pi/18 (= 10 degrees)
+	     avoid limits
+
+/** \endcond */
+
+/** \file spherical.world
+
+    \brief Example of how to set up a spherical joint.
+
+    <center>
+    <img src="../images/SingleJoint/spherical.jpg">
+    </center>
+
+    Example of how to set up a spherical joint including range limitation.
+
+    For details on the notation used in this file, check our <a href="http://www.iri.upc.edu/publications/show/1033">TRO-09</a> paper.
+
+    This example can be processed following the next steps (this can be slow since the solution set is 3-dimensional. It is better to
+    use the interactive tool described below):
+       - <i> \ref cuikequations.c "bin/cuikequations" examples/SingleJoint/spherical </i>
+       - <i> \ref cuik.c "bin/cuik" examples/SingleJoint/spherical </i>
+       - <i> \ref cuikplay.c "scripts/cuikplayer" examples/SingleJoint/spherical examples/SingleJoint/spherical </i>
+       .
+
+    After this sequence of commands you will see the spherical motions of a cylinder with respect to a point on the plane. 
+    Use the slider to move the cylinder. Note that the solutions are not sorted in any way (the sort operation only works
+    for one-dimensional solution sets and here the solution set is 3-dimensional).
+
+    <center>
+    <img src="../images/SingleJoint/spherical_result.png">
+    </center>
+ 
+
+    You can also interactively explore the solution set executing:
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/SingleJoint/spherical </i>
+      .
+      
+    <center><img src="../images/SingleJoint/spherical_move.png"></center>
+
+    Use the sliders in the graphical interface to move the cylinder.
+
+    
+
+    \sa in_patch.world, revolute.world, universal.world, prismatic.world sph_shp.world sph_prs_shp.world
+*/

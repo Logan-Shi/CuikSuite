@@ -1,0 +1,185 @@
+/** \cond */
+[CONSTANTS]
+
+  % Length of struts
+  l1:=1
+  l2:=1
+  l3:=0.25
+
+  p:=PARAMETER(PRETENSION)
+
+  % Max force for struts
+  fs:=-4*p
+  
+  % Max length and rest for cables (and spring)
+  lc:=3
+  rc:=2
+  
+  % Stiffness for cables 
+  sc:=1*p*p
+
+  % radius
+  radc:=0.005
+
+[PLANAR STRUCTURE]
+
+  strut s1 : n1 n2
+             length l1
+	     force [fs,0]
+	  
+  strut s2 : n3 n4
+             length l2
+	     force [fs,0]
+	     
+  % s3 is just an extension of s2, which will not be considered
+  % in force equilibrium equations (set force to 0)
+  strut s3 : n4 n5
+             length l3
+	     force 0
+	     
+  cable c1 : n1 n3
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     radius radc
+	     red
+	  
+  cable c2 : n2 n3
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     radius radc
+	     green
+	     
+  cable c3 : n1 n4
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     radius radc
+	     blue
+	     
+  cable c4 : n2 n4
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     radius radc
+	     grey
+	     
+
+[FIXED POINTS]
+
+  n1(x)=0
+  n1(y)=0
+
+  n2(x)=l2
+  n2(y)=0
+
+[COUPLE]
+  orientation : s2,s3
+
+[OBSTACLES]
+  sp1 : sphere 0.05 (0.2,0.5,0) red
+  sp2 : sphere 0.05 (0.8,0.5,0) red
+  sp3 : sphere 0.05 (0.5,0.45,0) red
+  sp4 : sphere 0.05 (-0.1,0,0) red
+  sp5 : sphere 0.05 ( 1.1,0,0) red
+
+[COLLISIONS]
+
+  check : s2,sp1
+  check : s2,sp2
+  check : s2,sp3
+  check : s2,sp4
+  check : s2,sp5
+  
+  check : s3,sp1
+  check : s3,sp2
+  check : s3,sp3
+  check : s3,sp4
+  check : s3,sp5
+
+/** \endcond */
+
+/** \file examples/Tensegrity/kite.tens
+
+   \brief First planar tensegrity example.
+
+   <center>
+   <img src="../images/Tensegrity/kite.png">
+   </center>
+   
+   The file describes a simple planar tensegrity structure surrounded by
+   obstacles (the red balls). Despite its simplicity, the structure
+   has 3 degrees of freedom. The example is used to show how to solve
+   a tensegrity path planning problem using the CuikSuite.
+
+   The simplest way to manipulate this structure is to execute
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/Tensegrity/kite 2 5 8
+      .
+   and to increase/decrese the length of the selected cables.
+   Other control variables can be also selected.
+
+   Manually moving the mechanism is difficult since the relation between the individual 
+   cable lengths and pose of the structure is not trivial. Moreover, the limits of the
+   cable lengths and the collisions between the struts and the red balls
+   reduce the mobility of the system (collisions between the cables and the balls
+   are not considered).
+
+   The CuikSuite can be used to automatically find paths between configurations.
+   For instance these two configurations
+    <center>
+      <table width="500">
+        <tr> 
+          <td><img src="../images/Tensegrity/kite_start.png" width="200"></td>
+          <td><img src="../images/Tensegrity/kite_goal.png" width="200"></td>
+        </tr>
+      </table>
+    </center>
+
+   can be connected executing
+	- \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/kite
+	.
+   This command generates a path between the two configurations that is stored in \e kite.links file.
+   This path can be visualized executing
+        - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/kite examples/Tensegrity/kite_path
+	.
+   The path is typically jerky but it can be smoothed executing
+        - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/kite
+        - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/kite examples/Tensegrity/kite_path_s effort 1000
+	.
+   The first command uses a shortcut method to minimize the length of the path and the second
+   uses 1000 iterations of a gradient descent method to minimzed the control effort. The second
+   minimization process works on the output of the firt process. This process is more effective
+   than directly reducing the path effort on the original path: the shortcut path is very
+   effective and it returns a path that is not far from the minimum control effort path
+   (recall that if all elements in the tensegrity are elastic, the control effort and the
+   path length are the same).
+   
+   The smoothed path can be visualized executing
+        - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/kite examples/Tensegrity/kite_path_s_e
+	.
+
+   Note that the force equilibrium equations holds all along the (smoothed or non-smoothed) path.
+   The compressions/tensions of the struts/cables along the smoothed path can be obtained executing
+        - \ref cuikworldforces.c "bin/cuikworldforces" examples/Tensegrity/kite examples/Tensegrity/kite_path_s_e
+	.
+   This generates a \e kite_path_s.forces where each column is the compression/tension of
+   a strut/cable in the same order as given in the corresponding kite.tens file. This file
+   can be loaded in an external program and used to plot the evolution of the tensions. For instance, in Matlab
+   you can execute:
+        - F=load('examples/Tensegrity/kite_path_s_e.forces');
+	- plot(F(:,1))
+	.
+   To visualize the compression on the first strut along the path. Note that compression are negative while
+   tensions are positive.
+
+   The potential energy of the structure along the path can be computed executing
+        - \ref cuikenergy.c "bin/cuikenergy" noscale examples/Tensegrity/kite examples/Tensegrity/kite_path_s_e
+	.
+   The file with the energy values can also be plotted using Matlab executing
+        - E=load('examples/Tensegrity/kite_path_s.cost');
+	- plot(E)
+	.
+    
+*/
+  

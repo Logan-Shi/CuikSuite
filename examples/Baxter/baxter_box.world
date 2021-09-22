@@ -1,0 +1,105 @@
+/** \cond */
+
+
+
+[INCLUDE]
+
+  //Import the Baxter robot
+  robot: "baxter.world"
+
+[LINKS]
+
+  // now define the scene: a table with two boxes. The objective is
+  // to put the small box into a larger box.
+
+  // a small green box
+  small_box: box (-0.1,-0.05,0)+(0.2,0.5,0.1) green
+
+  // dummy links to constraint the motion of the green box
+  dummy1
+  dummy2
+  dummy3
+
+  // a table with a large brown box.
+  table: box (0.3,-1,-0.025) (1.25,1,0) black
+         cylinder 0.025 (0.35,-0.9,-0.025) (0.35,-0.9,-1) blue
+         cylinder 0.025 (0.35, 0.9,-0.025) (0.35, 0.9,-1) blue
+         cylinder 0.025 (1.20,-0.9,-0.025) (1.20,-0.9,-1) blue
+         cylinder 0.025 (1.20, 0.9,-0.025) (1.20, 0.9,-1) blue
+
+         box (0.5,0.15,0)+(0.3,0.6,0.01) color (0.803,0.498,0.196)
+         box (0.5,0.15,0)+(0.3,0.01,0.15) color (0.803,0.498,0.196)
+         box (0.5,0.75,0)+(0.3,0.01,0.15) color (0.803,0.498,0.196)
+         box (0.5,0.15,0)+(0.01,0.6,0.15) color (0.803,0.498,0.196)
+         box (0.8,0.15,0)+(0.01,0.6,0.15) color (0.803,0.498,0.196)
+
+[JOINTS]
+   
+   // The table (with the brown box) is fixed with respect to the robot 
+   fix: robot::base table ID
+
+   // The green box is fixed with respect to the robot arms
+   fix: robot::right_hand small_box Txyz(0,0,0)
+   fix: robot::left_hand  small_box Txyz(0,-0.4,0)
+
+   // The green box can not be tilted (can not rotate but only translate) 
+   prismatic: robot::base (0,0,0)+(1,0,0)  dummy1 (0,0,0)+(1,0,0) range [0,1.5]
+   prismatic: dummy1 (0,0,0)+(0,1,0) dummy2 (0,0,0)+(0,1,0) range [-1,1]
+   prismatic: dummy2 (0,0,0)+(0,0,1) dummy3 (0,0,0)+(0,0,1) range [-0.5,1]
+   fix: dummy3 small_box Ry(pi)
+
+[COLLISIONS]
+   do not check: all
+
+   check: small_box,table
+
+   check: robot::screen,robot::right_upper_shoulder
+   check: robot::screen,robot::right_lower_shoulder
+   check: robot::screen,robot::right_upper_elbow
+   check: robot::screen,robot::right_lower_elbow
+   check: robot::screen,robot::right_upper_forearm
+   check: robot::screen,robot::right_wrist
+   check: robot::screen,robot::right_hand
+
+   check: robot::screen,robot::left_upper_shoulder
+   check: robot::screen,robot::left_lower_shoulder
+   check: robot::screen,robot::left_upper_elbow
+   check: robot::screen,robot::left_lower_elbow
+   check: robot::screen,robot::left_upper_forearm
+   check: robot::screen,robot::left_wrist
+   check: robot::screen,robot::left_hand
+
+/* add the constraints betwee Baxter and the box. */
+
+/** \endcond */
+/**
+   \file baxter_box.world
+
+   \brief Baxter manipulating a box.
+
+   <center> 
+   <img src="../images/Baxter/baxter_box.png">
+   </center>
+
+   We take the \ref baxter.world "Baxter" file imported from the URDF and
+   set up a planning task were the robot has to take a green box with
+   the two arms and put in in a larger brown box that is on a table.
+   The green box is moved using the two arms, which defines a
+   kinematic loop (i.e., an implicitly defined configuration space).
+
+   This planning problem can be solved executing
+      - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Baxter/baxter_box
+      .
+   and the resulting path can be visualised executing
+      - \ref cuikplay.c "scripts/cuikplayer" examples/Baxter/baxter_box examples/Baxter/baxter_box_path
+      .
+   The raw path is typically yerked. This can be solved executing
+      - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Baxter/baxter_box
+      .
+   and the smoothed path can be visualized executing
+      - \ref cuikplay.c "scripts/cuikplay" examples/Baxter/baxter_box examples/Baxter/baxter_box_path_s
+      .
+
+   Note the screen is not part of the kinematic loop and, thus this is an example of how we can
+   plan with hybrid systems (systems with kinmeatically-constrained and unconstrained degrees of freedom).
+*/

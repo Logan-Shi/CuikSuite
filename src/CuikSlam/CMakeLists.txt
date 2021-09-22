@@ -1,0 +1,12 @@
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src/CuikBase/include)
+
+ADD_EXECUTABLE(cuikslam cuikslam.c)
+
+TARGET_LINK_LIBRARIES(cuikslam cuik-common)
+
+
+INSTALL(TARGETS cuikslam
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)

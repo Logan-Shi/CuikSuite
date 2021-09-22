@@ -1,0 +1,59 @@
+/** \cond */
+
+[LINKS]
+
+  ground: body "bodies/plane.off" color (0.9,0.9,0.9)
+               
+  link: cylinder 0.1 (0,0,0)(1,0,0) color (0.9,0.1,0.1)
+
+
+[JOINTS]
+
+  revolute: ground (0,0,0) (1,0,0)  % P_1 and Q_1 defining the rotation
+                                    % axis in the ground refence frame
+            link   (0,0,0) (0,1,0)  % P_2 and Q_2 defining the rotation
+                                    % axis in the ground refence frame
+            range  [0,pi/2]
+	           (0,0,1) (1,0,0) % Two points R_1 and R_2 defining two
+		                   % vectors Q_1->R_1 Q_2->R_2 that coincide
+				   % when the rotation is 0         
+
+/** \endcond */
+
+/** \file revolute.world
+
+    \brief Example of how to set up a revolute joint.
+
+    <center>
+    <img src="../images/SingleJoint/revolute.jpg">
+    </center>
+
+    Example of how to set up a revolute joint including range limitation.
+
+    For details on the notation used in this file, check our <a href="http://www.iri.upc.edu/people/porta/Docs/tro09.pdf">TRO-09</a> paper.
+
+    This example can be processed following the next steps:
+       - <i> \ref cuikequations.c "bin/cuikequations" examples/SingleJoint/revolute </i>
+       - <i> \ref cuik.c "bin/cuik" examples/SingleJoint/revolute </i>
+       - <i> \ref cuiksort.c "bin/cuiksort" examples/SingleJoint/revolute </i>
+       - <i> \ref cuikplay.c "scripts/cuikplayer" examples/SingleJoint/revolute examples/SingleJoint/revolute_1 </i>
+       .
+
+    After this sequence of commands you will see a cylinder rotating with respect to a plane. Use the slider to move the cylinder:
+
+    <center>
+    <img src="../images/SingleJoint/revolute_result.png">
+    </center>
+
+    The rotation is limited in between 0 and 90 degrees.
+
+    You can also interactively explore the solution set executing:
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/SingleJoint/revolute </i>
+      .
+
+    <center><img src="../images/SingleJoint/revolute_move.png"></center>
+
+    Use the slider in the graphical interface to move the cylinder.
+
+    \sa in_patch.world, prismatic.world, universal.world, spherical.world sph_shp.world sph_prs_shp.world
+*/

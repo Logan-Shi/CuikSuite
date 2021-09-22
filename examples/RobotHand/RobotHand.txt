@@ -1,0 +1,100 @@
+/** \dir examples/RobotHand
+
+    \brief An four-fingered antropomorphic robot hand.
+
+   <center>
+   <img src="../images/RobotHand/precision.jpg">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#forms">[Formulations]</a>  <a href="#refs">[References]</a></center>
+
+   <h2><a name="intro">Introduction</a></h2>
+   
+   Mutlifingered hands are increasingly used as a means of endowing 
+   a robot with dexterity and versatility. The ability of such hands 
+   to reconfigure themselves reduces the need for changing end-effectors, 
+   and the large number of lightweight actuators associated with their 
+   degrees of freedom allows for fast, precise, energy-efficient motions 
+   of the object held in the hand.
+
+   The existing Literature already offers a few solutions to the 
+   inverse kinematics of robot hands, but all of them are based on 
+   local search methods. Drawbacks of such methods include the fact 
+   that they just provide one hand configuration for the given contact 
+   points (determined by an initial estimation) and that their 
+   convergence to a solution is not always guaranteed. While the 
+   former drawback prevents choosing, among several solutions, those 
+   that satisfy some optimality criterion based on stability, 
+   manipulability, or energy consumption, for example, the second 
+   drawback impedes obtaining a reliable answer of whether the hand 
+   can actually reach the contact points. The purpose of this benchmark 
+   is to illustrate how the use of CUIK can help overcoming such 
+   limitations by directly computing all possible hand configurations. 
+   For further details see 
+   <a href="#rosales2008"> [Rosales et al. 2008]</a>.
+
+   Although the geometric parameters of the hand below are those 
+   of the <a href="http://www.ioc.upc.edu/recerca/ris/personal/raul-suarez/imatges/foto-mano.jpg"> MA-I hand </a> 
+   developed at the <a href="http://www.ioc.upc.edu"> IOC </a> Robotics Lab, 
+   the kinematic model assumed is that of a general anthropomorphic hand,
+   and the technique is thus applicable to any hand following such structure. 
+   In fact, hands with a different structure could also be treated, 
+   by modelling them appropriately using the systematics provided in 
+   <a href="#porta2008">[Porta et al. 2008]</a>.
+
+
+   <h2><a name="geom">Geometry<a></h2>
+
+   Anthropomorhic hands are made up of a palm and several fingers, one of them 
+   acting as a thumb. Non-thumb fingers are normally aligned with each other and 
+   with the palm, and they can push against the thumb. The MA-I hand follows this 
+   scheme, as shown next:
+    
+    
+   <center>
+   <img src="../images/RobotHand/mai-model.jpg">
+   </center>
+   
+   The fingers of this hand also follow the conventional anthropomorphic 
+   structure, forming a serial chain with four revolute joints. The first 
+   and second joints model the metacarpophalangeal joint (abduction/adduction 
+   and flexion/extension movements) and are, together, equivalent to a universal 
+   joint. The third and fourth joints model, respectively, the proximal and distal 
+   interphalangeal joints (flexion/extension movement). 
+   The model for finger \e j (left) and its contact with the object 
+   (right) are shown below. Joints are represented as cylinders aligned with their axes.
+
+   <center>
+   <img src="../images/RobotHand/finger.jpg">
+   </center>
+
+   Additionally, this folder also includes formulations for the 
+   <a href="http://www.dlr.de/rm-neu/en/desktopdefault.aspx/tabid-3802/">DLR-II</a>
+   hand.
+
+
+   <h2><a name="forms">Formulations<a></h2>
+   
+   This directory includes the following formulations:
+
+   - \ref RobotHand.world, the formulation with the 
+     parameters corresponding to the MA-I hand.
+   - \ref SAHand.world, the formulation with the 
+     parameters corresponding to the 
+     <a href="http://www.dlr.de/rm-neu/en/desktopdefault.aspx/tabid-3802/">DLR</a>
+     hand.
+   - \ref tro.world A path planning problem with the SAHand. 
+   - \ref tro2.world A variant of \ref tro.world.
+   - \ref wafr.world  A path planning problem with the SAHand. 
+   - \ref wafr_no_limits.world A variant of \ref wafr.world. 
+   - \ref ras.world A variant of \ref tro2.world used in our RAS-13 paper
+   .
+   
+   <h2><a name="refs">References</a></h2>
+   
+   - <a name="rosales2008">C. Rosales</a>, J. M. Porta, R. Suarez and L. Ros, <a href="http://www-iri.upc.es/people/ros/Separates/icra11-2008.pdf">"Finding All Valid Hand Configurations for a Given Precision Grasp"</a>, <i>IEEE International Conference in Robotics and Automation</i>. Pasadena, California, USA. May 18-23, 2008. Pages 1634-1640. 
+   - <a name="porta2008">J. M. Porta, L. Ros, and F. Thomas, <a href="http://www.iri.upc.edu/people/porta/Docs/tro09.pdf">"A Linear Relaxation Technique for the Position Analysis of Multi-loop Linkages"</a>, <i>IEEE Transactions on Robotics</i>, 25(2): 225-239, 2009..
+   - <a name="porta2012">J. M. Porta, L. Jaillet and O. Bohigas, <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr12.pdf">"Randomized path planning on manifolds based on higher-dimensional continuation"</a>, <i>The International Journal of Robotics Research</i>, 31(2): 201-215, 2012.
+   .
+
+*/

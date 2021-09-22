@@ -1,0 +1,17 @@
+/** \dir examples/KinoCar
+
+    \brief Example used in the <a href="http://www.iri.upc.edu/people/porta/Docs/iros11.pdf">IROS-11</a> paper.
+
+   <center>
+   <img src="../images/KinoCar/kino.png">
+   </center>
+
+    Example used in the <a href="http://www.iri.upc.edu/people/porta/Docs/iros11.pdf">IROS-11</a>
+    paper.
+
+    This is experimental stage and for our internal use only. This was our first attempt to include differential
+    constraints into the constraints treated by the CuikSuite. We aim to continue this work in the future.
+
+    Any question regarding the files in this folder should be
+    addressed to Leonard Jaillet.
+*/

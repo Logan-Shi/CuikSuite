@@ -1,0 +1,166 @@
+% Kinematic subsystem
+[CONSTANTS]
+ 
+  l:=450/373
+  sx:= -l*cos(pi/4)
+  sz:= -l*sin(pi/4)
+
+[SYSTEM VARS]
+   link2_u_x : [-1,1]
+   link2_u_y : [-1,1]
+   link2_u_z : [-1,1]
+   link2_v_x : [-1,1]
+   link2_v_y : [-1,1]
+   link2_v_z : [-1,1]
+
+[DUMMY VARS]
+   link2_w_x : [-1,1]
+   link2_w_y : [-1,1]
+   link2_w_z : [-1,1]
+   link2_wp_x : [-1,1]
+   link2_wp_y : [-1,1]
+   link2_wp_z : [-1,1]
+
+[SYSTEM VARS]
+   link3_u_x : [-1,1]
+   link3_u_y : [-1,1]
+   link3_u_z : [-1,1]
+   link3_v_x : [-1,1]
+   link3_v_y : [-1,1]
+   link3_v_z : [-1,1]
+
+[DUMMY VARS]
+   link3_w_x : [-1,1]
+   link3_w_y : [-1,1]
+   link3_w_z : [-1,1]
+   link3_wp_x : [-1,1]
+   link3_wp_y : [-1,1]
+   link3_wp_z : [-1,1]
+
+[SYSTEM VARS]
+   link4_u_x : [-1,1]
+   link4_u_y : [-1,1]
+   link4_u_z : [-1,1]
+   link4_v_x : [-1,1]
+   link4_v_y : [-1,1]
+   link4_v_z : [-1,1]
+
+[DUMMY VARS]
+   link4_w_x : [-1,1]
+   link4_w_y : [-1,1]
+   link4_w_z : [-1,1]
+   link4_wp_x : [-1,1]
+   link4_wp_y : [-1,1]
+   link4_wp_z : [-1,1]
+
+[SYSTEM VARS]
+   link5_u_x : [-1,1]
+   link5_u_y : [-1,1]
+   link5_u_z : [-1,1]
+   link5_v_x : [-1,1]
+   link5_v_y : [-1,1]
+   link5_v_z : [-1,1]
+
+[DUMMY VARS]
+   link5_w_x : [-1,1]
+   link5_w_y : [-1,1]
+   link5_w_z : [-1,1]
+   link5_wp_x : [-1,1]
+   link5_wp_y : [-1,1]
+   link5_wp_z : [-1,1]
+
+[SYSTEM VARS]
+
+  // End point of the leg of the stickybot 
+  x:[-60,60]
+  y:[-60,60]
+  z:[-60,60]
+
+  // Position used to compute the singularities 
+  x3:[-40,40]
+  y3:[-40,40]
+
+  x4:[-40,40]
+  y4:[-40,40]
+
+  x5:[-40,40]
+  y5:[-40,40]
+
+
+[SYSTEM EQS]
+
+   link2_u_x^2+link2_u_y^2+link2_u_z^2 = 1;
+   link2_v_x^2+link2_v_y^2+link2_v_z^2 = 1;
+   link2_u_x*link2_v_x+link2_u_y*link2_v_y+link2_u_z*link2_v_z = 0;
+   link3_u_x^2+link3_u_y^2+link3_u_z^2 = 1;
+   link3_v_x^2+link3_v_y^2+link3_v_z^2 = 1;
+   link3_u_x*link3_v_x+link3_u_y*link3_v_y+link3_u_z*link3_v_z = 0;
+   link4_u_x^2+link4_u_y^2+link4_u_z^2 = 1;
+   link4_v_x^2+link4_v_y^2+link4_v_z^2 = 1;
+   link4_u_x*link4_v_x+link4_u_y*link4_v_y+link4_u_z*link4_v_z = 0;
+   link5_u_x^2+link5_u_y^2+link5_u_z^2 = 1;
+   link5_v_x^2+link5_v_y^2+link5_v_z^2 = 1;
+   link5_u_x*link5_v_x+link5_u_y*link5_v_y+link5_u_z*link5_v_z = 0;
+   link2_v_x = 0;
+   link2_v_y = 1;
+   link2_v_z = 0;
+   link2_v_x-link3_v_x = -0;
+   link2_v_y-link3_v_y = -0;
+   link2_v_z-link3_v_z = -0;
+   link3_v_x-link4_v_x = -0;
+   link3_v_y-link4_v_y = -0;
+   link3_v_z-link4_v_z = -0;
+   link4_v_x-link5_v_x = -0;
+   link4_v_y-link5_v_y = -0;
+   link4_v_z-link5_v_z = -0;
+   link5_v_x = -0;
+   link5_v_y = 1;
+   link5_v_z = -0;
+   4.3*link2_u_x+10*link3_u_x+10.6*link4_u_x+10*link5_u_x = -6.3;
+   4.3*link2_u_y+10*link3_u_y+10.6*link4_u_y+10*link5_u_y = 0;
+   4.3*link2_u_z+10*link3_u_z+10.6*link4_u_z+10*link5_u_z = 0;
+
+   6.3+4.3*link2_u_x+10*link3_u_x +link4_u_x*sx  +link4_w_x*sz -link4_wp_x*sz =x;
+   4.3*link2_u_z+10*link3_u_z     +link4_u_z*sx  +link4_w_z*sz -link4_wp_z*sz =y;
+   link4_u_x*10=z;
+
+   6.3+4.3*link2_u_x = x3;
+   4.3*link2_u_z = y3;
+
+   x3+10*link3_u_x = x4;
+   y3+10*link3_u_z = y4;
+
+   x4+10.6*link4_u_x = x5;
+   y4+10.6*link4_u_z = y5;
+   
+
+   -y3*x4 - x3*y5 - x5*y4 + x4*y5 + x5*y3 + x3*y4 = 0; 
+
+[DUMMY EQS]
+
+   link2_u_y*link2_v_z-link2_w_x = 0;
+   link2_u_z*link2_v_x-link2_w_y = 0;
+   link2_u_x*link2_v_y-link2_w_z = 0;
+   link2_u_z*link2_v_y-link2_wp_x = 0;
+   link2_u_x*link2_v_z-link2_wp_y = 0;
+   link2_u_y*link2_v_x-link2_wp_z = 0;
+   link3_u_y*link3_v_z-link3_w_x = 0;
+   link3_u_z*link3_v_x-link3_w_y = 0;
+   link3_u_x*link3_v_y-link3_w_z = 0;
+   link3_u_z*link3_v_y-link3_wp_x = 0;
+   link3_u_x*link3_v_z-link3_wp_y = 0;
+   link3_u_y*link3_v_x-link3_wp_z = 0;
+   link4_u_y*link4_v_z-link4_w_x = 0;
+   link4_u_z*link4_v_x-link4_w_y = 0;
+   link4_u_x*link4_v_y-link4_w_z = 0;
+   link4_u_z*link4_v_y-link4_wp_x = 0;
+   link4_u_x*link4_v_z-link4_wp_y = 0;
+   link4_u_y*link4_v_x-link4_wp_z = 0;
+   link5_u_y*link5_v_z-link5_w_x = 0;
+   link5_u_z*link5_v_x-link5_w_y = 0;
+   link5_u_x*link5_v_y-link5_w_z = 0;
+   link5_u_z*link5_v_y-link5_wp_x = 0;
+   link5_u_x*link5_v_z-link5_wp_y = 0;
+   link5_u_y*link5_v_x-link5_wp_z = 0;
+
+

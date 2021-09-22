@@ -1,0 +1,425 @@
+/** \cond */
+[CONSTANTS]
+
+% INPUT PARAMETERS
+
+theta1_min:= pi/3+0.2
+theta1_max:= theta1_min
+
+theta2_min:= pi/3
+theta2_max:= theta2_min
+
+theta3_min:= pi/3-0.2
+theta3_max:= theta3_min
+
+% PARAMETERS OF THE PLATFORM
+
+% radius of the circunference inscribing the base triangle
+r_b:=1
+
+% angles from the center of the base to the legs anchor points
+beta1_b:=0
+beta2_b:=beta1_b+(2*pi/3)
+beta3_b:=beta2_b+(2*pi/3)
+
+% radius of the circunference inscribing the platform triangle
+r_p:=1
+
+% angles from the center of the platform to the legs anchor points
+beta1_p:=0
+beta2_p:=beta1_p+(2*pi/3)
+beta3_p:=beta2_p+(2*pi/3)
+
+% Length of the bottom part of each leg
+lenght_A:=1
+
+% Length of the upper part of each leg (i.e., the long bar of the 4 bar)
+length_B:=1
+
+% Length of the short bar forming the 4 bars in the upper part of each leg
+length_B1:=0.1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% nothing to be modified behond this point
+
+% Anchor points of the legs in the base
+x1_b:=r_b*cos(beta1_b)
+y1_b:=r_b*sin(beta1_b)
+
+x2_b:=r_b*cos(beta2_b)
+y2_b:=r_b*sin(beta2_b)
+
+x3_b:=r_b*cos(beta3_b)
+y3_b:=r_b*sin(beta3_b)
+
+% Tangent vectors to the sphere inscribing the base triangle at the
+% leg anchor points
+alpha1_b:=beta1_b+pi/2
+alpha2_b:=beta2_b+pi/2
+alpha3_b:=beta3_b+pi/2
+
+% Anchor points of the legs in the platform
+x1_p:=r_p*cos(beta1_p)
+y1_p:=r_p*sin(beta1_p)
+
+x2_p:=r_p*cos(beta2_p)
+y2_p:=r_p*sin(beta2_p)
+
+x3_p:=r_p*cos(beta3_p)
+y3_p:=r_p*sin(beta3_p)
+
+% Tangent vectors to the sphere inscribing the plotform triangle at the
+% leg anchor points
+alpha1_p:=beta1_p+pi/2
+alpha2_p:=beta2_p+pi/2
+alpha3_p:=beta3_p+pi/2
+
+% radius of the bars used in the representation. The bars for the
+% base/platform are 1.5 times this radius
+rb:=0.025
+
+
+[LINKS]
+
+base : 0.5*red
+       % One sphere at each vertex of the triangle
+       sphere rb*1.5 (x1_b,y1_b,0) 
+       sphere rb*1.5 (x2_b,y2_b,0)
+       sphere rb*1.5 (x3_b,y3_b,0)
+
+       % Three bars forming the triangle
+       cylinder rb*1.5 (x1_b,y1_b,0)(x2_b,y2_b,0)
+       cylinder rb*1.5 (x1_b,y1_b,0)(x3_b,y3_b,0) 
+       cylinder rb*1.5 (x2_b,y2_b,0)(x3_b,y3_b,0) 
+
+       % Part of the revolute joint with the first leg fixed at the base
+       cylinder rb (x1_b-length_B1*cos(alpha1_b),y1_b-length_B1*sin(alpha1_b),0) 
+                   (x1_b-0.5*length_B1*cos(alpha1_b),y1_b-0.5*length_B1*sin(alpha1_b),0)
+       sphere rb (x1_b-length_B1*cos(alpha1_b),y1_b-length_B1*sin(alpha1_b),0)
+       cylinder rb (x1_b+0.5*length_B1*cos(alpha1_b),y1_b+0.5*length_B1*sin(alpha1_b),0) 
+                   (x1_b+    length_B1*cos(alpha1_b),y1_b+    length_B1*sin(alpha1_b),0)
+       sphere rb (x1_b+ length_B1*cos(alpha1_b),y1_b+ length_B1*sin(alpha1_b),0)
+
+       % Part of the revolute joint with the second leg fixed at the base
+       cylinder rb (x2_b-length_B1*cos(alpha2_b),y2_b-length_B1*sin(alpha2_b),0) 
+                   (x2_b-0.5*length_B1*cos(alpha2_b),y2_b-0.5*length_B1*sin(alpha2_b),0)
+       sphere rb (x2_b-length_B1*cos(alpha2_b),y2_b-length_B1*sin(alpha2_b),0)
+       cylinder rb (x2_b+0.5*length_B1*cos(alpha2_b),y2_b+0.5*length_B1*sin(alpha2_b),0) 
+                   (x2_b+    length_B1*cos(alpha2_b),y2_b+    length_B1*sin(alpha2_b),0)
+       sphere rb (x2_b+ length_B1*cos(alpha2_b),y2_b+ length_B1*sin(alpha2_b),0)
+
+       % Part of the revolute joint with the third leg fixed at the base
+       cylinder rb (x3_b-length_B1*cos(alpha3_b),y3_b-length_B1*sin(alpha3_b),0) 
+                   (x3_b-0.5*length_B1*cos(alpha3_b),y3_b-0.5*length_B1*sin(alpha3_b),0)
+       sphere rb (x3_b-length_B1*cos(alpha3_b),y3_b-length_B1*sin(alpha3_b),0)
+       cylinder rb (x3_b+0.5*length_B1*cos(alpha3_b),y3_b+0.5*length_B1*sin(alpha3_b),0) 
+                   (x3_b+    length_B1*cos(alpha3_b),y3_b+    length_B1*sin(alpha3_b),0)
+       sphere rb (x3_b+ length_B1*cos(alpha3_b),y3_b+ length_B1*sin(alpha3_b),0)
+
+
+platform: 0.5*green
+          sphere rb*1.5 (x1_p,y1_p,0) 
+          sphere rb*1.5 (x2_p,y2_p,0)
+          sphere rb*1.5 (x3_p,y3_p,0)
+          cylinder rb*1.5 (x1_p,y1_p,0)(x2_p,y2_p,0)
+          cylinder rb*1.5 (x1_p,y1_p,0)(x3_p,y3_p,0) 
+          cylinder rb*1.5 (x2_p,y2_p,0)(x3_p,y3_p,0)
+
+          cylinder rb (x1_p-0.5*length_B1*cos(alpha1_p),y1_p-0.5*length_B1*sin(alpha1_p),0) 
+                      (x1_p+0.5*length_B1*cos(alpha1_p),y1_p+0.5*length_B1*sin(alpha1_p),0)
+
+          cylinder rb (x2_p-0.5*length_B1*cos(alpha2_p),y2_p-0.5*length_B1*sin(alpha2_p),0) 
+                      (x2_p+0.5*length_B1*cos(alpha2_p),y2_p+0.5*length_B1*sin(alpha2_p),0)
+
+          cylinder rb (x3_p-0.5*length_B1*cos(alpha3_p),y3_p-0.5*length_B1*sin(alpha3_p),0) 
+                      (x3_p+0.5*length_B1*cos(alpha3_p),y3_p+0.5*length_B1*sin(alpha3_p),0)
+
+
+leg1_a: cylinder rb (0,0,0) (0,0,lenght_A)
+
+        cylinder rb (-0.5*length_B1,0,0) 
+                    (+0.5*length_B1,0,0)
+        cylinder rb (-0.5*length_B1,0,lenght_A) 
+                    (+0.5*length_B1,0,lenght_A)
+        
+
+leg1_b1: 0.75*white
+         cylinder rb (0,0,0) (0.5*length_B1,0,0)
+         cylinder rb (1.5*length_B1,0,0) (2*length_B1,0,0)
+
+         cylinder rb (0,0,-length_B1) (0,0,-0.5*length_B1)
+         sphere rb (0,0,-length_B1)  
+
+         cylinder rb (0,0,0.5*length_B1) (0,0,length_B1) 
+         sphere rb (0,0, length_B1) 
+         
+         cylinder rb (2*length_B1,0,-length_B1) (2*length_B1,0,-0.5*length_B1)
+         sphere rb (2*length_B1,0,-length_B1)  
+
+         cylinder rb (2*length_B1,0,0.5*length_B1) (2*length_B1,0,length_B1) 
+         sphere rb (2*length_B1,0, length_B1) 
+
+leg1_b2: 0.25*white
+         cylinder rb (0,0,0)
+                     (length_B,0,0)
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+
+         cylinder rb (length_B,0, 0.5*length_B1)
+                     (length_B,0,     length_B1)
+         sphere rb   (length_B,0,     length_B1)
+         cylinder rb (length_B,0,-0.5*length_B1)
+                     (length_B,0,    -length_B1)
+         sphere rb   (length_B,0,    -length_B1)
+
+leg1_b3: 0.25*white
+         cylinder rb (0,0,0)
+                     (length_B,0,0)
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+         cylinder rb (length_B,0, 0.5*length_B1)
+                     (length_B,0,     length_B1)
+         sphere rb   (length_B,0,     length_B1)
+         cylinder rb (length_B,0,-0.5*length_B1)
+                     (length_B,0,    -length_B1)
+         sphere rb   (length_B,0,    -length_B1)
+
+leg1_b4: 0.75*white
+         cylinder rb (0,0,0)
+                     (0.5*length_B1,0,0)
+         cylinder rb (1.5*length_B1,0,0)
+                     (  2*length_B1,0,0)
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+         cylinder rb (2*length_B1,0,-0.5*length_B1)
+                     (2*length_B1,0, 0.5*length_B1)
+         
+leg2_a: cylinder rb (0,0,0) (0,0,lenght_A)
+        cylinder rb (-0.5*length_B1,0,0) 
+                    (+0.5*length_B1,0,0)
+        cylinder rb (-0.5*length_B1,0,lenght_A) 
+                    (+ 0.5*length_B1,0,lenght_A)
+        
+
+leg2_b1: 0.75*white
+         cylinder rb (0,0,0) (0.5*length_B1,0,0)
+         cylinder rb (1.5*length_B1,0,0) (2*length_B1,0,0)
+
+         cylinder rb (0,0,-length_B1) (0,0,-0.5*length_B1)
+         sphere rb (0,0,-length_B1)  
+         cylinder rb (0,0,0.5*length_B1) (0,0,length_B1) 
+         sphere rb (0,0, length_B1) 
+         cylinder rb (2*length_B1,0,-length_B1) (2*length_B1,0,-0.5*length_B1)
+         sphere rb (2*length_B1,0,-length_B1)  
+         cylinder rb (2*length_B1,0,0.5*length_B1) (2*length_B1,0,length_B1) 
+         sphere rb (2*length_B1,0, length_B1) 
+
+leg2_b2: 0.25*white
+         cylinder rb (0,0,0)
+                     (length_B,0,0)
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+
+         cylinder rb (length_B,0, 0.5*length_B1)
+                     (length_B,0,     length_B1)
+         sphere rb   (length_B,0,     length_B1)
+         cylinder rb (length_B,0,-0.5*length_B1)
+                     (length_B,0,    -length_B1)
+         sphere rb   (length_B,0,    -length_B1)
+
+leg2_b3: 0.25*white
+         cylinder rb (0,0,0)
+                     (length_B,0,0)
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+
+         cylinder rb (length_B,0, 0.5*length_B1)
+                     (length_B,0,     length_B1)
+         sphere rb   (length_B,0,     length_B1)
+         cylinder rb (length_B,0,-0.5*length_B1)
+                     (length_B,0,    -length_B1)
+         sphere rb   (length_B,0,    -length_B1)
+
+leg2_b4: 0.75*white
+         cylinder rb (0,0,0)
+                     (0.5*length_B1,0,0)
+         cylinder rb (1.5*length_B1,0,0)
+                     (  2*length_B1,0,0)
+
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+         cylinder rb (2*length_B1,0,-0.5*length_B1)
+                     (2*length_B1,0, 0.5*length_B1)
+
+
+leg3_a: cylinder rb (0,0,0) (0,0,lenght_A)
+
+        cylinder rb (-0.5*length_B1,0,0) 
+                    (+0.5*length_B1,0,0)
+        cylinder rb (-0.5*length_B1,0,lenght_A) 
+                    (+0.5*length_B1,0,lenght_A)
+        
+
+leg3_b1: 0.75*white
+         cylinder rb (0,0,0) (0.5*length_B1,0,0)
+         cylinder rb (1.5*length_B1,0,0) (2*length_B1,0,0)
+
+         cylinder rb (0,0,-length_B1) (0,0,-0.5*length_B1)
+         sphere rb (0,0,-length_B1)  
+         cylinder rb (0,0,0.5*length_B1) (0,0,length_B1) 
+         sphere rb (0,0, length_B1) 
+         cylinder rb (2*length_B1,0,-length_B1) (2*length_B1,0,-0.5*length_B1)
+         sphere rb (2*length_B1,0,-length_B1)  
+         cylinder rb (2*length_B1,0,0.5*length_B1) (2*length_B1,0,length_B1) 
+         sphere rb (2*length_B1,0, length_B1) 
+
+leg3_b2: 0.25*white
+         cylinder rb (0,0,0)
+                     (length_B,0,0)
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+
+         cylinder rb (length_B,0, 0.5*length_B1)
+                     (length_B,0,     length_B1)
+         sphere rb   (length_B,0,     length_B1)
+         cylinder rb (length_B,0,-0.5*length_B1)
+                     (length_B,0,    -length_B1)
+         sphere rb   (length_B,0,    -length_B1)
+
+leg3_b3: 0.25*white
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+         cylinder rb (length_B,0, 0.5*length_B1)
+                     (length_B,0,     length_B1)
+
+         cylinder rb (0,0,0)
+                     (length_B,0,0)
+         sphere rb   (length_B,0,     length_B1)
+         cylinder rb (length_B,0,-0.5*length_B1)
+                     (length_B,0,    -length_B1)
+         sphere rb   (length_B,0,    -length_B1)
+
+leg3_b4: 0.75*white
+         cylinder rb (0,0,-0.5*length_B1)
+                     (0,0, 0.5*length_B1)
+         cylinder rb (0,0,0)
+                     (0.5*length_B1,0,0)
+         cylinder rb (1.5*length_B1,0,0)
+                     (  2*length_B1,0,0)
+         cylinder rb (2*length_B1,0,-0.5*length_B1)
+                     (2*length_B1,0, 0.5*length_B1)
+
+[JOINTS]
+%---------------------------------------------------------
+
+revolute: base   (x1_b,y1_b,0)+(cos(alpha1_b),sin(alpha1_b),0)
+          leg1_a (0,0,0)+(1,0,0)
+          range [theta1_min,theta1_max] +(cos(beta1_b),sin(beta1_b),0) +(0,-1,0)
+
+revolute: leg1_a  (0,0,lenght_A)+(1,0,0)
+          leg1_b1 (length_B1,0,0)+(1,0,0)
+
+revolute: leg1_b1 (0,0,0)+(0,0,1)
+          leg1_b2 (0,0,0)+(0,0,1)
+	  range [-pi/2,pi/2] +(0,1,0) +(1,0,0)
+
+revolute: leg1_b1 (2*length_B1,0,0)+(0,0,1) 
+          leg1_b3 (0,0,0)+(0,0,1)
+
+revolute: leg1_b2 (length_B,0,0)+(0,0,1)
+          leg1_b4 (0,0,0)+(0,0,1)
+
+revolute: leg1_b3 (length_B,0,0)+(0,0,1)
+          leg1_b4 (2*length_B1,0,0)+(0,0,1)
+
+revolute: leg1_b4  (length_B1,0,0)+(1,0,0)
+          platform (x1_p,y1_p,0)+(cos(alpha1_p),sin(alpha1_p),0)
+
+%---------------------------------------------------------
+
+revolute: base   (x2_b,y2_b,0)+(cos(alpha2_b),sin(alpha2_b),0)
+          leg2_a (0,0,0)+(1,0,0)
+          range [theta2_min,theta2_max] +(cos(beta2_b),sin(beta2_b),0) +(0,-1,0)
+
+revolute: leg2_a  (0,0,lenght_A)+(1,0,0)
+          leg2_b1 (length_B1,0,0)+(1,0,0)
+
+revolute: leg2_b1 (0,0,0)+(0,0,1)
+          leg2_b2 (0,0,0)+(0,0,1)
+	  range [-pi/2,pi/2] +(0,1,0) +(1,0,0)
+
+revolute: leg2_b1 (2*length_B1,0,0)+(0,0,1) 
+          leg2_b3 (0,0,0)+(0,0,1)
+
+revolute: leg2_b2 (length_B,0,0)+(0,0,1)
+          leg2_b4 (0,0,0)+(0,0,1)
+
+revolute: leg2_b3 (length_B,0,0)+(0,0,1)
+          leg2_b4 (2*length_B1,0,0)+(0,0,1)
+
+revolute: leg2_b4  (length_B1,0,0)+(1,0,0)
+          platform (x2_p,y2_p,0)+(cos(alpha2_p),sin(alpha2_p),0)
+
+%---------------------------------------------------------
+
+revolute: base   (x3_b,y3_b,0)+(cos(alpha3_b),sin(alpha3_b),0)
+          leg3_a (0,0,0)+(1,0,0)
+          range [theta3_min,theta3_max] +(cos(beta3_b),sin(beta3_b),0) +(0,-1,0)
+
+revolute: leg3_a  (0,0,lenght_A)+(1,0,0)
+          leg3_b1 (length_B1,0,0)+(1,0,0)
+
+revolute: leg3_b1 (0,0,0)+(0,0,1)
+          leg3_b2 (0,0,0)+(0,0,1)
+	  range [-pi/2,pi/2] +(0,1,0) +(1,0,0)
+
+revolute: leg3_b1 (2*length_B1,0,0)+(0,0,1) 
+          leg3_b3 (0,0,0)+(0,0,1)
+
+revolute: leg3_b2 (length_B,0,0)+(0,0,1)
+          leg3_b4 (0,0,0)+(0,0,1)
+
+revolute: leg3_b3 (length_B,0,0)+(0,0,1)
+          leg3_b4 (2*length_B1,0,0)+(0,0,1)
+
+revolute: leg3_b4  (length_B1,0,0)+(1,0,0)
+          platform (x3_p,y3_p,0)+(cos(alpha3_p),sin(alpha3_p),0)
+
+%---------------------------------------------------------
+%fix: base platform Tz(1)
+
+/** \endcond */
+/**
+  \file MarylandManipulator.world
+
+  \brief The Maryland parallel manipulator.
+
+  <img src="../images/MarylandManipulator/configuration.png">
+
+  The Maryland parallel manipulator.
+
+  In the direct kinematics, we fix the the angles between the base plane and
+  the lower part of the legs (thetaX_min, thetaX_max at the beginning of the \e world file)
+  and we obtain the pose of the platform (that we can plot using \ref cuikanimate.c "cuikanimate").
+
+  In the inverse kinematics, we fix the pose for the platform (uncommenting the last line
+  of the file and setting it adequately) and we free the ranges for the lower limbs angles
+  (commenting the lines with the ranges for the revolute joint connecting the base and
+  the lower part of the legs). After the modifications of this \e world file, you have
+  to regenerate the equations and then use \ref cuik.c "cuik" on the resulting <i>.cuik</i> file.
+
+  This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/MarylandManipulator/MarylandManipulator</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/MarylandManipulator/MarylandManipulator </i>
+             .
+     - <b>Animate the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/MarylandManipulator/MarylandManipulator examples/MarylandManipulator/MarylandManipulator</i>
+             .
+     .
+
+*/

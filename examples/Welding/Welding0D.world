@@ -1,0 +1,76 @@
+/** \cond */
+
+[constants]
+  l1:=1
+  l2:=1
+  l3:=1
+  x:=0.25
+  y:=0.75
+  theta:=pi/2
+
+[links]
+  ground: body "bodies/beam.off" blue
+  link1: body "bodies/link1.off" grey
+      	 sphere 0.04 (0,0,0) black
+         sphere 0.04 (l1,0,0.05) black
+  link2: body "bodies/link2.off" grey
+         sphere 0.04 (l1,0,0.1) black
+  link3: body "bodies/link3.off" grey
+         body "bodies/gripper.off" black
+	 % now some artistic representation of the welding tool
+         cylinder 0.03 (l3,0,0.1) (l3+0.2,0,0.1) white
+         sphere 0.03  (l3+0.2,0,0.1) white
+         cylinder 0.02 (l3+0.1,0,0.1) (l3+0.3,0,0.1) black decoration
+         sphere 0.02 (l3+0.3,0,0.1) red decoration
+
+[joints]
+  revolute: ground (0,0,0) (0,0,1) 
+            link1  (0,0,0) (0,0,1)
+  revolute: link1 (l1,0,0) (l1,0,1) 
+            link2 (0,0,0) (0,0,1)
+  revolute: link2 (l2,0,0) (l2,0,1) 
+            link3 (0,0,0) (0,0,1)
+  fix: ground link3
+      Tx(x)*Ty(y)*Rz(theta)
+
+/** \endcond */
+
+/** \file Welding0D.world
+
+    \brief The example of the RAM paper defining a 0-dimensional configuration space.
+
+    The example of the RAM paper defining a 0-dim configuration space (i.e., isolated solution points).
+
+    This example is treated following these steps (from the main CuikSuite folder):
+            - Generate the equations: The  automatically generated system of equations is more complex
+	      than that in the paper since we actually use 3D reference frames attached to the links instead
+	      of a simple 2D vector. In this way the same process of generating kinematic equations generalizes
+	      to the 3D case.
+                 - <i>\ref cuikequations.c "bin/cuikequations" examples/Welding/Welding0D</i>
+                 .
+            - Simplify them. This will generate equations equivalent to (1) and (2) in the paper (not to same	
+	      equations due to different departing system and the particularities of the automatic simplification process). If you are only
+	      interested in solving the problem you can skip this step.
+                 - <i> \ref cuiksimplify.c "bin/cuiksimplify" examples/Welding/Welding0D</i>
+                 - <i> cat examples/Welding/Welding0D_simp.cuik </i>
+                 .
+                      <center> <img src="../images/Welding/equations.png"></center>
+            - Solve the problem: Observe that in the process some information is printed in the console. These
+	       informations basically say that the first search box is bisected and that one solution is
+	       isolated in each one of the two resulting boxes, as show in Fig. 4 in the paper.
+                 - <i> \ref cuik.c "bin/cuik" examples/Welding/Welding0D </i>
+                 . 
+                      <center><img src="../images/Welding/bab.png"></center>
+            - Visualize the solutions: You will see the two valid configurations for this problem. The two configurations
+	      can be seen moving the slider of the \ref cuikplay.c "scripts/cuikplayer" window (it might appear behind
+	      the other windows)
+                 - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Welding/Welding0D examples/Welding/Welding0D </i>
+                 . 
+                      <center><img src="../images/Welding/configurations.png"></center>
+            .
+
+    If your are new to geomview (the program used for visualization in the CuikSuite) this 
+    <a href="http://www.geomview.org/docs/html/Tutorial.html">tutorial</a> might help you.
+
+    Jump to the next example: a \ref Welding1D.world "1-dimensional case".
+*/

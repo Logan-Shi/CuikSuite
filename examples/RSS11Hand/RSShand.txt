@@ -1,0 +1,6 @@
+/** \dir examples/RSS11Hand
+
+   \brief The example used in the RSS'11 paper.
+
+   The example used in the RSS'11 paper.
+*/

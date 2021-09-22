@@ -1,0 +1,12 @@
+Min. penalty:0.01
+Max. penalty:1000
+Beta:0.1
+S:1
+Sigma:0.1
+Tolerance:1e-12
+Penalty update function:updatepenalty.m
+Path:Toolbox/Sergi
+Constraints:prisma2_fixed_col_jm.env
+Constraint file:p2_free_col_jm_c
+Gradient file:p2_free_col_jm_g
+Function file:p2_free_col_jm_f

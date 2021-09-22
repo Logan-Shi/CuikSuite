@@ -1,0 +1,30 @@
+/** \dir examples/Welding
+
+    \brief A simple tutorial on the CuikSuite tools.
+
+    <center>
+    <img src="../images/Welding/Welding.png">
+    </center>
+
+    A simple tutorial to introduce the CuikSuite tools.
+
+    In this example we have a planar serial robot with 3 degrees of freedom that has to weld on a beam. In a first
+    case the robot only has to weld on a point and it has to reach it with a given orientation. In the
+    second case, the robot has to weld a line on the beam with the welding tool orthogonal to the beam.
+    Finally, the task is relaxed to weld a line on the beam but allowing any orientation of the welding tool.
+    The less the constraints on the welding tool, the higher the dimension of the configuration space to
+    explore.
+
+   This example is used as a small tutorial introducing the tools in the CuikSuite. The tutorial
+   starts by the simplest case (with 0-dimensional solution sets solved using branch-and-prune techniques)
+   and goes to more complex situations (2-dimensional solution sets explored using higher-dimensional
+   continuation techniques). Please, follow the steps below to replicate the results in the paper:
+
+      - \ref Welding0D.world "Address the 0-dimensional case" using branch-and-bound techniques.
+      - \ref Welding1D.world "Address the 1-dimensional case" using branch-and-bound techniques. 
+      - \ref Welding_open.world "Compute the borders of the reachable workspace" using branch-and-bound techniques. 
+      - \ref Welding2D.world "Address the 2-dimensional case" using higher-dimensional techniques.
+      - \ref Welding2D_limited.world "A path planning exercice" on the 2-dimensional case using higher-dimensional techniques.
+      .
+
+*/

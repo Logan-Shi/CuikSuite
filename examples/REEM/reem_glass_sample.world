@@ -1,0 +1,217 @@
+/** \cond */
+
+[CONSTANTS]
+
+  Deg2Rad := pi/180.0 
+
+[LINKS]
+
+  world: body "bodies/plane.off" yellow decoration
+         body "bodies/table_top.off" color (0.25,0.25,0)
+         cylinder 0.03 (0.8,-0.5,0) (0.8,-0.5,0.8) blue
+         cylinder 0.03 (0.8,0.5,0) (0.8,0.5,0.8) blue
+         cylinder 0.03 (1.3,-0.5,0) (1.3,-0.5,0.8) blue
+         cylinder 0.03 (1.3,0.5,0) (1.3,0.5,0.8) blue
+
+  glass: body "bodies/glass.off" 0.8*blue 
+
+  base: body "bodies/base.off" 0.8*white
+  base1
+  base2
+
+  wheel_left: body "bodies/wheel.off" 0.1*white decoration
+  wheel_right: body "bodies/wheel.off" 0.1*white decoration
+
+  caster_left_1: body "bodies/caster.off" 0.1*white decoration
+  caster_left_2: body "bodies/caster.off" 0.1*white decoration
+
+  caster_right_1: body "bodies/caster.off" 0.1*white decoration
+  caster_right_2: body "bodies/caster.off" 0.1*white decoration
+
+  torso1: body "bodies/torso1.off" 0.2*white
+  torso2: body "bodies/torso2.off" 0.8*white
+
+  arm_left_1: body "bodies/arm_left_1.off" 0.2*white
+  arm_left_2: body "bodies/arm_left_2.off" 0.2*white
+  arm_left_3: body "bodies/arm_left_3.off" 0.2*white
+  arm_left_4: body "bodies/arm_left_4.off" 0.2*white
+  arm_left_5: body "bodies/arm_left_5.off" 0.8*white
+  arm_left_6: body "bodies/arm_left_6.off" 0.8*white
+  arm_left_7: body "bodies/arm_left_7.off" 0.8*white
+              body "bodies/hand_left.off" 0.8*white
+
+  arm_right_1: body "bodies/arm_right_1.off" 0.2*white
+  arm_right_2: body "bodies/arm_right_2.off" 0.2*white
+  arm_right_3: body "bodies/arm_right_3.off" 0.2*white
+  arm_right_4: body "bodies/arm_right_4.off" 0.2*white
+  arm_right_5: body "bodies/arm_right_5.off" 0.8*white
+  arm_right_6: body "bodies/arm_right_6.off" 0.8*white
+  arm_right_7: body "bodies/arm_right_7.off" 0.8*white
+               body "bodies/hand_right.off" 0.8*white
+
+  head_1: body "bodies/head_1.off" 0.2*white decoration
+  head_2: body "bodies/head_2.off" 0.8*white decoration
+
+
+[JOINTS]
+
+  fix: world glass Txyz(0.8,0,0.90)
+
+  prismatic: world (0,0,0)+(1,0,0) 
+             base1 (0,0,0)+(1,0,0) 
+             range [-3,3]
+
+  prismatic: base1 (0,0,0)+(0,1,0) 
+             base2 (0,0,0)+(0,1,0) 
+             range [-3,3]
+
+  revolute: base2 (0,0,0)+(0,0,1)
+            base  (0,0,0)+(0,0,1)
+
+  fix: base wheel_left Txyz(0,0.2445,0.1075)*Rx(-90*Deg2Rad)
+  fix: base wheel_right Txyz(0,-0.2445,0.1075)*Rx(-90*Deg2Rad)
+  
+  fix: base caster_right_1 Txyz(-0.3805,-0.175,0.05)
+  fix: caster_right_1 caster_right_2 Txyz(-0.033,0,0)*Rx(-90*Deg2Rad)
+
+  fix: base caster_left_1 Txyz(-0.3805,0.175,0.05)
+  fix: caster_left_1 caster_left_2 Txyz(-0.033,0,0)*Rx(-90*Deg2Rad)
+
+  revolute: base (-0.1091,0,1.0531)+(0,0,1)
+            torso1 (0,0,0)+(0,0,1)
+            range [-75*Deg2Rad,75*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: torso1 (0,0,0)+(0,-sin(-90*Deg2Rad),cos(-90*Deg2Rad))
+            torso2 (0,0,0)+(0,0,1)
+            range [-15*Deg2Rad,45*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  fix: torso2 head_1 Txyz(-0.024,-0.412,0)*Rx(90*Deg2Rad)
+  fix: head_1 head_2 Txyz(0.0445,0,0)*Rx(-90*Deg2Rad)
+
+  /* Fix the left arm */
+  fix : torso2 arm_left_1 Txyz(-0.01,-0.273,0)*Rx(2.87979)
+
+  fix: arm_left_1 arm_left_2 Txyz(0,0,-0.2385)*Rz(1.5708)*Ry(1.309)*Rx(1.5708)
+
+  fix: arm_left_2 arm_left_3 Txyz(0.02,-0.1065,0)*Rx(-1.5708)
+
+  fix: arm_left_3 arm_left_4 Txyz(0,-0.02,-0.1235)*Ry(-1.5708)
+
+  fix: arm_left_4 arm_left_5 Txyz(-0.1065,0.02,0)*Ry(1.5708)
+
+  fix: arm_left_5 arm_left_6 Txyz(0,0,-0.133)*Rx(1.5708)
+
+  fix: arm_left_6 arm_left_7 Rx(-1.5708)
+
+  /* Fully operational right arm */
+  revolute: torso2 (-0.01,-0.273,0)+(0,-sin(-165*Deg2Rad),cos(-165*Deg2Rad))
+            arm_right_1 (0,0,0)+(0,0,1)
+            range [-45*Deg2Rad,180*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_1 (0,0,0.2385)+(-1,0,0)
+            arm_right_2 (0,0,0)+(0,0,1)
+            range [-30*Deg2Rad,105*Deg2Rad]
+                  +(0,cos(75*Deg2Rad),sin(75*Deg2Rad)) +(1,0,0)
+
+  revolute: arm_right_2 (0.02,-0.1065,0)+(0,-1,0)
+            arm_right_3 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_3 (0,-0.02,0.1235)+(1,0,0)
+            arm_right_4 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,-1) +(1,0,0)
+
+  revolute: arm_right_4 (-0.1065,0.02,0)+(-1,0,0)
+            arm_right_5 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,1) +(1,0,0)
+
+  revolute: arm_right_5 (0,0,0.133)+(0,1,0)
+            arm_right_6 (0,0,0)+(0,0,1)
+            range [-90*Deg2Rad,90*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_6 (0,0,0)+(0,-1,0)
+            arm_right_7 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: glass (0,0,0)+(0,0,1)
+            arm_right_7 (-0.070390253284208,0.049581728739316,0.135699290394362)+(0.017674046576315,-0.906051238856922,-0.422798747211313)
+    
+
+[COLLISIONS]
+  Check: all
+  Do not check: base,torso1
+  Do not check: torso1,torso2
+
+  Do not check: torso2,arm_left_1
+  Do not check: torso2,arm_left_2
+  Do not check: arm_left_1,arm_left_2
+  Do not check: arm_left_2,arm_left_3
+  Do not check: arm_left_3,arm_left_4
+  Do not check: arm_left_4,arm_left_5
+  Do not check: arm_left_5,arm_left_6
+  Do not check: arm_left_5,arm_left_7
+  Do not check: arm_left_6,arm_left_7
+
+  Do not check: torso2,arm_right_1
+  Do not check: torso2,arm_right_2
+  Do not check: arm_right_1,arm_right_2
+  Do not check: arm_right_2,arm_right_3
+  Do not check: arm_right_3,arm_right_4
+  Do not check: arm_right_4,arm_right_5
+  Do not check: arm_right_5,arm_right_6
+  Do not check: arm_right_5,arm_right_7
+  Do not check: arm_right_6,arm_right_7
+
+  Do not check: world,glass
+  Do not check: arm_right_7,glass
+  
+/** \endcond */
+
+/** 
+    \file reem_glass_sample.world
+  
+   \brief The REEM robot by <a href="http://www.pal-robotics.com">PAL robotics</a>.
+    
+   <center>
+   <img src="../images/reem/reem_glass.png">
+   </center>
+
+    The REEM robot by <a href="http://www.pal-robotics.com">PAL robotics</a>. This is only the basic robot without
+    any loop closure.
+
+    This example is used to show how to generate goal poses for \ref reem_glass.world
+    <center>
+    <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 13 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 7 </td>
+     </tr>
+    </table>
+    </center>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+      - <b>Generate the equations</b> Ensure that \ref CT_REPRESENTATION "REPRESENTATION" is set to JOINTS
+        (otherwise the sampling process would be too slow)
+             - <i>\ref cuikequations.c "bin/cuikequations" examples/REEM/reem_glass_sample</i>
+	     .
+      - <b>Generate some tentative goal configurations</b> To throw 10000 samples (many of them are
+        unsuccessful)
+             - <i>\ref cuiknewton.c "bin/cuiknewton" examples/REEM/reem_glass_sample 10000 > examples/REEM/reem_glass_sample.sol</i>
+	     .
+      - <b>Visualize the generated configurations</b>: For each configuration the collision information is printed
+        (in the terminal). Only collision-free configurations can be used as a goal for \ref reem_glass.world
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/REEM//reem_glass_sample examples/REEM//reem_glass_sample</i>
+	     .
+      .
+*/

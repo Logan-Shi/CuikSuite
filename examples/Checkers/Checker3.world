@@ -1,0 +1,92 @@
+/* 3x3 Deployable Checker */
+
+/** \cond */
+[LINKS]
+
+%fix the ground link to be the center of the checkers
+S_2_2 : body "bodies/square.off" red
+
+S_1_1 : body "bodies/square.off" red
+S_1_2 : body "bodies/square.off" red
+S_1_3 : body "bodies/square.off" red
+
+S_2_1 : body "bodies/square.off" red
+S_2_3 : body "bodies/square.off" red
+
+S_3_1 : body "bodies/square.off" red
+S_3_2 : body "bodies/square.off" red
+S_3_3 : body "bodies/square.off" red
+
+/*
+S_1_1 : body "bodies/square.off" red
+S_1_2 : body "bodies/square.off" red
+S_1_3 : body "bodies/square.off" red
+
+S_2_1 : body "bodies/square.off" red
+S_2_2 : body "bodies/square.off" red
+S_2_3 : body "bodies/square.off" red
+
+S_3_1 : body "bodies/square.off" red
+S_3_2 : body "bodies/square.off" red
+S_3_3 : body "bodies/square.off" red
+*/
+
+[JOINTS]
+
+revolute : S_1_1 0+(0,1,0)
+           S_1_2 2+(0,1,0)
+revolute : S_1_2 0+(0,1,0)
+           S_1_3 2+(0,1,0)
+
+revolute : S_2_1 0+(0,1,0)
+           S_2_2 2+(0,1,0)
+revolute : S_2_2 0+(0,1,0)
+           S_2_3 2+(0,1,0)
+
+revolute : S_3_1 0+(0,1,0)
+           S_3_2 2+(0,1,0)
+revolute : S_3_2 0+(0,1,0)
+           S_3_3 2+(0,1,0)
+
+revolute : S_1_1 3+(0,1,0)
+           S_2_1 1+(0,1,0)
+revolute : S_1_2 3+(0,1,0)
+           S_2_2 1+(0,1,0)
+revolute : S_1_3 3+(0,1,0)
+           S_2_3 1+(0,1,0)
+
+revolute : S_2_1 3+(0,1,0)
+           S_3_1 1+(0,1,0)
+revolute : S_2_2 3+(0,1,0)
+           S_3_2 1+(0,1,0)
+revolute : S_2_3 3+(0,1,0)
+           S_3_3 1+(0,1,0)
+
+
+/** \endcond */
+
+/** \file Checker3.world
+  
+   \brief A 3x3 \ref examples/Checkers "deployable checker".
+    
+   This file encodes a 3x3 \ref examples/Checkers "deployable checker".
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Checkers/Checker3 </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Checkers/Checker3 </i>
+             .
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/Checkers/Checker3 </i>
+             .
+     - <b>Animate the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Checkers/Checker3 examples/Checkers/Checker3_1</i>
+             .
+     .
+ 
+
+*/

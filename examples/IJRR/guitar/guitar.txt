@@ -1,0 +1,11 @@
+/** \dir examples/IJRR/guitar
+
+    \brief The guitar example used in the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> paper.
+
+   <center>
+   <img src="../images/IJRR/guitar.png">
+   </center>
+
+    The guitar xample used in the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> paper.
+
+*/

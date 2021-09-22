@@ -1,0 +1,25 @@
+/** \dir examples/YouBot
+
+    \brief The youBot <a href="http://youbot-store.com">youBot</a> robot by Kuka
+
+    <center>
+    <img src="../images/YouBot/youbot.png">
+    </center>
+
+    The <a href="http://youbot-store.com">youBot</a> robot by Kuka.
+
+    Right now we only have the open loop models for the standard <a
+    href="http://youbot-store.com">youBot</a> robot and for its
+    sibling with two arms:
+       - youbot.world
+       - youbot2.world
+       .
+
+    We plan to define some path planning problems with these robots in
+    the near future.
+
+*/
+
+
+
+

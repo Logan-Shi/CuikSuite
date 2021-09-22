@@ -1,0 +1,16 @@
+/** \dir examples/FiveBars
+
+      \brief A planar five bar linkage.
+
+     <center>
+     <img src="../images/FiveBars/FiveBars.png">
+     </center>
+
+    This folder includes several files:
+
+       - \ref FiveBars.world includes the kinematic equations and it used for position analysis.
+       - \ref FiveBars_dynamics.world models a weight throwing task and it includes kinematic and dynamic equations and is used mainly for kinodynamic plannig.
+       - \ref FiveBars_dynamicsIRI.world is a variant of the previous with different link sizes.
+       - \ref FiveBars_spring.world  is a five-bars mechanism with an added spring that damps its movements. We used it in our <a href="http://www.iri.upc.edu/people/porta/Docs/icra18b.pdf">ICRA-18</a> paper.
+       .
+*/

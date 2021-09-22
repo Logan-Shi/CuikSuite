@@ -1,0 +1,432 @@
+/* 9x9 Deployable Checker */
+
+/** \cond */
+[LINKS]
+
+%fix the ground link to be the center of the checkers
+S_5_5 : body "bodies/square.off" red
+
+S_1_1 : body "bodies/square.off" red
+S_1_2 : body "bodies/square.off" red
+S_1_3 : body "bodies/square.off" red
+S_1_4 : body "bodies/square.off" red
+S_1_5 : body "bodies/square.off" red
+S_1_6 : body "bodies/square.off" red
+S_1_7 : body "bodies/square.off" red
+S_1_8 : body "bodies/square.off" red
+S_1_9 : body "bodies/square.off" red
+
+S_2_1 : body "bodies/square.off" red
+S_2_2 : body "bodies/square.off" red
+S_2_3 : body "bodies/square.off" red
+S_2_4 : body "bodies/square.off" red
+S_2_5 : body "bodies/square.off" red
+S_2_6 : body "bodies/square.off" red
+S_2_7 : body "bodies/square.off" red
+S_2_8 : body "bodies/square.off" red
+S_2_9 : body "bodies/square.off" red
+
+S_3_1 : body "bodies/square.off" red
+S_3_2 : body "bodies/square.off" red
+S_3_3 : body "bodies/square.off" red
+S_3_4 : body "bodies/square.off" red
+S_3_5 : body "bodies/square.off" red
+S_3_6 : body "bodies/square.off" red
+S_3_7 : body "bodies/square.off" red
+S_3_8 : body "bodies/square.off" red
+S_3_9 : body "bodies/square.off" red
+
+S_4_1 : body "bodies/square.off" red
+S_4_2 : body "bodies/square.off" red
+S_4_3 : body "bodies/square.off" red
+S_4_4 : body "bodies/square.off" red
+S_4_5 : body "bodies/square.off" red
+S_4_6 : body "bodies/square.off" red
+S_4_7 : body "bodies/square.off" red
+S_4_8 : body "bodies/square.off" red
+S_4_9 : body "bodies/square.off" red
+
+S_5_1 : body "bodies/square.off" red
+S_5_2 : body "bodies/square.off" red
+S_5_3 : body "bodies/square.off" red
+S_5_4 : body "bodies/square.off" red
+%S_5_5 : body "bodies/square.off" red
+S_5_6 : body "bodies/square.off" red
+S_5_7 : body "bodies/square.off" red
+S_5_8 : body "bodies/square.off" red
+S_5_9 : body "bodies/square.off" red
+
+S_6_1 : body "bodies/square.off" red
+S_6_2 : body "bodies/square.off" red
+S_6_3 : body "bodies/square.off" red
+S_6_4 : body "bodies/square.off" red
+S_6_5 : body "bodies/square.off" red
+S_6_6 : body "bodies/square.off" red
+S_6_7 : body "bodies/square.off" red
+S_6_8 : body "bodies/square.off" red
+S_6_9 : body "bodies/square.off" red
+
+S_7_1 : body "bodies/square.off" red
+S_7_2 : body "bodies/square.off" red
+S_7_3 : body "bodies/square.off" red
+S_7_4 : body "bodies/square.off" red
+S_7_5 : body "bodies/square.off" red
+S_7_6 : body "bodies/square.off" red
+S_7_7 : body "bodies/square.off" red
+S_7_8 : body "bodies/square.off" red
+S_7_9 : body "bodies/square.off" red
+
+S_8_1 : body "bodies/square.off" red
+S_8_2 : body "bodies/square.off" red
+S_8_3 : body "bodies/square.off" red
+S_8_4 : body "bodies/square.off" red
+S_8_5 : body "bodies/square.off" red
+S_8_6 : body "bodies/square.off" red
+S_8_7 : body "bodies/square.off" red
+S_8_8 : body "bodies/square.off" red
+S_8_9 : body "bodies/square.off" red
+
+S_9_1 : body "bodies/square.off" red
+S_9_2 : body "bodies/square.off" red
+S_9_3 : body "bodies/square.off" red
+S_9_4 : body "bodies/square.off" red
+S_9_5 : body "bodies/square.off" red
+S_9_6 : body "bodies/square.off" red
+S_9_7 : body "bodies/square.off" red
+S_9_8 : body "bodies/square.off" red
+S_9_9 : body "bodies/square.off" red
+
+[JOINTS]
+
+revolute : S_1_1 0+(0,1,0)
+           S_1_2 2+(0,1,0)
+revolute : S_1_2 0+(0,1,0)
+           S_1_3 2+(0,1,0)
+revolute : S_1_3 0+(0,1,0)
+           S_1_4 2+(0,1,0)
+revolute : S_1_4 0+(0,1,0)
+           S_1_5 2+(0,1,0)
+revolute : S_1_5 0+(0,1,0)
+           S_1_6 2+(0,1,0)
+revolute : S_1_6 0+(0,1,0)
+           S_1_7 2+(0,1,0)
+revolute : S_1_7 0+(0,1,0)
+           S_1_8 2+(0,1,0)
+revolute : S_1_8 0+(0,1,0)
+           S_1_9 2+(0,1,0)
+
+revolute : S_2_1 0+(0,1,0)
+           S_2_2 2+(0,1,0)
+revolute : S_2_2 0+(0,1,0)
+           S_2_3 2+(0,1,0)
+revolute : S_2_3 0+(0,1,0)
+           S_2_4 2+(0,1,0)
+revolute : S_2_4 0+(0,1,0)
+           S_2_5 2+(0,1,0)
+revolute : S_2_5 0+(0,1,0)
+           S_2_6 2+(0,1,0)
+revolute : S_2_6 0+(0,1,0)
+           S_2_7 2+(0,1,0)
+revolute : S_2_7 0+(0,1,0)
+           S_2_8 2+(0,1,0)
+revolute : S_2_8 0+(0,1,0)
+           S_2_9 2+(0,1,0)
+
+revolute : S_3_1 0+(0,1,0)
+           S_3_2 2+(0,1,0)
+revolute : S_3_2 0+(0,1,0)
+           S_3_3 2+(0,1,0)
+revolute : S_3_3 0+(0,1,0)
+           S_3_4 2+(0,1,0)
+revolute : S_3_4 0+(0,1,0)
+           S_3_5 2+(0,1,0)
+revolute : S_3_5 0+(0,1,0)
+           S_3_6 2+(0,1,0)
+revolute : S_3_6 0+(0,1,0)
+           S_3_7 2+(0,1,0)
+revolute : S_3_7 0+(0,1,0)
+           S_3_8 2+(0,1,0)
+revolute : S_3_8 0+(0,1,0)
+           S_3_9 2+(0,1,0)
+
+revolute : S_4_1 0+(0,1,0)
+           S_4_2 2+(0,1,0)
+revolute : S_4_2 0+(0,1,0)
+           S_4_3 2+(0,1,0)
+revolute : S_4_3 0+(0,1,0)
+           S_4_4 2+(0,1,0)
+revolute : S_4_4 0+(0,1,0)
+           S_4_5 2+(0,1,0)
+revolute : S_4_5 0+(0,1,0)
+           S_4_6 2+(0,1,0)
+revolute : S_4_6 0+(0,1,0)
+           S_4_7 2+(0,1,0)
+revolute : S_4_7 0+(0,1,0)
+           S_4_8 2+(0,1,0)
+revolute : S_4_8 0+(0,1,0)
+           S_4_9 2+(0,1,0)
+
+revolute : S_5_1 0+(0,1,0)
+           S_5_2 2+(0,1,0)
+revolute : S_5_2 0+(0,1,0)
+           S_5_3 2+(0,1,0)
+revolute : S_5_3 0+(0,1,0)
+           S_5_4 2+(0,1,0)
+revolute : S_5_4 0+(0,1,0)
+           S_5_5 2+(0,1,0)
+revolute : S_5_5 0+(0,1,0)
+           S_5_6 2+(0,1,0)
+revolute : S_5_6 0+(0,1,0)
+           S_5_7 2+(0,1,0)
+revolute : S_5_7 0+(0,1,0)
+           S_5_8 2+(0,1,0)
+revolute : S_5_8 0+(0,1,0)
+           S_5_9 2+(0,1,0)
+
+revolute : S_6_1 0+(0,1,0)
+           S_6_2 2+(0,1,0)
+revolute : S_6_2 0+(0,1,0)
+           S_6_3 2+(0,1,0)
+revolute : S_6_3 0+(0,1,0)
+           S_6_4 2+(0,1,0)
+revolute : S_6_4 0+(0,1,0)
+           S_6_5 2+(0,1,0)
+revolute : S_6_5 0+(0,1,0)
+           S_6_6 2+(0,1,0)
+revolute : S_6_6 0+(0,1,0)
+           S_6_7 2+(0,1,0)
+revolute : S_6_7 0+(0,1,0)
+           S_6_8 2+(0,1,0)
+revolute : S_6_8 0+(0,1,0)
+           S_6_9 2+(0,1,0)
+
+revolute : S_7_1 0+(0,1,0)
+           S_7_2 2+(0,1,0)
+revolute : S_7_2 0+(0,1,0)
+           S_7_3 2+(0,1,0)
+revolute : S_7_3 0+(0,1,0)
+           S_7_4 2+(0,1,0)
+revolute : S_7_4 0+(0,1,0)
+           S_7_5 2+(0,1,0)
+revolute : S_7_5 0+(0,1,0)
+           S_7_6 2+(0,1,0)
+revolute : S_7_6 0+(0,1,0)
+           S_7_7 2+(0,1,0)
+revolute : S_7_7 0+(0,1,0)
+           S_7_8 2+(0,1,0)
+revolute : S_7_8 0+(0,1,0)
+           S_7_9 2+(0,1,0)
+
+revolute : S_8_1 0+(0,1,0)
+           S_8_2 2+(0,1,0)
+revolute : S_8_2 0+(0,1,0)
+           S_8_3 2+(0,1,0)
+revolute : S_8_3 0+(0,1,0)
+           S_8_4 2+(0,1,0)
+revolute : S_8_4 0+(0,1,0)
+           S_8_5 2+(0,1,0)
+revolute : S_8_5 0+(0,1,0)
+           S_8_6 2+(0,1,0)
+revolute : S_8_6 0+(0,1,0)
+           S_8_7 2+(0,1,0)
+revolute : S_8_7 0+(0,1,0)
+           S_8_8 2+(0,1,0)
+revolute : S_8_8 0+(0,1,0)
+           S_8_9 2+(0,1,0)
+
+revolute : S_9_1 0+(0,1,0)
+           S_9_2 2+(0,1,0)
+revolute : S_9_2 0+(0,1,0)
+           S_9_3 2+(0,1,0)
+revolute : S_9_3 0+(0,1,0)
+           S_9_4 2+(0,1,0)
+revolute : S_9_4 0+(0,1,0)
+           S_9_5 2+(0,1,0)
+revolute : S_9_5 0+(0,1,0)
+           S_9_6 2+(0,1,0)
+revolute : S_9_6 0+(0,1,0)
+           S_9_7 2+(0,1,0)
+revolute : S_9_7 0+(0,1,0)
+           S_9_8 2+(0,1,0)
+revolute : S_9_8 0+(0,1,0)
+           S_9_9 2+(0,1,0)
+
+
+revolute : S_1_1 3+(0,1,0)
+           S_2_1 1+(0,1,0)
+revolute : S_1_2 3+(0,1,0)
+           S_2_2 1+(0,1,0)
+revolute : S_1_3 3+(0,1,0)
+           S_2_3 1+(0,1,0)
+revolute : S_1_4 3+(0,1,0)
+           S_2_4 1+(0,1,0)
+revolute : S_1_5 3+(0,1,0)
+           S_2_5 1+(0,1,0)
+revolute : S_1_6 3+(0,1,0)
+           S_2_6 1+(0,1,0)
+revolute : S_1_7 3+(0,1,0)
+           S_2_7 1+(0,1,0)
+revolute : S_1_8 3+(0,1,0)
+           S_2_8 1+(0,1,0)
+revolute : S_1_9 3+(0,1,0)
+           S_2_9 1+(0,1,0)
+
+revolute : S_2_1 3+(0,1,0)
+           S_3_1 1+(0,1,0)
+revolute : S_2_2 3+(0,1,0)
+           S_3_2 1+(0,1,0)
+revolute : S_2_3 3+(0,1,0)
+           S_3_3 1+(0,1,0)
+revolute : S_2_4 3+(0,1,0)
+           S_3_4 1+(0,1,0)
+revolute : S_2_5 3+(0,1,0)
+           S_3_5 1+(0,1,0)
+revolute : S_2_6 3+(0,1,0)
+           S_3_6 1+(0,1,0)
+revolute : S_2_7 3+(0,1,0)
+           S_3_7 1+(0,1,0)
+revolute : S_2_8 3+(0,1,0)
+           S_3_8 1+(0,1,0)
+revolute : S_2_9 3+(0,1,0)
+           S_3_9 1+(0,1,0)
+
+revolute : S_3_1 3+(0,1,0)
+           S_4_1 1+(0,1,0)
+revolute : S_3_2 3+(0,1,0)
+           S_4_2 1+(0,1,0)
+revolute : S_3_3 3+(0,1,0)
+           S_4_3 1+(0,1,0)
+revolute : S_3_4 3+(0,1,0)
+           S_4_4 1+(0,1,0)
+revolute : S_3_5 3+(0,1,0)
+           S_4_5 1+(0,1,0)
+revolute : S_3_6 3+(0,1,0)
+           S_4_6 1+(0,1,0)
+revolute : S_3_7 3+(0,1,0)
+           S_4_7 1+(0,1,0)
+revolute : S_3_8 3+(0,1,0)
+           S_4_8 1+(0,1,0)
+revolute : S_3_9 3+(0,1,0)
+           S_4_9 1+(0,1,0)
+
+revolute : S_4_1 3+(0,1,0)
+           S_5_1 1+(0,1,0)
+revolute : S_4_2 3+(0,1,0)
+           S_5_2 1+(0,1,0)
+revolute : S_4_3 3+(0,1,0)
+           S_5_3 1+(0,1,0)
+revolute : S_4_4 3+(0,1,0)
+           S_5_4 1+(0,1,0)
+revolute : S_4_5 3+(0,1,0)
+           S_5_5 1+(0,1,0)
+revolute : S_4_6 3+(0,1,0)
+           S_5_6 1+(0,1,0)
+revolute : S_4_7 3+(0,1,0)
+           S_5_7 1+(0,1,0)
+revolute : S_4_8 3+(0,1,0)
+           S_5_8 1+(0,1,0)
+revolute : S_4_9 3+(0,1,0)
+           S_5_9 1+(0,1,0)
+
+revolute : S_5_1 3+(0,1,0)
+           S_6_1 1+(0,1,0)
+revolute : S_5_2 3+(0,1,0)
+           S_6_2 1+(0,1,0)
+revolute : S_5_3 3+(0,1,0)
+           S_6_3 1+(0,1,0)
+revolute : S_5_4 3+(0,1,0)
+           S_6_4 1+(0,1,0)
+revolute : S_5_5 3+(0,1,0)
+           S_6_5 1+(0,1,0)
+revolute : S_5_6 3+(0,1,0)
+           S_6_6 1+(0,1,0)
+revolute : S_5_7 3+(0,1,0)
+           S_6_7 1+(0,1,0)
+revolute : S_5_8 3+(0,1,0)
+           S_6_8 1+(0,1,0)
+revolute : S_5_9 3+(0,1,0)
+           S_6_9 1+(0,1,0)
+
+revolute : S_6_1 3+(0,1,0)
+           S_7_1 1+(0,1,0)
+revolute : S_6_2 3+(0,1,0)
+           S_7_2 1+(0,1,0)
+revolute : S_6_3 3+(0,1,0)
+           S_7_3 1+(0,1,0)
+revolute : S_6_4 3+(0,1,0)
+           S_7_4 1+(0,1,0)
+revolute : S_6_5 3+(0,1,0)
+           S_7_5 1+(0,1,0)
+revolute : S_6_6 3+(0,1,0)
+           S_7_6 1+(0,1,0)
+revolute : S_6_7 3+(0,1,0)
+           S_7_7 1+(0,1,0)
+revolute : S_6_8 3+(0,1,0)
+           S_7_8 1+(0,1,0)
+revolute : S_6_9 3+(0,1,0)
+           S_7_9 1+(0,1,0)
+
+revolute : S_7_1 3+(0,1,0)
+           S_8_1 1+(0,1,0)
+revolute : S_7_2 3+(0,1,0)
+           S_8_2 1+(0,1,0)
+revolute : S_7_3 3+(0,1,0)
+           S_8_3 1+(0,1,0)
+revolute : S_7_4 3+(0,1,0)
+           S_8_4 1+(0,1,0)
+revolute : S_7_5 3+(0,1,0)
+           S_8_5 1+(0,1,0)
+revolute : S_7_6 3+(0,1,0)
+           S_8_6 1+(0,1,0)
+revolute : S_7_7 3+(0,1,0)
+           S_8_7 1+(0,1,0)
+revolute : S_7_8 3+(0,1,0)
+           S_8_8 1+(0,1,0)
+revolute : S_7_9 3+(0,1,0)
+           S_8_9 1+(0,1,0)
+
+revolute : S_8_1 3+(0,1,0)
+           S_9_1 1+(0,1,0)
+revolute : S_8_2 3+(0,1,0)
+           S_9_2 1+(0,1,0)
+revolute : S_8_3 3+(0,1,0)
+           S_9_3 1+(0,1,0)
+revolute : S_8_4 3+(0,1,0)
+           S_9_4 1+(0,1,0)
+revolute : S_8_5 3+(0,1,0)
+           S_9_5 1+(0,1,0)
+revolute : S_8_6 3+(0,1,0)
+           S_9_6 1+(0,1,0)
+revolute : S_8_7 3+(0,1,0)
+           S_9_7 1+(0,1,0)
+revolute : S_8_8 3+(0,1,0)
+           S_9_8 1+(0,1,0)
+revolute : S_8_9 3+(0,1,0)
+           S_9_9 1+(0,1,0)
+
+/** \endcond */
+
+/** \file Checker9.world
+  
+   \brief A 9x9 \ref examples/Checkers "deployable checker".
+    
+   This file encodes a 9x9 \ref examples/Checkers "deployable checker".
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Checkers/Checker9 </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Checkers/Checker9 </i>
+             .
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/Checkers/Checker9 </i>
+             .
+     - <b>Animate the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Checkers/Checker9 examples/Checkers/Checker9_1</i>
+             .
+     .
+
+*/

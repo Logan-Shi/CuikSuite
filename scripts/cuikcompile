@@ -1,0 +1,12 @@
+#!/bin/tcsh   
+  # Auxiliary script for compiling cuik. Used when executing
+  # cuik in the grid
+  if (! -d build ) then
+    mkdir build
+  endif 
+  if (! -f build/Makefile ) then
+    cd build 
+    cmake -DCuikSuite_on_grid=1 ..
+    cd ..
+  endif 
+  make -s -C build cuik

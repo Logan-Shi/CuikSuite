@@ -1,0 +1,74 @@
+%%%%                      PARAMETERS                          %%%%
+
+%------------------------------
+% Collision detection method
+
+% CD_ENGINE = PQP
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parametes
+
+SMALL_SIGMA = 0.05
+ERROR_SPLIT = FALSE
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% joints-based representation
+
+% GBF
+% R = 0.4
+% SR = 1.6
+% E = 0.1
+% CE = 0.1
+% DELTA = 0.05
+
+% RRT
+R = 1.0
+SR = 7
+E = 0.1
+CE = 0.1
+DELTA = 0.05
+
+%------------------------------
+% non-joints representation 
+
+% ISRR (?)
+% R = 0.75
+% SR = 3
+% E = 0.5
+% CE= 0.5
+% DELTA = 0.05
+
+% TRO (?)
+% R = 1.5
+% SR = 6
+% E = 0.5
+% CE= 0.5
+% DELTA = 0.2
+	
+%------------------------------
+% other path-planning parameters
+
+BETA = 1.1
+
+N_DOF = 6
+
+DETECT_BIFURCATIONS = 0
+
+MAX_NEWTON_ITERATIONS = 50
+
+% SAMPLING = KDTREE_SAMPLING
+% DYNAMIC_DOMAIN = 20*DELTA
+
+%------------------------------

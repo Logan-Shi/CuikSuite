@@ -1,0 +1,214 @@
+/** \cond */
+[CONSTANTS]
+
+% Parameters for the sticky bot
+% l1:=6.3
+% l2:=4.3
+% l3:=10 
+% l4:=10.6
+
+% Default parameters
+
+l1:=1.25
+l2:=1.25
+l3:=1.25
+l4:=1.25
+
+[LINKS]
+
+  link1: color (0.9,0.9,0.9)
+         cylinder 0.05 (0,0,0) (1,0,0)
+         cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l1,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l1,0.1,0) decoration
+         cylinder 0.05 (l1,-0.15,0) (l1,-0.05,0) decoration
+         cylinder 0.05 (l1,0.15,0) (l1,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l1,-0.15,0) decoration
+	 sphere 0.05 (l1,0.15,0) decoration
+
+  link2: color (0.1,0.1,0.1)
+         cylinder 0.05 (0,0,0) (1,0,0)
+         cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l2,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l2,0.1,0) decoration
+         cylinder 0.05 (l2,-0.15,0) (l2,-0.05,0) decoration
+         cylinder 0.05 (l2,0.15,0) (l2,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l2,-0.15,0) decoration
+	 sphere 0.05 (l2,0.15,0) decoration
+
+
+  link3: color (0.9,0.9,0.9)
+         cylinder 0.05 (0,0,0) (1,0,0)         
+	 cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l3,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l3,0.1,0) decoration
+         cylinder 0.05 (l3,-0.15,0) (l3,-0.05,0) decoration
+         cylinder 0.05 (l3,0.15,0) (l3,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l3,-0.15,0) decoration
+	 sphere 0.05 (l3,0.15,0) decoration
+   
+  link4: color (0.1,0.1,0.1)
+         cylinder 0.05 (0,0,0) (1,0,0)
+	 cylinder 0.05 (0,-0.05,0) (0,0.05,0) decoration
+         cylinder 0.05 (1,-0.1,0) (1,0.1,0) decoration
+         cylinder 0.05 (1,-0.1,0) (l4,-0.1,0) decoration
+         cylinder 0.05 (1,0.1,0) (l4,0.1,0) decoration
+         cylinder 0.05 (l4,-0.15,0) (l4,-0.05,0) decoration
+         cylinder 0.05 (l4,0.15,0) (l4,0.05,0) decoration
+	
+	 sphere 0.05 (1,-0.1,0) decoration
+	 sphere 0.05 (1,0.1,0) decoration
+	 sphere 0.05 (l4,-0.15,0) decoration
+	 sphere 0.05 (l4,0.15,0) decoration
+
+[JOINTS]
+
+  REVOLUTE: link1 (l1,1,0) (l1,-1,0)
+            link2 (0 ,1,0) (0 ,-1,0)
+
+  REVOLUTE: link2 (l2,1,0) (l2,-1,0) 
+            link3 (0 ,1,0) (0 ,-1,0)
+
+  REVOLUTE: link3 (l3,1,0) (l3,-1,0)
+            link4 (0 ,1,0) (0 ,-1,0)
+
+  REVOLUTE: link4 (l4,1,0) (l4,-1,0)
+            link1 (0 ,1,0) (0 ,-1,0)
+  
+/** \endcond */
+
+/** 
+    \file FourBars.world
+
+    \brief A planar four bar mechanism.
+
+    A planar <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar</a> mechanism.
+
+   <center>
+   <img src="../images/FourBars/fourbars.png">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a> </center>
+
+    <h2><a name="intro">Introduction</a></h2>
+
+ 
+    A planar <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar</a> linkage.
+
+
+    <h2><a name="geom">Geometry</a></h2>
+
+     To define this planar mechanism we only have to fix the length of
+    the bars: 
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>\f$l_1\f$</th>
+      <td  align="center">1.25</td>
+    </tr>
+    <tr>
+      <th>\f$l_2\f$</th>
+      <td  align="center">1.25</td>
+    </tr>
+    <tr>
+      <th>\f$l_3\f$</th>
+      <td  align="center">1.25</td>
+    </tr>
+    <tr>
+      <th>\f$l_4\f$</th>
+      <td  align="center">1.25</td>
+    </tr>
+    </table>
+    </center>
+
+     These constant values can be easily changed in the \ref FourBars.world "formulation".
+
+    <h2><a name="process">Process</a></h2>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+     - <b>Generate the equations</b>:
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/FourBars/FourBars </i>
+             .
+     - <b>Solve the positional analysis problem</b>: 
+             - <i> \ref cuik.c "bin/cuik" examples/FourBars/FourBars </i>
+             .
+     - <b>Plot and visualize the configuration space</b>:
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/FourBars/FourBars 3 7 15 0 fb.gcl</i>
+	     -  <i> geomview fb.gcl</i>
+             . 
+     - <b>Visualze the configurations</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/FourBars/FourBars</i>
+	     -  <i>\ref cuikplay.c "scripts/cuikplayer" examples/FourBars/FourBars examples/FourBars/FourBars_1</i>
+     .
+
+     For more detailed instructions please, see the particular \ref FourBars.world "formulation".
+
+
+    <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center">1</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center">4</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center">4</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">5</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center">6</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">	
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center">16</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center">510</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center">2.5</td>
+    </tr>
+    </table>
+    </center>
+
+    <h2><a name="res">Results</a></h2>
+
+    Here you have the representation of the configuration space manifold you should obtain
+
+    <center><img src="../images/FourBars/fb.png"></td></center>
+
+*/
+

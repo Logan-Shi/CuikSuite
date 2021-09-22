@@ -1,0 +1,345 @@
+/** \cond */
+
+[CONSTANTS]
+
+% qji_k is a vector expressing the anchor point of reference 
+% frame i with respect to reference frame k of finger j.
+% if k is not given, it means it is respect to the palm, 
+% which in our case, it is the absoulute one.
+
+q21x :=  -4.3
+q21y :=   0
+q21z := 150.15
+
+q31x :=  -4.3
+q31y :=  40.165
+q31z := 145.43
+
+% Thumb
+
+q40x := -3
+q40y := 27.1
+q40z :=  0
+
+q41x_0:= 97
+q41y_0:=  6
+q41z_0:=-87
+
+% These anchor points can be seen as the length of the phalanges, 
+% but that is because the phalanges are aligned with this vectors.
+
+% finger 1
+q13x_2 := 67.8
+q13y_2 :=  0
+q13z_2 :=  0
+
+q14x_3 := 30
+q14y_3 :=  0
+q14z_3 :=  0
+
+q15x_4 := 27
+q15y_4 :=  0
+q15z_4 :=-12.5
+
+% finger 2
+q23x_2 := 67.8
+q23y_2 :=  0
+q23z_2 :=  0
+
+q24x_3 := 30
+q24y_3 :=  0
+q24z_3 :=  0
+
+q25x_4 := 27
+q25y_4 :=  0
+q25z_4 :=-12.5
+
+% finger 3
+q33x_2 := 67.8
+q33y_2 :=  0
+q33z_2 :=  0
+
+q34x_3 := 30
+q34y_3 :=  0
+q34z_3 :=  0
+
+q35x_4 := 27
+q35y_4 :=  0
+q35z_4 :=-12.5
+
+% finger 4
+q43x_2 := 67.8
+q43y_2 :=  0
+q43z_2 :=  0
+
+q44x_3 := 30
+q44y_3 :=  0
+q44z_3 :=  0
+
+q45x_4 := 27
+q45y_4 :=  0
+q45z_4 :=-12.5
+
+% Joint ranges
+
+% We can symmetrically enlarge the ranges for the joints so that
+% the hand can better manipulate objects without regrasping.
+% Set to zero to use the original ranges
+enlarge_range := 20*pi/180
+
+% Two ranges for the universal joint connecting the palm and finger 2
+% -pi/16
+phi_2_1_min:= -pi/8 -enlarge_range
+phi_2_1_max:=  pi/8 +enlarge_range
+
+% 1.35*pi/16
+phi_2_2_min:=  0    -enlarge_range
+phi_2_2_max:=  pi/2 +enlarge_range
+
+% Range for the first rotation in finger 2
+% pi/8 
+phi_2_3_min:=  0    -enlarge_range
+phi_2_3_max:=  pi/2 +enlarge_range
+ 
+% Range for the second rotation in finger 2
+% pi/8 
+phi_2_4_min:=  0    -enlarge_range
+phi_2_4_max:=  pi/2 +enlarge_range
+
+% Range for the contact rotation
+phi_2_5b_min:= -pi/5
+phi_2_5b_max:=  pi/5
+
+phi_2_5_min:=  0.05
+phi_2_5_max:=  pi/2+0.25
+
+% Two ranges for the universal joint connecting the palm and finger 3
+% -pi/16 
+phi_3_1_min:= -pi/8 -enlarge_range
+phi_3_1_max:=  pi/8 +enlarge_range
+
+% 1.2*pi/16 
+phi_3_2_min:=  0    -enlarge_range
+phi_3_2_max:=  pi/2 +enlarge_range
+
+% Range for the first rotation in finger 3
+% pi/8 
+phi_3_3_min:=  0    -enlarge_range
+phi_3_3_max:=  pi/2 +enlarge_range
+
+% Range for the second rotation in finger 3
+% pi/8 
+phi_3_4_min:=  0    -enlarge_range
+phi_3_4_max:=  pi/2 +enlarge_range
+
+% Range for the contact rotation
+phi_3_5_min:=  0.05
+phi_3_5_max:=  pi/2+0.25
+
+% Two ranges for the universal joint connecting the palm and finger 4
+% pi/2 
+phi_4_0_min:=  0    -enlarge_range
+phi_4_0_max:=  pi/2 +enlarge_range
+
+% 0 
+phi_4_1_min:=  -pi/8 -enlarge_range
+phi_4_1_max:=   pi/8 +enlarge_range
+ 
+% 0 
+phi_4_2_min:=  0    -enlarge_range
+phi_4_2_max:=  pi/2 +enlarge_range
+
+% Range for the first rotation in finger 4
+% 3*pi/16  
+phi_4_3_min:=  0    -enlarge_range
+phi_4_3_max:=  pi/2 +enlarge_range
+
+% Range for the second rotation in finger 4
+% 3*pi/16 
+phi_4_4_min:=  0    -enlarge_range
+phi_4_4_max:=  pi/2 +enlarge_range
+
+% Range for the contact rotation
+phi_4_5_min:=  0.05
+phi_4_5_max:=  pi/2+0.25
+
+%-------------------------------------------------------------------
+%--------------------------------------------------------------------
+
+[LINKS]
+
+% palm
+  palm:body "bodies/palmSAH.off" white
+        body "bodies/acs1palm.off" blue
+        body "bodies/acs2palm.off" blue
+        body "bodies/acs3palm.off"
+        
+        // finger 1 fixed to the palm
+        body "bodies/p1_fix.off" white
+        body "bodies/p2_fix.off" white
+        body "bodies/b2_fix.off" blue
+        body "bodies/p3_fix.off" white
+        body "bodies/p4_fix.off" white
+        body "bodies/b4_fix.off" blue
+
+% finger 2
+  p22: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p23: body "bodies/p3.off" white
+  
+  p24: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+% finger 3
+  p32: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p33: body "bodies/p3.off" white
+   
+  p34: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+% finger 4
+  p40: body "bodies/p0thumb.off" white
+
+  p42: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p43: body "bodies/p3.off" white
+   
+  p44: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+
+
+% object
+ setrill2 - body "bodies/setrill.off" red
+
+% contact links  (after the hand but before the object!)
+ 
+  p35: sphere 0.5 (0,0,0) green
+  p45: sphere 0.5 (0,0,0) green
+
+[JOINTS]
+
+% finger 2
+  universal: palm (q21x,q21y,q21z)+(1,0,0)
+             p22 (0,0,0)+(0,-1,0)
+             range [phi_2_1_min,phi_2_1_max] +(0,1,0) 
+                   [phi_2_2_min,phi_2_2_max] +(0,0,1)
+
+  revolute: p22 (q23x_2,q23y_2,q23z_2)+(0,-1,0)
+            p23 (0,0,0)+(0,-1,0)
+            range [phi_2_3_min,phi_2_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p23 (q24x_3,q24y_3,q24z_3)+(0,-1,0) 
+            p24 (0,0,0)+(0,-1,0)
+            range [phi_2_4_min,phi_2_4_max] +(1,0,0) +(1,0,0)
+
+% finger 3
+  universal: palm (q31x,q31y,q31z)+(1,0,0)
+             p32 (0,0,0)+(0,-1,0)
+             range [phi_3_1_min,phi_3_1_max] +(0,0.99937,0.035485) 
+                   [phi_3_2_min,phi_3_2_max] +(0,0,1)
+
+  revolute: p32 (q33x_2,q33y_2,q33z_2)+(0,-1,0)
+            p33 (0,0,0)+(0,-1,0)
+            range [phi_3_3_min,phi_3_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p33 (q34x_3,q34y_3,q34z_3)+(0,-1,0) 
+            p34 (0,0,0)+(0,-1,0)
+            range [phi_3_4_min,phi_3_4_max] +(1,0,0) +(1,0,0)
+
+% finger 4
+  revolute: palm (q40x,q40y,q40z)+(0,0,-1)
+            p40 (0,0,0)+(-1,0,0)
+            range [phi_4_0_min,phi_4_0_max] +(0,-1,0) +(0,0,1)
+
+  universal: p40 (q41x_0,q41y_0,q41z_0) +(0.573580,0,0.81915)
+             p42 (0,0,0)+(0,-1,0)
+             range [phi_4_1_min,phi_4_1_max] +(0,-1,0)
+                   [phi_4_2_min,phi_4_2_max] +(0,0,1)
+
+  revolute: p42 (q43x_2,q43y_2,q43z_2)+(0,-1,0)
+            p43 (0,0,0)+(0,-1,0)
+            range [phi_4_3_min,phi_4_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p43 (q44x_3,q44y_3,q44z_3)+(0,-1,0)
+            p44 (0,0,0)+(0,-1,0)
+            range [phi_4_4_min,phi_4_4_max] +(1,0,0) +(1,0,0)
+
+
+% contact joints (after the hand joints)
+
+  revolute: p34 (q35x_4,q35y_4,0)+(0,1,0)
+            p35 (0,0,q35z_4)+(0,1,0)
+            range [phi_3_5_min,phi_3_5_max] +(0,0,1) +(0,0,1)
+
+  revolute: p44  (q45x_4,q45y_4,0)+(0,1,0) 
+            p45 (0,0,q45z_4)+(0,1,0)
+            range [phi_4_5_min,phi_4_5_max] +(0,0,1) +(0,0,1)
+
+
+
+[COLLISIONS]
+  
+  Do Not Check : all 
+  Check: p24,setrill2
+  Check: p35,setrill2
+  Check: p45,setrill2
+  
+  /*
+  Check: all
+
+  Do not Check: palm,p22
+  Do not Check: p22,p23
+  Do not Check: p23,p24
+  Do not Check: p24,setrill2
+
+  Do not Check: palm,p32
+  Do not Check: p32,p33
+  Do not Check: p33,p34
+  Do not Check: p34,p35
+  Do not Check: p34,setrill2
+  Do not Check: p35,setrill2
+
+  Do not Check: palm,p40
+  Do not Check: p40,p42
+  Do not Check: p42,p43
+  Do not Check: p43,p44
+  Do not Check: p44,p45
+  Do not Check: p44,setrill2
+  Do not Check: p45,setrill2
+  */ 
+
+/** \endcond */
+
+/**
+   \file RSShand_setrill2.world
+
+   \brief The <a href="http://www.iri.upc.edu/people/porta/Docs/rss11.pdf">RSS-11</a> example with the drizzler.
+
+   The <a href="http://www.iri.upc.edu/people/porta/Docs/rss11.pdf">RSS-11</a> example with the drizzler.
+
+   Note that <i>setrill</i> is the Catalan for oil-drizzler.
+
+   Please note that this is open loop and used only to generate the .cuik file
+     (and to display solutions).
+
+   A rough idea of what we do to process this example include:
+    - Geneate the kinematic equations.   
+    - Generate the contact equations.
+    - Merge the two system of variables (kinematics of the hand and the contact equations).
+    - Add the equations defining the eigen-graps.
+    - Compute the atlas and obtain the center for each chart.
+    - Use a Matlab script to compute the manipulability
+    - Finaly we generate the plots (atlas with colors plus configurations).
+    .
+
+   The full set of steps to obtain the result in the paper is listed
+   in the RSSChain_setrill2 script (see the \ref scripts.txt "scripts" directory).
+*/

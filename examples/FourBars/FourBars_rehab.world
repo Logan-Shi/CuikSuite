@@ -1,0 +1,123 @@
+/** \cond */
+[CONSTANTS]
+
+  % Size of the cylinders representing revolute joints
+  d:=0.1
+  % Radius of cylinders
+  r:=0.05
+  % height of the pendulum
+  h:=1.5
+
+  % masses
+  m1:=1
+  m2:=1
+  m3:=1
+  m4:=1
+
+  ml:=1 // 5.0 mass load
+  
+  % length of the bars
+  l1:=1.5 % distance from wheel to base of human arm
+  l2:=1.0 % upper arm length
+  l3:=1.1 % lower arm length
+  l4:=0.5 % radius of rehab wheel
+
+  % Maximum torque
+  mt:= 4
+
+  % Maximum velocity
+  mv:=10*pi
+
+  % LQR joint cost
+  jc:=(mt)^2
+	
+  Kd:=0.2
+
+[LINKS]
+
+  link1: black % ground link 
+         cylinder r (-4*d,0,0) (-4*d,-h,0)
+         cylinder r (-3*d,0,0) (-5*d,0,0)
+         sphere r (-5*d,0,0)
+
+         cylinder r (+4*d,0,l1) (+4*d,-h,l1)
+         cylinder r (+3*d,0,l1) (+5*d,0,l1)
+         sphere r (+5*d,0,l1)
+   
+         box (-6*d,-h-r,-2*d) (+6*d,-h,l1+2*d) white
+
+         mass m1    % actually not relevant since this is the ground link
+         inertia matrix 1,0,0,1,0,1 % Not used. Identity just to init it.
+         inertial frame Tz(l1/2)
+
+  link2: red % upper arm 
+	 cylinder r (d,0,0) (3*d,0,0)
+	 sphere r (d,0,0)
+	 cylinder r (2*d,0,0) (2*d,0,l2)
+	 cylinder r (d,0,l2) (3*d,0,l2)
+	 sphere r (3*d,0,l2)
+
+	 mass m2 % mass of upper arm
+	 inertia matrix 1/12*m2*l2^2,0,0,1/12*m2*l2^2,0,0 % inertia matrix at CoM of upper arm
+	 inertial frame Tz(l2/2) % Translation from joint to CoM of upper arm
+
+  link3: red % lower arm
+         cylinder r (-d,0,0) (+d,0,0)
+	 sphere r (-d,0,0)
+	 cylinder r (0,0,0) (0,0,l3)
+	 cylinder r (-d,0,l3) (+d,0,l3)
+	 sphere r (+d,0,l3)
+
+	 mass m3
+	 inertia matrix 1/12*m3*l3^2,0,0,1/12*m3*l3^2,0,0
+	 inertial frame Tz(l3/2)
+
+  link4: black  % wheel 
+	 cylinder r (-d,0,0) (-3*d,0,0)
+	 sphere r (-3*d,0,0)
+	 cylinder r (-2*d,0,0) (-2*d,0,l4)
+	 cylinder r (-d,0,l4) (-3*d,0,l4)
+	 sphere r (-d,0,l4)
+         cylinder 0.95*r (-d+0.001,0,0) (-3*d,0,0) red
+	 cylinder l4 (-1.9*d,0,l4) (-2.1*d,0,l4) grey  %wheel part
+
+	 mass m4
+	 inertia matrix 1/12*m4*l4^2,0,0,1/12*m4*l4^2,0,0
+	 inertial frame Tz(l4/2)
+
+[JOINTS]
+
+  REVOLUTE: link1 (0,0,l1) (-1,0,l1)  %upper joint
+            link2 (0,0,0 ) (-1,0,0 )
+	    %range [-1,1] % joint limits
+	    %reference (0,-1,l1) (0,-1,0)
+	    velocity mv % maximum velocity of joint
+	    torque 4 % maximum torque of joint
+	    damping Kd
+
+  REVOLUTE: link2 (0,0,l2) (-1,0,l2) % lower joint
+            link3 (0,0,0 ) (-1,0,0 )
+	    velocity mv
+	    torque 4
+	    damping Kd
+
+  REVOLUTE: link3 (0,0,l3) (-1,0,l3) % wheel-hand joint
+            link4 (0,0,0 ) (-1,0,0 )
+	    velocity mv
+	    torque 4
+	    damping Kd
+
+  REVOLUTE: link4 (0,0,l4) (-1,0,l4) % wheel joint
+            link1 (0,0,0 ) (-1,0,0 )
+	    velocity mv
+
+/** \endcond */
+
+/**
+    \file FourBars_rehab.world
+
+    \brief A planar four bar mechanism with dynamics.
+
+    A variant of the planar <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar</a> mechanism modeling a rehabilitation machine.
+
+*/

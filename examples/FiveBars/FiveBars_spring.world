@@ -1,0 +1,191 @@
+/** \cond */
+[CONSTANTS]
+
+  r:=0.05  % Radius of bars (and balls)
+  d:=0.1   % length of the revolute joints
+
+  % Size of the Dextar-like robot
+  l1:=1.118
+  l2:=0.9
+  l3:=0.9
+  l4:=0.9
+  l5:=0.9
+
+  % Maximum velocity
+  mv:=15
+
+  % Maximum torque
+  mt:=0.2
+
+  % Mass of each link
+  mLink:=0.1
+
+  % Mass of the load
+  mLoad:=0.3
+
+  % Size of the obstacle. It is between:
+  %   0: trivial problem
+  %   1: Impossible problem (Actually, the maximum is about 0.839)
+  so:=0.7
+
+[LINKS]
+
+  link1: grey
+         cylinder r (0,0,0) (l1,0,0)
+
+      	 cylinder r (0,0,-d) (0,0,r)
+      	 sphere r (0,0,-d)
+
+      	 cylinder r (l1,0,-d) (l1,0,r)
+      	 sphere r (l1,0,-d)
+
+	 % The base of the mechanism
+      	 box (-1, 0,-1-r) (l1+1,1.25*(l2+l3),-1) white
+
+         % Obstacle dividing the workspace
+         box (l1/2-r/2,0,-1) (l1/2+r/2,so*(l2+l3),-0.25) grey //color(0.7,0,0)
+
+         % Suport of the mechanism
+         box (0,-r,-1) (l1,0,0) white //color(1,0,0)
+
+         mass mLink // Not relevant
+	 inertia matrix 0,0,0,1/12*mLink*l1^2,0,1/12*mLink*l1^2
+	 inertial frame Tx(l1/2)
+
+  link2: black
+         cylinder r (0,0,2*r) (l2,0,2*r)
+
+      	 cylinder r (0,0,r) (0,0,2*r+d)
+      	 sphere r (0,0,2*r+d)
+
+      	 cylinder r (l2,0,r) (l2,0,2*r+d)
+      	 sphere r (l2,0,2*r+d)
+
+         mass mLink
+	 inertia matrix 0,0,0,1/12*mLink*l2^2,0,1/12*mLink*l2^2
+	 inertial frame Tx(l2/2)
+
+  link3: grey
+         cylinder r (0,0,0) (l3,0,0)
+
+      	 cylinder r (0,0,r) (0,0,-d)
+      	 sphere r (0,0,-d)
+
+         mass mLink
+	 inertia matrix 0,0,0,1/12*mLink*l3^2,0,1/12*mLink*l3^2
+	 inertial frame Tx(l3/2)
+
+  link4: grey
+         cylinder r (0,0,0) (l4,0,0)
+
+      	 cylinder r (0,0,d) (0,0,0)
+      	 sphere r (0,0,d)
+
+      	 cylinder r (l4,0,-d) (l4,0,r)
+      	 sphere r (l4,0,-d)
+
+         mass mLink
+	 inertia matrix 0,0,0,1/12*mLink*l4^2,0,1/12*mLink*l4^2
+	 inertial frame Tx(l4/2)
+
+  link5: black
+         cylinder r (0,0,2*r) (l5,0,2*r)
+
+      	 cylinder r (0,0,r) (0,0,2*r+d)
+      	 sphere r (0,0,2*r+d)
+	 
+         cylinder r (l5,0,r) (l5,0,2*r+d)
+      	 sphere r (l5,0,2*r+d)
+	 
+         mass mLink
+	 inertia matrix 0,0,0,1/12*mLink*l5^2,0,1/12*mLink*l5^2
+	 inertial frame Tx(l5/2)
+
+   load: grey
+         cylinder r (0,0,0) (0,0,5*d) 
+      	 sphere 4*r (0,0,0) black
+
+ 	 mass mLoad
+	 inertia matrix 2/5*mLoad*16*r^2,0,0,2/5*mLoad*16*r^2,0,2/5*mLoad*16*r^2
+	 inertial frame Id
+
+[JOINTS]
+
+  REVOLUTE: link1 (0,0,0) (0,0,1)
+            link2 (0,0,0) (0,0,1)
+            reference (-1,0,0) (1,0,0)
+            velocity mv
+	    torque mt
+
+  REVOLUTE: link2 (l2,0,0) (l2,0,1)
+            link3 (0,0,0) (0,0,1)
+            reference (l2+1,0,0) (1,0,0)
+            velocity mv
+
+  REVOLUTE: link3 (l3,0,0) (l3,0,1)
+            link4 (0,0,0) (0,0,1)
+            reference (l3+1,0,0) (1,0,0)
+            velocity mv
+
+  REVOLUTE: link4 (l4,0,0) (l4,0,1)
+            link5 (0,0,0) (0,0,1)
+            reference (l4+1,0,0) (1,0,0)
+            velocity mv
+
+  REVOLUTE: link5 (l5,0,0) (l5,0,1)
+            link1 (l1,0,0) (l1,0,1)
+            reference (l5+1,0,0) (l1-1,0,0)
+            velocity mv
+	    torque mt
+
+  FIX: link3 load Txyz(l3,0,-5*d)
+
+  C_SPRING s1: link1 (l1/2,0,0)
+               link3 (l3,0,0)
+      	       radius r
+      	       granularity 20
+               black
+	       rest 1
+	       stiffness 1
+
+/* Use to springs instead of one. Improves stability */
+/*	       
+  C_SPRING s1: link1 (0,0,0)
+               link3 (l3,0,0)
+      	       radius r
+      	       granularity 20
+               black
+	       rest 1
+	       stiffness 10
+	       
+  C_SPRING s2: link1 (l1,0,0)
+               link4 (0,0,0)
+      	       radius r
+      	       granularity 20
+               black
+	       rest 1
+	       stiffness 10
+	       */
+
+[COLLISIONS]
+
+  do not check: all
+  
+  check: link1,link3
+  check: link1,link4
+  check: link1,load
+  
+
+/** \endcond */
+
+/** \file FiveBars_spring.world
+
+    \brief A planar five bar mechanism with dynamic constraints.
+    
+    This is just a variant of \ref FiveBars_dynamics.world changing some of the link sizes and adding
+    a spring to damp the movements.
+    
+    Please see \ref FiveBars_dynamics.world  for a description and instrucions on how
+    to process this example.
+
+*/

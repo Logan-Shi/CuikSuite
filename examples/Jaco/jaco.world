@@ -1,0 +1,90 @@
+/** \cond */
+
+[LINKS]
+
+  root 
+  jaco_link_base : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_base_0.off" color (0.792157,0.819608,0.933333) decoration
+                   body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_base_1.off" hidden
+
+  jaco_link_1 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_1_0.off" color (0.792157,0.819608,0.933333) decoration
+                body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_1_1.off" hidden
+
+  jaco_link_2 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_2_0.off" color (0.792157,0.819608,0.933333) decoration
+                body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_2_1.off" hidden
+
+  jaco_link_3 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_3_0.off" color (0.792157,0.819608,0.933333) decoration
+                body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_3_1.off" hidden
+
+  jaco_link_4 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_4_0.off" color (0.792157,0.819608,0.933333) decoration
+                body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_4_1.off" hidden
+
+  jaco_link_5 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_5_0.off" color (0.792157,0.819608,0.933333) decoration
+                body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_5_1.off" hidden
+
+  jaco_link_hand : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_hand_0.off" color (0.792157,0.819608,0.933333) decoration
+                   body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_hand_1.off" hidden
+
+  jaco_link_finger_1 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_finger_1_0.off" color (0.792157,0.819608,0.933333) decoration
+                       body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_finger_1_1.off" hidden
+
+  jaco_link_finger_2 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_finger_2_0.off" color (0.792157,0.819608,0.933333) decoration
+                       body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_finger_2_1.off" hidden
+
+  jaco_link_finger_3 : body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_finger_3_0.off" color (0.792157,0.819608,0.933333) decoration
+                       body "/Users/porta/cuik/CuikSuite/examples/Jaco/bodies/jaco_jaco_link_finger_3_1.off" hidden
+
+[JOINTS]
+
+  fix : root jaco_link_base ID
+
+  revolute : jaco_link_base (0.0000000000000000,0.0000000000000000,0.1535000000000000) (0.0000000000000000,0.0000000000000000,1.1535000000000000)
+             jaco_link_1 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,-1.0000000000000000)
+
+  revolute : jaco_link_1 (0.0000000000000000,0.0000000000000000,-0.1185000000000000) (0.0000000000000000,1.0000000000000000,-0.1185000000000000)
+             jaco_link_2 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+
+  revolute : jaco_link_2 (0.4100000000000000,0.0000000000000000,0.0000000000000000) (0.4099999999999999,0.0000000000000000,1.0000000000000000)
+             jaco_link_3 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,-1.0000000000000000)
+
+  revolute : jaco_link_3 (0.2070000000000000,0.0000000000000000,-0.0112500000000000) (1.2070000000000001,0.0000000000000000,-0.0112499999999999)
+             jaco_link_4 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,-1.0000000000000000)
+
+  revolute : jaco_link_4 (0.0343000000000000,0.0000000000000000,-0.0658800000000000) (0.8534520442890599,0.0000000000000000,-0.6394564363509487)
+             jaco_link_5 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,-1.0000000000000000)
+
+  revolute : jaco_link_5 (0.0343000000000000,0.0000000000000000,-0.0658800000000000) (0.8534520442890599,0.0000000000000000,-0.6394564363509487)
+             jaco_link_hand (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,-1.0000000000000000)
+
+  revolute : jaco_link_hand (-0.0397800000000000,0.0000000000000000,-0.1007100000000000) (0.1629385452277931,-0.9742324670436451,-0.1995851312453248)
+             jaco_link_finger_1 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+             range [0,0.698131700798] +(-0.4383807829832537,0.0000000000000000,-0.8987893463492931) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+             velocity 5.0000000000000000
+             effort 30.0000000000000000
+
+  revolute : jaco_link_hand (0.0356900000000000,-0.0216000000000000,-0.1007100000000000) (0.2244431617884078,0.9601662107755546,-0.1232344599111316)
+             jaco_link_finger_2 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+             range [0,0.698131700798] +(0.4262139315561362,-0.1025641040348512,-0.8987893463492931) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+             velocity 5.0000000000000000
+             effort 30.0000000000000000
+
+  revolute : jaco_link_hand (0.0356900000000000,0.0216000000000000,-0.1007100000000000) (-0.1530607957232274,1.0033664002590053,-0.0781739746999754)
+             jaco_link_finger_3 (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+             range [0,0.698131700798] +(0.4004326353192382,0.0978991883286667,-0.9110814746749484) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+             velocity 5.0000000000000000
+             effort 30.0000000000000000
+
+
+/** \endcond */
+/**
+   \file jaco.world
+
+   \brief Automatically generated world file.
+
+   Automatically generated world file with the command:
+
+      - bin/cuikurdf2world examples/Jaco/ jaco_model/urdf/standalone_arm.urdf examples/Jaco/jaco.world 
+      .
+
+   Created on: Wed Dec  2 14:55:08 2015
+   Executed at: nin
+*/

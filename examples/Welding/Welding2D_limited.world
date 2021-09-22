@@ -1,0 +1,97 @@
+/** \cond */
+[constants]
+  l1:=1
+  l2:=1
+  l3:=1
+  x:=0.25
+  y:=2.05
+  theta:=pi/2
+
+[links]
+  ground: body "bodies/beam.off" blue
+  link1: body "bodies/link1.off" grey
+      	 sphere 0.04 (0,0,0) black
+         sphere 0.04 (l1,0,0.05) black
+  link2: body "bodies/link2.off" grey
+         sphere 0.04 (l1,0,0.1) black
+  link3: body "bodies/link3.off" grey
+         body "bodies/gripper.off" black
+	 % now some artistic representation of the welding tool
+         cylinder 0.03 (l3,0,0.1) (l3+0.2,0,0.1) white
+         sphere 0.03  (l3+0.2,0,0.1) white
+         cylinder 0.02 (l3+0.1,0,0.1) (l3+0.3,0,0.1) black decoration
+         sphere 0.02 (l3+0.3,0,0.1) red decoration
+  link4
+
+[joints]
+  revolute: ground (0,0,0) (0,0,1) 
+            link1  (0,0,0) (0,0,1)
+  revolute: link1 (l1,0,0) (l1,0,1) 
+            link2 (0,0,0) (0,0,1)
+  revolute: link2 (l2,0,0) (l2,0,1) 
+            link3 (0,0,0) (0,0,1)
+
+  revolute: link3 (1.3,0,0) (1.3,0,1) 
+            link4 (0,0,0) (0,0,1)
+
+  prismatic: link4 (0,0,0) (1,0,0) 
+             ground (x,y,0) (x+1,y,0) 
+             range[0,3]
+
+[COLLISIONS]
+
+do not check: all
+check: ground,link3
+
+
+/** \endcond */
+
+/** \file Welding2D_limited.world
+
+    \brief The example of the RAM paper defining a limited 2-dimensional configuration space.
+
+    This is the same as \ref Welding2D.world but the displacement of the welding tool
+    along the beam is limited to produce a more difficult case for path planning.
+
+    This example is treated following these steps (from the main CuikSuite folder):
+           - Plan a path in the collision-free C-space: We use a version of the Welding2D problem where
+	      the displacement of the welding tool is limited. This makes the path planning problem
+	      a bit harder. The start/goal points are in the <em>joints</em> file. They can be
+	      defined using \ref cuikexplore.c "bin/cuikexplore", although they are typically given
+	      from the task to solve.
+	         - <i>\ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Welding/Welding2D_limited</i>
+		 . 
+           - Visualize the generated RRT: The \ref cuikatlasrrt.c "bin/cuikatlasrrt" application defines
+	     a RRT. 
+	         - <i>\ref cuikplotrrt.c "bin/cuikplotrrt" examples/Welding/Welding2D_limited 0 9 18</i>
+		 .
+           - Plot the full atlas (just to obtain a nicer representation):
+                 - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Welding/Welding2D_limited </i>
+                 - <i> \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Welding/Welding2D_limited 0 9 18 </i>
+                 .
+           - Visualize the atlas and the RRT
+		 - <i> geomview examples/Welding/Welding2D_limited_atlas.gcl examples/Welding/Welding2D_limited_rrt.gcl </i>
+		 . 
+                      <center><img src="../images/Welding/rrt.png"></center>
+           - Visualize the output path
+		 - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Welding/Welding2D_limited 0 9 18 </i>
+		 - <i>  geomview examples/Welding/Welding2D_limited_atlas.gcl examples/Welding/Welding2D_limited_path.gcl </i>
+		 .
+                      <center><img src="../images/Welding/rrt_path.png"></center>
+           - Smooth the path and visualize the smoothed path:
+                 - <i> \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Welding/Welding2D_limited</i>
+                 - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Welding/Welding2D_limited examples/Welding/Welding2D_limited_path_s 0 9 18 </i>
+                 - <i>  geomview examples/Welding/Welding2D_limited_atlas.gcl examples/Welding/Welding2D_limited_path_s.gcl </i>
+                 .
+                      <center><img src="../images/Welding/rrt_spath.png"></center>
+           - Directly compute the shortest (or geodesic) path and visualize it. You will likely get almost the same path as the smoothed path, but in some
+	     cases the smoothed path will be very far from the shortest one.
+                 - <i> \ref cuikatlasrrtstar.c "bin/cuikatlasrrtstar" examples/Welding/Welding2D_limited </i>
+                 - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Welding/Welding2D_limited 0 9 18 </i>
+                 - <i>  geomview examples/Welding/Welding2D_limited_atlas.gcl examples/Welding/Welding2D_limited_path.gcl </i>
+                 .
+                       <center><img src="../images/Welding/rrt_star.png"></center>
+           . 
+
+    Jump to the previous example: a \ref Welding2D.world "2-dimensional case".
+*/

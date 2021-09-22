@@ -1,0 +1,428 @@
+/** \cond */
+[CONSTANTS]
+
+% qji_k is a vector expreseing the anchor point of reference 
+% frame i with respect to reference frame k of finger j.
+% if k is not given, it means it is respect to the palm, 
+% which in our case, it is the absoulute one.
+
+q11x := -4.3  
+q11y := -40.165
+q11z := 145.43
+%q11 = q12 
+
+q21x := -4.3
+q21y := 0
+q21z := 150.15
+%q21 = q22 
+
+q31x := -4.3
+q31y := 40.165
+q31z := 145.43
+%q31 = q32 
+
+q40x := -3
+q40y := 27.1
+q40z := 0
+
+q41x_0:= 97
+q41y_0:=  6
+q41z_0:=-87
+%q41_0 = q42_0 
+
+
+% These anchor points can be seen as the length of the phalanges, 
+% but that is because the phalanges are aligned with this vectors.
+q13x_2 := 67.8
+q13y_2 := 0
+q13z_2 := 0
+
+q14x_3 := 30
+q14y_3 := 0
+q14z_3 := 0
+
+
+q23x_2 := 67.8
+q23y_2 := 0
+q23z_2 := 0
+
+q24x_3 := 30
+q24y_3 := 0
+q24z_3 := 0
+
+
+q33x_2 := 67.8
+q33y_2 := 0
+q33z_2 := 0
+
+q34x_3 := 30
+q34y_3 := 0
+q34z_3 := 0
+
+
+q43x_2 := 67.8
+q43y_2 := 0
+q43z_2 := 0
+
+q44x_3 := 30
+q44y_3 := 0
+q44z_3 := 0
+
+
+% Hand-object contact points (plus normals)
+% The points are numbered as 1,2,3 and
+% those in the object must contact the corresponding
+% one in the hand. 
+% The contact points in the hand are at the end of
+% fingers 2,3 and 4.
+% All contact points are given in local coordinates of
+% the corresponding bodies.
+
+op1_x:= 15
+op1_y:=-17
+op1_z:= 23
+
+op2_x:= 12
+op2_y:= 19
+op2_z:= 23
+
+op3_x:= 21
+op3_y:= 0
+op3_z:=-22
+
+on1_x:= 0
+on1_y:= 0
+on1_z:= 1
+
+on2_x:= 0
+on2_y:= 0
+on2_z:= 1
+
+on3_x:= 0
+on3_y:= 0
+on3_z:=-1
+
+% aprox (26,0,13)
+hp1_x:=26.745362130452246
+hp1_y:=-0.320775916066435
+hp1_z:=13.600172216189954
+
+% aprox (26,0,13)
+hp2_x:=27.186824561219627
+hp2_y:= 0.988403453869847
+hp2_z:=14.015803798995954
+
+%aprox (39,2,5)
+hp3_x:=38.177015391947400
+hp3_y:= 1.899999999999999
+hp3_z:= 6.216744353301863
+
+hn1_x:=-0.269074918627895
+hn1_y:= 0.137944652813314
+hn1_z:=-0.953189362574723
+
+hn2_x:=-0.237373330082984
+hn2_y:= 0.113242205988468
+hn2_z:=-0.964795369468667
+
+hn3_x:=-0.975994458224612
+hn3_y:= 0
+hn3_z:=-0.217795356963474
+
+% Joint ranges
+
+% We can symmetrically enlarge the ranges for the joints so that
+% the hand can better manipulate objects without regrasping.
+% Set to zero to use the original ranges
+enlarge_range := 20*pi/180
+
+% Two ranges for the universal joint connecting the palm and finger 1
+phi_1_1_min:= 0
+phi_1_1_max:= 0
+
+phi_1_2_min:= 0
+phi_1_2_max:= 0
+
+% Range for the first rotation in finger 1
+phi_1_3_min:= 0
+phi_1_3_max:= 0
+
+% Range for the second rotation in finger 1
+phi_1_4_min:=  0
+phi_1_4_max:=  0
+
+% Two ranges for the universal joint connecting the palm and finger 2
+% -pi/16
+phi_2_1_min:= -pi/8 -enlarge_range
+phi_2_1_max:=  pi/8 +enlarge_range
+
+% 1.35*pi/16
+phi_2_2_min:=  0    -enlarge_range
+phi_2_2_max:=  pi/2 +enlarge_range
+
+% Range for the first rotation in finger 2
+% pi/8 
+phi_2_3_min:=  0    -enlarge_range
+phi_2_3_max:=  pi/2 +enlarge_range
+ 
+% Range for the second rotation in finger 2
+% pi/8 
+phi_2_4_min:=  0    -enlarge_range
+phi_2_4_max:=  pi/2 +enlarge_range
+
+% Two ranges for the universal joint connecting the palm and finger 3
+% -pi/16 
+phi_3_1_min:= -pi/8 -enlarge_range
+phi_3_1_max:=  pi/8 +enlarge_range
+
+% 1.2*pi/16 
+phi_3_2_min:=  0    -enlarge_range
+phi_3_2_max:=  pi/2 +enlarge_range
+
+% Range for the first rotation in finger 3
+% pi/8 
+phi_3_3_min:=  0    -enlarge_range
+phi_3_3_max:=  pi/2 +enlarge_range
+
+% Range for the second rotation in finger 3
+% pi/8 
+phi_3_4_min:=  0    -enlarge_range
+phi_3_4_max:=  pi/2 +enlarge_range
+
+% Two ranges for the universal joint connecting the palm and finger 4
+% pi/2 
+phi_4_0_min:=  0    -enlarge_range
+phi_4_0_max:=  pi/2 +enlarge_range
+
+% 0 
+phi_4_1_min:=  -pi/8 -enlarge_range
+phi_4_1_max:=   pi/8 +enlarge_range
+ 
+% 0 
+phi_4_2_min:=  0    -enlarge_range
+phi_4_2_max:=  pi/2 +enlarge_range
+
+% Range for the first rotation in finger 4
+% 3*pi/16  
+phi_4_3_min:=  0    -enlarge_range
+phi_4_3_max:=  pi/2 +enlarge_range
+
+% Range for the second rotation in finger 4
+% 3*pi/16 
+phi_4_4_min:=  0    -enlarge_range
+phi_4_4_max:=  pi/2 +enlarge_range
+
+
+%-------------------------------------------------------------------
+%--------------------------------------------------------------------
+
+[LINKS]
+
+% palm
+  palm:body "bodies/palmSAH.off" white
+        body "bodies/acs1palm.off" blue
+        body "bodies/acs2palm.off" blue
+        body "bodies/acs3palm.off"
+        
+        // finger 1 fixed
+        body "bodies/p1_fix.off" white
+        body "bodies/p2_fix.off" white
+        body "bodies/b2_fix.off" blue
+        body "bodies/p3_fix.off" white
+        body "bodies/p4_fix.off" white
+        body "bodies/b4_fix.off" blue
+/*
+%% finger 1 (NOT USED)
+  p12: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p13: body "bodies/p3.off" white
+ 
+  p14: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+*/
+
+% finger 2
+  p22: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p23: body "bodies/p3.off" white
+  
+  p24: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+ 
+% finger 3
+  p32: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p33: body "bodies/p3.off" white
+   
+  p34: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+ 
+% finger 4
+  p40: body "bodies/p0thumb.off" white
+
+  p42: body "bodies/p1.off" white
+       body "bodies/p2.off" white
+       body "bodies/b2.off" blue
+
+  p43: body "bodies/p3.off" white
+   
+  p44: body "bodies/p4.off" white
+       body "bodies/b4.off" blue
+
+%object
+ object:  body "bodies/needle.off" green
+
+[JOINTS]
+/*
+
+%% finger 1 (NOT USED)
+  universal: palm (q11x,q11y,q11z)+(1,0,0) 
+             p12 (0,0,0)+(0,1,0)
+             range [phi_1_1_min,phi_1_1_max] +(0,-0.99941,0.034301) 
+                   [phi_1_2_min,phi_1_2_max] +(1,0,0)
+             avoid limits
+
+  revolute: p12 (q13x_2,q13y_2,q13z_2)+(0,-1,0)
+            p13 (0,0,0)+(0,-1,0)
+            range [phi_1_3_min,phi_1_3_max] +(1,0,0) +(1,0,0)
+            avoid limits
+
+  crevolute: p13 (q14x_3,q14y_3,q14z_3)+(0,-1,0) 
+             p14 (0,0,0)+(0,-1,0)
+             range [phi_1_4_min,phi_1_4_max] +(1,0,0) +(1,0,0)
+             avoid limits
+*/
+
+
+% finger 2
+  universal: palm (q21x,q21y,q21z)+(1,0,0)
+             p22 (0,0,0)+(0,1,0)
+             range [phi_2_1_min,phi_2_1_max] +(0,-1,0) 
+                   [phi_2_2_min,phi_2_2_max] +(1, 0,0)
+
+  revolute: p22 (q23x_2,q23y_2,q23z_2)+(0,-1,0)
+            p23 (0,0,0)+(0,-1,0)
+            range [phi_2_3_min,phi_2_3_max] +(1,0,0) +(1,0,0)
+
+  crevolute: p23 (q24x_3,q24y_3,q24z_3)+(0,-1,0) 
+             p24 (0,0,0)+(0,-1,0)
+             range [phi_2_4_min,phi_2_4_max] +(1,0,0) +(1,0,0)
+
+
+% finger 3
+  universal: palm (q31x,q31y,q31z)+(1,0,0)
+             p32 (0,0,0)+(0,1,0)
+             range [phi_3_1_min,phi_3_1_max] +(0,-0.99937,-0.035485) 
+                   [phi_3_2_min,phi_3_2_max] +(1,0,0)
+
+  revolute: p32 (q33x_2,q33y_2,q33z_2)+(0,-1,0)
+            p33 (0,0,0)+(0,-1,0)
+            range [phi_3_3_min,phi_3_3_max] +(1,0,0) +(1,0,0)
+
+  crevolute: p33 (q34x_3,q34y_3,q34z_3)+(0,-1,0) 
+             p34 (0,0,0)+(0,-1,0)
+             range [phi_3_4_min,phi_3_4_max] +(1,0,0) +(1,0,0)
+
+
+% finger 4
+  revolute: palm (q40x,q40y,q40z)+(0,0,-1)
+            p40 (0,0,0)+(-1,0,0)
+            range [phi_4_0_min,phi_4_0_max] +(0,-1,0) +(0,0,1)
+
+  universal: p40 (q41x_0,q41y_0,q41z_0)+(0.573580,0,0.81915)
+             p42 (0,0,0)+(0,1,0)
+             range [phi_4_1_min,phi_4_1_max] +(0,1,0)
+                   [phi_4_2_min,phi_4_2_max] +(1,0,0)
+
+  revolute: p42 (q43x_2,q43y_2,q43z_2)+(0,-1,0)
+            p43 (0,0,0)+(0,-1,0)
+            range [phi_4_3_min,phi_4_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p43 (q44x_3,q44y_3,q44z_3)+(0,-1,0)
+            p44 (0,0,0)+(0,-1,0)
+            range [phi_4_4_min,phi_4_4_max] +(1,0,0) +(1,0,0)
+
+
+% Now we define the hand-object connection via revolute joints
+  revolute: p24 (hp1_x,hp1_y,hp1_z)+(hn1_x,hn1_y,hn1_z)
+            object (op1_x,op1_y,op1_z)+(on1_x,on1_y,on1_z)
+
+  revolute: p34 (hp2_x,hp2_y,hp2_z)+(hn2_x,hn2_y,hn2_z)
+            object (op2_x,op2_y,op2_z)+(on2_x,on2_y,on2_z)
+
+  revolute: p44 (hp3_x,hp3_y,hp3_z)+(hn3_x,hn3_y,hn3_z)
+            object (op3_x,op3_y,op3_z)+(on3_x,on3_y,on3_z)
+
+
+% This the fix transformation to the object used to defined the grasping
+% fix: palm object Tx(25) * Ry(-pi/4) *Tz(120)* Tx(180) * Ty(35)
+
+[OBSTACLES]
+
+  obs1: body "bodies/obstacle1" color (0.9,0.9,0.1)
+  obs2: body "bodies/obstacle2" color (0.9,0.9,0.1)
+  obs3: body "bodies/obstacle3" color (0.9,0.9,0.1)
+  % obs4: body "bodies/obstacle4" color (0.9,0.9,0.1)
+  obs4: body "bodies/obstacle4" color (0.9,0.9,0.1)
+
+[COLLISIONS]
+
+Do Not Check: all
+Check: object,obs1
+Check: object,obs2
+Check: object,obs3
+Check: object,obs4
+
+
+/** \endcond */
+
+/**
+   \file wafr.world
+
+   \brief A generic robot anthropomorphic hand with 4 fingers holding an needle.
+
+   <center>
+   <img src="../images/RobotHand/wafr.png">
+   </center>
+
+   The <a href="http://www.dlr.de/rm-neu/en/desktopdefault.aspx/tabid-3802/">DLR-II</a> 
+   robot hand hoding a needle with 3 fingers. 
+
+    This is one of the examples we used in our <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr12.pdf">IJRR-12</a> paper
+    where we introduce the \ref cuikatlasrrt.c  "bin/cuikatlasGBF" planner.
+
+    This example is difficult when using \ref CT_REPRESENTATION "REPRESENTATION" = LINKS  (the one used in 
+    the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr12.pdf">IJRR-12</a> paper) and an easy when
+    using \ref CT_REPRESENTATION "REPRESENTATION" = JOINTS.
+
+    The key data for this problem are:
+    <center>
+    <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 157 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 2 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasGBF.c  "bin/cuikatlasGBF" (in seconds)</th> <td align="center"> 70 </td>
+     </tr>
+    </table>
+    </center>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+      - <b>Solve the path planning problem</b>
+             - <i>\ref cuikatlasGBF.c  "bin/cuikatlasGBF" examples/RobotHand/wafr</i>
+	     .
+      - <b>Visualize the solution path</b>
+             - <i>\ref cuikplay.c "scripts/cuikplayer"  examples/RobotHand/wafr examples/RobotHand/wafr_path</i>	
+	     .
+      .
+*/

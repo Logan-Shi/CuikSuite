@@ -1,0 +1,353 @@
+/** \cond */
+
+% The same file as example6.world but here the two right triangles are replaced by a square.
+
+[CONSTANTS]
+
+  % scale
+  l:=1
+
+  % Relevant points for squared parts
+  p1_x:=0
+  p1_y:=0
+  p1_z:=0
+
+  p2_x:=0
+  p2_y:=l
+  p2_z:=0
+
+  p3_x:=l
+  p3_y:=l
+  p3_z:=0
+
+  p4_x:=l
+  p4_y:=0
+  p4_z:=0
+
+  % Relevant points for the equilateral triangles
+
+  q1_x:=0
+  q1_y:=0
+  q1_z:=0
+
+  q2_x:=l*0.5
+  q2_y:=l*sqrt(0.75)
+  q2_z:=0
+
+  q3_x:=l
+  q3_y:=0
+  q3_z:=0
+
+  % Size of the cylinders/balls used for the representaion
+
+  r:=0.05
+
+  % For reprentation purposes, the points are displaced according to r
+  rp1_x:=r
+  rp1_y:=r
+  rp1_z:=0
+
+  rp2_x:=r
+  rp2_y:=l-r
+  rp2_z:=0
+
+  rp3_x:=l-r
+  rp3_y:=l-r
+  rp3_z:=0
+
+  rp4_x:=l-r
+  rp4_y:=r
+  rp4_z:=0
+
+  %
+
+  rq1_x:=2*r
+  rq1_y:=r
+  rq1_z:=0
+
+  rq2_x:=l*0.5
+  rq2_y:=l*sqrt(0.75)-r*sqrt(5)  
+  rq2_z:=0
+
+  rq3_x:=l-2*r
+  rq3_y:=r
+  rq3_z:=0
+
+[LINKS]
+
+  link1  : blue
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link2  : green
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link3  : green
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+	   % extra cylinder to represent the 2-triangles
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp4_x,rp4_y,rp4_z)
+
+  link5  : green
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link6  : yellow
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link7  : red
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link8  : red
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+	   % extra cylinder to represent the 2-triangles
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp4_x,rp4_y,rp4_z)
+
+  link10 : red
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link11 : yellow
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link12 : yellow
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link13 : blue
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link14 : blue
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link15 : green
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link16 : blue
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link17 : red
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link18 : red
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+	   % extra cylinder to represent the 2-triangles
+	   cylinder r (rp1_x,rp1_y,rp1_z) (rp3_x,rp3_y,rp3_z)
+
+  link20 : red
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link21 : yellow
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+
+  link22 : green
+           sphere r (rq1_x,rq1_y,rq1_z)
+           sphere r (rq2_x,rq2_y,rq2_z)
+           sphere r (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq1_x,rq1_y,rq1_z) (rq2_x,rq2_y,rq2_z)
+	   cylinder r (rq2_x,rq2_y,rq2_z) (rq3_x,rq3_y,rq3_z)
+	   cylinder r (rq3_x,rq3_y,rq3_z) (rq1_x,rq1_y,rq1_z)
+
+  link23 : green
+           sphere r (rp1_x,rp1_y,rp1_z)
+           sphere r (rp2_x,rp2_y,rp2_z)
+           sphere r (rp3_x,rp3_y,rp3_z)
+           sphere r (rp4_x,rp4_y,rp4_z)
+           cylinder r (rp1_x,rp1_y,rp1_z) (rp2_x,rp2_y,rp2_z)
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp3_x,rp3_y,rp3_z)
+	   cylinder r (rp3_x,rp3_y,rp3_z) (rp4_x,rp4_y,rp4_z)
+	   cylinder r (rp4_x,rp4_y,rp4_z) (rp1_x,rp1_y,rp1_z)
+	   % extra cylinder to represent the 2-triangles
+	   cylinder r (rp2_x,rp2_y,rp2_z) (rp4_x,rp4_y,rp4_z)
+
+[JOINTS]
+
+  revolute: link1 (p2_x,p2_y,p2_z) (p3_x,p3_y,p3_z)
+            link2 (q1_x,q1_y,q1_z) (q3_x,q3_y,q3_z)
+
+  revolute: link2 (q2_x,q2_y,q2_z) (q3_x,q3_y,q3_z)
+            link3 (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+
+  revolute: link3 (p2_x,p2_y,p2_z) (p3_x,p3_y,p3_z)
+            link5 (q1_x,q1_y,q1_z) (q3_x,q3_y,q3_z)
+
+  revolute: link5 (q2_x,q2_y,q2_z) (q3_x,q3_y,q3_z)
+            link6 (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+  
+  revolute: link6 (p2_x,p2_y,p2_z) (p3_x,p3_y,p3_z)
+            link7 (q1_x,q1_y,q1_z) (q3_x,q3_y,q3_z)
+
+  revolute: link7 (q2_x,q2_y,q2_z) (q3_x,q3_y,q3_z)
+            link8 (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+
+  revolute: link8  (p3_x,p3_y,p3_z) (p2_x,p2_y,p2_z)
+            link10 (q3_x,q3_y,q3_z) (q1_x,q1_y,q1_z)
+
+  revolute: link10 (q2_x,q2_y,q2_z) (q3_x,q3_y,q3_z)
+            link1  (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+
+  revolute: link10 (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+            link11 (p3_x,p3_y,p3_z) (p2_x,p2_y,p2_z)
+ 
+  revolute: link2  (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+            link12 (p3_x,p3_y,p3_z) (p2_x,p2_y,p2_z)
+
+  revolute: link5  (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+            link13 (p3_x,p3_y,p3_z) (p2_x,p2_y,p2_z)
+
+  revolute: link7  (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+            link14 (p3_x,p3_y,p3_z) (p2_x,p2_y,p2_z)
+
+  revolute: link11 (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+            link15 (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+
+  revolute: link12 (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+            link17 (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+
+  revolute: link13 (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+            link20 (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+
+  revolute: link14 (p1_x,p1_y,p1_z) (p4_x,p4_y,p4_z)
+            link22 (q1_x,q1_y,q1_z) (q2_x,q2_y,q2_z)
+
+  revolute: link15 (q1_x,q1_y,q1_z) (q3_x,q3_y,q3_z)
+            link16 (p3_x,p3_y,p3_z) (p4_x,p4_y,p4_z)
+
+  revolute: link16 (p1_x,p1_y,p1_z) (p2_x,p2_y,p2_z)
+            link17 (q3_x,q3_y,q3_z) (q2_x,q2_y,q2_z)
+ 
+  revolute: link17 (q3_x,q3_y,q3_z) (q1_x,q1_y,q1_z) 
+            link18 (p2_x,p2_y,p2_z) (p1_x,p1_y,p1_z)
+
+  revolute: link18 (p3_x,p3_y,p3_z) (p4_x,p4_y,p4_z)
+            link20 (q3_x,q3_y,q3_z) (q2_x,q2_y,q2_z)
+
+  revolute: link20 (q3_x,q3_y,q3_z) (q1_x,q1_y,q1_z) 
+            link21 (p4_x,p4_y,p4_z) (p3_x,p3_y,p3_z)
+  
+  revolute: link21 (p1_x,p1_y,p1_z) (p2_x,p2_y,p2_z)
+            link22 (q3_x,q3_y,q3_z) (q2_x,q2_y,q2_z)
+
+  revolute: link22 (q3_x,q3_y,q3_z) (q1_x,q1_y,q1_z)
+            link23 (p3_x,p3_y,p3_z) (p2_x,p2_y,p2_z)
+
+  revolute: link23 (p4_x,p4_y,p4_z) (p1_x,p1_y,p1_z)
+            link15 (q3_x,q3_y,q3_z) (q2_x,q2_y,q2_z)
+
+/** \endcond */
+/**
+   \file example6b.world
+
+   \brief A symmetric block and hole structure.
+
+   A symmetric block and hole structure proposed by W. Whiteley.
+
+   The same file as \ref example6.world, but here the two right triangles are replaced by a square.
+*/

@@ -1,0 +1,123 @@
+/** \cond */
+[CONSTANTS]
+
+  % Length of struts
+  l1:=1
+  l2:=1
+
+  % Max force for struts
+  fs:=-4
+  
+  % Max length and rest for cables (and spring)
+  lc:=3
+  rc:=2
+
+  % Stiffness for cables 
+  sc:=1
+
+  % Size of the gap between walls
+  gap := 0.3
+
+  % Size of the area (in +/-X and +/-Y) where the tensegrity moves
+  rangeX:=3
+  rangeY:=3
+
+  % Size of the wall in Y (block the Y transltation, but on the gap)
+  wallY:=rangeY+0.25
+
+[FREE FLYING PLANAR STRUCTURE rangeX,rangeY]
+
+  strut s1 : n1 n2
+             length l1
+	     force [fs,0]
+	     white
+	  
+  strut s2 : n3 n4
+             length l2
+	     force [fs,0]
+
+  cable c1 : n1 n3
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     red
+	  
+  cable c2 : n2 n3
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     green
+	     
+  cable c3 : n1 n4
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     yellow
+	     
+  cable c4 : n2 n4
+             length [0,lc]
+             stiffness sc
+	     rest [0,rc]
+	     cyan
+
+[OBSTACLES]
+  box1 : box (0.75, gap/2,-0.1)+(0.5,wallY,0.2) red
+  box2 : box (0.75,-wallY-gap/2,-0.1)+(0.5,wallY,0.2) red
+
+[COLLISIONS]
+  check : box1
+  check : box2
+
+/** \endcond */
+
+/** \file free_flying.tens
+
+   \brief First free flying planar tensegrity example.
+
+   <center>
+   <img src="../images/Tensegrity/free_flying.png">
+   </center>
+   
+   An example to show that we can also
+   model free-flying tensegrity structures.
+
+   You can  manipulate this structure executing
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/Tensegrity/free_flying
+      .
+   The structure has to cross the narrow gap between the red walls. Thus, the
+   configurations to connect are:
+   
+    <center>
+      <table width="500">
+        <tr> 
+          <td><img src="../images/Tensegrity/free_flying_goal.png" width="200"></td>
+          <td><img src="../images/Tensegrity/free_flying_start.png" width="200"></td>
+        </tr>
+      </table>
+    </center>
+
+
+   To solve this planning problem execute
+      - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/free_flying
+      .
+   smooth the output path
+      - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/free_flying 
+      - \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Tensegrity/free_flying  examples/Tensegrity/free_flying_path_s effort 1000
+      .
+   The first smoothing process is a shortcut method to reduce the path length and the second
+   reduces the control effort departing from the output of the first process. This process is more effective
+   than directly reducing the path effort on the original path: the shortcut path is very
+   effective and it returns a path that is not far from the minimum control effort path
+   (recall that if all elements in the tensegrity are elastic, the control effort and the
+   path length are the same).
+ 
+   Finally, we can visualize the path
+      - \ref cuikplay.c "scripts/cuikplayer" examples/Tensegrity/free_flying examples/Tensegrity/free_flying_path_s_e
+      .
+  
+   Note that despite the apparent simplicity of the problem, the search space is large and, thus, the
+   planning can take some time. The execution time significantly varies between different executions, which
+   is a well-known characteristic of probabilistic planners in the presence of narrow corridors, as it is the
+   case of this example.
+*/
+  

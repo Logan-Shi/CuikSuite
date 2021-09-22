@@ -1,0 +1,98 @@
+/** \file FAQ.doxygen
+
+    \brief CuikSuite Frequently Asked Questions
+
+    <h3>\b 1  Is CuikSuite completely bug-free?</h3>
+        <p>No.</p>
+
+        <p>At this time we are not aware of any bug but CuikSuite has more than 100.000 lines of code. It is almost for sure than several bugs are hiding somewhere.</p>
+
+        <p>Our current developing efforts focus on kinodynamic planning. Position analysis tools based on branch-and-prune techniques are still included in the CuikSuite, but hardly mainined nor tested. If you find a problem in this part of the system please let us know and we will do our best to fix it.</p>
+    <br>
+    <br>
+    <h3>\b 2  Is CuikSuite completely numerically safe?</h3>
+        <p>No.</p>
+
+        <p>The numerical stability of CuikSuite heavely depend on that of the simplex routine. Initially we used the <A HREF="http://www.gnu.org/software/glpk/"><B>glpk</B></A> simplex implementation which is fast and numericaly quite robuts, however, recently we moved to the <A HREF="http://www.coin-or.org/projects/Clp.xml"><B>CLP</B></A> simplex implementation since, although it is a bit slower than <A HREF="http://www.gnu.org/software/glpk/"><B>glpk</B></A> it is much more robust. However, <A HREF="http://www.coin-or.org/projects/Clp.xml"><B>CLP</B></A> can still fail for extremely ill conditioned problems, specially when the boxes are very small and complex linear relaxations are still used to bound the functions (i.e., when the \ref CT_LR2TM_Q "LR2TM_Q" and \ref CT_LR2TM_S "LR2TM_S" parameters are very small, or even 0). The different hyperplanes generated in a linear relaxation of a given function on a small box are almost coincident. In those cases, it is preferrable to use simple linear relaxations derived from Taylor expansions. The parameters \ref CT_LR2TM_Q "LR2TM_Q" and \ref CT_LR2TM_S "LR2TM_S" set the threshold to switch from traditional linear relaxations to simple ones for quadratic (parabolas, circles, spheres) and saddle equations.</p>
+
+	<p>As a general rule:</p>
+             - Avoid too small \ref CT_LR2TM_Q "LR2TM_Q" and 
+               \ref CT_LR2TM_Q "LR2TM_S" values. Something around 
+	       \ref CT_SIGMA "SIGMA" should be OK.
+	     - Avoid too high \ref CT_RHO "RHO" values. Something around 0.5 should be OK.
+               High values of \ref CT_RHO "RHO" forces the box reduction to iterate over and
+               over on boxes and in the limit some numerical issues could appear. <br>
+             .
+        
+    <br>
+    <br>
+    <h3>\b 3  CuikSuite does not find all the solutions of my problem</h3>
+       <p>This is very unlikely, but not impossible. CuikSuite is designed and implemented to deliver save approximations to the solutions  sets. Therefore, it is more likely to deliver boxes that are close to be solutions but not actual solutions than to lose solution points.</p>
+
+       <p>The less save aspects of the CuikSuite implementation is the simplification process. When replacing a variable \f$x\f$ by \f$y+b\f$, tiny rounding issues appear in the coefficients of the equations. Some work-arounds are implemented to cope this these issues, but in extreme cases they are not enough. If you think your problem is one of those extreme cases try to reduce the simplification level, that is, set  parameter \ref CT_SIMPLIFICATION_LEVEL "SIMPLIFICATION_LEVEL" to a lower value. The default value is 2. Set it to 1 or even to 0 to get slower but safer solution processes. On the other hand, if you like to live in the wild side, set this parameter to 3 to get lower execution times.</p>
+
+    <br>
+    <br>
+    <h3>\b 4  In your paper X you say problem Y can be solved in Z seconds but
+        I dowloaded CuikSuite and I got different results.</h3>
+
+        <p>CuikSuite is continously evolving. Improvements in the numerical stability result, in general, in larger execution times. Improvements in the formulations result, in general, in smaller execution times. These are the two main factors that have influence in the results.</p>
+
+    <br>
+    <br>
+    <h3>\b 5  I executed cuik several times on the same problem and I get slighly different results </h3>
+        <p>There is a random component in cuik  when selecting the split range and the split point in this range.</p>
+
+    <br>
+    <br>
+    <h3>\b 6 What is the syntax of the world files?</h3>
+        <p>We have a <a href="../images/world.pdf">leaflet</a> describing this syntax.</p>
+
+	<p>At this point the leaflet is incomplete so maybe it is better to learn it from the \ref examples.</p>
+
+    <br>
+    <br>
+    <h3>\b 7  What is the syntax of the cuik files?</h3>
+        <p>We have a <a href="../images/cuik.pdf">leafet</a> describing this syntax.
+	However, the syntax is simple enoug to learn it from the
+	\ref examples. <br><br>
+	Remember that you have to use \ref cuikequations.c "cuikequations" to generate
+        cuik files from the world files.</p>
+
+    <br>
+    <br>
+    <h3>\b 8  What parameters can be set?</h3>
+        <p>Each problem has an associated file of parameters (with .param extension). The complete set of parameters that can be set are described \ref parameters.h "here".</p>
+	
+    <br>
+    <br>
+    
+    <h3>\b 9  Cuik is not that quick.</h3>
+        <p>Cuik is quite efficient compared with other solvers based on interval Newton methods or Bernstein-based polytopes. However, if you address complex problem you should not expect short execution times.</p>
+
+	<p>By the way, \e cuik stands for "Complete Universal Inverse Kinematics", to emphasize that the system can solve the  input-output problem (inverse kinematics) on an arbitrary  linkage (universal), and find  all  of its solutions (complete). The recent versions of the CuikSuite can do much more than solving inverse kinematic problems, including path planning and kinodynamic motion planning.</p> 
+	
+    <br>
+    <br>
+    
+    <h3>\b 10  What kind of support do you offer for the CuikSuite? </h3>
+        <p>Almost none. We are working on extending the capabilities of the solver and on applying CuikSuite to different problems and, therefore, we can only provide the most basic support for external users.</p>
+
+    <br>
+    <br>
+    
+    <h3>\b 11  I have found a bug in the code, could you please fix it for me? </h3>
+        <p>No. However we will be very gratefull if you tell us about it. Ideally you can fix the bug and send us the patch so that other users can benefit from your contribution.</p>
+
+    <br>
+    <br>
+    
+    <h3>\b 12  What is the development cost of the CuikSuite?</h3>
+        <p>As estimated by David A. Wheeler's <a href="http://www.dwheeler.com/sloccount/">SLOCCount</a> and without taking into account the cost of developing the examples:</p>
+            - Total Physical Source Lines of Code (SLOC)                = 100,146
+            - Development Effort Estimate, Person-Years (Person-Months) = 25.22 (302.61)<br>
+                <i>(Basic COCOMO model, Person-Months = 2.5 * (KSLOC**1.05))</i>
+            - <b>Total Estimated Cost to Develop                           = $ 3,406,488</b><br>
+                <i>(average salary = $56,286/year, overhead = 2.40).</i>
+            . 
+*/

@@ -1,0 +1,105 @@
+/** \cond */
+
+[CONSTANTS]
+
+r1:=1
+r2:=0.5
+
+[LINKS]
+ 
+ground
+
+link1 
+
+% link2: sphere 0.0875  (0,0,0) red
+link2: sphere 0.0575  (0,0,0) red
+
+[JOINTS]
+
+revolute: ground (0,0,0)+(0,0,1)
+          link1  (0,0,0)+(0,0,1)
+
+revolute: link1 (r1,0,0)+(0,1,0)
+          link2 (r2,0,0)+(0,1,0)
+
+[OBSTACLES]
+ 
+obs1: body "bodies/body1" green
+obs2: body "bodies/body2" green
+
+[COLLISIONS]
+
+Check: all
+
+/** \endcond */
+
+/** \file torus2.world
+
+    \brief A point moving on a torus with obstacles.
+
+    A point moving on a torus with obstacles.
+    A very simple example used to test path planning algorihtms. The nice thing of this
+    example is that results can be easily visualized.
+
+    This is used for asymptotically-optimal path planning (our <a href="http://www.iri.upc.edu/people/porta/Docs/rss12.pdf">RSS-12</a> paper)
+
+    The difference with \ref torus.world is that here there is one obstacle less. The allows for
+    a long (but easy to find) path to the goal and a short path (harder to find since in implies
+    to enter a narrow corridor). Moreover, the start configuration is different (the goal is the same).
+
+   The key data for this problem are:
+   <center>
+   <table>
+     <tr>
+       <th>Ambient space dimension (in the simplified system)</th> <td align="center"> 7 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 2 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 0.01 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrtstar.c  "bin/cuikatlasrrtstar" (in seconds)</th> <td align="center"> 2.5 </td>
+     </tr>
+   </table>
+   </center>
+
+    This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Adjust the parameters</b>: Different algorithms use different parameter settings. Just
+       check the parameter file and uncomment the appropriate lines.
+     - <b>Solve the path planning problem</b>: 
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Torus/torus2</i>
+             .
+     - <b>Solve the path planning problem</b>: alternative planners
+             - <i> \ref cuikccrrt.c "bin/cuikccrrt" examples/Torus/torus2</i>
+             - <i> \ref cuikcbirrt.c "bin/cuikcbirrt" examples/Torus/torus2</i>
+             .
+     - <b>Visualize the solution path</b>: Whatever the planning method used
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Torus/torus2 examples/Torus/torus2_path</i>
+	     .
+     - <b>Visualize the solution path on the torus</b>: We plot the path and show it
+       on the tours. We also show the obstacles, but, plesase take into account that
+       the moving object is a ball, thus, the narrow corridor is narrower that what
+       is seen (should be narrowed by the radii of the moving ball). 
+             - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Torus/torus2 examples/Torus/torus2_path 12 13 14</i>
+	     - <i> geomview examples/Torus/torus2_path.gcl examples/Torus/bodies/body1 examples/Torus/bodies/body2 examples/Torus/bodies/torus.bez</i>
+	     .
+        <center><img src="../images/Torus/torus2_long.png"></center>
+
+     - <b> Smooth the path and visualize it</b> Observe that this is not the optimal paths
+             - <i> \ref cuiksmoothpath.c "bin/cuiksmoothpath" examples/Torus/torus2 </i>
+             - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Torus/torus2 examples/Torus/torus2_path_s 12 13 14</i>
+             - <i> geomview examples/Torus/torus2_path_s.gcl examples/Torus/bodies/body1 examples/Torus/bodies/body2 examples/Torus/bodies/torus.bez</i>
+             .
+        <center><img src="../images/Torus/torus2_smooth.png"></center>
+
+     - <b> Approximate and display the optimal path</b>: using an asymtotically-optimal planner
+             - <i>\ref cuikatlasrrtstar.c "bin/cuikatlasrrtstar" examples/Torus/torus2</i>
+             - <i> \ref cuikplotpath.c "bin/cuikplotpath" examples/Torus/torus2 examples/Torus/torus2_path 12 13 14</i>
+	     - <i> geomview examples/Torus/torus2_path.gcl examples/Torus/bodies/body1 examples/Torus/bodies/body2 examples/Torus/bodies/torus.bez</i>
+	     .
+        <center><img src="../images/Torus/torus2_short.png"></center>
+     .
+*/

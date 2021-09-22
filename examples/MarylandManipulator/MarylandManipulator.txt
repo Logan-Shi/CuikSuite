@@ -1,0 +1,128 @@
+/** \dir examples/MarylandManipulator
+   
+    \brief The Maryland parallel manipulator.
+    
+    <center>
+    <img src="../images/MarylandManipulator/MarylandManipulator.jpg">
+    
+    <i>Image taken from <a href="http://john.maloney.org">John M. Maloney</a> web page.</i>
+    </center>
+
+    <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>    <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+    <h2><a name="intro">Introduction</a></h2>
+
+    The Maryland parallel manipulator is a 3 degrees-of-freedom parallel platform designed by 
+    <a href="http://www.isr.umd.edu/People/faculty/Tsai.html">Prof. Lung-Wen Tsai</a>
+    at the University of Maryland  
+
+    The key idea in the design is the use of parallelograms (i.e., 
+    <a href="http://en.wikipedia.org/wiki/Four_bar_linkage">four bar mechanisms</a>) 
+    in each leg to constraint the movement of the platform to only
+    translational degrees of freedom.
+
+    Note that the design is very similar to that of the 
+    \ref examples/DeltaManipulator "Delta robot" but here only
+    revolute joints are used to define the leg parallelograms. In the Delta robot spherical 
+    joints are used and, thent the parallelograms are not enforced to be coplanar.
+
+    <h2><a name="geom">Geometry</a></h2>
+
+    Three identical limbs connect the base and the platform. Each leg is formed by a
+    lower arm and an upper arm connected between them with a revolute joint. 
+    The lower limb is simple bar and
+    the upper limb is made up of a plannar four-bar parallelogram. 
+    The lower and upper arms are connected to the base and platform 
+    with revolute joints, respectively. The axes of the revolute joints at the base and
+    at the platforma are coplanar. Moreover, the three axis of the three revolute joints
+    for each leg (the one connecting the lower limb and the base, the one
+    connecting the two limbs, and the one connecting the upper limb and the platform) 
+    are parallel. Finally, the axes of the four-bar mechanism forming the upper limb 
+    are perpendicular to the plane defined by two axes of the  revolute joints 
+    linking the parallelogram to the lower limb and the platform.
+
+    In the simplest possible version of this mechanism, the platform parameters are the 
+    lengths of the limbs and the the anchor points of the legs at the base/platform.
+    The axis of the revolute joints connecting the base and the legs can be taken as
+    tangent to the circunference inscribing the triangle formed by the anchor points.
+
+    See <a href="#tsai1999">[Tsai, 1999]</a> for a complete description and analysis of this
+    mechanism.
+
+    
+    <h2><a name="process">Process</a></h2>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/MarylandManipulator/MarylandManipulator</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/MarylandManipulator/MarylandManipulator </i>
+             .
+     - <b>Animate the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/MarylandManipulator/MarylandManipulator examples/MarylandManipulator/MarylandManipulator</i>
+             .
+     .
+
+    <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">5</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">17</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints </th>
+     <td  align="center">21</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 144 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 130 </td>
+    </tr>
+    </table>
+    </center>
+ 
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 41 </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 2 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 200 </td>
+    </tr>
+    </table>
+    </center>
+
+    
+    <h2><a name="res">Results</a></h2>
+
+    This is one of the two configurations that you will obtain:
+
+     <center><img src="../images/MarylandManipulator/configuration.png"></center>
+
+    <h2><a name="refs">References</a></h2>
+    
+    - <a name="tsai1999">L.-W. Tsai</a>, <i>Robot Analysis: The Mechanics of Serial 
+      and Parallel Manipulators</i>, Wiley-IEEE, 1999.
+    .
+    
+*/

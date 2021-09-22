@@ -1,0 +1,32 @@
+%%%% ABB Planning %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% joint-based representation
+
+R = 1
+SR = 3
+E = 0.25
+CE = 0.25
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+
+N_DOF = 3
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

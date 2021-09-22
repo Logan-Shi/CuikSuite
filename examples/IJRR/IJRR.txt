@@ -1,0 +1,27 @@
+/** \dir examples/IJRR
+
+    \brief Example used in the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> paper.
+
+   <center>
+   <img src="../images/IJRR/ijrr.png">
+   </center>
+
+    Examples used in the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> paper.
+
+    In this problem, we determine how should the hand be configured relative to the object so that
+    a given a number of regions on the surface of the hand, and a number of corresponding regions 
+    on the surface of the object establishes contact.
+
+
+    Here you have summary of the results. In this summary \f$n_v\f$ is the number of variables of the problem
+     \f$n_e\f$ is the number of equations and  \f$d\f$ is the dimension of the solution set. The execution time
+     include the process to find the first valid solution. The results were obtained in a grid including 64 cores.
+     For more details check the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">paper</a>.
+    
+    Any further questions regarding the files in this folder should be
+    addressed to Carlos Rosales.
+
+   <center>
+   <img src="../images/IJRR/results.png">
+   </center>
+*/

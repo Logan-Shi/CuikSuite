@@ -1,0 +1,102 @@
+[CONSTANTS]
+
+   % Horizontal distance between the two sliders
+     s:=2
+
+   % height of the base
+     h:=0.05
+
+   % length of the cable (for a singularity in 45 deg)
+     L:=8  % s/(2*sin(0.7853981634))
+
+     p1x:= 0
+     p1y:= 0
+     p1z:= 0
+
+     p2x:= s
+     p2y:= 0
+     p2z:= 0
+
+   % Bounds of the prismatic joints
+   lp:= 9      % lower bound
+   up:=21      % upper bound
+
+   % cable width
+   w:=0.01
+
+   % ball radious
+   r:=3*h
+
+   % Prismatic length
+   pl:=10*h
+   % Prismatic witdh
+   pw:=5*h
+
+   % dynamic parameters
+   massPrismatic:=0.1
+   massBall:=1
+
+   maxVel:=20
+   maxForce:=8
+
+[LINKS]
+   base: % base
+         box (p1x-s,p1y-s/2,p1z-2*pl+2) (p2x+s,p2y+s/2,p2z-2*pl+2) black
+	 % top bar
+         cylinder h (p1x,p1y,p1z+up+pl) (p2x,p2y,p2z+up+pl) black
+
+         % guides
+         cylinder h (p1x,p1y,p1z-2*pl+2) (p1x,p1y,p1z+up+10*h) black
+         cylinder h (p2x,p2y,p2z-2*pl+2) (p2x,p2y,p2z+up+10*h) black
+
+	 % end points
+	 %cylinder pw (p1x,p1y,p1z+lp-1.5*pl) (p1x,p1y,p1z+lp-0.5*pl) black
+	 %cylinder pw (p1x,p1y,p1z+up+0.5*pl) (p1x,p1y,p1z+up+1.5*pl) black
+
+	 %cylinder pw (p2x,p2y,p2z+lp-1.5*pl) (p2x,p2y,p2z+lp-0.5*pl) black
+	 %cylinder pw (p2x,p2y,p2z+up+0.5*pl) (p2x,p2y,p2z+up+1.5*pl) black
+
+   p1: cylinder pw (0,0,-pl/2) (0,0,pl) red
+       mass massPrismatic
+
+   p2: cylinder pw (0,0,-pl/2) (0,0,pl) green
+       mass massPrismatic
+
+   ball: sphere r (0,0,0) red
+         mass massBall
+
+   lx
+
+[JOINTS]
+  prismatic: base (p1x,p1y,p1z)+(0,0,1)
+             p1 (0,0,0)+(0,0,1)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (p2x,p2y,p2z)+(0,0,1)
+             p2 (0,0,0)+(0,0,1)
+	     range [lp,up]
+             velocity maxVel
+	     force maxForce
+
+  prismatic: base (0,0,0)+(1,0,0)
+             lx (0,0,0)+(1,0,0)
+             range [-3*s,4*s]
+
+  prismatic: lx (0,0,0)+(0,0,1)
+             ball (0,0,0)+(0,0,1)
+             range [0,up]
+
+  c_cable c1 : p1 (0,0,0)
+               ball (0,0,0)
+               radius w
+               black
+
+  c_cable c2 : p2 (0,0,0)
+               ball (0,0,0)
+               radius w
+               black
+
+[EQUATIONS]
+  EQFILE: "cable_eqs4.cuik"

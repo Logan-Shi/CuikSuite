@@ -1,0 +1,51 @@
+%%%%                      PARAMETERS                          %%%%
+
+% Dynamic related parameters ---------
+
+NEG_LM = TRUE 
+
+N_DYNAMIC_ACTIONS = 20
+DYNAMIC_GOAL_ERROR = 0.5
+
+DYNAMICS = 1
+INTEGRATION_TIME = 0.75
+REACHABILITY = FALSE
+N_CACHED_DYNAMIC_ACTIONS = (REACHABILITY?N_DYNAMIC_ACTIONS:0)
+DEFAULT_MAX_VELOCITY = 10
+
+% Path planning parameters -----------
+
+N_DOF=(DYNAMICS?6:3)
+
+BI_RRT = TRUE
+
+MAX_NODES_RRT = 100000
+MAX_PLANNING_TIME = 600
+MAX_CHARTS = 100000
+
+DELTA = 0.05
+
+R = 3
+SR= 6
+E = 0.1
+CE= 0.1
+
+% Formulation parameters -----------
+
+REPRESENTATION = JOINTS
+
+DUMMIFY = 0
+
+SIMPLIFICATION_LEVEL = 1
+
+% Numerical parameters -----------
+
+EPSILON = 1e-8
+
+MAX_NEWTON_ITERATIONS = 50
+
+% Representation parameters -----------
+
+% CUT_X=-0.1
+% CUT_Y=-0.1
+% CUT_Z=0.1

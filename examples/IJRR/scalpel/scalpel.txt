@@ -1,0 +1,12 @@
+/** \dir examples/IJRR/scalpel
+
+    \brief The scalpel example used in the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> paper.
+
+   <center>
+   <img src="../images/IJRR/scalpel.png">
+   </center>
+
+    The scalpel xample used in the <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> paper.
+    	
+    This folder includes the three examples in the paper with different number of contacts.
+*/

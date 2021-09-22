@@ -1,0 +1,87 @@
+/** \cond */
+
+[LINKS]
+
+ground: body "bodies/square.off"
+	      cylinder 4.65 (-16,-16,0) (-16,-16,5) blue
+	      sphere 4.65  (-16,-16,5) blue	   
+%	      sphere 4.65  (-16,-16,0) blue	      
+	      cylinder 4.65 (-16,-5,0) (-16,-5,5) blue
+	      sphere 4.65  (-16,-5,5) blue	   
+%	      sphere 4.65  (-16,-5,0) blue	
+	      cylinder 4.65 (-16,5,0) (-16,5,5) blue
+	      sphere 4.65  (-16,5,5) blue	   
+%	      sphere 4.65  (-16,5,0) blue	
+	      cylinder 4.65 (-16,16,0) (-16,16,5) blue
+	      sphere 4.65  (-16,16,5) blue	   
+%	      sphere 4.65  (-16,16,0) blue	
+	      cylinder 4.65 (-5,-16,0) (-5,-16,5) blue
+	      sphere 4.65  (-5,-16,5) blue	   
+%	      sphere 4.65  (-5,-16,0) blue	
+	      cylinder 4.65 (-5,-5,0) (-5,-5,5) blue
+	      sphere 4.65  (-5,-5,5) blue	   
+%	      sphere 4.65  (-5,-5,0) blue	
+	      cylinder 4.65 (-5,5,0) (-5,5,5) blue
+	      sphere 4.65  (-5,5,5) blue	   
+%	      sphere 4.65  (-5,5,0) blue	
+	      cylinder 4.65 (-5,16,0) (-5,16,5) blue
+	      sphere 4.65  (-5,16,5) blue	   
+%	      sphere 4.65  (-5,16,0) blue	
+	      cylinder 4.65 (5,-16,0) (5,-16,5) blue	
+	      sphere 4.65  (5,-16,5) blue	   
+%	      sphere 4.65  (5,-16,0) blue	
+	      cylinder 4.65 (5,-5,0) (5,-5,5) blue			      
+	      sphere 4.65  (5,-5,5) blue	   
+%	      sphere 4.65  (5,-5,0) blue	
+	      cylinder 4.65 (5,5,0) (5,5,5) blue 			      
+	      sphere 4.65  (5,5,5) blue	   
+%	      sphere 4.65  (5,5,0) blue	
+	      cylinder 4.65 (5,16,0) (5,16,5) blue 
+	      sphere 4.65  (5,16,5) blue	   
+%	      sphere 4.65  (5,16,0) blue	
+	      cylinder 4.65 (16,-16,0) (16,-16,5) blue
+	      sphere 4.65  (16,-16,5) blue	   
+%	      sphere 4.65  (16,-16,0) blue	
+	      cylinder 4.65 (16,-5,0) (16,-5,5) blue
+	      sphere 4.65  (16,-5,5) blue	   
+%	      sphere 4.65  (16,-5,0) blue	
+	      cylinder 4.65 (16,5,0) (16,5,5) blue
+	      sphere 4.65  (16,5,5) blue	   
+%	      sphere 4.65  (16,5,0) blue	
+	      cylinder 4.65 (16,16,0) (16,16,5) blue
+	      sphere 4.65  (16,16,6) blue	   
+%	      sphere 4.65  (16,16,0) blue	
+
+dummy1
+dummy2
+car: body "bodies/car.off"
+
+[JOINTS]
+
+prismatic: ground (0,0,0)+ (1,0,0)
+	   	dummy1(0,0,0)+(1,0,0)
+		range[-30,30]
+
+prismatic: dummy1 (0,0,0)+ (0,1,0)
+	   	dummy2(0,0,0)+(0,1,0)
+		range[-30,30]
+
+revolute: dummy2 (0.0,0.0,0)+(0,0,1)
+          car (0.0,-0.0,0)+(0,0,1)
+         
+
+[COLLISIONS]
+
+ Check: all
+
+/** \endcond */
+
+
+/**
+   \file mediumColumn_kinoCar.world
+
+   \brief Medium difficulty column environment for kinodynamic MP and car like model.
+
+    Medium difficulty column environment for kinodynamic MP and car like model.
+    Difficulty is tuned by the radius of the column i.e. the size of the passage between them.
+*/

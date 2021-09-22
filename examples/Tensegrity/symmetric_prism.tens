@@ -1,0 +1,244 @@
+/** \cond */
+
+[CONSTANTS]
+
+  % Parametrization of a one-prism tower taken from 
+  %    Stiffness formulations and necessary and sufficient
+  %    conditions for exponential stability of prestressable structures
+  %    Cornel Sultan
+  %    International Journal of Solids and Structures 50 (2013)
+
+   % The driving parameter: must be in [0,30deg]
+   alpha := 5.6*PI/180
+
+   % Structural parameters (taken from the matlab file)
+   b := 1                      % Size of base/platform
+   l := 3                      % Length of struts
+   P := PARAMETER(PRETENSION)  % Pretension (taken from parameter file)
+  
+   rs := 0.05                 % Radius to represent struts
+   rc := 0.0150               % Radius to represent cables
+
+   % depending parameters
+   sin_delta := b/(2*sqrt(3)*l*sin(alpha)) % sin(delta)
+
+   % length of the elements
+   V := sqrt(l^2+b^2-2*l*b*cos(alpha)*sin_delta)
+   B := sqrt(3*l^2*sin_delta^2+b^2-3*l*b*sin_delta*cos(alpha)-sqrt(3)*l*b*sin_delta*sin(alpha))
+
+   % print V
+   % print B
+
+   T_v_0 := (cot(alpha)-sqrt(3))*sqrt(3)/2
+
+   % Compression for bars
+   C_0 := l*T_v_0
+
+   % normalizatin factor
+   n := sqrt(3*(T_v_0^2*V^2+B^2+C_0^2))
+
+   % Tension for cables
+   T_v := P*T_v_0*V/n
+   T_b := P*B/n
+   C   := P*C_0/n
+   
+   % print T_v
+   % print T_b
+   % print C
+   
+   % stiffness as defined in the paper
+   K_v_0 := 50
+   K_b_0 := 10
+   
+   % The rest lengths for the different cables
+   R_v := K_v_0*V/(T_v+K_v_0)
+   R_b := K_b_0*B/(T_b+K_b_0)
+
+   % The stiffness as in appears in our models
+   K_v := K_v_0 / R_v
+   K_b := K_b_0 / R_b
+
+   % print K_v
+   % print K_b
+   % print R_v
+   % print R_b
+
+   % Margin. Used to increase the force, length, rest-length
+   % from those in the initial configuration.
+   % By using a large margins we ensure that the motion of
+   % the structure is not hindered by theses limits, i.e.,
+   % these limits will neve be active but the minimum
+   % limit might be (cables must have at least 0 tension, etc).
+   M := 20
+
+   % Factor used to determine the minimum cable length. This
+   % must be 0 or larger (we used 0.1 sometimes)
+   ml := 0
+   
+   % Force range for struts
+   min_fs :=-M*C
+   max_fs :=  0
+
+   % data for vertical cables 
+   min_lc_v := ml*V
+   max_lc_v := M*V
+   min_r_v := 0
+   max_r_v := M*R_v
+
+   % data for top cables 
+   min_lc_b := ml*B
+   max_lc_b := M*B
+   min_r_b := 0
+   max_r_b := M*R_b
+   
+[STRUCTURE]
+
+  strut s1 : n1 n2
+             length l
+             force [min_fs,max_fs]
+             radius rs
+          
+  strut s2 : n3 n4
+             length l
+             force [min_fs,max_fs]
+             radius rs
+          
+  strut s3 : n5 n6
+             length l
+             force [min_fs,max_fs]
+             radius rs
+
+  cable c1 : n1 n4                          % vertical
+             length [min_lc_v,max_lc_v]
+             stiffness K_v
+             rest [min_r_v,max_r_v]
+             radius rc
+
+  cable c2 : n3 n6                          % vertical
+             length [min_lc_v,max_lc_v]
+             stiffness K_v
+             rest [min_r_v,max_r_v]
+             radius rc
+	      
+  cable c3 : n5 n2                          % vertical
+             length [min_lc_v,max_lc_v]
+             stiffness K_v
+             rest [min_r_v,max_r_v]
+             radius rc
+
+  cable c4 : n2 n4                          % platform
+             length [min_lc_b,max_lc_b]
+             stiffness K_b
+             rest [min_r_b,max_r_b]
+             radius rc
+
+  cable c5 : n4 n6                          % platform
+             length [min_lc_b,max_lc_b]
+             stiffness K_b
+             rest [min_r_b,max_r_b]
+             radius rc
+	      
+  cable c6 : n2 n6                          % platform
+             length [min_lc_b,max_lc_b]
+             stiffness K_b
+             rest [min_r_b,max_r_b]
+             radius rc
+[COUPLE]
+  % The orientation of the struts is related by a constant rotation
+  % The force supported by the struts is all the same
+  orientation: s1,[Rz(2*PI/3)]s2,[Rz(4*PI/3)]s3
+  force      : s1,s2,s3
+  
+  % couple vertical cables: all have the same length, rest length, and
+  % exerted tension
+  length : c1,c2,c3
+  rest   : c1,c2,c3
+  force  : c1,c2,c3
+
+  % couple platform cables: all have the same length, rest length, and
+  % exerted tension
+  length : c4,c5,c6
+  rest   : c4,c5,c6
+  force  : c4,c5,c6
+  
+[FIXED POINTS]
+  % Fix the position of the bottom nodes
+  n1(x)=0
+  n1(y)=0
+  n1(z)=0
+  
+  n3(x)=b*cos(pi/3)
+  n3(y)=b*sin(pi/3)
+  n3(z)=0
+  
+  n5(x)=b
+  n5(y)=0
+  n5(z)=0
+
+[FORCES]
+  % No force equilibrium in bottom nodes
+  No null force : n1,n3,n5
+
+[OBSTACLES]
+  plane: box (-2,-2,-0.1)+(b+4,b*sin(pi/3)+4,0.05) green
+  b1: sphere rs (0,0,-0.05) red
+  b2: sphere rs (b*cos(pi/3),b*sin(pi/3),-0.05) red
+  b3: sphere rs (b,0,-0.05) red
+
+[COLLISIONS]
+  do not check : all
+  check : s1,s2
+  check : s2,s3
+  check : s1,s3
+
+/** \endcond */
+
+/** \file symmetric_prism.tens
+
+   \brief Symmmetric tensegrity simplex.
+   
+   <center>
+   <img src="../images/Tensegrity/symmetric_prism.png">
+   </center>
+   
+   A symmetric tensegriy simplex. Due to the symmetry
+   this structure has a single degree of freedom.
+   The only motion of the structure is the folding
+   and unfolding.
+
+   The parametrization of this structure was taken from
+      - Stiffness formulations and necessary and sufficient
+        conditions for exponential stability of prestressable structures
+	by Cornel Sultan, International Journal of Solids and Structures 50 (2013)
+      .
+   but it appears in many other papers by the same author.
+
+   This file can be taken as a reference to see:
+      - how to define basic tensegrity structures,
+      - how to couple the different degrees of freedom of the structure,
+      - how to fix the coordinates of some of the tensegrity nodes,
+      - how to select the nodes where to enforce force equilibrium conditions
+      - how to define obstacles, and
+      - how to activate collision detection between different parts of the structure.
+      .
+
+   To interactively manipulate this structure execute
+      - \ref cuikexplore.c "scripts/cuikexplore" examples/Tensegrity/symmetric_prism 21
+      .
+   and increase the selected degree of freedom to see how the structure folds.
+   When un-folding  (i.e, when decreasing the control variable) you will reach
+   a point where there is a collision between the struts which stops the motion.
+
+   All the displayed confiturations during folding and un-unfolding are in
+   equilibrium: the tension of the cables and the compression of the struts is
+   adjusted as the structures moves.
+
+   The unfolding sequence can be obtained executing
+      - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/symmetric_prism
+      .
+   And the energy along the path can be computed as
+      - \ref cuikenergy.c "bin/cuikenergy" examples/Tensegrity/symmetric_prism examples/Tensegrity/symmetric_prism_path
+      .
+   The energy values are stored in the file \e examples/Tensegrity/symmetric_prism_path.cost
+*/
+  

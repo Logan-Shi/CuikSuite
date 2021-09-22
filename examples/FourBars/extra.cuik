@@ -1,0 +1,16 @@
+% This file includes extra equations to be added to the cuiksystem
+% automatically generated from the FourBars_extraeq.word file.
+%
+% Note how we use constants defined in the world file. In this way
+% we can add parametric equations (that will be valid even if the
+% parameters change).
+
+[CONSTANTS]
+  % Example of how to add new constants: the orientation of the ground link
+  link1_u_x := 1
+  link1_u_z := 0
+
+[SYSTEM EQS]
+
+  l1*link1_u_x +l2*link2_u_x +l3*link3_u_x +l4*link4_u_x = 0;
+  l1*link1_u_z +l2*link2_u_z +l3*link3_u_z +l4*link4_u_z = 0;

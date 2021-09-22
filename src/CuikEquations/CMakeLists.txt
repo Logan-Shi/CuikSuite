@@ -1,0 +1,15 @@
+
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src/CuikBase/include)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src/CuikPlot3d/include)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/src/CuikWorld/include)
+
+
+ADD_EXECUTABLE(cuikequations cuikequations.c)
+
+TARGET_LINK_LIBRARIES(cuikequations cuikworld-common)
+
+INSTALL(TARGETS cuikequations
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)

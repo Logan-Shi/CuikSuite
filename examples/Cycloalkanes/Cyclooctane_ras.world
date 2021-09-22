@@ -1,0 +1,377 @@
+/** \cond */
+
+[CONSTANTS]
+
+% We define a reference frame attache to each C atom with the  
+% X axis along one of the C-C bonds and with the X-Y plane in
+% the planed defined by the two bonds coincident in the C.
+ 
+% All distances are in Amstrongs and all angles are in radiants
+
+% H-C bond length
+HCb:=1.09
+
+% H-C distance for C the neighbouring C of the C to which H
+% is connected
+HCb2:=2.151077
+
+% C-C bond length
+CCb:=1.526
+
+% Bond bending angle
+BBa:=1.9111
+
+% The firts CC bond is aligned with the X axis and has lenght CCb
+% The second is in the XY plane at position:
+CC2x:=CCb*cos(BBa)
+CC2y:=CCb*sin(BBa)
+
+% x-y-z position of one of the H w.r.t. a frame attached to the C
+% The second H is symmetrically placed (w.r.t. the X-Y plane).
+% This H is at (Hx,Hy,Hz) that is at the intersection of three circunferences
+%   Hx^2+Hy^2+Hz^2=HCb^2
+%   (Hx-CCb)^2+Hy^2+Hz^2=HCb2^2
+%   (Hx-CC2x)^2+(Hy-CC2y)^2+Hz^2=HCb2^2
+%
+Hx:=(HCb^2-HCb2^2+CCb^2)/(2*CCb)
+Hy:=((Hx-CC2x)^2-(Hx-CCb)^2+CC2y^2)/(2*CC2y)
+Hz:=sqrt(Hx^2+Hy^2)
+
+% Radious of the spheres representing atoms (25% Van der Waals radii)
+rC:=1.7*0.5
+
+% super simplest (RRT*)
+rH:=1.2*0.50
+
+% Radious of the cylinders representing bonds
+rCC:=0.15
+rCH:=0.15
+
+% Colors for the atoms
+Cr:=0.2
+Cg:=0.6
+Cb:=0.6
+
+Hr:=1
+Hg:=1
+Hb:=1
+
+[LINKS]
+
+C1 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C2 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C3 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C4 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C5 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C6 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C7 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+C8 : sphere rC (0,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CCb/2,0,0) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (CC2x/2,CC2y/2,0) color (Cr,Cg,Cb) decoration
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,Hz/2) (Hx,Hy,Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,Hz) color (Hr,Hg,Hb)
+     cylinder rCH (0,0,0) (Hx/2,Hy/2,-Hz/2) color (Cr,Cg,Cb) decoration
+     cylinder rCH (Hx/2,Hy/2,-Hz/2) (Hx,Hy,-Hz) color (Hr,Hg,Hb) decoration
+     sphere rH (Hx,Hy,-Hz) color (Hr,Hg,Hb)
+
+[JOINTS]
+
+% We define the revolute joints trying to use as much zeros as possible
+% in the two first points of the two axes in local coordinates. This produces
+% simpler equation sets.
+revolute: C1 (CCb,0,0) (0,0,0) 
+          C2 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C2 (CCb,0,0) (0,0,0) 
+          C3 (0,0,0) (CC2x,CC2y,0)  
+
+revolute: C3 (CCb,0,0) (0,0,0) 
+          C4 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C4 (CCb,0,0) (0,0,0) 
+          C5 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C5 (CCb,0,0) (0,0,0) 
+          C6 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C6 (CCb,0,0) (0,0,0) 
+          C7 (0,0,0) (CC2x,CC2y,0)
+
+revolute: C7 (CCb,0,0) (0,0,0) 
+          C8 (0,0,0) (CC2x,CC2y,0) 
+
+revolute: C8 (CCb,0,0) (0,0,0) 
+          C1 (0,0,0) (CC2x,CC2y,0) 
+
+
+[COLLISIONS]
+
+do not check: all
+
+check : C1,C4
+check : C1,C5
+check : C1,C6
+
+check : C2,C5
+check : C2,C6
+check : C2,C7
+
+check : C3,C6
+check : C3,C7
+check : C3,C8
+
+check : C4,C7
+check : C4,C8
+
+check : C5,C8
+
+/** \endcond */
+
+/** \file Cyclooctane.world
+    
+    \brief A \ref examples/Cycloalkanes "cycloalkane" with a 8 carbon loop.
+
+    <center>
+    <img src="../images/Cycloalkanes/cyclooctane.jpg">
+    </center>
+
+    <center><a href="#intro">[Introduction]</a>  <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+
+    <h2><a name="intro">Introduction</a></h2> 
+
+    Cyclooctane is a cyclic alkane used as an intermediate in production of plastics, 
+    fibers, adhesives, and coatings. It is also known as octomethylene.
+    <br> 
+
+    The goal here is to compute an exhaustive
+    map of all conformations that are compatible with the <i>rigid-geometry</i> hypothesis
+    (fixed bond lengths and angles, variable torsion angles). To the best of our knowledge,
+    a complete map of such conformations was not known so far. Other previous work on 
+    this molecule could only obtain low-energy conformers via sampling and/or local search 
+    techniques [<a href="#kolossvary1993">Kolossvary and Guida 1993</a>, 
+    <a href="#manocha1994">Manocha and Zhu 1994</a>, <a href="#rocha1998">Rocha et al. 1998</a>]. 
+    The map we provide is exhaustive (it contains all points of the conformational space) 
+    and may thus be used to determine its topology, or derive the whole (guaranteed) 
+    network of minimum-energy conformers and saddle point transitions between them.
+
+    The formulation provided here is not based on distances (as we did in <a href="#porta2007">Porta et al. 2007</a>
+    but on rotation matrices and vectors (as in <a href="#porta2007">Porta et al. 2008</a>).
+    In any case, this problem is very hard and we use a cluster of computers to isolate
+    the whole configuration space. The difference is that with the distance formulation
+    days of compuation are necessary, even when using the cluster, and with the vector/matrix
+    formulation few minutes are enough.
+
+    <h2><a name="process">Process</a></h2>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>: Ensure that the paremeter \ref CT_REPRESENTATION "REPRESENTATION"
+         is set to LINKS (or just not set). When planning it is typically set to JOINTS which is not
+         valid for \ref cuik.c "bin/cuik". Morover, ensure that \ref CT_MAX_NEWTON_ITERATIONS "MAX_NEWTON_ITERATIONS"
+         is set to 0 (or just not set) to avoid a slow Newton process for each processed box. This is useful when searching just
+         for one solution. Then, execute:
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Cycloalkanes/Cyclooctane </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Use the parallel version of \ref cuik.c "cuik". To use
+          this version you have to configure your cluster (set of computer with password less acces from your
+          computer with a shared disc), the list of machines (in share/machines.LINUX) and probably the
+	  rmpicuik script. As a reference, we distribute the version that we use:
+             - <i> scripts/rmpicuik examples/Cycloalkanes/Cyclooctane </i>
+	     .
+     - <b>Plot and visualize the configuration space</b> (you will see
+          the two-dimensional solution set):
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Cycloalkanes/Cyclooctane 11 21 33 0 c8.gcl</i>
+	     - <i> geomview c8.gcl </i>
+	     .
+     - <b>Generate and visualize the atlas</b> This is an alternative way to isolate the configuration space
+          However, the atlas is limited to the connected component including the initial point (in this case
+          there is no difference since the configuration space only has one component). Ensure that 
+	  \ref CT_REPRESENTATION "REPRESENTATION" is set to JOINTS (this is just to speed up the process),
+	  that  \ref CT_MAX_NEWTON_ITERATIONS "MAX_NEWTON_ITERATIONS"  
+	  is set to 50 and that \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS" is set to 1. The execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Cycloalkanes/Cyclooctane </i>
+             - <i> \ref cuikatlas.c "bin/cuikatlas" examples/Cycloalkanes/Cyclooctane</i>
+	     - <i>\ref cuikplotatlas.c  "bin/cuikplotatlas" examples/Cycloalkanes/Cyclooctane 0 1 2</i>
+	     - <i> geomview examples/Cycloalkanes/Cyclooctane_atlas.gcl </i>
+	     .
+     - <b>We can also determine the path between two points on the configuration space</b> For this, deactivate the
+          bifurcation detection (set \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS" to 0 or just comment it) and execute:
+             - <i> rm examples/Cycloalkanes/Cyclooctane.cuik </i>
+             - <i>\ref cuikatlasGBF.c  "bin/cuikatlasGBF" examples/Cycloalkanes/Cyclooctane</i>
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/Cycloalkanes/Cyclooctane examples/Cycloalkanes/Cyclooctane_path</i>
+	     .    
+     - <b>An alternative way to plan</b>: 
+             - <i>\ref cuikatlasrrt.c  "bin/cuikatlasrrt" examples/Cycloalkanes/Cyclooctane</i>
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/Cycloalkanes/Cyclooctane examples/Cycloalkanes/Cyclooctane_path</i>
+	     .
+     .
+
+    Please, see the experiments with \ref examples/Bio "molecules" for additional information about how to deal with
+    the cyclooctane.
+
+    <h2><a name="st">Statistics</a></h2>
+
+
+    Characteristics of the problems:
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of loops</th>
+     <td  align="center">1</td>
+    </tr>
+    <tr>
+     <th>Nr. of links</th>
+     <td  align="center">8</td>
+    </tr>
+    <tr>
+     <th>Nr. of joints</th>
+     <td  align="center">8</td>
+    </tr>
+    <tr>
+     <th>Nr. of equations (in the simplified system)</th>
+     <td  align="center"> 15 </td>
+    </tr>
+    <tr>
+     <th>Nr. of variables (in the simplified system)</th>
+     <td  align="center"> 17 </td>
+    </tr>
+    </table>
+    </center>
+ 
+    Here you have the statistics about the execution (on a grid with 160 cores).
+    <center>
+    <table border="1">
+    <tr>
+     <th>Nr. of empty boxes</th>
+     <td  align="center"> 127033 </td>
+    </tr>
+    <tr>
+     <th>Nr. of solution boxes</th>
+     <td  align="center"> 284244 </td>
+    </tr>
+    <tr>
+     <th>Solver time (s)</th>
+     <td  align="center"> 270 </td>
+    </tr>
+    </table>
+    </center>
+
+    <h2><a name="res">Results</a></h2>
+
+    The conformational space of the cyclooctane, shown in transparency
+    so that its complexity can be appreciated.
+
+    <center>
+     <img src="../images/Cycloalkanes/c8.png">
+    </center>
+
+    The solution of cuik set includes about 280000 boxes, so the process and visualization would be slow.
+
+    This is the atlas obtained with \ref cuikatlas.c "bin/cuikatlas"
+    and colored using the potential energy of each conformation.
+
+    <center>
+     <img src="../images/Bio/c8.png">
+    </center>
+
+    Please, see our experiments with \ref examples/Bio "bio molecules" for more
+    information about this how to obtain this output.
+
+    Note that the atlas and path planning process can also be directly applied to the world file, but then collisions
+    are taken into account.
+
+    Note that the result is a two-dimensional manifold and therefore it is not worth to use
+    tools such as \ref cuiksort.c "cuiksort" or \ref cuikanimate.c "cuikanimate" on the solution
+    file (these tools are basically aimed for zero or one-dimensional solution sest).
+   
+    Morever, you can also get particular configurations (using \ref cuiknewton.c "cuiknewton")
+    and determine a path between them using \ref cuikatlasGBF.c "cuikatlasGBF" or
+    \ref cuikatlasrrt.c "cuikatlasrrt". These applications can work on different
+    representations for the problem but they are typically more efficient using
+    a DOF-based representation (set \ref CT_REPRESENTATION "REPRESENTATION" parameter
+    to DOF). In this case the samples to connect are read from the \e dof file.
+    Note that conversion between \e sample files (containing configuraions in MATRIX
+    representation) and \e dof files are possible using \ref cuiklinks2joints.c "cuiklinks2joints".
+    It is important to remark that the obtained path does not take into account 
+    energetic aspects but only kinematic ones. 
+
+    Please note that different samples/dof are provided for the cyclooctane corresponding to
+    different set ups for this problem used in our papers. The difference between the
+    experiments is the value of rH (the radii for the hydrogen atoms causing collisions)
+    set in the \ref Cyclooctane.world file.
+
+    <h2><a name="refs">References</a></h2> 
+
+    - <a name="kolossvary1993">I. Kolossvary</a> and W. Guida, "Comprehensive conformational analysis of the four- to twelve-membered ring cycloalkanes: Identification of the complete set of interconversion pathways on the MM2 potential energy hypersurface," <i> Journal of the American Chemical Society</i>, vol. 115, pp. 2107-2119, 1993.
+    - <a name="manocha1994">D. Manocha</a>, Y. Zhu, "Kinematic Manipulation of Molecular Chains Subject to Rigid Constraints", <i> Proc. 2nd Symposium on Molecular Biology </i>, pp. 285-294, 1994.
+    - <a name="porta2007">J. M. Porta</a>, L. Ros, F. Thomas, F. Corcho, J. Cant&oacute;,J. P&eacute;rez, <a href="http://www-iri.upc.es/people/porta/Docs/jcc.pdf">"Complete Maps of Molecular Loop Conformational Spaces"</a>, <i>Journal of Computation Chemistry</i>, Vol. 28, pp. 2170-2189, 2007. 
+    - <a name="porta2008">J. M. Porta</a>, L. Ros, and F. Thomas, <a href="http://www-iri.upc.es/people/ros/Separates/sci-13-r11-tro-multiloops-preprint.pdf">"A Linear Relaxation Technique for the Position Analysis of Multi-loop Linkages"</a>, <i>IEEE Transactions on Robotics</i>, 25(2): 225-239, 2009..
+    - <a name="rocha1998">W. R. Rocha</a>, J. R. Pliego, S. M. Resende, H. F. Dos Santos, M. A. De Oliveira, and W. B. De Almeida, "Ab initio conformational analysis of cyclooctane molecule," <i>Journal of Computational Chemistry</i>, vol. 19,  no. 5, pp. 524-534, 1998.
+    .
+
+*/

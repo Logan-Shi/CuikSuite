@@ -1,0 +1,11 @@
+/** \dir examples/SphericalRobot
+   
+    \brief The Spherical parallel manipulator designed at IRI
+    
+    <center>
+    <img src="../images/Spherical/Spherical.png">
+    </center>
+    
+    The \ref SphericalRobot.world "spherical robot" designed at IRI.
+
+*/

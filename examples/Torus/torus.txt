@@ -1,0 +1,16 @@
+/** \dir examples/Torus
+   
+    \brief A mechanism with a torus-like configuration space.
+
+   <center>
+   <img src="../images/Torus/torus.png">
+   </center>
+    
+     A ball moving on a torus with many obstacles. We use this benchmark to test path planning algorithms since, due to its simplicity it is straightforward to visualize the results.
+
+     We performed different experiments on this problem:
+         - \ref torus.world The start and goal configurations can only be connected crossing a narrow corridor.
+	 - \ref torus2.world A simpler problem where there is a long, easy to find path to the goal and a shorter path (but across a narrow corridor which is harder to find). We use
+	    this problem to test asymptotically-optimal planners on manifolds
+	 .
+*/

@@ -1,0 +1,10 @@
+%%%% Welding0D parameters %%%%
+
+REPRESENTATION = FLINKS
+
+RHO = 0.4
+
+SIGMA = 0.1
+SMALL_SIGMA = 1e-4
+
+

@@ -1,0 +1,59 @@
+[SYSTEM EQS]
+
+  /* The can be deduced, but given to simplify the problem */
+
+  uni_v_base_l1_1_x_0=uni_v_platform_l1_2_x_2;
+  uni_v_base_l1_1_y_0=uni_v_platform_l1_2_y_2;
+  uni_v_base_l1_1_z_0=uni_v_platform_l1_2_z_2;
+
+  uni_v_base_l2_1_x_3=uni_v_platform_l2_2_x_5;
+  uni_v_base_l2_1_y_3=uni_v_platform_l2_2_y_5;
+  uni_v_base_l2_1_z_3=uni_v_platform_l2_2_z_5;
+
+  uni_v_base_l3_1_x_6=uni_v_platform_l3_2_x_8;
+  uni_v_base_l3_1_y_6=uni_v_platform_l3_2_y_8;
+  uni_v_base_l3_1_z_6=uni_v_platform_l3_2_z_8;
+
+  /* avoid symmetric and planar solutions  */
+  ref_r_z>=0.01;
+  
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // This is the part to comment/uncomment for the alternative solution
+  /*
+  // force unique solution
+  // In symmetric position, this mechanism gains 1 extra degree of freedom
+  d_l1_1_l1_2_1=0.3; 
+  d_l2_1_l2_2_4=0.25;
+  d_l3_1_l3_2_7=0.25;
+  
+  // force one assembly mode solution
+  uni_u_base_l1_1_x_0=uni_u_platform_l1_2_x_2;
+  uni_u_base_l1_1_y_0=uni_u_platform_l1_2_y_2;
+  uni_u_base_l1_1_z_0=uni_u_platform_l1_2_z_2;
+
+  uni_u_base_l2_1_x_3=uni_u_platform_l2_2_x_5;
+  uni_u_base_l2_1_y_3=uni_u_platform_l2_2_y_5;
+  uni_u_base_l2_1_z_3=uni_u_platform_l2_2_z_5;
+
+  uni_u_base_l3_1_x_6=uni_u_platform_l3_2_x_8;
+  uni_u_base_l3_1_y_6=uni_u_platform_l3_2_y_8;
+  uni_u_base_l3_1_z_6=uni_u_platform_l3_2_z_8;
+  */
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // To get a perfectly symmetrical initial position uncomment the following
+  /*
+  // fix platform position 
+  ref_r_x=0;
+  ref_r_y=0;
+  ref_r_z=0.7;
+
+  // fix the platform orientation
+  platform_u_x= 1;
+  platform_u_y= 0;
+  platform_u_z= 0;
+  
+  platform_v_x= 0;
+  platform_v_y= 1;
+  platform_v_z= 0;
+  */

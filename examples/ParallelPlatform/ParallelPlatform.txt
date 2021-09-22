@@ -1,0 +1,49 @@
+/** \dir examples/ParallelPlatform
+
+    \brief Three parallel robots.
+
+    <center>
+    <br>
+    <img src="../images/ParallelPlatform/stewart.jpg">
+    </center>
+
+    <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#form">[Formulations]</a></center>
+
+    <h2><a name="intro">Introduction</a></h2>
+
+   This device is a generalization of a mechanism originally proposed by Stewart 
+   as a flight simulator. It consists of two rigid bodies, a fixed "base" and a moving 
+   "platform", which are held fixed one to the other by means of six legs. 
+   The legs are connected to the base and platform bodies via 
+   spherical joints, and their lengths can be changed by means of linear 
+   actuators. No further geometric constraints are assumed for the device. 
+   In particular, the base and platform joints need not be coplanar.
+   
+   While the inverse kinematics of this mechanism is straightforward (given the platform 
+   pose, derive the leg lengths) the converse problem (given the leg lengths, 
+   derive the platform pose) is by no means trivial and can have many different
+   solutions. In fact, for a long time, it has been considered one
+   of the most difficult problems of robot kinematics.
+  
+    <h2><a name="intro">Geometry</a></h2>
+
+    <center>
+    <img src="../images/ParallelPlatform/stewart-labels.jpg">
+    </center>
+ 
+    The geometry of a parallel platform is given by the leg lengths \f$l_i\f$ and by the anchor
+    points of the legs on the base \f$A_i\f$ and on the platform \f$B_i\f$, for \f$i=1..6\f$.
+
+    <h2><a name="intro">Formulations</a></h2>
+
+    This directory includes formulations for three different parallel platforms:
+
+      - Dietmeier.world A parallel platform with 40 solutions, the maximum possible number
+        of solutions for a parallel platform.
+      - Griffis-Duffy.world An architecturally singular parallel platform.
+      - Rotational.world A highly constrained parallel platform that only has rotational
+        degrees of freedom. We use it basically for a path planning experiment. 
+      - Rotational2.world A variation of the rotation-only parallel platform.
+      .
+
+*/

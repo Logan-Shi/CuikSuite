@@ -1,0 +1,28 @@
+/** \dir examples/Jaco
+
+    \brief The Jaco <a href="http://kinovarobotics.com/products/jaco-robotics/">jaco</a> robot by Kinova.
+
+    <center>
+    <img src="../images/Jaco/jaco.png">
+    </center>
+
+    The <a href="http://kinovarobotics.com/products/jaco-robotics/">jaco</a> robot by Kinova.
+
+    We included it in the CuikSuite just to test the URDF to CuikSuite importer. We might use
+    it in the future for inverse kinematic problems (using \ref cuik.c "cuik" or for path
+    planning problems (using, for instance, \ref cuikatlasrrt.c "cuikatlasrrt").
+    
+    To import the model from the URDF provided by Kinova execute:
+       	 - Convert the URDF file to a world file
+	          - \ref cuikurdf2world.cpp "bin/cuikurdf2world" examples/Jaco jaco_model/urdf/standalone_arm.urdf examples/Jaco/jaco.world
+	          .
+       	 - Visualize and move the resulting robot model:
+	          - \ref cuikmove.c "scripts/cuikmove" examples/Jaco/jaco
+	          .
+       	 .
+
+*/
+
+
+
+

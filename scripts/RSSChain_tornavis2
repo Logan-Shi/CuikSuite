@@ -1,0 +1,72 @@
+#!/bin/tcsh
+
+# NOTE: Ensure that we detect the finger-object collisions in the .world file and save
+scripts/cuikmove examples/RSS11Hand/RSShand_tornavis2.world examples/RSS11Hand/RSShand_tornavis2.joints
+
+# Transform from joint values to link poses
+bin/cuikjoints2links examples/RSS11Hand/RSShand_tornavis2
+
+# generate the .cuik file (the kinematic equations of the hand)
+bin/cuikequations examples/RSS11Hand/RSShand_tornavis2
+
+# generate the contact equations (_contact_1.cuik, _contact_2.cuik and _contact_3.cuik)
+matlab -nodesktop -nosplash -nojvm -r "addpath examples/RSS11Hand/matlab;GenerateContactEquations" 
+
+# add the contact equations to the .cuik file and create the _with_contacts.cuik
+bin/cuikmerge _with_contacts examples/RSS11Hand/RSShand_tornavis2.cuik examples/RSS11Hand/RSShand_tornavis2_contact_*.cuik
+
+# the solutions boxes for the kinematics and the contacts need to the composed too
+bin/cuikmergeboxes _with_contacts examples/RSS11Hand/RSShand_tornavis2.sol examples/RSS11Hand/RSShand_tornavis2_contact_*.sol
+
+# refine the solution and generate a solution point (_with_contacts_newton.links) 
+bin/cuiknewton examples/RSS11Hand/RSShand_tornavis2_with_contacts
+
+# The output of the Newton is our seed sample
+grep -v "*" examples/RSS11Hand/RSShand_tornavis2_with_contacts_newton.links > examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens.links
+
+# Transform the hand motions to the internal cuik representation. This only need to be executed once.
+# Note that this is for the hand in open loop
+# This generates new_hand_motions.links new_hand_motions.sol new_hand_motions.vname new_hand_motions.vmask
+#   The new_hand_motions.vname includes the name of the system and secondary variables in  examples/RSS11Hand/RSShand.cuik
+#   The new_hand_motions.vmask is and array of flags marking only the system variables that are not-simplified
+bin/cuikjoints2links examples/RSS11Hand/RSShand examples/RSS11Hand/matlab/new_hand_motions.joints
+
+# Generate the eigen equations from the system variables in the new_hand_motions.links
+# The output is a _with_contacts_eigens.cuik equations file
+matlab -nodesktop -nosplash -nojvm -r "addpath examples/RSS11Hand/matlab;GenerateEigenEquations('examples/RSS11Hand/RSShand_tornavis2',8)" 
+
+# Merge the eigen equations with the kinematic and contact equations to produce _with_contacts_eigens.cuik file
+# The eigen eguation do not add any variable -> There is no need to merge the solutions
+bin/cuikmerge _with_eigens examples/RSS11Hand/RSShand_tornavis2_with_contacts.cuik examples/RSS11Hand/RSShand_tornavis2_eigens.cuik
+
+# Build the atlas
+bin/cuikatlas examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens
+
+# Estract the center of the charts
+bin/cuikatlascenters examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens
+
+# Display the valid configurations
+scripts/cuikplayer examples/RSS11Hand/RSShand_tornavis2 examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens_center
+
+# NOTE: Change the collisions to detect in the .world file now we do not focus finger-object contact but on the
+# finger finger
+bin/cuikcollisions examples/RSS11Hand/RSShand_tornavis2 examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens_center
+
+ln -s RSShand_tornavis2_with_contacts_with_eigens.param examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens_center.param
+bin/cuiksols2samples examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens_center
+
+bin/cuikworldaxes examples/RSS11Hand/RSShand_tornavis2 examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens_center
+
+# Computing force closure
+matlab -nodesktop -nosplash -nojvm -r "addpath examples/RSS11Hand/matlab;ComputeForceClosure('examples/RSS11Hand/RSShand_tornavis2')" 
+
+# Computing manipulability 
+matlab -nodesktop -nosplash -nojvm -r "addpath examples/RSS11Hand/matlab;ComputeManipulability('examples/RSS11Hand/RSShand_tornavis2')" 
+
+# Combine the 3 quality indices (collisions,force closure, and manipulability) in serie
+matlab -nodesktop -nosplash -nojvm -r "addpath examples/RSS11Hand/matlab;CombineSerial('examples/RSS11Hand/RSShand_tornavis2',0,0.2)" 
+
+# Visualize
+bin/cuikplotatlas examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens_serial_combined 2 14 32
+
+geomview examples/RSS11Hand/RSShand_tornavis2_with_contacts_with_eigens_atlas.gcl share/axes.list 

@@ -1,0 +1,14 @@
+[CONSTANTS]
+
+  r2:=rs^2+2*rs*ru+ru^2
+
+[SYSTEM EQS]
+
+  uni_r_x^2 +uni_r_y^2 +uni_r_z^2 = r2;
+
+  uni_r_x*uni_u_x +uni_r_y*uni_u_y +uni_r_z*uni_u_z = 0;
+  uni_r_x*uni_v_x +uni_r_y*uni_v_y +uni_r_z*uni_v_z = 0;
+
+[KINO EQS]
+
+  (uni_v_x)*uni_r_x'+(uni_v_y)*uni_r_y'+(uni_v_z)*uni_r_z' = 0 ;

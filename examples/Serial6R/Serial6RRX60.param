@@ -1,0 +1,15 @@
+%%%%                      PARAMETERS                          %%%%
+
+% REPRESENTATION=JOINTS
+
+EPSILON = 1e-6
+
+RHO = 0.45
+
+SIGMA = 0.1
+SMALL_SIGMA = 1e-4
+
+LR2TM_Q=0.1
+LR2TM_S=0.1
+
+SIMPLIFICATION_LEVEL = 2

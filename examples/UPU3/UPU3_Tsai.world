@@ -1,0 +1,244 @@
+/** \cond */
+[CONSTANTS]
+
+  # Environment size
+  sz:=10
+
+  # Size of the base triangle 
+  sb:=1
+
+  # Size of the platform triangle
+  sp:=0.5
+
+  # anchor points base in local coordinates
+  pb1_1:=-sb/2
+  pb1_2:=-sb*sqrt(3)/6
+  pb1_3:= 0
+  
+  pb2_1:=+sb/2
+  pb2_2:=-sb*sqrt(3)/6
+  pb2_3:= 0
+  
+  pb3_1:= 0
+  pb3_2:= sb*sqrt(3)/3
+  pb3_3:= 0
+
+  # anchor points base in local coordinates
+  pp1_1:=-sp/2
+  pp1_2:=-sp*sqrt(3)/6
+  pp1_3:= 0
+  
+  pp2_1:=+sp/2
+  pp2_2:=-sp*sqrt(3)/6
+  pp2_3:= 0
+  
+  pp3_1:= 0
+  pp3_2:= sp*sqrt(3)/3
+  pp3_3:= 0
+
+  # first revolute joints in base reference
+  ab1_1:= sin(pi/6)
+  ab1_2:=-cos(pi/6)
+  ab1_3:= 0
+
+  ab2_1:= sin(pi/6)
+  ab2_2:= cos(pi/6)
+  ab2_3:= 0
+
+  ab3_1:=-1
+  ab3_2:= 0
+  ab3_3:= 0
+  
+  # first revolute joints in platform reference
+  ap1_1:= sin(pi/6)
+  ap1_2:=-cos(pi/6)
+  ap1_3:= 0
+
+  ap2_1:= sin(pi/6)
+  ap2_2:= cos(pi/6)
+  ap2_3:= 0
+
+  ap3_1:=-1
+  ap3_2:= 0
+  ap3_3:= 0
+
+  % minimu leg lengs
+  l1:=1
+  l2:=1
+  l3:=1
+
+  % plotting parameters
+  rb:=0.025
+
+[LINKS]
+
+  base:  0.5*red
+         % Three bars forming the triangle 
+	 cylinder rb (0,0,0) (pb1_1,pb1_2,pb1_3)
+	 sphere rb (pb1_1,pb1_2,pb1_3)
+	 cylinder rb (0,0,0) (pb2_1,pb2_2,pb2_3)
+	 sphere rb (pb2_1,pb2_2,pb2_3)
+	 cylinder rb (0,0,0) (pb3_1,pb3_2,pb3_3)
+	 sphere rb (pb3_1,pb3_2,pb3_3)
+
+         cylinder 0.5*rb (pb1_1-0.1*ab1_1,pb1_2-0.1*ab1_2,pb1_3-0.1*ab1_3) (pb1_1+0.1*ab1_1,pb1_2+0.1*ab1_2,pb1_3+0.1*ab1_3)  green
+	 sphere 0.5*rb (pb1_1-0.1*ab1_1,pb1_2-0.1*ab1_2,pb1_3-0.1*ab1_3) green
+	 sphere 0.5*rb (pb1_1+0.1*ab1_1,pb1_2+0.1*ab1_2,pb1_3+0.1*ab1_3) green
+	 cylinder 0.5*rb (pb2_1-0.1*ab2_1,pb2_2-0.1*ab2_2,pb2_3-0.1*ab2_3) (pb2_1+0.1*ab2_1,pb2_2+0.1*ab2_2,pb2_3+0.1*ab2_3) green
+	 sphere 0.5*rb (pb2_1-0.1*ab2_1,pb2_2-0.1*ab2_2,pb2_3-0.1*ab2_3) green
+	 sphere 0.5*rb (pb2_1+0.1*ab2_1,pb2_2+0.1*ab2_2,pb2_3+0.1*ab2_3) green
+	 cylinder 0.5*rb (pb3_1-0.1*ab3_1,pb3_2-0.1*ab3_2,pb3_3-0.1*ab3_3) (pb3_1+0.1*ab3_1,pb3_2+0.1*ab3_2,pb3_3+0.1*ab3_3) green
+	 sphere 0.5*rb (pb3_1-0.1*ab3_1,pb3_2-0.1*ab3_2,pb3_3-0.1*ab3_3) green
+	 sphere 0.5*rb (pb3_1+0.1*ab3_1,pb3_2+0.1*ab3_2,pb3_3+0.1*ab3_3) green
+
+  l1_1: black
+        cylinder 0.5*rb (0,0,-0.1) (0,0,0.1) yellow
+	sphere 0.5*rb (0,0,-0.1) yellow
+	sphere 0.5*rb (0,0, 0.1) yellow
+	cylinder rb (0,0,0) (0.5*l1,0,0)
+	sphere rb (0,0,0)
+	sphere rb (0.5*l1,0,0)
+
+  l1_2: blue
+        cylinder 0.5*rb (0,0,0) (0.5*l1,0,0)
+	sphere 0.5*rb (0.5*l1,0,0)
+	cylinder 0.25*rb (0.5*l1,0,-0.1) (0.5*l1,0,+0.1) yellow
+	sphere  0.25*rb (0.5*l1,0,-0.1) yellow
+	sphere 0.25*rb (0.5*l1,0,+0.1) yellow
+
+  l2_1: black
+        cylinder 0.5*rb (0,0,-0.1) (0,0,0.1) yellow
+	sphere 0.5*rb (0,0,-0.1) yellow
+	sphere 0.5*rb (0,0, 0.1) yellow
+	cylinder rb (0,0,0) (0.5*l2,0,0)
+	sphere rb (0,0,0)
+	sphere rb (0.5*l2,0,0)
+
+  l2_2: blue
+        cylinder 0.5*rb (0,0,0) (0.5*l2,0,0)
+	sphere 0.5*rb (0.5*l2,0,0)
+	cylinder 0.25*rb (0.5*l2,0,-0.1) (0.5*l2,0,+0.1) yellow
+	sphere  0.25*rb (0.5*l2,0,-0.1) yellow
+	sphere 0.25*rb (0.5*l2,0,+0.1) yellow
+
+  l3_1: black
+        cylinder 0.5*rb (0,0,-0.1) (0,0,0.1) yellow
+	sphere 0.5*rb (0,0,-0.1) yellow
+	sphere 0.5*rb (0,0, 0.1) yellow
+	cylinder rb (0,0,0) (0.5*l3,0,0)
+	sphere rb (0,0,0)
+	sphere rb (0.5*l3,0,0)
+
+  l3_2: blue
+        cylinder 0.5*rb (0,0,0) (0.5*l3,0,0)
+	sphere 0.5*rb (0.5*l3,0,0)
+	cylinder 0.25*rb (0.5*l3,0,-0.1) (0.5*l3,0,+0.1) yellow
+	sphere  0.25*rb (0.5*l3,0,-0.1) yellow
+	sphere 0.25*rb (0.5*l3,0,+0.1) yellow
+
+  platform: 0.5*red
+            % Three bars forming the triangle 
+	    cylinder 0.5*rb (0,0,0) (pp1_1,pp1_2,pp1_3)
+	    sphere 0.5*rb (pp1_1,pp1_2,pp1_3)
+	    cylinder 0.5*rb (0,0,0) (pp2_1,pp2_2,pp2_3)
+	    sphere 0.5*rb (pp2_1,pp2_2,pp2_3)
+	    cylinder 0.5*rb (0,0,0) (pp3_1,pp3_2,pp3_3)
+	    sphere 0.5*rb (pp3_1,pp3_2,pp3_3)
+
+            cylinder 0.25*rb (pp1_1-0.1*ap1_1,pp1_2-0.1*ap1_2,pp1_3-0.1*ap1_3) (pp1_1+0.1*ap1_1,pp1_2+0.1*ap1_2,pp1_3+0.1*ap1_3) green
+	    sphere 0.25*rb (pp1_1-0.1*ap1_1,pp1_2-0.1*ap1_2,pp1_3-0.1*ap1_3) green
+	    sphere 0.25*rb (pp1_1+0.1*ap1_1,pp1_2+0.1*ap1_2,pp1_3+0.1*ap1_3) green
+	    cylinder 0.25*rb (pp2_1-0.1*ap2_1,pp2_2-0.1*ap2_2,pp2_3-0.1*ap2_3) (pp2_1+0.1*ap2_1,pp2_2+0.1*ap2_2,pp2_3+0.1*ap2_3) green
+	    sphere 0.25*rb (pp2_1-0.1*ap2_1,pp2_2-0.1*ap2_2,pp2_3-0.1*ap2_3) green
+	    sphere 0.25*rb (pp2_1+0.1*ap2_1,pp2_2+0.1*ap2_2,pp2_3+0.1*ap2_3) green
+	    cylinder 0.25*rb (pp3_1-0.1*ap3_1,pp3_2-0.1*ap3_2,pp3_3-0.1*ap3_3) (pp3_1+0.1*ap3_1,pp3_2+0.1*ap3_2,pp3_3+0.1*ap3_3) green
+	    sphere 0.25*rb (pp3_1-0.1*ap3_1,pp3_2-0.1*ap3_2,pp3_3-0.1*ap3_3) green
+	    sphere 0.25*rb (pp3_1+0.1*ap3_1,pp3_2+0.1*ap3_2,pp3_3+0.1*ap3_3) green
+
+  ref
+
+[JOINTS]
+
+  universal: base  (pb1_1,pb1_2,pb1_3)+(ab1_1,ab1_2,ab1_3)
+	     l1_1 (0,0,0) (0,0,1)
+
+  prismatic: l1_1 (0,0,0) (1,0,0)
+             l1_2 (0,0,0) (1,0,0)
+	     range [0,0.5*l1]
+
+  universal: platform (pp1_1,pp1_2,pp1_3)+(ap1_1,ap1_2,ap1_3)
+	     l1_2 (0.5*l1,0,0) (0.5*l1,0,1)
+
+  universal: base (pb2_1,pb2_2,pb2_3)+(ab2_1,ab2_2,ab2_3)
+	     l2_1 (0,0,0) (0,0,1)
+   
+  prismatic: l2_1 (0,0,0) (1,0,0)
+             l2_2 (0,0,0) (1,0,0)
+	     range [0,0.5*l2]
+
+  universal: platform (pp2_1,pp2_2,pp2_3)+(ap2_1,ap2_2,ap2_3)
+	     l2_2 (0.5*l2,0,0) (0.5*l2,0,1)
+	   
+  universal: base (pb3_1,pb3_2,pb3_3)+(ab3_1,ab3_2,ab3_3)
+	     l3_1 (0,0,0) (0,0,1)
+	
+  prismatic: l3_1 (0,0,0) (1,0,0)
+             l3_2 (0,0,0) (1,0,0)
+	     range [0,0.5*l3]
+
+  universal: platform (pp3_1,pp3_2,pp3_3)+(ap3_1,ap3_2,ap3_3)
+	     l3_2 (0.5*l3,0,0) (0.5*l3,0,1)
+
+  fix: platform ref id
+
+[EQUATIONS]
+
+  EQFILE: "extra_eq_Tsai.cuik"
+
+/** \endcond */
+/**
+  \file UPU3_Tsai.world
+
+  \brief The UPU3 manipulator.
+
+    <center>
+    <img src="../images/3-UPU/3-UPU-Tsai.png">
+    </center>
+
+   Robot studied in:
+   
+   - L.W. Tsai, <i>Kinematics of a three-DOF platform with three extensible limbs</i>,
+     in Recent Advances in Robot Kinematics, J. Lenarcic and V. Parenti-Castelli, eds.,
+     Kluwer Academic Publishers, Dordrecht, pp. 401-410, 1996.
+   .
+
+   This can be processed as follows:
+   
+   - Uncomment the last block of equations of extra_eq_Tsai.cuik
+   - \ref cuikequations.c "bin/cuikequations" examples/UPU3/UPU3_Tsai
+   - \ref cuiknewton.c "bin/cuiknewton" examples/UPU3/UPU3_Tsai 10 > points.sol
+   - Take one point and put it in the UPU3_Tsai.links file
+   - Comment the last block of equations of extra_eq_Tsai.cuik
+   - rm examples/UPU3/UPU3_Tsai.cuik
+   - \ref cuikdim.c "bin/cuikdim" examples/UPU3/UPU3_Tsai
+       - You should get a 3 (in the symmetrical position!!)
+       .
+   - \ref cuikexplore.c "scripts/cuikexplore" examples/UPU3/UPU3_Tsai
+   .
+
+   To generate the plots in our ReMar paper:
+   - \ref cuikequations.c "bin/cuikequations" examples/UPU3/UPU3_Tsai
+   - Edit the file examples/UPU3/UPU3_Tsai.cuik and fix the leg lengths (variables d_l1_1_l1_2_1, d_l2_1_l2_2_4, d_l3_1_l3_2_7
+     to 0, 0.25, and 0.25, respectively).
+     This can also be done before generating the equations, fixing the range of the prismatic joints.
+   - Solve: scripts/cuikmpi examples/UPU3/UPU3_Tsai.cuik
+   - Plot the solutions: \ref cuikplot3d.c "bin/cuikplot3d" examples/UPU3/UPU3_Tsai 88 89 90 0.025 upu_tsai_init.gcl
+   - Visualize: geomview upu_tsai_init.gcl share/axes.list
+   - Backup the result cp examples/UPU3/UPU3_Tsai.sol examples/UPU3/UPU3_Tsai_init.sol
+   - Relax the range for variable d_l1_1_l1_2_1 (set it to [0,0.5]).
+   - Solve again: scripts/cuikmpi examples/UPU3/UPU3_Tsai.cuik
+   - Plot again: \ref cuikplot3d.c "bin/cuikplot3d" examples/UPU3/UPU3_Tsai 88 89 90 0 upu_tsai_all.gcl
+   - Visualize all the results: geomview upu_tsai_init.gcl upu_tsai_all.gcl share/axes.list
+   .
+
+*/

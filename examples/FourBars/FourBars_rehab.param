@@ -1,0 +1,41 @@
+%%%%                      PARAMETERS                          %%%%
+
+% Dynamic related parameters ----------
+
+DYNAMICS = 4  % 1->implicit trapezoid in local  2->Euler in local  3->RK4 in local  4->Euler  5->RK4
+N_DYNAMIC_ACTIONS = 5 % 3
+DYNAMIC_GOAL_ERROR = 0.05
+INTEGRATION_TIME = 0.1
+LQR_PLANNING_TIME = 3
+G_AXIS = -Y
+
+% Path planning parameters -----------
+
+N_DOF=2 %dimension of the manifold to explore (state space or configuration space)
+
+BI_RRT = TRUE
+
+MAX_NODES_RRT = 50000 % 5000
+MAX_PLANNING_TIME = 600
+MAX_CHARTS = 100000
+
+DELTA = 0.05
+
+R = 1  % 2*N_DOF
+SR= 2*R
+E = 0.1
+CE= 0.1
+
+% Formulation parameters -----------
+
+REPRESENTATION = JOINTS
+
+DUMMIFY = 0
+
+SIMPLIFICATION_LEVEL = 1
+
+% Numerical parameters -----------
+
+EPSILON = 1e-8
+
+MAX_NEWTON_ITERATIONS = 50

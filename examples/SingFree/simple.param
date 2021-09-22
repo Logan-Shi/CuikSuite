@@ -1,0 +1,15 @@
+%%%%                      PARAMETERS                          %%%%
+
+EPSILON = 1e-6
+
+SIGMA = 0.05
+
+R     = 0.75
+E     = 0.25
+
+N_DOF=2
+
+MAX_NEWTON_ITERATIONS = 20
+
+DUMMIFY = 0
+% SIMPLIFICATION_LEVEL = 0

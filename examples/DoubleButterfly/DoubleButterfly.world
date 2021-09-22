@@ -1,0 +1,113 @@
+/* Double Butterfy linkage */
+
+/** \cond */
+[CONSTANTS]
+
+% lengths of the bars connecting the triangles
+lb1:=11
+lb2:= 9
+lb3:= 7
+lb4:=12
+
+% radius of the cylinders defining the bars
+rb:=0.1
+
+% radius of the spheres at the joints
+rs:=0.2
+
+% length of the revolute axes
+lr:=1
+
+[LINKS]
+
+t1: body "bodies/triangle1.off" color (0.5,0.5,0)
+
+t2: body "bodies/triangle2.off" color (0.7,0.7,0)
+    sphere rs (0,0,0) red
+
+t3: body "bodies/triangle3.off" color (0.9,0.9,0)
+
+t4: body "bodies/triangle4.off" color (1,1,0)
+    sphere rs (0,0,0) red
+
+b1: cylinder rb (  0,0,0) (lb1,0,0) black
+    sphere   rs (  0,0,0)           red  
+    sphere   rs (lb1,0,0)           red 
+
+b2: cylinder rb (  0,0,0) (lb2,0,0) black
+    sphere   rs (  0,0,0)           red 
+    sphere   rs (lb2,0,0)           red 
+
+b3: cylinder rb (  0,0,0) (lb3,0,0) black
+    sphere   rs (  0,0,0)            red 
+    sphere   rs (lb3,0,0)           red 
+
+b4: cylinder rb (  0,0,0) (lb4,0,0) black
+    sphere   rs (  0,0,0)           red 
+    sphere   rs (lb4,0,0)           red 
+
+[JOINTS]
+
+revolute: t1 (-5.6,0,4.2) (-5.6,lr,4.2)
+          t2 ( 0,  0,  0) ( 0,  lr,  0)
+
+revolute: t3 (-3,0,4) (-3,lr,4)
+          t4 ( 0,0,0) ( 0,lr,0)
+
+revolute: t1 (0,0,0) (0,lr,0) 
+          b1 (0,0,0) (0,lr,0)
+
+revolute: b1 (lb1,0,0) (lb1,lr,0)
+          t3 (  0,0,0) (  0,lr,0)
+
+revolute: t2 (-2.4,0,1.8) (-2.4,lr,1.8)
+          b2 ( 0,  0,  0) ( 0,  lr,  0)
+
+revolute: b2 (lb2,0,0) (lb2,lr,0)
+          t3 ( -3,0,0) ( -3,lr,0)
+
+revolute: t2 (-2,0,0) (-2,lr,0)
+          b3 ( 0,0,0) ( 0,lr,0)
+
+revolute: b3 (lb3,0,0) (lb3,lr,0)
+          t4 ( -6,0,0) ( -6,lr,0)
+
+revolute: t1 (-13,0,0) (-13,lr,0)
+          b4 (  0,0,0) (  0,lr,0)
+
+revolute: b4 (lb4,0,0) (lb4,lr,0)
+          t4 ( -6.46,0,2.69) (-6.46,lr,2.69)
+
+
+/** \endcond */
+/** \file DoubleButterfly.world
+
+    \brief The \ref examples/DoubleButterfly "Double Butterfly" linkage: explicit formulation.
+
+    This is the \ref examples/DoubleButterfly "Double Butterfly" linkage, 
+    but with a one-dimensional continuums of solutions.
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/DoubleButterfly/DoubleButterfly</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/DoubleButterfly/DoubleButterfly </i>
+             .   
+     - <b>Sort the solutions</b>:
+             - <i> \ref cuiksort.c "bin/cuiksort" examples/DoubleButterfly/DoubleButterfly </i>
+             .
+     - <b>Visualize the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/DoubleButterfly/DoubleButterfly examples/DoubleButterfly/DoubleButterfly_1</i>
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/DoubleButterfly/DoubleButterfly examples/DoubleButterfly/DoubleButterfly_2</i>
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/DoubleButterfly/DoubleButterfly examples/DoubleButterfly/DoubleButterfly_3</i>
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/DoubleButterfly/DoubleButterfly examples/DoubleButterfly/DoubleButterfly_4</i>
+             .
+     - <b>Visualize the configuration space</b>: you will see the four connected components of the configuations space
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/DoubleButterfly/DoubleButterfly 3 7 21 0 db.gcl</i>
+	     - geomview db.gcl
+             .
+     .
+*/

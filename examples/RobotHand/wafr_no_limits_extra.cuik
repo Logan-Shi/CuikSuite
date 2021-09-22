@@ -1,0 +1,4 @@
+[SYSTEM EQS]
+
+   p22_u_x*p23_u_x + p22_u_y*p23_u_y + p22_u_z*p23_u_z - p23_u_x*p24_u_x - p23_u_y*p24_u_y - p23_u_z*p24_u_z = 0;   
+   p32_u_x*p33_u_x + p32_u_y*p33_u_y + p32_u_z*p33_u_z - p33_u_x*p34_u_x - p33_u_y*p34_u_y - p33_u_z*p34_u_z = 0;

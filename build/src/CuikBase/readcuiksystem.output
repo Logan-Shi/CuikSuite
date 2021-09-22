@@ -1,0 +1,6722 @@
+Terminals unused in grammar
+
+    _MIN_PRECEDENCE
+    '\''
+
+
+Grammar
+
+    0 $accept: problem $end
+
+    1 problem: ct_defs var_defs non_dynamic_vars system_eqs coord_eqs dummy_eqs non_dynamic_eqs velocity_eqs search
+
+    2 ct_defs: _CONSTANTS ct_list
+    3        | %empty
+
+    4 ct_list: ct_definition ct_list
+    5        | %empty
+
+    6 ct_definition: _IDENTIFIER _ASSIGN expr
+    7              | _PRINT _IDENTIFIER
+
+    8 expr: '+' expr
+    9     | '-' expr
+   10     | expr '+' expr
+   11     | expr '-' expr
+   12     | expr '*' expr
+   13     | expr '^' expr
+   14     | expr '/' expr
+   15     | '(' expr ')'
+   16     | '(' expr '?' expr ':' expr ')'
+   17     | expr _EQUAL expr
+   18     | expr _NOT_EQUAL expr
+   19     | expr _LEQ expr
+   20     | expr _GEQ expr
+   21     | expr _LESS expr
+   22     | expr _GREATER expr
+   23     | _PI
+   24     | _INF
+   25     | _SIN '(' expr ')'
+   26     | _COS '(' expr ')'
+   27     | _TAN '(' expr ')'
+   28     | _COT '(' expr ')'
+   29     | _ASIN '(' expr ')'
+   30     | _ACOS '(' expr ')'
+   31     | _ATAN '(' expr ')'
+   32     | _ATAN2 '(' expr ',' expr ')'
+   33     | _EXP '(' expr ')'
+   34     | _PWP '(' expr ')'
+   35     | _SQRT '(' expr ')'
+   36     | _ABS '(' expr ')'
+   37     | _PARAMETER '(' _IDENTIFIER ')'
+   38     | _DIFF '(' _IDENTIFIER ')'
+   39     | _IDENTIFIER
+   40     | _INTEGER
+   41     | _REAL
+
+   42 var_defs: var_block var_defs
+   43         | %empty
+
+   44 var_block: system_vars
+   45          | secondary_vars
+   46          | dummy_vars
+   47          | cartesian_vars
+   48          | velocity_vars
+
+   49 $@1: %empty
+
+   50 system_vars: _SYSTEM_VARS $@1 range_list
+
+   51 $@2: %empty
+
+   52 secondary_vars: _SECONDARY_VARS $@2 range_list
+
+   53 $@3: %empty
+
+   54 dummy_vars: _DUMMY_VARS $@3 range_list
+
+   55 $@4: %empty
+
+   56 cartesian_vars: _CARTESIAN_VARS $@4 range_list
+
+   57 $@5: %empty
+
+   58 velocity_vars: _VELOCITY_VARS $@5 vrange_list
+
+   59 $@6: %empty
+
+   60 non_dynamic_vars: _NON_DYNAMIC_VARS $@6 range_list
+   61                 | %empty
+
+   62 range_list: range_definition range_list
+   63           | %empty
+
+   64 vrange_list: vrange_definition vrange_list
+   65            | %empty
+
+   66 topology: ':'
+   67         | '~'
+
+   68 range_definition: _IDENTIFIER topology '[' expr ',' expr ']'
+
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' ':' '[' expr ',' expr ']'
+
+   70 $@7: %empty
+
+   71 system_eqs: _SYSTEM_EQS $@7 eq_list meq_list
+   72           | %empty
+
+   73 $@8: %empty
+
+   74 coord_eqs: _COORD_EQS $@8 eq_list
+   75          | %empty
+
+   76 $@9: %empty
+
+   77 dummy_eqs: _DUMMY_EQS $@9 eq_list
+   78          | %empty
+
+   79 $@10: %empty
+
+   80 non_dynamic_eqs: _NON_DYNAMIC_EQS $@10 eq_list meq_list
+   81                | %empty
+
+   82 $@11: %empty
+
+   83 velocity_eqs: _VELOCITY_EQS $@11 eq_list vmeq_list
+   84             | %empty
+
+   85 search: _SEARCH search_type
+   86       | %empty
+
+   87 search_type: _DEPTH _FIRST
+   88            | _BREADTH _FIRST
+   89            | _MIN monomials
+
+   90 $@12: %empty
+
+   91 eq_list: equation $@12 eq_list
+   92        | %empty
+
+   93 $@13: %empty
+
+   94 equation: monomials cmp $@13 monomials ';'
+
+   95 $@14: %empty
+
+   96 monomials: opt_sign monomial $@14 more_monomials
+
+   97 $@15: %empty
+
+   98 more_monomials: sign monomial $@15 more_monomials
+   99               | %empty
+
+  100 opt_sign: sign
+  101         | %empty
+
+  102 sign: '+'
+  103     | '-'
+
+  104 monomial: item '*' monomial
+  105         | item
+
+  106 item: _REAL power
+  107     | _INTEGER power
+  108     | _SIN '(' expr ')' power
+  109     | _COS '(' expr ')' power
+  110     | _TAN '(' expr ')' power
+  111     | _EXP '(' expr ')' power
+  112     | _PWP '(' expr ')' power
+  113     | _PI power
+  114     | _DIFF '(' _IDENTIFIER ')' power
+  115     | _IDENTIFIER power
+
+  116 power: '^' _INTEGER
+  117      | %empty
+
+  118 cmp: _EQU
+  119    | _LEQ
+  120    | _GEQ
+
+  121 $@16: %empty
+
+  122 meq_list: mequation _EQU _ID ';' $@16 meq_list
+  123         | %empty
+
+  124 $@17: %empty
+
+  125 vmeq_list: mequation_list _EQU _Z ';' $@17 vmeq_list
+  126          | %empty
+
+  127 mequation_list: mequation_list '+' scaled_mequation
+  128               | scaled_mequation
+
+  129 scaled_mequation: mequation scale_mequation
+
+  130 scale_mequation: '*' _DIFF '(' _IDENTIFIER ')'
+  131                | %empty
+
+  132 mequation: mequation '*' mitem
+  133          | mitem
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+  135      | _TV '(' expr ',' expr ',' expr ',' expr ')' opt_invert
+  136      | trans_type '(' expr ')' opt_invert
+  137      | patch_type '(' four_points ';' _IDENTIFIER ',' _IDENTIFIER ')' opt_invert
+
+  138 opt_invert: _INV
+  139           | %empty
+
+  140 trans_type: _TX
+  141           | _TY
+  142           | _TZ
+  143           | _RX
+  144           | _RY
+  145           | _RZ
+  146           | _DRX
+  147           | _DRY
+  148           | _DRZ
+  149           | _DDRX
+  150           | _DDRY
+  151           | _DDRZ
+
+  152 patch_type: _PA
+  153           | _DPA_U
+  154           | _DPA_V
+  155           | _DDPA_UU
+  156           | _DDPA_UV
+  157           | _DDPA_VV
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '\'' (39)
+    '(' (40) 15 16 25 26 27 28 29 30 31 32 33 34 35 36 37 38 69 108 109 110 111 112 114 130 134 135 136 137
+    ')' (41) 15 16 25 26 27 28 29 30 31 32 33 34 35 36 37 38 69 108 109 110 111 112 114 130 134 135 136 137
+    '*' (42) 12 104 130 132
+    '+' (43) 8 10 102 127
+    ',' (44) 32 68 69 134 135 137 158
+    '-' (45) 9 11 103
+    '/' (47) 14
+    ':' (58) 16 66 69
+    ';' (59) 94 122 125 134 137 158
+    '?' (63) 16
+    '[' (91) 68 69
+    ']' (93) 68 69
+    '^' (94) 13 116
+    '~' (126) 67
+    error (256)
+    _CONSTANTS (258) 2
+    _SYSTEM_VARS (259) 50
+    _SECONDARY_VARS (260) 52
+    _DUMMY_VARS (261) 54
+    _CARTESIAN_VARS (262) 56
+    _VELOCITY_VARS (263) 58
+    _NON_DYNAMIC_VARS (264) 60
+    _SYSTEM_EQS (265) 71
+    _COORD_EQS (266) 74
+    _DUMMY_EQS (267) 77
+    _VELOCITY_EQS (268) 83
+    _NON_DYNAMIC_EQS (269) 80
+    _SEARCH (270) 85
+    _DEPTH (271) 87
+    _BREADTH (272) 88
+    _FIRST (273) 87 88
+    _MIN (274) 89
+    _EQU (275) 118 122 125
+    _LEQ (276) 19 119
+    _GEQ (277) 20 120
+    _ASSIGN (278) 6
+    _INF (279) 24
+    _PI (280) 23 113
+    _SIN (281) 25 108
+    _COS (282) 26 109
+    _TAN (283) 27 110
+    _COT (284) 28
+    _ACOS (285) 30
+    _ASIN (286) 29
+    _ATAN (287) 31
+    _ATAN2 (288) 32
+    _EXP (289) 33 111
+    _PWP (290) 34 112
+    _SQRT (291) 35
+    _ABS (292) 36
+    _DIFF (293) 38 69 114 130
+    _PARAMETER (294) 37
+    _PRINT (295) 7
+    _TR (296) 134
+    _TX (297) 140
+    _TY (298) 141
+    _TZ (299) 142
+    _TV (300) 135
+    _PA (301) 152
+    _RX (302) 143
+    _RY (303) 144
+    _RZ (304) 145
+    _ID (305) 122
+    _Z (306) 125
+    _DRX (307) 146
+    _DRY (308) 147
+    _DRZ (309) 148
+    _DPA_U (310) 153
+    _DPA_V (311) 154
+    _DDRX (312) 149
+    _DDRY (313) 150
+    _DDRZ (314) 151
+    _DDPA_UU (315) 155
+    _DDPA_UV (316) 156
+    _DDPA_VV (317) 157
+    _INV (318) 138
+    _EQUAL (319) 17
+    _LESS (320) 21
+    _GREATER (321) 22
+    _IDENTIFIER <id> (322) 6 7 37 38 39 68 69 114 115 130 137
+    _INTEGER <int_number> (323) 40 107 116
+    _REAL <real_number> (324) 41 106
+    _MIN_PRECEDENCE (325)
+    _NOT_EQUAL (326) 18
+    _MAX_PRECEDENCE (327)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (88)
+        on left: 0
+    problem (89)
+        on left: 1
+        on right: 0
+    ct_defs (90)
+        on left: 2 3
+        on right: 1
+    ct_list (91)
+        on left: 4 5
+        on right: 2 4
+    ct_definition (92)
+        on left: 6 7
+        on right: 4
+    expr <expr> (93)
+        on left: 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41
+        on right: 6 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 25 26 27 28 29 30 31 32 33 34 35 36 68 69 108 109 110 111 112 134 135 136 158
+    var_defs (94)
+        on left: 42 43
+        on right: 1 42
+    var_block (95)
+        on left: 44 45 46 47 48
+        on right: 42
+    system_vars (96)
+        on left: 50
+        on right: 44
+    $@1 (97)
+        on left: 49
+        on right: 50
+    secondary_vars (98)
+        on left: 52
+        on right: 45
+    $@2 (99)
+        on left: 51
+        on right: 52
+    dummy_vars (100)
+        on left: 54
+        on right: 46
+    $@3 (101)
+        on left: 53
+        on right: 54
+    cartesian_vars (102)
+        on left: 56
+        on right: 47
+    $@4 (103)
+        on left: 55
+        on right: 56
+    velocity_vars (104)
+        on left: 58
+        on right: 48
+    $@5 (105)
+        on left: 57
+        on right: 58
+    non_dynamic_vars (106)
+        on left: 60 61
+        on right: 1
+    $@6 (107)
+        on left: 59
+        on right: 60
+    range_list (108)
+        on left: 62 63
+        on right: 50 52 54 56 60 62
+    vrange_list (109)
+        on left: 64 65
+        on right: 58 64
+    topology (110)
+        on left: 66 67
+        on right: 68
+    range_definition (111)
+        on left: 68
+        on right: 62
+    vrange_definition (112)
+        on left: 69
+        on right: 64
+    system_eqs (113)
+        on left: 71 72
+        on right: 1
+    $@7 (114)
+        on left: 70
+        on right: 71
+    coord_eqs (115)
+        on left: 74 75
+        on right: 1
+    $@8 (116)
+        on left: 73
+        on right: 74
+    dummy_eqs (117)
+        on left: 77 78
+        on right: 1
+    $@9 (118)
+        on left: 76
+        on right: 77
+    non_dynamic_eqs (119)
+        on left: 80 81
+        on right: 1
+    $@10 (120)
+        on left: 79
+        on right: 80
+    velocity_eqs (121)
+        on left: 83 84
+        on right: 1
+    $@11 (122)
+        on left: 82
+        on right: 83
+    search (123)
+        on left: 85 86
+        on right: 1
+    search_type (124)
+        on left: 87 88 89
+        on right: 85
+    eq_list (125)
+        on left: 91 92
+        on right: 71 74 77 80 83 91
+    $@12 (126)
+        on left: 90
+        on right: 91
+    equation (127)
+        on left: 94
+        on right: 91
+    $@13 (128)
+        on left: 93
+        on right: 94
+    monomials (129)
+        on left: 96
+        on right: 89 94
+    $@14 (130)
+        on left: 95
+        on right: 96
+    more_monomials (131)
+        on left: 98 99
+        on right: 96 98
+    $@15 (132)
+        on left: 97
+        on right: 98
+    opt_sign (133)
+        on left: 100 101
+        on right: 96
+    sign (134)
+        on left: 102 103
+        on right: 98 100
+    monomial (135)
+        on left: 104 105
+        on right: 96 98 104
+    item (136)
+        on left: 106 107 108 109 110 111 112 113 114 115
+        on right: 104 105
+    power <int_number> (137)
+        on left: 116 117
+        on right: 106 107 108 109 110 111 112 113 114 115
+    cmp <int_number> (138)
+        on left: 118 119 120
+        on right: 94
+    meq_list (139)
+        on left: 122 123
+        on right: 71 80 122
+    $@16 (140)
+        on left: 121
+        on right: 122
+    vmeq_list (141)
+        on left: 125 126
+        on right: 83 125
+    $@17 (142)
+        on left: 124
+        on right: 125
+    mequation_list (143)
+        on left: 127 128
+        on right: 125 127
+    scaled_mequation (144)
+        on left: 129
+        on right: 127 128
+    scale_mequation (145)
+        on left: 130 131
+        on right: 129
+    mequation (146)
+        on left: 132 133
+        on right: 122 129 132
+    mitem (147)
+        on left: 134 135 136 137
+        on right: 132 133
+    opt_invert <int_number> (148)
+        on left: 138 139
+        on right: 134 135 136 137
+    trans_type <int_number> (149)
+        on left: 140 141 142 143 144 145 146 147 148 149 150 151
+        on right: 136
+    patch_type <int_number> (150)
+        on left: 152 153 154 155 156 157
+        on right: 137
+    four_points (151)
+        on left: 158
+        on right: 137
+
+
+State 0
+
+    0 $accept: . problem $end
+
+    _CONSTANTS  shift, and go to state 1
+
+    $default  reduce using rule 3 (ct_defs)
+
+    problem  go to state 2
+    ct_defs  go to state 3
+
+
+State 1
+
+    2 ct_defs: _CONSTANTS . ct_list
+
+    _PRINT       shift, and go to state 4
+    _IDENTIFIER  shift, and go to state 5
+
+    $default  reduce using rule 5 (ct_list)
+
+    ct_list        go to state 6
+    ct_definition  go to state 7
+
+
+State 2
+
+    0 $accept: problem . $end
+
+    $end  shift, and go to state 8
+
+
+State 3
+
+    1 problem: ct_defs . var_defs non_dynamic_vars system_eqs coord_eqs dummy_eqs non_dynamic_eqs velocity_eqs search
+
+    _SYSTEM_VARS     shift, and go to state 9
+    _SECONDARY_VARS  shift, and go to state 10
+    _DUMMY_VARS      shift, and go to state 11
+    _CARTESIAN_VARS  shift, and go to state 12
+    _VELOCITY_VARS   shift, and go to state 13
+
+    $default  reduce using rule 43 (var_defs)
+
+    var_defs        go to state 14
+    var_block       go to state 15
+    system_vars     go to state 16
+    secondary_vars  go to state 17
+    dummy_vars      go to state 18
+    cartesian_vars  go to state 19
+    velocity_vars   go to state 20
+
+
+State 4
+
+    7 ct_definition: _PRINT . _IDENTIFIER
+
+    _IDENTIFIER  shift, and go to state 21
+
+
+State 5
+
+    6 ct_definition: _IDENTIFIER . _ASSIGN expr
+
+    _ASSIGN  shift, and go to state 22
+
+
+State 6
+
+    2 ct_defs: _CONSTANTS ct_list .
+
+    $default  reduce using rule 2 (ct_defs)
+
+
+State 7
+
+    4 ct_list: ct_definition . ct_list
+
+    _PRINT       shift, and go to state 4
+    _IDENTIFIER  shift, and go to state 5
+
+    $default  reduce using rule 5 (ct_list)
+
+    ct_list        go to state 23
+    ct_definition  go to state 7
+
+
+State 8
+
+    0 $accept: problem $end .
+
+    $default  accept
+
+
+State 9
+
+   50 system_vars: _SYSTEM_VARS . $@1 range_list
+
+    $default  reduce using rule 49 ($@1)
+
+    $@1  go to state 24
+
+
+State 10
+
+   52 secondary_vars: _SECONDARY_VARS . $@2 range_list
+
+    $default  reduce using rule 51 ($@2)
+
+    $@2  go to state 25
+
+
+State 11
+
+   54 dummy_vars: _DUMMY_VARS . $@3 range_list
+
+    $default  reduce using rule 53 ($@3)
+
+    $@3  go to state 26
+
+
+State 12
+
+   56 cartesian_vars: _CARTESIAN_VARS . $@4 range_list
+
+    $default  reduce using rule 55 ($@4)
+
+    $@4  go to state 27
+
+
+State 13
+
+   58 velocity_vars: _VELOCITY_VARS . $@5 vrange_list
+
+    $default  reduce using rule 57 ($@5)
+
+    $@5  go to state 28
+
+
+State 14
+
+    1 problem: ct_defs var_defs . non_dynamic_vars system_eqs coord_eqs dummy_eqs non_dynamic_eqs velocity_eqs search
+
+    _NON_DYNAMIC_VARS  shift, and go to state 29
+
+    $default  reduce using rule 61 (non_dynamic_vars)
+
+    non_dynamic_vars  go to state 30
+
+
+State 15
+
+   42 var_defs: var_block . var_defs
+
+    _SYSTEM_VARS     shift, and go to state 9
+    _SECONDARY_VARS  shift, and go to state 10
+    _DUMMY_VARS      shift, and go to state 11
+    _CARTESIAN_VARS  shift, and go to state 12
+    _VELOCITY_VARS   shift, and go to state 13
+
+    $default  reduce using rule 43 (var_defs)
+
+    var_defs        go to state 31
+    var_block       go to state 15
+    system_vars     go to state 16
+    secondary_vars  go to state 17
+    dummy_vars      go to state 18
+    cartesian_vars  go to state 19
+    velocity_vars   go to state 20
+
+
+State 16
+
+   44 var_block: system_vars .
+
+    $default  reduce using rule 44 (var_block)
+
+
+State 17
+
+   45 var_block: secondary_vars .
+
+    $default  reduce using rule 45 (var_block)
+
+
+State 18
+
+   46 var_block: dummy_vars .
+
+    $default  reduce using rule 46 (var_block)
+
+
+State 19
+
+   47 var_block: cartesian_vars .
+
+    $default  reduce using rule 47 (var_block)
+
+
+State 20
+
+   48 var_block: velocity_vars .
+
+    $default  reduce using rule 48 (var_block)
+
+
+State 21
+
+    7 ct_definition: _PRINT _IDENTIFIER .
+
+    $default  reduce using rule 7 (ct_definition)
+
+
+State 22
+
+    6 ct_definition: _IDENTIFIER _ASSIGN . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 54
+
+
+State 23
+
+    4 ct_list: ct_definition ct_list .
+
+    $default  reduce using rule 4 (ct_list)
+
+
+State 24
+
+   50 system_vars: _SYSTEM_VARS $@1 . range_list
+
+    _IDENTIFIER  shift, and go to state 55
+
+    $default  reduce using rule 63 (range_list)
+
+    range_list        go to state 56
+    range_definition  go to state 57
+
+
+State 25
+
+   52 secondary_vars: _SECONDARY_VARS $@2 . range_list
+
+    _IDENTIFIER  shift, and go to state 55
+
+    $default  reduce using rule 63 (range_list)
+
+    range_list        go to state 58
+    range_definition  go to state 57
+
+
+State 26
+
+   54 dummy_vars: _DUMMY_VARS $@3 . range_list
+
+    _IDENTIFIER  shift, and go to state 55
+
+    $default  reduce using rule 63 (range_list)
+
+    range_list        go to state 59
+    range_definition  go to state 57
+
+
+State 27
+
+   56 cartesian_vars: _CARTESIAN_VARS $@4 . range_list
+
+    _IDENTIFIER  shift, and go to state 55
+
+    $default  reduce using rule 63 (range_list)
+
+    range_list        go to state 60
+    range_definition  go to state 57
+
+
+State 28
+
+   58 velocity_vars: _VELOCITY_VARS $@5 . vrange_list
+
+    _DIFF  shift, and go to state 61
+
+    $default  reduce using rule 65 (vrange_list)
+
+    vrange_list        go to state 62
+    vrange_definition  go to state 63
+
+
+State 29
+
+   60 non_dynamic_vars: _NON_DYNAMIC_VARS . $@6 range_list
+
+    $default  reduce using rule 59 ($@6)
+
+    $@6  go to state 64
+
+
+State 30
+
+    1 problem: ct_defs var_defs non_dynamic_vars . system_eqs coord_eqs dummy_eqs non_dynamic_eqs velocity_eqs search
+
+    _SYSTEM_EQS  shift, and go to state 65
+
+    $default  reduce using rule 72 (system_eqs)
+
+    system_eqs  go to state 66
+
+
+State 31
+
+   42 var_defs: var_block var_defs .
+
+    $default  reduce using rule 42 (var_defs)
+
+
+State 32
+
+   24 expr: _INF .
+
+    $default  reduce using rule 24 (expr)
+
+
+State 33
+
+   23 expr: _PI .
+
+    $default  reduce using rule 23 (expr)
+
+
+State 34
+
+   25 expr: _SIN . '(' expr ')'
+
+    '('  shift, and go to state 67
+
+
+State 35
+
+   26 expr: _COS . '(' expr ')'
+
+    '('  shift, and go to state 68
+
+
+State 36
+
+   27 expr: _TAN . '(' expr ')'
+
+    '('  shift, and go to state 69
+
+
+State 37
+
+   28 expr: _COT . '(' expr ')'
+
+    '('  shift, and go to state 70
+
+
+State 38
+
+   30 expr: _ACOS . '(' expr ')'
+
+    '('  shift, and go to state 71
+
+
+State 39
+
+   29 expr: _ASIN . '(' expr ')'
+
+    '('  shift, and go to state 72
+
+
+State 40
+
+   31 expr: _ATAN . '(' expr ')'
+
+    '('  shift, and go to state 73
+
+
+State 41
+
+   32 expr: _ATAN2 . '(' expr ',' expr ')'
+
+    '('  shift, and go to state 74
+
+
+State 42
+
+   33 expr: _EXP . '(' expr ')'
+
+    '('  shift, and go to state 75
+
+
+State 43
+
+   34 expr: _PWP . '(' expr ')'
+
+    '('  shift, and go to state 76
+
+
+State 44
+
+   35 expr: _SQRT . '(' expr ')'
+
+    '('  shift, and go to state 77
+
+
+State 45
+
+   36 expr: _ABS . '(' expr ')'
+
+    '('  shift, and go to state 78
+
+
+State 46
+
+   38 expr: _DIFF . '(' _IDENTIFIER ')'
+
+    '('  shift, and go to state 79
+
+
+State 47
+
+   37 expr: _PARAMETER . '(' _IDENTIFIER ')'
+
+    '('  shift, and go to state 80
+
+
+State 48
+
+   39 expr: _IDENTIFIER .
+
+    $default  reduce using rule 39 (expr)
+
+
+State 49
+
+   40 expr: _INTEGER .
+
+    $default  reduce using rule 40 (expr)
+
+
+State 50
+
+   41 expr: _REAL .
+
+    $default  reduce using rule 41 (expr)
+
+
+State 51
+
+    8 expr: '+' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 81
+
+
+State 52
+
+    9 expr: '-' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 82
+
+
+State 53
+
+   15 expr: '(' . expr ')'
+   16     | '(' . expr '?' expr ':' expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 83
+
+
+State 54
+
+    6 ct_definition: _IDENTIFIER _ASSIGN expr .
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+
+    $default  reduce using rule 6 (ct_definition)
+
+
+State 55
+
+   68 range_definition: _IDENTIFIER . topology '[' expr ',' expr ']'
+
+    ':'  shift, and go to state 95
+    '~'  shift, and go to state 96
+
+    topology  go to state 97
+
+
+State 56
+
+   50 system_vars: _SYSTEM_VARS $@1 range_list .
+
+    $default  reduce using rule 50 (system_vars)
+
+
+State 57
+
+   62 range_list: range_definition . range_list
+
+    _IDENTIFIER  shift, and go to state 55
+
+    $default  reduce using rule 63 (range_list)
+
+    range_list        go to state 98
+    range_definition  go to state 57
+
+
+State 58
+
+   52 secondary_vars: _SECONDARY_VARS $@2 range_list .
+
+    $default  reduce using rule 52 (secondary_vars)
+
+
+State 59
+
+   54 dummy_vars: _DUMMY_VARS $@3 range_list .
+
+    $default  reduce using rule 54 (dummy_vars)
+
+
+State 60
+
+   56 cartesian_vars: _CARTESIAN_VARS $@4 range_list .
+
+    $default  reduce using rule 56 (cartesian_vars)
+
+
+State 61
+
+   69 vrange_definition: _DIFF . '(' _IDENTIFIER ')' ':' '[' expr ',' expr ']'
+
+    '('  shift, and go to state 99
+
+
+State 62
+
+   58 velocity_vars: _VELOCITY_VARS $@5 vrange_list .
+
+    $default  reduce using rule 58 (velocity_vars)
+
+
+State 63
+
+   64 vrange_list: vrange_definition . vrange_list
+
+    _DIFF  shift, and go to state 61
+
+    $default  reduce using rule 65 (vrange_list)
+
+    vrange_list        go to state 100
+    vrange_definition  go to state 63
+
+
+State 64
+
+   60 non_dynamic_vars: _NON_DYNAMIC_VARS $@6 . range_list
+
+    _IDENTIFIER  shift, and go to state 55
+
+    $default  reduce using rule 63 (range_list)
+
+    range_list        go to state 101
+    range_definition  go to state 57
+
+
+State 65
+
+   71 system_eqs: _SYSTEM_EQS . $@7 eq_list meq_list
+
+    $default  reduce using rule 70 ($@7)
+
+    $@7  go to state 102
+
+
+State 66
+
+    1 problem: ct_defs var_defs non_dynamic_vars system_eqs . coord_eqs dummy_eqs non_dynamic_eqs velocity_eqs search
+
+    _COORD_EQS  shift, and go to state 103
+
+    $default  reduce using rule 75 (coord_eqs)
+
+    coord_eqs  go to state 104
+
+
+State 67
+
+   25 expr: _SIN '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 105
+
+
+State 68
+
+   26 expr: _COS '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 106
+
+
+State 69
+
+   27 expr: _TAN '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 107
+
+
+State 70
+
+   28 expr: _COT '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 108
+
+
+State 71
+
+   30 expr: _ACOS '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 109
+
+
+State 72
+
+   29 expr: _ASIN '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 110
+
+
+State 73
+
+   31 expr: _ATAN '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 111
+
+
+State 74
+
+   32 expr: _ATAN2 '(' . expr ',' expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 112
+
+
+State 75
+
+   33 expr: _EXP '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 113
+
+
+State 76
+
+   34 expr: _PWP '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 114
+
+
+State 77
+
+   35 expr: _SQRT '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 115
+
+
+State 78
+
+   36 expr: _ABS '(' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 116
+
+
+State 79
+
+   38 expr: _DIFF '(' . _IDENTIFIER ')'
+
+    _IDENTIFIER  shift, and go to state 117
+
+
+State 80
+
+   37 expr: _PARAMETER '(' . _IDENTIFIER ')'
+
+    _IDENTIFIER  shift, and go to state 118
+
+
+State 81
+
+    8 expr: '+' expr .
+   10     | expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    $default  reduce using rule 8 (expr)
+
+
+State 82
+
+    9 expr: '-' expr .
+   10     | expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    $default  reduce using rule 9 (expr)
+
+
+State 83
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   15     | '(' expr . ')'
+   16     | '(' expr . '?' expr ':' expr ')'
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 119
+    '?'         shift, and go to state 120
+
+
+State 84
+
+   19 expr: expr _LEQ . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 121
+
+
+State 85
+
+   20 expr: expr _GEQ . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 122
+
+
+State 86
+
+   17 expr: expr _EQUAL . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 123
+
+
+State 87
+
+   21 expr: expr _LESS . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 124
+
+
+State 88
+
+   22 expr: expr _GREATER . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 125
+
+
+State 89
+
+   18 expr: expr _NOT_EQUAL . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 126
+
+
+State 90
+
+   10 expr: expr '+' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 127
+
+
+State 91
+
+   11 expr: expr '-' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 128
+
+
+State 92
+
+   12 expr: expr '*' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 129
+
+
+State 93
+
+   14 expr: expr '/' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 130
+
+
+State 94
+
+   13 expr: expr '^' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 131
+
+
+State 95
+
+   66 topology: ':' .
+
+    $default  reduce using rule 66 (topology)
+
+
+State 96
+
+   67 topology: '~' .
+
+    $default  reduce using rule 67 (topology)
+
+
+State 97
+
+   68 range_definition: _IDENTIFIER topology . '[' expr ',' expr ']'
+
+    '['  shift, and go to state 132
+
+
+State 98
+
+   62 range_list: range_definition range_list .
+
+    $default  reduce using rule 62 (range_list)
+
+
+State 99
+
+   69 vrange_definition: _DIFF '(' . _IDENTIFIER ')' ':' '[' expr ',' expr ']'
+
+    _IDENTIFIER  shift, and go to state 133
+
+
+State 100
+
+   64 vrange_list: vrange_definition vrange_list .
+
+    $default  reduce using rule 64 (vrange_list)
+
+
+State 101
+
+   60 non_dynamic_vars: _NON_DYNAMIC_VARS $@6 range_list .
+
+    $default  reduce using rule 60 (non_dynamic_vars)
+
+
+State 102
+
+   71 system_eqs: _SYSTEM_EQS $@7 . eq_list meq_list
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    _PI          reduce using rule 101 (opt_sign)
+    _SIN         reduce using rule 101 (opt_sign)
+    _COS         reduce using rule 101 (opt_sign)
+    _TAN         reduce using rule 101 (opt_sign)
+    _EXP         reduce using rule 101 (opt_sign)
+    _PWP         reduce using rule 101 (opt_sign)
+    _DIFF        reduce using rule 101 (opt_sign)
+    _IDENTIFIER  reduce using rule 101 (opt_sign)
+    _INTEGER     reduce using rule 101 (opt_sign)
+    _REAL        reduce using rule 101 (opt_sign)
+    $default     reduce using rule 92 (eq_list)
+
+    eq_list    go to state 136
+    equation   go to state 137
+    monomials  go to state 138
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 103
+
+   74 coord_eqs: _COORD_EQS . $@8 eq_list
+
+    $default  reduce using rule 73 ($@8)
+
+    $@8  go to state 141
+
+
+State 104
+
+    1 problem: ct_defs var_defs non_dynamic_vars system_eqs coord_eqs . dummy_eqs non_dynamic_eqs velocity_eqs search
+
+    _DUMMY_EQS  shift, and go to state 142
+
+    $default  reduce using rule 78 (dummy_eqs)
+
+    dummy_eqs  go to state 143
+
+
+State 105
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   25     | _SIN '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 144
+
+
+State 106
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   26     | _COS '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 145
+
+
+State 107
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   27     | _TAN '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 146
+
+
+State 108
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   28     | _COT '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 147
+
+
+State 109
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   30     | _ACOS '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 148
+
+
+State 110
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   29     | _ASIN '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 149
+
+
+State 111
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   31     | _ATAN '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 150
+
+
+State 112
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   32     | _ATAN2 '(' expr . ',' expr ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 151
+
+
+State 113
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   33     | _EXP '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 152
+
+
+State 114
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   34     | _PWP '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 153
+
+
+State 115
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   35     | _SQRT '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 154
+
+
+State 116
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   36     | _ABS '(' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 155
+
+
+State 117
+
+   38 expr: _DIFF '(' _IDENTIFIER . ')'
+
+    ')'  shift, and go to state 156
+
+
+State 118
+
+   37 expr: _PARAMETER '(' _IDENTIFIER . ')'
+
+    ')'  shift, and go to state 157
+
+
+State 119
+
+   15 expr: '(' expr ')' .
+
+    $default  reduce using rule 15 (expr)
+
+
+State 120
+
+   16 expr: '(' expr '?' . expr ':' expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 158
+
+
+State 121
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   19     | expr _LEQ expr .
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 19 (expr)
+
+
+State 122
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   20     | expr _GEQ expr .
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 20 (expr)
+
+
+State 123
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   17     | expr _EQUAL expr .
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 17 (expr)
+
+
+State 124
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   21     | expr _LESS expr .
+   22     | expr . _GREATER expr
+
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 21 (expr)
+
+
+State 125
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   22     | expr _GREATER expr .
+
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 22 (expr)
+
+
+State 126
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   18     | expr _NOT_EQUAL expr .
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '+'  shift, and go to state 90
+    '-'  shift, and go to state 91
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 18 (expr)
+
+
+State 127
+
+   10 expr: expr . '+' expr
+   10     | expr '+' expr .
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 10 (expr)
+
+
+State 128
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   11     | expr '-' expr .
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '*'  shift, and go to state 92
+    '/'  shift, and go to state 93
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 11 (expr)
+
+
+State 129
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   12     | expr '*' expr .
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 12 (expr)
+
+
+State 130
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   14     | expr '/' expr .
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    '^'  shift, and go to state 94
+
+    $default  reduce using rule 14 (expr)
+
+
+State 131
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   13     | expr '^' expr .
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    $default  reduce using rule 13 (expr)
+
+
+State 132
+
+   68 range_definition: _IDENTIFIER topology '[' . expr ',' expr ']'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 159
+
+
+State 133
+
+   69 vrange_definition: _DIFF '(' _IDENTIFIER . ')' ':' '[' expr ',' expr ']'
+
+    ')'  shift, and go to state 160
+
+
+State 134
+
+  102 sign: '+' .
+
+    $default  reduce using rule 102 (sign)
+
+
+State 135
+
+  103 sign: '-' .
+
+    $default  reduce using rule 103 (sign)
+
+
+State 136
+
+   71 system_eqs: _SYSTEM_EQS $@7 eq_list . meq_list
+
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    $default  reduce using rule 123 (meq_list)
+
+    meq_list    go to state 181
+    mequation   go to state 182
+    mitem       go to state 183
+    trans_type  go to state 184
+    patch_type  go to state 185
+
+
+State 137
+
+   91 eq_list: equation . $@12 eq_list
+
+    $default  reduce using rule 90 ($@12)
+
+    $@12  go to state 186
+
+
+State 138
+
+   94 equation: monomials . cmp $@13 monomials ';'
+
+    _EQU  shift, and go to state 187
+    _LEQ  shift, and go to state 188
+    _GEQ  shift, and go to state 189
+
+    cmp  go to state 190
+
+
+State 139
+
+   96 monomials: opt_sign . monomial $@14 more_monomials
+
+    _PI          shift, and go to state 191
+    _SIN         shift, and go to state 192
+    _COS         shift, and go to state 193
+    _TAN         shift, and go to state 194
+    _EXP         shift, and go to state 195
+    _PWP         shift, and go to state 196
+    _DIFF        shift, and go to state 197
+    _IDENTIFIER  shift, and go to state 198
+    _INTEGER     shift, and go to state 199
+    _REAL        shift, and go to state 200
+
+    monomial  go to state 201
+    item      go to state 202
+
+
+State 140
+
+  100 opt_sign: sign .
+
+    $default  reduce using rule 100 (opt_sign)
+
+
+State 141
+
+   74 coord_eqs: _COORD_EQS $@8 . eq_list
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    $end              reduce using rule 92 (eq_list)
+    _DUMMY_EQS        reduce using rule 92 (eq_list)
+    _VELOCITY_EQS     reduce using rule 92 (eq_list)
+    _NON_DYNAMIC_EQS  reduce using rule 92 (eq_list)
+    _SEARCH           reduce using rule 92 (eq_list)
+    $default          reduce using rule 101 (opt_sign)
+
+    eq_list    go to state 203
+    equation   go to state 137
+    monomials  go to state 138
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 142
+
+   77 dummy_eqs: _DUMMY_EQS . $@9 eq_list
+
+    $default  reduce using rule 76 ($@9)
+
+    $@9  go to state 204
+
+
+State 143
+
+    1 problem: ct_defs var_defs non_dynamic_vars system_eqs coord_eqs dummy_eqs . non_dynamic_eqs velocity_eqs search
+
+    _NON_DYNAMIC_EQS  shift, and go to state 205
+
+    $default  reduce using rule 81 (non_dynamic_eqs)
+
+    non_dynamic_eqs  go to state 206
+
+
+State 144
+
+   25 expr: _SIN '(' expr ')' .
+
+    $default  reduce using rule 25 (expr)
+
+
+State 145
+
+   26 expr: _COS '(' expr ')' .
+
+    $default  reduce using rule 26 (expr)
+
+
+State 146
+
+   27 expr: _TAN '(' expr ')' .
+
+    $default  reduce using rule 27 (expr)
+
+
+State 147
+
+   28 expr: _COT '(' expr ')' .
+
+    $default  reduce using rule 28 (expr)
+
+
+State 148
+
+   30 expr: _ACOS '(' expr ')' .
+
+    $default  reduce using rule 30 (expr)
+
+
+State 149
+
+   29 expr: _ASIN '(' expr ')' .
+
+    $default  reduce using rule 29 (expr)
+
+
+State 150
+
+   31 expr: _ATAN '(' expr ')' .
+
+    $default  reduce using rule 31 (expr)
+
+
+State 151
+
+   32 expr: _ATAN2 '(' expr ',' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 207
+
+
+State 152
+
+   33 expr: _EXP '(' expr ')' .
+
+    $default  reduce using rule 33 (expr)
+
+
+State 153
+
+   34 expr: _PWP '(' expr ')' .
+
+    $default  reduce using rule 34 (expr)
+
+
+State 154
+
+   35 expr: _SQRT '(' expr ')' .
+
+    $default  reduce using rule 35 (expr)
+
+
+State 155
+
+   36 expr: _ABS '(' expr ')' .
+
+    $default  reduce using rule 36 (expr)
+
+
+State 156
+
+   38 expr: _DIFF '(' _IDENTIFIER ')' .
+
+    $default  reduce using rule 38 (expr)
+
+
+State 157
+
+   37 expr: _PARAMETER '(' _IDENTIFIER ')' .
+
+    $default  reduce using rule 37 (expr)
+
+
+State 158
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   16     | '(' expr '?' expr . ':' expr ')'
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ':'         shift, and go to state 208
+
+
+State 159
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   68 range_definition: _IDENTIFIER topology '[' expr . ',' expr ']'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 209
+
+
+State 160
+
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' . ':' '[' expr ',' expr ']'
+
+    ':'  shift, and go to state 210
+
+
+State 161
+
+  134 mitem: _TR . '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    '('  shift, and go to state 211
+
+
+State 162
+
+  140 trans_type: _TX .
+
+    $default  reduce using rule 140 (trans_type)
+
+
+State 163
+
+  141 trans_type: _TY .
+
+    $default  reduce using rule 141 (trans_type)
+
+
+State 164
+
+  142 trans_type: _TZ .
+
+    $default  reduce using rule 142 (trans_type)
+
+
+State 165
+
+  135 mitem: _TV . '(' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    '('  shift, and go to state 212
+
+
+State 166
+
+  152 patch_type: _PA .
+
+    $default  reduce using rule 152 (patch_type)
+
+
+State 167
+
+  143 trans_type: _RX .
+
+    $default  reduce using rule 143 (trans_type)
+
+
+State 168
+
+  144 trans_type: _RY .
+
+    $default  reduce using rule 144 (trans_type)
+
+
+State 169
+
+  145 trans_type: _RZ .
+
+    $default  reduce using rule 145 (trans_type)
+
+
+State 170
+
+  146 trans_type: _DRX .
+
+    $default  reduce using rule 146 (trans_type)
+
+
+State 171
+
+  147 trans_type: _DRY .
+
+    $default  reduce using rule 147 (trans_type)
+
+
+State 172
+
+  148 trans_type: _DRZ .
+
+    $default  reduce using rule 148 (trans_type)
+
+
+State 173
+
+  153 patch_type: _DPA_U .
+
+    $default  reduce using rule 153 (patch_type)
+
+
+State 174
+
+  154 patch_type: _DPA_V .
+
+    $default  reduce using rule 154 (patch_type)
+
+
+State 175
+
+  149 trans_type: _DDRX .
+
+    $default  reduce using rule 149 (trans_type)
+
+
+State 176
+
+  150 trans_type: _DDRY .
+
+    $default  reduce using rule 150 (trans_type)
+
+
+State 177
+
+  151 trans_type: _DDRZ .
+
+    $default  reduce using rule 151 (trans_type)
+
+
+State 178
+
+  155 patch_type: _DDPA_UU .
+
+    $default  reduce using rule 155 (patch_type)
+
+
+State 179
+
+  156 patch_type: _DDPA_UV .
+
+    $default  reduce using rule 156 (patch_type)
+
+
+State 180
+
+  157 patch_type: _DDPA_VV .
+
+    $default  reduce using rule 157 (patch_type)
+
+
+State 181
+
+   71 system_eqs: _SYSTEM_EQS $@7 eq_list meq_list .
+
+    $default  reduce using rule 71 (system_eqs)
+
+
+State 182
+
+  122 meq_list: mequation . _EQU _ID ';' $@16 meq_list
+  132 mequation: mequation . '*' mitem
+
+    _EQU  shift, and go to state 213
+    '*'   shift, and go to state 214
+
+
+State 183
+
+  133 mequation: mitem .
+
+    $default  reduce using rule 133 (mequation)
+
+
+State 184
+
+  136 mitem: trans_type . '(' expr ')' opt_invert
+
+    '('  shift, and go to state 215
+
+
+State 185
+
+  137 mitem: patch_type . '(' four_points ';' _IDENTIFIER ',' _IDENTIFIER ')' opt_invert
+
+    '('  shift, and go to state 216
+
+
+State 186
+
+   91 eq_list: equation $@12 . eq_list
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    _PI          reduce using rule 101 (opt_sign)
+    _SIN         reduce using rule 101 (opt_sign)
+    _COS         reduce using rule 101 (opt_sign)
+    _TAN         reduce using rule 101 (opt_sign)
+    _EXP         reduce using rule 101 (opt_sign)
+    _PWP         reduce using rule 101 (opt_sign)
+    _DIFF        reduce using rule 101 (opt_sign)
+    _IDENTIFIER  reduce using rule 101 (opt_sign)
+    _INTEGER     reduce using rule 101 (opt_sign)
+    _REAL        reduce using rule 101 (opt_sign)
+    $default     reduce using rule 92 (eq_list)
+
+    eq_list    go to state 217
+    equation   go to state 137
+    monomials  go to state 138
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 187
+
+  118 cmp: _EQU .
+
+    $default  reduce using rule 118 (cmp)
+
+
+State 188
+
+  119 cmp: _LEQ .
+
+    $default  reduce using rule 119 (cmp)
+
+
+State 189
+
+  120 cmp: _GEQ .
+
+    $default  reduce using rule 120 (cmp)
+
+
+State 190
+
+   94 equation: monomials cmp . $@13 monomials ';'
+
+    $default  reduce using rule 93 ($@13)
+
+    $@13  go to state 218
+
+
+State 191
+
+  113 item: _PI . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 220
+
+
+State 192
+
+  108 item: _SIN . '(' expr ')' power
+
+    '('  shift, and go to state 221
+
+
+State 193
+
+  109 item: _COS . '(' expr ')' power
+
+    '('  shift, and go to state 222
+
+
+State 194
+
+  110 item: _TAN . '(' expr ')' power
+
+    '('  shift, and go to state 223
+
+
+State 195
+
+  111 item: _EXP . '(' expr ')' power
+
+    '('  shift, and go to state 224
+
+
+State 196
+
+  112 item: _PWP . '(' expr ')' power
+
+    '('  shift, and go to state 225
+
+
+State 197
+
+  114 item: _DIFF . '(' _IDENTIFIER ')' power
+
+    '('  shift, and go to state 226
+
+
+State 198
+
+  115 item: _IDENTIFIER . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 227
+
+
+State 199
+
+  107 item: _INTEGER . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 228
+
+
+State 200
+
+  106 item: _REAL . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 229
+
+
+State 201
+
+   96 monomials: opt_sign monomial . $@14 more_monomials
+
+    $default  reduce using rule 95 ($@14)
+
+    $@14  go to state 230
+
+
+State 202
+
+  104 monomial: item . '*' monomial
+  105         | item .
+
+    '*'  shift, and go to state 231
+
+    $default  reduce using rule 105 (monomial)
+
+
+State 203
+
+   74 coord_eqs: _COORD_EQS $@8 eq_list .
+
+    $default  reduce using rule 74 (coord_eqs)
+
+
+State 204
+
+   77 dummy_eqs: _DUMMY_EQS $@9 . eq_list
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    $end              reduce using rule 92 (eq_list)
+    _VELOCITY_EQS     reduce using rule 92 (eq_list)
+    _NON_DYNAMIC_EQS  reduce using rule 92 (eq_list)
+    _SEARCH           reduce using rule 92 (eq_list)
+    $default          reduce using rule 101 (opt_sign)
+
+    eq_list    go to state 232
+    equation   go to state 137
+    monomials  go to state 138
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 205
+
+   80 non_dynamic_eqs: _NON_DYNAMIC_EQS . $@10 eq_list meq_list
+
+    $default  reduce using rule 79 ($@10)
+
+    $@10  go to state 233
+
+
+State 206
+
+    1 problem: ct_defs var_defs non_dynamic_vars system_eqs coord_eqs dummy_eqs non_dynamic_eqs . velocity_eqs search
+
+    _VELOCITY_EQS  shift, and go to state 234
+
+    $default  reduce using rule 84 (velocity_eqs)
+
+    velocity_eqs  go to state 235
+
+
+State 207
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   32     | _ATAN2 '(' expr ',' expr . ')'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 236
+
+
+State 208
+
+   16 expr: '(' expr '?' expr ':' . expr ')'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 237
+
+
+State 209
+
+   68 range_definition: _IDENTIFIER topology '[' expr ',' . expr ']'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 238
+
+
+State 210
+
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' ':' . '[' expr ',' expr ']'
+
+    '['  shift, and go to state 239
+
+
+State 211
+
+  134 mitem: _TR '(' . expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 240
+
+
+State 212
+
+  135 mitem: _TV '(' . expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 241
+
+
+State 213
+
+  122 meq_list: mequation _EQU . _ID ';' $@16 meq_list
+
+    _ID  shift, and go to state 242
+
+
+State 214
+
+  132 mequation: mequation '*' . mitem
+
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    mitem       go to state 243
+    trans_type  go to state 184
+    patch_type  go to state 185
+
+
+State 215
+
+  136 mitem: trans_type '(' . expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 244
+
+
+State 216
+
+  137 mitem: patch_type '(' . four_points ';' _IDENTIFIER ',' _IDENTIFIER ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr         go to state 245
+    four_points  go to state 246
+
+
+State 217
+
+   91 eq_list: equation $@12 eq_list .
+
+    $default  reduce using rule 91 (eq_list)
+
+
+State 218
+
+   94 equation: monomials cmp $@13 . monomials ';'
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    $default  reduce using rule 101 (opt_sign)
+
+    monomials  go to state 247
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 219
+
+  116 power: '^' . _INTEGER
+
+    _INTEGER  shift, and go to state 248
+
+
+State 220
+
+  113 item: _PI power .
+
+    $default  reduce using rule 113 (item)
+
+
+State 221
+
+  108 item: _SIN '(' . expr ')' power
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 249
+
+
+State 222
+
+  109 item: _COS '(' . expr ')' power
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 250
+
+
+State 223
+
+  110 item: _TAN '(' . expr ')' power
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 251
+
+
+State 224
+
+  111 item: _EXP '(' . expr ')' power
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 252
+
+
+State 225
+
+  112 item: _PWP '(' . expr ')' power
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 253
+
+
+State 226
+
+  114 item: _DIFF '(' . _IDENTIFIER ')' power
+
+    _IDENTIFIER  shift, and go to state 254
+
+
+State 227
+
+  115 item: _IDENTIFIER power .
+
+    $default  reduce using rule 115 (item)
+
+
+State 228
+
+  107 item: _INTEGER power .
+
+    $default  reduce using rule 107 (item)
+
+
+State 229
+
+  106 item: _REAL power .
+
+    $default  reduce using rule 106 (item)
+
+
+State 230
+
+   96 monomials: opt_sign monomial $@14 . more_monomials
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    $default  reduce using rule 99 (more_monomials)
+
+    more_monomials  go to state 255
+    sign            go to state 256
+
+
+State 231
+
+  104 monomial: item '*' . monomial
+
+    _PI          shift, and go to state 191
+    _SIN         shift, and go to state 192
+    _COS         shift, and go to state 193
+    _TAN         shift, and go to state 194
+    _EXP         shift, and go to state 195
+    _PWP         shift, and go to state 196
+    _DIFF        shift, and go to state 197
+    _IDENTIFIER  shift, and go to state 198
+    _INTEGER     shift, and go to state 199
+    _REAL        shift, and go to state 200
+
+    monomial  go to state 257
+    item      go to state 202
+
+
+State 232
+
+   77 dummy_eqs: _DUMMY_EQS $@9 eq_list .
+
+    $default  reduce using rule 77 (dummy_eqs)
+
+
+State 233
+
+   80 non_dynamic_eqs: _NON_DYNAMIC_EQS $@10 . eq_list meq_list
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    _PI          reduce using rule 101 (opt_sign)
+    _SIN         reduce using rule 101 (opt_sign)
+    _COS         reduce using rule 101 (opt_sign)
+    _TAN         reduce using rule 101 (opt_sign)
+    _EXP         reduce using rule 101 (opt_sign)
+    _PWP         reduce using rule 101 (opt_sign)
+    _DIFF        reduce using rule 101 (opt_sign)
+    _IDENTIFIER  reduce using rule 101 (opt_sign)
+    _INTEGER     reduce using rule 101 (opt_sign)
+    _REAL        reduce using rule 101 (opt_sign)
+    $default     reduce using rule 92 (eq_list)
+
+    eq_list    go to state 258
+    equation   go to state 137
+    monomials  go to state 138
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 234
+
+   83 velocity_eqs: _VELOCITY_EQS . $@11 eq_list vmeq_list
+
+    $default  reduce using rule 82 ($@11)
+
+    $@11  go to state 259
+
+
+State 235
+
+    1 problem: ct_defs var_defs non_dynamic_vars system_eqs coord_eqs dummy_eqs non_dynamic_eqs velocity_eqs . search
+
+    _SEARCH  shift, and go to state 260
+
+    $default  reduce using rule 86 (search)
+
+    search  go to state 261
+
+
+State 236
+
+   32 expr: _ATAN2 '(' expr ',' expr ')' .
+
+    $default  reduce using rule 32 (expr)
+
+
+State 237
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   16     | '(' expr '?' expr ':' expr . ')'
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 262
+
+
+State 238
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   68 range_definition: _IDENTIFIER topology '[' expr ',' expr . ']'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ']'         shift, and go to state 263
+
+
+State 239
+
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' ':' '[' . expr ',' expr ']'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 264
+
+
+State 240
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr . ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 265
+
+
+State 241
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  135 mitem: _TV '(' expr . ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 266
+
+
+State 242
+
+  122 meq_list: mequation _EQU _ID . ';' $@16 meq_list
+
+    ';'  shift, and go to state 267
+
+
+State 243
+
+  132 mequation: mequation '*' mitem .
+
+    $default  reduce using rule 132 (mequation)
+
+
+State 244
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  136 mitem: trans_type '(' expr . ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 268
+
+
+State 245
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr . ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 269
+
+
+State 246
+
+  137 mitem: patch_type '(' four_points . ';' _IDENTIFIER ',' _IDENTIFIER ')' opt_invert
+
+    ';'  shift, and go to state 270
+
+
+State 247
+
+   94 equation: monomials cmp $@13 monomials . ';'
+
+    ';'  shift, and go to state 271
+
+
+State 248
+
+  116 power: '^' _INTEGER .
+
+    $default  reduce using rule 116 (power)
+
+
+State 249
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  108 item: _SIN '(' expr . ')' power
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 272
+
+
+State 250
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  109 item: _COS '(' expr . ')' power
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 273
+
+
+State 251
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  110 item: _TAN '(' expr . ')' power
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 274
+
+
+State 252
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  111 item: _EXP '(' expr . ')' power
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 275
+
+
+State 253
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  112 item: _PWP '(' expr . ')' power
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 276
+
+
+State 254
+
+  114 item: _DIFF '(' _IDENTIFIER . ')' power
+
+    ')'  shift, and go to state 277
+
+
+State 255
+
+   96 monomials: opt_sign monomial $@14 more_monomials .
+
+    $default  reduce using rule 96 (monomials)
+
+
+State 256
+
+   98 more_monomials: sign . monomial $@15 more_monomials
+
+    _PI          shift, and go to state 191
+    _SIN         shift, and go to state 192
+    _COS         shift, and go to state 193
+    _TAN         shift, and go to state 194
+    _EXP         shift, and go to state 195
+    _PWP         shift, and go to state 196
+    _DIFF        shift, and go to state 197
+    _IDENTIFIER  shift, and go to state 198
+    _INTEGER     shift, and go to state 199
+    _REAL        shift, and go to state 200
+
+    monomial  go to state 278
+    item      go to state 202
+
+
+State 257
+
+  104 monomial: item '*' monomial .
+
+    $default  reduce using rule 104 (monomial)
+
+
+State 258
+
+   80 non_dynamic_eqs: _NON_DYNAMIC_EQS $@10 eq_list . meq_list
+
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    $default  reduce using rule 123 (meq_list)
+
+    meq_list    go to state 279
+    mequation   go to state 182
+    mitem       go to state 183
+    trans_type  go to state 184
+    patch_type  go to state 185
+
+
+State 259
+
+   83 velocity_eqs: _VELOCITY_EQS $@11 . eq_list vmeq_list
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    _PI          reduce using rule 101 (opt_sign)
+    _SIN         reduce using rule 101 (opt_sign)
+    _COS         reduce using rule 101 (opt_sign)
+    _TAN         reduce using rule 101 (opt_sign)
+    _EXP         reduce using rule 101 (opt_sign)
+    _PWP         reduce using rule 101 (opt_sign)
+    _DIFF        reduce using rule 101 (opt_sign)
+    _IDENTIFIER  reduce using rule 101 (opt_sign)
+    _INTEGER     reduce using rule 101 (opt_sign)
+    _REAL        reduce using rule 101 (opt_sign)
+    $default     reduce using rule 92 (eq_list)
+
+    eq_list    go to state 280
+    equation   go to state 137
+    monomials  go to state 138
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 260
+
+   85 search: _SEARCH . search_type
+
+    _DEPTH    shift, and go to state 281
+    _BREADTH  shift, and go to state 282
+    _MIN      shift, and go to state 283
+
+    search_type  go to state 284
+
+
+State 261
+
+    1 problem: ct_defs var_defs non_dynamic_vars system_eqs coord_eqs dummy_eqs non_dynamic_eqs velocity_eqs search .
+
+    $default  reduce using rule 1 (problem)
+
+
+State 262
+
+   16 expr: '(' expr '?' expr ':' expr ')' .
+
+    $default  reduce using rule 16 (expr)
+
+
+State 263
+
+   68 range_definition: _IDENTIFIER topology '[' expr ',' expr ']' .
+
+    $default  reduce using rule 68 (range_definition)
+
+
+State 264
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' ':' '[' expr . ',' expr ']'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 285
+
+
+State 265
+
+  134 mitem: _TR '(' expr ',' . expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 286
+
+
+State 266
+
+  135 mitem: _TV '(' expr ',' . expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 287
+
+
+State 267
+
+  122 meq_list: mequation _EQU _ID ';' . $@16 meq_list
+
+    $default  reduce using rule 121 ($@16)
+
+    $@16  go to state 288
+
+
+State 268
+
+  136 mitem: trans_type '(' expr ')' . opt_invert
+
+    _INV  shift, and go to state 289
+
+    $default  reduce using rule 139 (opt_invert)
+
+    opt_invert  go to state 290
+
+
+State 269
+
+  158 four_points: expr ',' . expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 291
+
+
+State 270
+
+  137 mitem: patch_type '(' four_points ';' . _IDENTIFIER ',' _IDENTIFIER ')' opt_invert
+
+    _IDENTIFIER  shift, and go to state 292
+
+
+State 271
+
+   94 equation: monomials cmp $@13 monomials ';' .
+
+    $default  reduce using rule 94 (equation)
+
+
+State 272
+
+  108 item: _SIN '(' expr ')' . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 293
+
+
+State 273
+
+  109 item: _COS '(' expr ')' . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 294
+
+
+State 274
+
+  110 item: _TAN '(' expr ')' . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 295
+
+
+State 275
+
+  111 item: _EXP '(' expr ')' . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 296
+
+
+State 276
+
+  112 item: _PWP '(' expr ')' . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 297
+
+
+State 277
+
+  114 item: _DIFF '(' _IDENTIFIER ')' . power
+
+    '^'  shift, and go to state 219
+
+    $default  reduce using rule 117 (power)
+
+    power  go to state 298
+
+
+State 278
+
+   98 more_monomials: sign monomial . $@15 more_monomials
+
+    $default  reduce using rule 97 ($@15)
+
+    $@15  go to state 299
+
+
+State 279
+
+   80 non_dynamic_eqs: _NON_DYNAMIC_EQS $@10 eq_list meq_list .
+
+    $default  reduce using rule 80 (non_dynamic_eqs)
+
+
+State 280
+
+   83 velocity_eqs: _VELOCITY_EQS $@11 eq_list . vmeq_list
+
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    $default  reduce using rule 126 (vmeq_list)
+
+    vmeq_list         go to state 300
+    mequation_list    go to state 301
+    scaled_mequation  go to state 302
+    mequation         go to state 303
+    mitem             go to state 183
+    trans_type        go to state 184
+    patch_type        go to state 185
+
+
+State 281
+
+   87 search_type: _DEPTH . _FIRST
+
+    _FIRST  shift, and go to state 304
+
+
+State 282
+
+   88 search_type: _BREADTH . _FIRST
+
+    _FIRST  shift, and go to state 305
+
+
+State 283
+
+   89 search_type: _MIN . monomials
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    $default  reduce using rule 101 (opt_sign)
+
+    monomials  go to state 306
+    opt_sign   go to state 139
+    sign       go to state 140
+
+
+State 284
+
+   85 search: _SEARCH search_type .
+
+    $default  reduce using rule 85 (search)
+
+
+State 285
+
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' ':' '[' expr ',' . expr ']'
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 307
+
+
+State 286
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr . ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 308
+
+
+State 287
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  135 mitem: _TV '(' expr ',' expr . ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 309
+
+
+State 288
+
+  122 meq_list: mequation _EQU _ID ';' $@16 . meq_list
+
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    $default  reduce using rule 123 (meq_list)
+
+    meq_list    go to state 310
+    mequation   go to state 182
+    mitem       go to state 183
+    trans_type  go to state 184
+    patch_type  go to state 185
+
+
+State 289
+
+  138 opt_invert: _INV .
+
+    $default  reduce using rule 138 (opt_invert)
+
+
+State 290
+
+  136 mitem: trans_type '(' expr ')' opt_invert .
+
+    $default  reduce using rule 136 (mitem)
+
+
+State 291
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr . ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 311
+
+
+State 292
+
+  137 mitem: patch_type '(' four_points ';' _IDENTIFIER . ',' _IDENTIFIER ')' opt_invert
+
+    ','  shift, and go to state 312
+
+
+State 293
+
+  108 item: _SIN '(' expr ')' power .
+
+    $default  reduce using rule 108 (item)
+
+
+State 294
+
+  109 item: _COS '(' expr ')' power .
+
+    $default  reduce using rule 109 (item)
+
+
+State 295
+
+  110 item: _TAN '(' expr ')' power .
+
+    $default  reduce using rule 110 (item)
+
+
+State 296
+
+  111 item: _EXP '(' expr ')' power .
+
+    $default  reduce using rule 111 (item)
+
+
+State 297
+
+  112 item: _PWP '(' expr ')' power .
+
+    $default  reduce using rule 112 (item)
+
+
+State 298
+
+  114 item: _DIFF '(' _IDENTIFIER ')' power .
+
+    $default  reduce using rule 114 (item)
+
+
+State 299
+
+   98 more_monomials: sign monomial $@15 . more_monomials
+
+    '+'  shift, and go to state 134
+    '-'  shift, and go to state 135
+
+    $default  reduce using rule 99 (more_monomials)
+
+    more_monomials  go to state 313
+    sign            go to state 256
+
+
+State 300
+
+   83 velocity_eqs: _VELOCITY_EQS $@11 eq_list vmeq_list .
+
+    $default  reduce using rule 83 (velocity_eqs)
+
+
+State 301
+
+  125 vmeq_list: mequation_list . _EQU _Z ';' $@17 vmeq_list
+  127 mequation_list: mequation_list . '+' scaled_mequation
+
+    _EQU  shift, and go to state 314
+    '+'   shift, and go to state 315
+
+
+State 302
+
+  128 mequation_list: scaled_mequation .
+
+    $default  reduce using rule 128 (mequation_list)
+
+
+State 303
+
+  129 scaled_mequation: mequation . scale_mequation
+  132 mequation: mequation . '*' mitem
+
+    '*'  shift, and go to state 316
+
+    $default  reduce using rule 131 (scale_mequation)
+
+    scale_mequation  go to state 317
+
+
+State 304
+
+   87 search_type: _DEPTH _FIRST .
+
+    $default  reduce using rule 87 (search_type)
+
+
+State 305
+
+   88 search_type: _BREADTH _FIRST .
+
+    $default  reduce using rule 88 (search_type)
+
+
+State 306
+
+   89 search_type: _MIN monomials .
+
+    $default  reduce using rule 89 (search_type)
+
+
+State 307
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' ':' '[' expr ',' expr . ']'
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ']'         shift, and go to state 318
+
+
+State 308
+
+  134 mitem: _TR '(' expr ',' expr ',' . expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 319
+
+
+State 309
+
+  135 mitem: _TV '(' expr ',' expr ',' . expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 320
+
+
+State 310
+
+  122 meq_list: mequation _EQU _ID ';' $@16 meq_list .
+
+    $default  reduce using rule 122 (meq_list)
+
+
+State 311
+
+  158 four_points: expr ',' expr ',' . expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 321
+
+
+State 312
+
+  137 mitem: patch_type '(' four_points ';' _IDENTIFIER ',' . _IDENTIFIER ')' opt_invert
+
+    _IDENTIFIER  shift, and go to state 322
+
+
+State 313
+
+   98 more_monomials: sign monomial $@15 more_monomials .
+
+    $default  reduce using rule 98 (more_monomials)
+
+
+State 314
+
+  125 vmeq_list: mequation_list _EQU . _Z ';' $@17 vmeq_list
+
+    _Z  shift, and go to state 323
+
+
+State 315
+
+  127 mequation_list: mequation_list '+' . scaled_mequation
+
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    scaled_mequation  go to state 324
+    mequation         go to state 303
+    mitem             go to state 183
+    trans_type        go to state 184
+    patch_type        go to state 185
+
+
+State 316
+
+  130 scale_mequation: '*' . _DIFF '(' _IDENTIFIER ')'
+  132 mequation: mequation '*' . mitem
+
+    _DIFF     shift, and go to state 325
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    mitem       go to state 243
+    trans_type  go to state 184
+    patch_type  go to state 185
+
+
+State 317
+
+  129 scaled_mequation: mequation scale_mequation .
+
+    $default  reduce using rule 129 (scaled_mequation)
+
+
+State 318
+
+   69 vrange_definition: _DIFF '(' _IDENTIFIER ')' ':' '[' expr ',' expr ']' .
+
+    $default  reduce using rule 69 (vrange_definition)
+
+
+State 319
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr . ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 326
+
+
+State 320
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  135 mitem: _TV '(' expr ',' expr ',' expr . ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 327
+
+
+State 321
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr . ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ';'         shift, and go to state 328
+
+
+State 322
+
+  137 mitem: patch_type '(' four_points ';' _IDENTIFIER ',' _IDENTIFIER . ')' opt_invert
+
+    ')'  shift, and go to state 329
+
+
+State 323
+
+  125 vmeq_list: mequation_list _EQU _Z . ';' $@17 vmeq_list
+
+    ';'  shift, and go to state 330
+
+
+State 324
+
+  127 mequation_list: mequation_list '+' scaled_mequation .
+
+    $default  reduce using rule 127 (mequation_list)
+
+
+State 325
+
+  130 scale_mequation: '*' _DIFF . '(' _IDENTIFIER ')'
+
+    '('  shift, and go to state 331
+
+
+State 326
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' . expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 332
+
+
+State 327
+
+  135 mitem: _TV '(' expr ',' expr ',' expr ',' . expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 333
+
+
+State 328
+
+  158 four_points: expr ',' expr ',' expr ';' . expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 334
+
+
+State 329
+
+  137 mitem: patch_type '(' four_points ';' _IDENTIFIER ',' _IDENTIFIER ')' . opt_invert
+
+    _INV  shift, and go to state 289
+
+    $default  reduce using rule 139 (opt_invert)
+
+    opt_invert  go to state 335
+
+
+State 330
+
+  125 vmeq_list: mequation_list _EQU _Z ';' . $@17 vmeq_list
+
+    $default  reduce using rule 124 ($@17)
+
+    $@17  go to state 336
+
+
+State 331
+
+  130 scale_mequation: '*' _DIFF '(' . _IDENTIFIER ')'
+
+    _IDENTIFIER  shift, and go to state 337
+
+
+State 332
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr . ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ';'         shift, and go to state 338
+
+
+State 333
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  135 mitem: _TV '(' expr ',' expr ',' expr ',' expr . ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 339
+
+
+State 334
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr . ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 340
+
+
+State 335
+
+  137 mitem: patch_type '(' four_points ';' _IDENTIFIER ',' _IDENTIFIER ')' opt_invert .
+
+    $default  reduce using rule 137 (mitem)
+
+
+State 336
+
+  125 vmeq_list: mequation_list _EQU _Z ';' $@17 . vmeq_list
+
+    _TR       shift, and go to state 161
+    _TX       shift, and go to state 162
+    _TY       shift, and go to state 163
+    _TZ       shift, and go to state 164
+    _TV       shift, and go to state 165
+    _PA       shift, and go to state 166
+    _RX       shift, and go to state 167
+    _RY       shift, and go to state 168
+    _RZ       shift, and go to state 169
+    _DRX      shift, and go to state 170
+    _DRY      shift, and go to state 171
+    _DRZ      shift, and go to state 172
+    _DPA_U    shift, and go to state 173
+    _DPA_V    shift, and go to state 174
+    _DDRX     shift, and go to state 175
+    _DDRY     shift, and go to state 176
+    _DDRZ     shift, and go to state 177
+    _DDPA_UU  shift, and go to state 178
+    _DDPA_UV  shift, and go to state 179
+    _DDPA_VV  shift, and go to state 180
+
+    $default  reduce using rule 126 (vmeq_list)
+
+    vmeq_list         go to state 341
+    mequation_list    go to state 301
+    scaled_mequation  go to state 302
+    mequation         go to state 303
+    mitem             go to state 183
+    trans_type        go to state 184
+    patch_type        go to state 185
+
+
+State 337
+
+  130 scale_mequation: '*' _DIFF '(' _IDENTIFIER . ')'
+
+    ')'  shift, and go to state 342
+
+
+State 338
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' . expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 343
+
+
+State 339
+
+  135 mitem: _TV '(' expr ',' expr ',' expr ',' expr ')' . opt_invert
+
+    _INV  shift, and go to state 289
+
+    $default  reduce using rule 139 (opt_invert)
+
+    opt_invert  go to state 344
+
+
+State 340
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' . expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 345
+
+
+State 341
+
+  125 vmeq_list: mequation_list _EQU _Z ';' $@17 vmeq_list .
+
+    $default  reduce using rule 125 (vmeq_list)
+
+
+State 342
+
+  130 scale_mequation: '*' _DIFF '(' _IDENTIFIER ')' .
+
+    $default  reduce using rule 130 (scale_mequation)
+
+
+State 343
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr . ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 346
+
+
+State 344
+
+  135 mitem: _TV '(' expr ',' expr ',' expr ',' expr ')' opt_invert .
+
+    $default  reduce using rule 135 (mitem)
+
+
+State 345
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr . ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 347
+
+
+State 346
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' . expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 348
+
+
+State 347
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' . expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 349
+
+
+State 348
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr . ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 350
+
+
+State 349
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr . ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ';'         shift, and go to state 351
+
+
+State 350
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' . expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 352
+
+
+State 351
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' . expr ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 353
+
+
+State 352
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr . ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 354
+
+
+State 353
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr . ',' expr ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 355
+
+
+State 354
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' . expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 356
+
+
+State 355
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' . expr ',' expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 357
+
+
+State 356
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr . ';' expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ';'         shift, and go to state 358
+
+
+State 357
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr . ',' expr ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 359
+
+
+State 358
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' . expr ',' expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 360
+
+
+State 359
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' . expr ';' expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 361
+
+
+State 360
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr . ',' expr ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 362
+
+
+State 361
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr . ';' expr ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ';'         shift, and go to state 363
+
+
+State 362
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' . expr ',' expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 364
+
+
+State 363
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' . expr ',' expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 365
+
+
+State 364
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr . ',' expr ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 366
+
+
+State 365
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr . ',' expr ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 367
+
+
+State 366
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' . expr ',' expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 368
+
+
+State 367
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' . expr ',' expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 369
+
+
+State 368
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr . ',' expr ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 370
+
+
+State 369
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr . ',' expr
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ','         shift, and go to state 371
+
+
+State 370
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' . expr ')' opt_invert
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 372
+
+
+State 371
+
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' . expr
+
+    _INF         shift, and go to state 32
+    _PI          shift, and go to state 33
+    _SIN         shift, and go to state 34
+    _COS         shift, and go to state 35
+    _TAN         shift, and go to state 36
+    _COT         shift, and go to state 37
+    _ACOS        shift, and go to state 38
+    _ASIN        shift, and go to state 39
+    _ATAN        shift, and go to state 40
+    _ATAN2       shift, and go to state 41
+    _EXP         shift, and go to state 42
+    _PWP         shift, and go to state 43
+    _SQRT        shift, and go to state 44
+    _ABS         shift, and go to state 45
+    _DIFF        shift, and go to state 46
+    _PARAMETER   shift, and go to state 47
+    _IDENTIFIER  shift, and go to state 48
+    _INTEGER     shift, and go to state 49
+    _REAL        shift, and go to state 50
+    '+'          shift, and go to state 51
+    '-'          shift, and go to state 52
+    '('          shift, and go to state 53
+
+    expr  go to state 373
+
+
+State 372
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr . ')' opt_invert
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+    ')'         shift, and go to state 374
+
+
+State 373
+
+   10 expr: expr . '+' expr
+   11     | expr . '-' expr
+   12     | expr . '*' expr
+   13     | expr . '^' expr
+   14     | expr . '/' expr
+   17     | expr . _EQUAL expr
+   18     | expr . _NOT_EQUAL expr
+   19     | expr . _LEQ expr
+   20     | expr . _GEQ expr
+   21     | expr . _LESS expr
+   22     | expr . _GREATER expr
+  158 four_points: expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr ';' expr ',' expr ',' expr .
+
+    _LEQ        shift, and go to state 84
+    _GEQ        shift, and go to state 85
+    _EQUAL      shift, and go to state 86
+    _LESS       shift, and go to state 87
+    _GREATER    shift, and go to state 88
+    _NOT_EQUAL  shift, and go to state 89
+    '+'         shift, and go to state 90
+    '-'         shift, and go to state 91
+    '*'         shift, and go to state 92
+    '/'         shift, and go to state 93
+    '^'         shift, and go to state 94
+
+    $default  reduce using rule 158 (four_points)
+
+
+State 374
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' . opt_invert
+
+    _INV  shift, and go to state 289
+
+    $default  reduce using rule 139 (opt_invert)
+
+    opt_invert  go to state 375
+
+
+State 375
+
+  134 mitem: _TR '(' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ';' expr ',' expr ',' expr ',' expr ')' opt_invert .
+
+    $default  reduce using rule 134 (mitem)

@@ -1,0 +1,11 @@
+#!/bin/tcsh
+
+if ($#argv < 1) then
+  printf "  Script to run cuik in parallel in a local machine with several cores\n"
+  printf "  Usage:\n" 
+  printf "        cuikmpi <problem file name>.cuik \n"
+  printf "    where <cuik file> is the file with the kinematic equations\n"
+  printf "      (the .cuik extension is not required)\n"
+else
+  mpirun --use-hwthread-cpus  bin/cuik $1
+endif

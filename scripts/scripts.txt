@@ -1,0 +1,20 @@
+/** \file scripts.txt
+
+    \brief The scripts directory includes shell scripts to facilitate the use
+           of the CuikSuite applications.
+
+    Cuiksuite includes a set of scripts to facilitate the
+    us of the  CuikSuite applications.
+
+    These scripts are
+      
+    - \b cuikmpi Executes cuik in parallel in a computer with several cores.  
+    - \b rmpicuik Automates the execution of \ref cuik.c "cuik" in a cluster of computers. This scripts is taylored for our in-house grid but you can easily adapte it to be used in other environments.   
+    - \b testgrid Checks if all the computers in the cluster are up and ready to be used.   
+    - \b rkillcuik Aborts a execution of \ref cuik.c "cuik" already running on our in-house cluster.   
+    - \b cuikmove To interactively move mechanisms (without taking into account the loop closure constraints) .   
+    - \b cuikexplore To interactively move mechanisms (taking into account the loop closure constraints).   
+    - \b cuikplayer To browse solution sets.   
+    .
+
+*/

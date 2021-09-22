@@ -1,0 +1,253 @@
+/** \cond */
+
+[CONSTANTS]
+
+  Deg2Rad := pi/180.0 
+
+[LINKS]
+
+  world: body "bodies/plane.off" yellow decoration
+         body "bodies/table_top.off" color (0.25,0.25,0)
+         cylinder 0.03 (0.8,-0.5,0) (0.8,-0.5,0.8) blue
+         cylinder 0.03 (0.8,0.5,0) (0.8,0.5,0.8) blue
+         cylinder 0.03 (1.3,-0.5,0) (1.3,-0.5,0.8) blue
+         cylinder 0.03 (1.3,0.5,0) (1.3,0.5,0.8) blue
+
+  box0: body "bodies/box.off"
+  box1
+  box2
+
+  base: body "bodies/base.off" 0.8*white
+
+  wheel_left: body "bodies/wheel.off" 0.1*white decoration
+  wheel_right: body "bodies/wheel.off" 0.1*white decoration
+
+  caster_left_1: body "bodies/caster.off" 0.1*white decoration
+  caster_left_2: body "bodies/caster.off" 0.1*white decoration
+
+  caster_right_1: body "bodies/caster.off" 0.1*white decoration
+  caster_right_2: body "bodies/caster.off" 0.1*white decoration
+
+  torso1: body "bodies/torso1.off" 0.2*white
+  torso2: body "bodies/torso2.off" 0.8*white
+
+  arm_left_1: body "bodies/arm_left_1.off" 0.2*white
+  arm_left_2: body "bodies/arm_left_2.off" 0.2*white
+  arm_left_3: body "bodies/arm_left_3.off" 0.2*white
+  arm_left_4: body "bodies/arm_left_4.off" 0.2*white
+  arm_left_5: body "bodies/arm_left_5.off" 0.8*white
+  arm_left_6: body "bodies/arm_left_6.off" 0.8*white
+  arm_left_7: body "bodies/arm_left_7.off" 0.8*white
+              body "bodies/hand_left.off" 0.8*white
+
+  arm_right_1: body "bodies/arm_right_1.off" 0.2*white
+  arm_right_2: body "bodies/arm_right_2.off" 0.2*white
+  arm_right_3: body "bodies/arm_right_3.off" 0.2*white
+  arm_right_4: body "bodies/arm_right_4.off" 0.2*white
+  arm_right_5: body "bodies/arm_right_5.off" 0.8*white
+  arm_right_6: body "bodies/arm_right_6.off" 0.8*white
+  arm_right_7: body "bodies/arm_right_7.off" 0.8*white
+               body "bodies/hand_right.off" 0.8*white
+
+  head_1: body "bodies/head_1.off" 0.2*white decoration
+  head_2: body "bodies/head_2.off" 0.8*white decoration
+
+[JOINTS]
+
+  fix: world base Id
+
+  fix: base wheel_left Txyz(0,0.2445,0.1075)*Rx(-90*Deg2Rad)
+  fix: base wheel_right Txyz(0,-0.2445,0.1075)*Rx(-90*Deg2Rad)
+  
+  fix: base caster_right_1 Txyz(-0.3805,-0.175,0.05)
+  fix: caster_right_1 caster_right_2 Txyz(-0.033,0,0)*Rx(-90*Deg2Rad)
+
+  fix: base caster_left_1 Txyz(-0.3805,0.175,0.05)
+  fix: caster_left_1 caster_left_2 Txyz(-0.033,0,0)*Rx(-90*Deg2Rad)
+
+  revolute: base (-0.1091,0,1.0531)+(0,0,1)
+            torso1 (0,0,0)+(0,0,1)
+            range [-75*Deg2Rad,75*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: torso1 (0,0,0)+(0,-sin(-90*Deg2Rad),cos(-90*Deg2Rad))
+            torso2 (0,0,0)+(0,0,1)
+            range [-15*Deg2Rad,45*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  fix: torso2 head_1 Txyz(-0.024,-0.412,0)*Rx(90*Deg2Rad)
+  fix: head_1 head_2 Txyz(0.0445,0,0)*Rx(-90*Deg2Rad)
+
+  revolute: torso2 (-0.01,-0.273,0)+(0,-sin(165*Deg2Rad),cos(165*Deg2Rad))
+            arm_left_1 (0,0,0)+(0,0,1)
+            range [-45*Deg2Rad,180*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_left_1 (0,0,-0.2385)+(1,0,0)
+            arm_left_2 (0,0,0)+(0,0,1)
+            range [-30*Deg2Rad,105*Deg2Rad]
+                  +(0,cos(75*Deg2Rad),-sin(75*Deg2Rad)) +(1,0,0)
+
+  revolute: arm_left_2 (0.02,-0.1065,0)+(0,1,0)
+            arm_left_3 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_left_3 (0,-0.02,-0.1235)+(-1,0,0)
+            arm_left_4 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,1) +(1,0,0)
+
+  revolute: arm_left_4 (-0.1065,0.02,0)+(1,0,0)
+            arm_left_5 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,-1) +(1,0,0)
+
+  revolute: arm_left_5 (0,0,-0.133)+(0,-1,0)
+            arm_left_6 (0,0,0)+(0,0,1)
+            range [-90*Deg2Rad,90*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_left_6 (0,0,0)+(0,1,0)
+            arm_left_7 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)       
+
+
+  revolute: torso2 (-0.01,-0.273,0)+(0,-sin(-165*Deg2Rad),cos(-165*Deg2Rad))
+            arm_right_1 (0,0,0)+(0,0,1)
+            range [-45*Deg2Rad,180*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_1 (0,0,0.2385)+(-1,0,0)
+            arm_right_2 (0,0,0)+(0,0,1)
+            range [-30*Deg2Rad,105*Deg2Rad]
+                  +(0,cos(75*Deg2Rad),sin(75*Deg2Rad)) +(1,0,0)
+
+  revolute: arm_right_2 (0.02,-0.1065,0)+(0,-1,0)
+            arm_right_3 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_3 (0,-0.02,0.1235)+(1,0,0)
+            arm_right_4 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,-1) +(1,0,0)
+
+  revolute: arm_right_4 (-0.1065,0.02,0)+(-1,0,0)
+            arm_right_5 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,1) +(1,0,0)
+
+  revolute: arm_right_5 (0,0,0.133)+(0,1,0)
+            arm_right_6 (0,0,0)+(0,0,1)
+            range [-90*Deg2Rad,90*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_6 (0,0,0)+(0,-1,0)
+            arm_right_7 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  prismatic: world (0,0,0)+(1,0,0)
+             box1  (0,0,0)+(1,0,0)
+             range [0,2]
+
+  prismatic: box1 (0,0,0)+(0,0,1)
+             box2 (0,0,0)+(0,0,1)
+             range [0,2]
+
+  revolute: box2 (0,0,0)+(0,0,1)
+            box0 (0,0,0)+(0,0,1)
+
+  revolute: box0 (0.010335036277771,0.219960629940033,0.085000941276550)+(0,1,0)
+            arm_left_7 (-0.015458200309480,0.018637162047744,-0.206119463498101)+(0.999200174914106,-0.028833356686627,0.027706461228430)
+
+  revolute: box0 (0.010335036277771,-0.219960629940033,0.085000941276550)+(0,1,0)
+            arm_right_7 (-0.015458200309480,0.018637162047744,0.206119463498101)+(-0.999200174914106,0.028833356686627,0.027706461228430)
+
+[COLLISIONS]
+  Check: all
+  Do not check: base,torso1
+  Do not check: torso1,torso2
+
+  Do not check: torso2,arm_left_1
+  Do not check: torso2,arm_left_2
+  Do not check: arm_left_1,arm_left_2
+  Do not check: arm_left_2,arm_left_3
+  Do not check: arm_left_3,arm_left_4
+  Do not check: arm_left_4,arm_left_5
+  Do not check: arm_left_5,arm_left_6
+  Do not check: arm_left_5,arm_left_7
+  Do not check: arm_left_6,arm_left_7
+
+  Do not check: torso2,arm_right_1
+  Do not check: torso2,arm_right_2
+  Do not check: arm_right_1,arm_right_2
+  Do not check: arm_right_2,arm_right_3
+  Do not check: arm_right_3,arm_right_4
+  Do not check: arm_right_4,arm_right_5
+  Do not check: arm_right_5,arm_right_6
+  Do not check: arm_right_5,arm_right_7
+  Do not check: arm_right_6,arm_right_7
+  
+  
+  Do not check: arm_left_7,box0
+  Do not check: arm_right_7,box0
+
+/** \endcond */
+
+/** 
+    \file reem_table.world
+  
+   \brief The REEM robot by <a href="http://www.pal-robotics.com">PAL robotics</a>.
+    
+   <center>
+   <img src="../images/reem/reem_table.png">
+   </center>
+
+    The REEM robot by <a href="http://www.pal-robotics.com">PAL robotics</a>. 
+
+    In this case the REEM performs a manipulation task with the two arms consisting in moving a box
+    from underneath a table and to to put it on the table. This is the same task
+    modelled with the PR2 robot in the \ref pr2_table.world file.
+   
+    Note that this is a problem in dimension 9, which is considerbly large taking into account
+    the presence of the loop clousures.
+
+    The key data for this problem are:
+    <center>
+    <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 21 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 9 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" (in seconds)</th> <td align="center"> 5 </td>
+     </tr>
+    </table>
+    </center>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+      - <b>Solve the path planning problem</b> For this, deactivate the
+        bifurcation detection (set \ref CT_DETECT_BIFURCATIONS "DETECT_BIFURCATIONS" to 0) and execute:
+             - <i>\ref cuikatlasrrt.c  "bin/cuikatlasrrt" examples/REEM/reem_table</i>
+	     .
+      - <b>An alternative ways to plan existing in the literature</b>: 
+             - <i>\ref cuikcbirrt.c  "bin/cuikcbirrt" examples/REEM/reem_table</i>
+             - <i>\ref cuikccrrt.c  "bin/cuikccrrt" examples/REEM/reem_table</i>
+	     .
+      - <b>Visualize the path</b>: Whatever the procedure used to plan
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/REEM/reem_table examples/REEM/reem_table_path</i>
+	     .
+      - <b>To smooth an output path</b>: 
+             - <i>\ref cuiksmoothpath.c  "bin/cuiksmoothpath" examples/REEM/reem_table</i>
+	     .
+      - <b>Visualize the smoothed path</b>: 
+	     - <i>\ref cuikplay.c "scripts/cuikplayer" examples/REEM/reem_table examples/REEM/reem_table_path_s</i>
+	     .
+      .
+*/

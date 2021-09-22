@@ -1,0 +1,642 @@
+/** \cond */
+[CONSTANTS]
+
+% Anchor points of the fingers at the palm
+%  (we assume that the universal joint connecting the hand and the finger has
+%   the rotation axis aligned with the palm axis)
+q_1_1_x:= 9.5
+q_1_1_y:=-67
+q_1_1_z:=197.55
+
+q_2_1_x:=9.5
+q_2_1_y:=0
+q_2_1_z:=197.55
+
+q_3_1_x:=9.5
+q_3_1_y:=67
+q_3_1_z:=197.55
+
+q_4_1_x:=40.1650
+q_4_1_y:=30.012
+q_4_1_z:=66.8142
+
+% Length of the phalanges. first index is the leg, second
+%   index is the phalanx.
+%   Phalanges are numbered from 2 since the attachment point
+%   of the finger on the palm is seen as the first phalanx
+p_1_2:=76.66
+p_1_3:=56
+p_1_4:=33.805151243
+
+p_2_2:=76.66
+p_2_3:=56
+p_2_4:=33.805151243
+
+p_3_2:=76.66
+p_3_3:=56
+p_3_4:=33.805151243
+
+p_4_2:=76.66
+p_4_3:=66
+p_4_4:=39.862238567
+
+% Contact point on the object
+
+x_1_x:=125.8625
+x_1_y:=-67.0000
+x_1_z:=218.5170
+
+x_2_x:=117.4179
+x_2_y:=  0
+x_2_z:=245.8564
+
+x_3_x:=125.8623
+x_3_y:= 67.0000
+x_3_z:= 218.5168
+
+x_4_x:=160.4200
+x_4_y:= 10.4509
+x_4_z:=139.8173
+
+% Normals of the object surface at the contact points
+% Pointing into the object
+nhat_1_x:=-0.7071
+nhat_1_y:= 0
+nhat_1_z:=-0.7071
+
+nhat_2_x:=-0.5165
+nhat_2_y:= 0
+nhat_2_z:=-0.8563
+   
+nhat_3_x:=-0.7071
+nhat_3_y:= 0
+nhat_3_z:=-0.7071
+   
+nhat_4_x:=-0.9778
+nhat_4_y:=-0.0542
+nhat_4_z:= 0.2023
+
+% Contact point on the fingertip
+q_1_4_x:=27.856821097374684
+q_1_4_y:=0
+q_1_4_z:=19.151400000000000
+
+q_2_4_x:=27.856821097374684
+q_2_4_y:=0
+q_2_4_z:=19.151651859208762
+
+q_3_4_x:=27.856821097374684
+q_3_4_y:=0
+q_3_4_z:=19.151651859208762
+
+q_4_4_x:=34.762406989603285
+q_4_4_y:=0
+q_4_4_z:=19.508283467663215
+
+% Normals of the fingertip at the contact point
+% Pointing outward the finger
+mhat_1_x:=0 
+mhat_1_y:=0 
+mhat_1_z:=1 
+
+mhat_2_x:=0 
+mhat_2_y:=0 
+mhat_2_z:=1 
+
+mhat_3_x:=0 
+mhat_3_y:=0 
+mhat_3_z:=1 
+
+mhat_4_x:=0 
+mhat_4_y:=0 
+mhat_4_z:=1 
+
+% Joint ranges
+
+% Two ranges for the universal joint connecting the palm and finger 1
+phi_1_1_min:=-15*pi/180
+phi_1_1_max:= 15*pi/180
+
+phi_1_2_min:=0
+phi_1_2_max:=pi/2
+
+% Range for the first rotation  in finger 1
+phi_1_3_min:=0
+phi_1_3_max:=pi/2
+
+% Range for the second rotation  in finger 1
+phi_1_4_min:=0
+phi_1_4_max:=pi/2
+
+% Two ranges for the universal joint connecting the palm and finger 2
+phi_2_1_min:=-15*pi/180
+phi_2_1_max:= 15*pi/180
+
+phi_2_2_min:=0
+phi_2_2_max:=pi/2
+
+% Range for the first rotation  in finger 2
+phi_2_3_min:=0
+phi_2_3_max:=pi/2
+
+% Range for the second rotation  in finger 2
+phi_2_4_min:=0
+phi_2_4_max:=pi/2
+
+% Two ranges for the universal joint connecting the palm and finger 3
+phi_3_1_min:=-15*pi/180
+phi_3_1_max:= 15*pi/180
+
+phi_3_2_min:=0
+phi_3_2_max:=pi/2
+
+% Range for the first rotation  in finger 2
+phi_3_3_min:=0
+phi_3_3_max:=pi/2
+
+% Range for the second rotation  in finger 2
+phi_3_4_min:=0
+phi_3_4_max:=pi/2
+
+% Two ranges for the universal joint connecting the palm and finger 4
+phi_4_1_min:=-15*pi/180
+phi_4_1_max:= 15*pi/180
+
+phi_4_2_min:=   pi/2
+phi_4_2_max:=   3*pi/2
+
+% Range for the first rotation  in finger 2
+phi_4_3_min:=0
+phi_4_3_max:=pi/2
+
+% Range for the second rotation  in finger 2
+phi_4_4_min:=0
+phi_4_4_max:=pi/2
+
+% Radius of the cylinders representing the fingers
+rf:=20
+
+% Radius of the spheres representing rotulas
+rr:=25
+
+% Radius of the spheres representing contact points on the object
+rc:=5
+
+[LINKS]
+
+% palm
+  palm: body "bodies/palm.off" color (0.75,0.75,0)
+
+% finger 1
+  p12: sphere   rr (0,0,0)     color (0.30,0.9,0.1)
+       cylinder rf (0,0,0) 
+	           (p_1_2,0,0) color (0.25,0.6,0.6)
+
+  p13: sphere   rr (0,0,0)     color (0.30,0.9,0.1)
+       cylinder rf (0,0,0) 
+	           (p_1_3,0,0) color (0.25,0.6,0.6)
+   
+  p14: sphere   rr (0,0,0)     color (0.3,0.9,0.10)
+       cylinder rf (0,0,0) 
+	           (p_1_4,0,0) color (0.3,0.5,0.98)
+       sphere   rf (p_1_4,0,0) color (0.3,0.5,0.98)
+
+% finger 2
+  p22: sphere   rr (0,0,0)     color (0.30,0.9,0.1)
+       cylinder rf (0,0,0) 
+	           (p_2_2,0,0) color (0.25,0.6,0.6)
+
+  p23: sphere   rr (0,0,0)     color (0.30,0.9,0.1)
+       cylinder rf (0,0,0) 
+	           (p_2_3,0,0) color (0.25,0.6,0.6)
+   
+  p24: sphere   rr (0,0,0)     color (0.3,0.9,0.10)
+       cylinder rf (0,0,0) 
+	           (p_2_4,0,0) color (0.3,0.5,0.98)
+       sphere   rf (p_2_4,0,0) color (0.3,0.5,0.98)
+
+% finger 3
+  p32: sphere   rr (0,0,0)     color (0.30,0.9,0.1)
+       cylinder rf (0,0,0) 
+	           (p_3_2,0,0) color (0.25,0.6,0.6)
+
+  p33: sphere   rr (0,0,0)     color (0.30,0.9,0.1)
+       cylinder rf (0,0,0) 
+	           (p_3_3,0,0) color (0.25,0.6,0.6)
+   
+  p34: sphere   rr (0,0,0)     color (0.3,0.9,0.10)
+       cylinder rf (0,0,0) 
+	           (p_3_4,0,0) color (0.3,0.5,0.98)
+       sphere   rf (p_3_4,0,0) color (0.3,0.5,0.98)
+
+% finger 4
+  p42: sphere   rr (0,0,0)     color (0.3,0.9,0.10)
+       cylinder rf (0,0,0) 
+	           (p_4_2,0,0) color (0.25,0.6,0.6)
+
+  p43: sphere   rr (0,0,0)     color (0.3,0.9,0.10)
+       cylinder rf (0,0,0) 
+	           (p_4_3,0,0) color (0.25,0.6,0.6)
+   
+  p44: sphere   rr (0,0,0)     color (0.3,0.9,0.10)
+       cylinder rf (0,0,0) 
+	           (p_4_4,0,0) color (0.3,0.5,0.98)
+       sphere   rf (p_4_4,0,0) color (0.3,0.5,0.98)
+
+  % object: one small circle at the contact points plus cylinders
+  %         connecting the contact points (representing the object body).
+  object: 0.75*red
+          sphere rc (x_1_x,x_1_y,x_1_z)
+          sphere rc (x_2_x,x_2_y,x_2_z)
+          sphere rc (x_3_x,x_3_y,x_3_z)
+          sphere rc (x_4_x,x_4_y,x_4_z)
+	  cylinder rc*0.5 (x_1_x,x_1_y,x_1_z) (x_2_x,x_2_y,x_2_z)
+	  cylinder rc*0.5 (x_1_x,x_1_y,x_1_z) (x_3_x,x_3_y,x_3_z)
+          cylinder rc*0.5 (x_1_x,x_1_y,x_1_z) (x_4_x,x_4_y,x_4_z)
+          cylinder rc*0.5 (x_2_x,x_2_y,x_2_z) (x_3_x,x_3_y,x_3_z)
+          cylinder rc*0.5 (x_2_x,x_2_y,x_2_z) (x_4_x,x_4_y,x_4_z)
+	  cylinder rc*0.5 (x_3_x,x_3_y,x_3_z) (x_4_x,x_4_y,x_4_z)
+	
+[JOINTS]
+
+% finger 1
+  universal: palm (q_1_1_x,q_1_1_y,q_1_1_z)+(1,0,0)
+             p12  (0,0,0)+(0,1,0)
+             range [phi_1_1_min,phi_1_1_max] +(0,-1,0)
+                   [phi_1_2_min,phi_1_2_max] +(1, 0,0)
+
+  revolute: p12 (p_1_2,0,0)+(0,-1,0)
+            p13 (0,0,0)+(0,-1,0)
+            range [phi_1_3_min,phi_1_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p13 (p_1_3,0,0)+(0,-1,0) 
+            p14 (0,0,0)+(0,-1,0)
+            range [phi_1_4_min,phi_1_4_max] +(1,0,0) +(1,0,0)
+
+% finger 2
+  universal: palm (q_2_1_x,q_2_1_y,q_2_1_z)+(1,0,0)
+             p22  (0,0,0)+(0,1,0)
+             range [phi_2_1_min,phi_2_1_max] +(0,-1,0)
+                   [phi_2_2_min,phi_2_2_max] +(1, 0,0)
+
+  revolute: p22 (p_2_2,0,0)+(0,-1,0)
+            p23 (0,0,0)+(0,-1,0)
+            range [phi_2_3_min,phi_2_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p23 (p_2_3,0,0)+(0,-1,0) 
+            p24 (0,0,0)+(0,-1,0)
+            range [phi_2_4_min,phi_2_4_max] +(1,0,0) +(1,0,0)
+
+% finger 3
+  universal: palm (q_3_1_x,q_3_1_y,q_3_1_z)+(1,0,0)
+             p32  (0,0,0)+(0,1,0)
+             range [phi_3_1_min,phi_3_1_max] +(0,-1,0)
+                   [phi_3_2_min,phi_3_2_max] +(1, 0,0)
+
+  revolute: p32 (p_3_2,0,0)+(0,-1,0)
+            p33 (0,0,0)+(0,-1,0)
+            range [phi_3_3_min,phi_3_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p33 (p_3_3,0,0)+(0,-1,0) 
+            p34 (0,0,0)+(0,-1,0)
+            range [phi_3_4_min,phi_3_4_max] +(1,0,0) +(1,0,0)
+
+% finger 4
+  universal: palm (q_4_1_x,q_4_1_y,q_4_1_z)+(-1,0,0)
+             p42  (0,0,0)+(0,-1,0)
+             range [phi_4_1_min,phi_4_1_max] +(0,-1,0)
+                   [phi_4_2_min,phi_4_2_max] +(1, 0,0)
+
+  revolute: p42 (p_4_2,0,0)+(0,-1,0)
+            p43 (0,0,0)+(0,-1,0)
+            range [phi_4_3_min,phi_4_3_max] +(1,0,0) +(1,0,0)
+
+  revolute: p43 (p_4_3,0,0)+(0,-1,0) 
+            p44 (0,0,0)+(0,-1,0)
+            range [phi_4_4_min,phi_4_4_max] +(1,0,0) +(1,0,0)
+
+% contacts finger-object
+  revolute: p14    (q_1_4_x,q_1_4_y,q_1_4_z)+(mhat_1_x,mhat_1_y,mhat_1_z)
+            object (x_1_x,x_1_y,x_1_z)+(nhat_1_x,nhat_1_y,nhat_1_z)
+
+
+  revolute: p24    (q_2_4_x,q_2_4_y,q_2_4_z)+(mhat_2_x,mhat_2_y,mhat_2_z)
+            object (x_2_x,x_2_y,x_2_z)+(nhat_2_x,nhat_2_y,nhat_2_z)
+
+
+  revolute: p34    (q_3_4_x,q_3_4_y,q_3_4_z)+(mhat_3_x,mhat_3_y,mhat_3_z)
+            object (x_3_x,x_3_y,x_3_z)+(nhat_3_x,nhat_3_y,nhat_3_z)
+
+  revolute: p44    (q_4_4_x,q_4_4_y,q_4_4_z)+(mhat_4_x,mhat_4_y,mhat_4_z)
+            object (x_4_x,x_4_y,x_4_z)+(nhat_4_x,nhat_4_y,nhat_4_z)
+
+
+/** \endcond */
+
+/**
+   \file RobotHand.world
+
+   \brief A generic anthropomorphic hand with 4 fingers.
+
+   <center><img src="../images/RobotHand/MVC-008F.jpg"></center>
+  
+  <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a> </center>
+
+   <h2><a name="intro">Introduction</a></h2> 
+
+   This is an instance of a \ref examples/RobotHand "4 fingered robot hand" with
+   a particular geometry that corresponds to the 
+   <a href="http://www.ioc.upc.edu/recerca/ris/personal/raul-suarez/imatges/foto-mano.jpg">MA-I</a>
+   developed at <a href="http://www.ioc.upc.edu/">IOC</a>.
+   
+   Please, see our <a href="http://www.iri.upc.edu/people/porta/Docs/ijrr11.pdf">IJRR-11</a> for
+   more information on the use of CuikSuite in the context of grasping.
+
+   <h2><a name="geom">Geometry</a></h2>
+
+   <center>
+   <img src="../images/RobotHand/finger.jpg">
+   </center>
+
+
+   The geometry for this hand is given by the following anchor points of the fingers on the hand
+   (\f$\mathbf{q}_{i,1}\f$)
+   
+   <center>
+   <table border="1">
+   <tr>
+    <td> </td>
+    <th colspan="4" align="center">Finger (\f$j\f$)</th>
+   </tr>
+   <tr> 
+    <th align="center"> Anchor<br>Point </th>
+    <th align="center"> 1 </th>
+    <th align="center"> 2 </th>
+    <th align="center"> 3 </th>
+    <th align="center"> 4 </th>
+   </tr>
+   <tr>
+      <th align="center">\f$\mathbf{q}_{j,1}^x\f$ </th>
+      <td align="center"> 9.5</td>
+      <td align="center"> 9.5</td>
+      <td align="center"> 9.5</td>
+      <td align="center"> 40.1650</td>
+   </tr>
+   <tr>
+      <th align="center">\f$\mathbf{q}_{j,1}^y\f$ </th>
+      <td align="center"> -67</td>
+      <td align="center"> 0</td>
+      <td align="center"> 67</td>
+      <td align="center"> 30.012</td>
+   </tr>
+   <tr>
+      <th align="center">\f$\mathbf{q}_{j,1}^z\f$ </th>
+      <td align="center"> 197.55</td>
+      <td align="center"> 197.55</td>
+      <td align="center"> 197.55</td>
+      <td align="center"> 66.8142</td>
+   </tr>
+   </table>
+   </center>
+
+   and by the length of the phalanges (\f$p_{j,i}\f$)
+
+   <center>
+   <table border="1">
+   <tr>
+    <th align="center">\f$p_{j,i}\f$  </th>
+    <th colspan="4" align="center">Finger (\f$j\f$)</th>	
+   </tr> 
+   <tr>
+    <th align="center">Phalanx (\f$i\f$)</th>
+    <th align="center">1</th>
+    <th align="center">2</th>
+    <th align="center">3</th>
+    <th align="center">4</th>	
+   </tr> 
+   <tr>
+     <th align="center">2</th>
+     <td align="center">76.66</td>
+     <td align="center">76.66</td>
+     <td align="center">76.66</td>
+     <td align="center">76.66</td>
+   </tr>
+   <tr>
+     <th align="center">3</th>
+     <td align="center">56</td>
+     <td align="center">56</td>
+     <td align="center">56</td>
+     <td align="center">66</td>
+   </tr> 
+   <tr>
+     <th align="center">4</th>
+     <td align="center">33.805151243</td>
+     <td align="center">33.805151243</td>
+     <td align="center">33.805151243</td>
+     <td align="center">39.862238567</td>
+   </tr>
+   </table>
+   </center>
+
+   The ranges for the universal joint attaching finger \f$i\f$ to the hand palm are given by
+   the minimum and maximum values for 
+   \f$\phi_{i,1}\f$ and \f$\phi_{i,2}\f$ and the limits for the two revolute
+   joints in-between the phalanx \f$j\f$ and \f$j+1\f$ 
+   are given by the minimum and maximum values for \f$r_{i,j}\f$.
+
+   The grasp is defined given the contact points and normals on the fingertips
+
+
+   <center>
+   <table border="1">
+   <tr>
+    <td> </td>
+    <th colspan="4" align="center">Finger (\f$j\f$)</th>
+   </tr>
+   <tr> 
+    <th align="center"> Contact<br>Point </th>
+    <th align="center"> 1 </th>
+    <th align="center"> 2 </th>
+    <th align="center"> 3 </th>
+    <th align="center"> 4 </th>
+   </tr>
+   <tr>
+      <th align="center"> \f$\bf{x}_{j}^x\f$ </th>
+      <td align="center"> 131 </td>
+      <td align="center"> 133.900801528</td>
+      <td align="center"> 133.900801528 </td>
+      <td align="center"> 175</td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\bf{x}_{j}^y\f$ </th>
+      <td align="center"> -49 </td>
+      <td align="center"> 0 </td>
+      <td align="center"> 67 </td>
+      <td align="center"> 34 </td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\bf{x}_{j}^z\f$ </th>
+      <td align="center"> 149 </td>
+      <td align="center"> 244.859338136 </td>
+      <td align="center"> 245</td>
+      <td align="center"> 131.653563187 </td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\hat{\bf{n}}_{j}^x\f$ </th>
+      <td align="center"> -0.925508818115500 </td>
+      <td align="center"> -0.381407578434000</td>
+      <td align="center"> -0.381407578434000</td>
+      <td align="center"> -0.924406976992878</td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\hat{\bf{n}}_{j}^y\f$ </th>
+      <td align="center"> 0.144595776785000</td>
+      <td align="center"> 0 </td>
+      <td align="center"> 0</td>
+      <td align="center"> 0 </td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\hat{\bf{n}}_{j}^z\f$ </th>
+      <td align="center"> -0.405390387471765</td>
+      <td align="center"> -0.924406976992878</td>
+      <td align="center"> -0.924406976992878</td>
+      <td align="center">  0.381407578434000</td>
+   </tr>
+   </table>
+   </center>
+
+   and on the object
+
+
+
+   <center>
+   <table border="1">
+   <tr>
+    <td> </td>
+    <th colspan="4" align="center">Finger (\f$j\f$)</th>
+   </tr>
+   <tr> 
+    <th align="center"> Contact<br>Point </th>
+    <th align="center"> 1 </th>
+    <th align="center"> 2 </th>
+    <th align="center"> 3 </th>
+    <th align="center"> 4 </th>
+   </tr>
+   <tr>
+      <th align="center"> \f$\bf{q}_{j,4}^x\f$ </th>
+      <td align="center"> 27.856821097374684</td>
+      <td align="center"> 27.856821097374684</td>
+      <td align="center"> 27.856821097374684</td>
+      <td align="center"> 34.762406989603285</td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\bf{q}_{j,4}^y\f$ </th>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\bf{q}_{j,4}^z\f$ </th>
+      <td align="center"> 19.151400000000000</td>
+      <td align="center"> 19.151651859208762</td>
+      <td align="center"> 19.151651859208762</td>
+      <td align="center"> 19.508283467663215</td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\hat{\bf{m}}_{j}^x\f$ </th>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\hat{\bf{m}}_{j}^y\f$ </th>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+      <td align="center"> 0</td>
+   </tr>
+   <tr>
+      <th align="center"> \f$\hat{\bf{m}}_{j}^z\f$ </th>
+      <td align="center"> 1</td>
+      <td align="center"> 1</td>
+      <td align="center"> 1</td>
+      <td align="center"> 1</td>
+   </tr>
+   </table>
+   </center>
+
+
+   <h2><a name="process">Process</a></h2>
+
+   This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>: 
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/RobotHand/RobotHand </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Use the parallel version of cuik since this
+       is a large problem with 190 variables and more than 150 equations. Observe that the process
+       stops as soon as the first solution is found
+             - <i> scripts/rmpicuik examples/RobotHand/RobotHand </i>
+             .
+     - <b>Visualize the obtained configuration</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/RobotHand/RobotHand examples/RobotHand/RobotHand</i>
+	     .
+     .
+
+
+   <h2><a name="st">Statistics</a></h2>
+
+   Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center">3</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center">14</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center">16</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">136</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center">134</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on a grid with 160 processors). The process
+    stops as soon as one solution is found.
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center">201</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center">1</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center">80</td>
+    </tr>
+    </table>
+    </center>
+
+   <h2><a name="refs">References</a></h2>
+
+   This is a screenshot of the configuration we obtained:
+
+    <center><img src="../images/RobotHand/robot_hand.png"></center>
+*/

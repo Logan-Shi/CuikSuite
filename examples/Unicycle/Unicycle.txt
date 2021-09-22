@@ -1,0 +1,14 @@
+/** \dir examples/Unicycle
+
+     \brief An unicycle moving on a sphere.
+
+
+      <center>
+     <img src="../images/Unicycle/Uniclycle.jpg">
+     Illustration taken from <i>"Visualizing the motions of a Unicycle on a Sphere"</i> by
+     M. P. Hennessey, Journal of Modelling and Simulation, Vol 26, No., 1, pp 69-79, 2006.
+     </center>
+
+     First attempt to model a system with kinodynamic constraints. 
+
+*/

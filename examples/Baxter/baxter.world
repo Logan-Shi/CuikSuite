@@ -1,0 +1,243 @@
+/** \cond */
+
+[LINKS]
+
+  base 
+  torso : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_torso_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_torso_1.off" hidden
+
+  left_torso_itb 
+  right_torso_itb 
+  pedestal : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_pedestal_0.off" color (0.2,0.2,0.2) decoration
+            body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_pedestal_1.off" hidden
+
+  head : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_head_0.off" color (0.2,0.2,0.2) decoration
+            sphere 0.001 (0,0,0) hidden
+
+  sonar_ring : cylinder 0.085 (-0.0347000000000000,0,0.0045300000000000) (-0.0347000000000000,0,0.0145300000000000) color (0.2,0.2,0.2) decoration
+            sphere 0.001 (0,0,0) hidden
+
+  screen : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_screen_0.off" color (0.5,0.1,0.1) decoration
+            sphere 0.001 (0,0,0) hidden
+
+  head_camera 
+  dummyhead1 
+  collision_head_link_1 : sphere 0.001 (0,0,0) color (0.8,0.3,0.3) decoration
+            sphere 0.22 (-0.0700000000000000,-0.0400000000000000,0) hidden
+
+  collision_head_link_2 : sphere 0.001 (0,0,0) color (0.8,0.3,0.3) decoration
+            sphere 0.22 (-0.0700000000000000,0.0400000000000000,0) hidden
+
+  right_arm_mount 
+  right_upper_shoulder : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_upper_shoulder_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,0) (0,0,0.2722000000000000) hidden
+
+  right_lower_shoulder : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_lower_shoulder_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0600000000000000) (0,0,0.0600000000000000) hidden
+
+  right_upper_elbow : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_upper_elbow_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.1070000000000000) (0,0,0) hidden
+
+  right_upper_elbow_visual : cylinder 0.06 (0,0,0) (0,0,0.2730000000000000) hidden
+
+  right_lower_elbow : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_lower_elbow_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0500000000000000) (0,0,0.0500000000000000) hidden
+
+  right_upper_forearm : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_upper_forearm_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0880000000000000) (0,0,0) hidden
+
+  right_upper_forearm_visual : cylinder 0.06 (0,0,0) (0,0,0.2720000000000000) hidden
+
+  right_arm_itb 
+  right_lower_forearm : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_lower_forearm_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0500000000000000) (0,0,0.0500000000000000) hidden
+
+  right_wrist : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_wrist_0.off" color (0.1,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0825000000000000) (0,0,0.0825000000000000) hidden
+
+  right_hand : cylinder 0.04 (0,0,-0.0464000000000000) (0,0,0) hidden
+
+  right_hand_camera : cylinder 0.02 (0,0,-0.0050000000000000) (0,0,0.0050000000000000) color (0,0,1) decoration
+
+  right_hand_camera_axis 
+  right_hand_range : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_hand_range_0.off" color (0,0,1) decoration
+
+  right_gripper_base : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_gripper_base_0.off" color (0.5,0.1,0.1) decoration
+
+  right_gripper : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_right_gripper_0.off" color (0,0,0) decoration
+
+  left_arm_mount 
+  left_upper_shoulder : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_upper_shoulder_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,0) (0,0,0.2722000000000000) hidden
+
+  left_lower_shoulder : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_lower_shoulder_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0600000000000000) (0,0,0.0600000000000000) hidden
+
+  left_upper_elbow : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_upper_elbow_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.1070000000000000) (0,0,0) hidden
+
+  left_upper_elbow_visual : cylinder 0.06 (0,0,0) (0,0,0.2730000000000000) hidden
+
+  left_lower_elbow : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_lower_elbow_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0500000000000000) (0,0,0.0500000000000000) hidden
+
+  left_upper_forearm : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_upper_forearm_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0880000000000000) (0,0,0) hidden
+
+  left_upper_forearm_visual : cylinder 0.06 (0,0,0) (0,0,0.2720000000000000) hidden
+
+  left_arm_itb 
+  left_lower_forearm : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_lower_forearm_0.off" color (0.5,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0500000000000000) (0,0,0.0500000000000000) hidden
+
+  left_wrist : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_wrist_0.off" color (0.1,0.1,0.1) decoration
+            cylinder 0.06 (0,0,-0.0825000000000000) (0,0,0.0825000000000000) hidden
+
+  left_hand : cylinder 0.04 (0,0,-0.0464000000000000) (0,0,0) hidden
+
+  left_hand_camera : cylinder 0.02 (0,0,-0.0050000000000000) (0,0,0.0050000000000000) color (0,0,1) decoration
+
+  left_hand_camera_axis 
+  left_hand_range : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_hand_range_0.off" color (0,0,1) decoration
+
+  left_gripper_base : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_gripper_base_0.off" color (0.5,0.1,0.1) decoration
+
+  left_gripper : body "/Users/porta/cuik/CuikSuite/examples/Baxter/bodies/baxter_left_gripper_0.off" color (0,0,0) decoration
+
+[JOINTS]
+
+  fix: base collision_head_link_1 Txyz(0.11,0,0.75)
+
+  fix: base collision_head_link_2 Txyz(0.11,0,0.75)
+
+  fix: head dummyhead1 ID
+
+  fix: base torso ID
+
+  fix: torso left_torso_itb Txyz(-0.08897,0.15593,0.389125)*Rz(3.1415926535897931)*Ry(0.0000000000000001)*Rx(1.5707963267948966)
+
+  fix: torso right_torso_itb Txyz(-0.08897,-0.15593,0.389125)*Rx(1.5707963267948966)
+
+  fix: torso pedestal ID
+
+  revolute: torso (0.0600000000000000,0.0000000000000000,0.6860000000000001) (0.0600000000000000,0.0000000000000000,1.6859999999999999)
+            head (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-1.57079632679,1.57079632679] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  fix: head screen Txyz(0.1227,0,0)*Rz(1.5707963267948966)*Rx(1.7505700000000000)
+
+  fix: head head_camera Txyz(0.12839,0,0.06368)*Rz(1.5707963267948966)*Rx(1.7505700000000000)
+
+  fix: torso sonar_ring Txyz(0.0947,0,0.817)
+
+  fix: torso right_arm_mount Txyz(0.024645,-0.219645,0.118588)*Rz(-0.7853999999999999)
+
+  revolute: right_arm_mount (0.0556950000000000,0.0000000000000000,0.0110380000000000) (0.0556950000000000,0.0000000000000000,1.0110380000000001)
+            right_upper_shoulder (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-1.70167993878,1.70167993878] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: right_upper_shoulder (0.0690000000000000,0.0000000000000000,0.2703500000000000) (0.0690000000000000,1.0000000000000000,0.2703500000000000)
+            right_lower_shoulder (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-2.147,1.047] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: right_lower_shoulder (0.1020000000000000,0.0000000000000000,0.0000000000000000) (1.1020000000000001,0.0000000000000000,0.0000000000000000)
+            right_upper_elbow (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-3.05417993878,3.05417993878] +(0.0000000000000001,1.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  fix: right_lower_shoulder right_upper_elbow_visual Txyz(0.107,0,0)*Rz(1.5707963267948966)*Rx(1.5707963267948966)
+
+  revolute: right_upper_elbow (0.0690000000000000,0.0000000000000000,0.2624200000000000) (0.0690000000000000,1.0000000000000000,0.2624200000000000)
+            right_lower_elbow (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-0.05,2.618] +(0.0000000000000001,0.0000000000000000,1.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: right_lower_elbow (0.1035900000000000,0.0000000000000000,0.0000000000000000) (1.1035900000000001,0.0000000000000000,0.0000000000000000)
+            right_upper_forearm (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-3.059,3.059] +(0.0000000000000001,1.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  fix: right_lower_elbow right_upper_forearm_visual Txyz(0.088,0,0)*Rz(1.5707963267948966)*Rx(1.5707963267948966)
+
+  fix: right_upper_forearm right_arm_itb Txyz(-0.0565,0,0.12)*Rz(1.5707963267948966)*Rx(-1.5707963267948966)
+
+  revolute: right_upper_forearm (0.0100000000000000,0.0000000000000000,0.2707000000000000) (0.0099999999999999,1.0000000000000000,0.2707000000000000)
+            right_lower_forearm (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-1.57079632679,2.094] +(0.0000000000000001,0.0000000000000000,1.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: right_lower_forearm (0.1159750000000000,0.0000000000000000,0.0000000000000000) (1.1159749999999999,0.0000000000000000,0.0000000000000000)
+            right_wrist (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-3.059,3.059] +(0.0000000000000001,1.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  fix: right_wrist right_hand Txyz(0,0,0.11355)
+
+  fix: right_hand right_hand_camera Txyz(0.03825,0.012,0.015355)*Rz(-1.5707963267948966)
+
+  fix: right_hand right_hand_camera_axis Txyz(0.03825,0.012,0.015355)
+
+  fix: right_hand right_hand_range Txyz(0.032,-0.020245,0.0288)*Rz(-1.5707963267948966)*Ry(-1.5707963267948966)
+
+  fix: right_hand right_gripper_base ID
+
+  fix: right_gripper_base right_gripper Txyz(0,0,0.025)
+
+  fix: torso left_arm_mount Txyz(0.024645,0.219645,0.118588)*Rz(0.7853999999999999)
+
+  revolute: left_arm_mount (0.0556950000000000,0.0000000000000000,0.0110380000000000) (0.0556950000000000,0.0000000000000000,1.0110380000000001)
+            left_upper_shoulder (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-1.70167993878,1.70167993878] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: left_upper_shoulder (0.0690000000000000,0.0000000000000000,0.2703500000000000) (0.0690000000000000,1.0000000000000000,0.2703500000000000)
+            left_lower_shoulder (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-2.147,1.047] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: left_lower_shoulder (0.1020000000000000,0.0000000000000000,0.0000000000000000) (1.1020000000000001,0.0000000000000000,0.0000000000000000)
+            left_upper_elbow (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-3.05417993878,3.05417993878] +(0.0000000000000001,1.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  fix: left_lower_shoulder left_upper_elbow_visual Txyz(0.107,0,0)*Rz(1.5707963267948966)*Rx(1.5707963267948966)
+
+  revolute: left_upper_elbow (0.0690000000000000,0.0000000000000000,0.2624200000000000) (0.0690000000000000,1.0000000000000000,0.2624200000000000)
+            left_lower_elbow (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-0.05,2.618] +(0.0000000000000001,0.0000000000000000,1.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: left_lower_elbow (0.1035900000000000,0.0000000000000000,0.0000000000000000) (1.1035900000000001,0.0000000000000000,0.0000000000000000)
+            left_upper_forearm (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-3.059,3.059] +(0.0000000000000001,1.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  fix: left_lower_elbow left_upper_forearm_visual Txyz(0.088,0,0)*Rz(1.5707963267948966)*Rx(1.5707963267948966)
+
+  fix: left_upper_forearm left_arm_itb Txyz(-0.0565,0,0.12)*Rz(1.5707963267948966)*Rx(-1.5707963267948966)
+
+  revolute: left_upper_forearm (0.0100000000000000,0.0000000000000000,0.2707000000000000) (0.0099999999999999,1.0000000000000000,0.2707000000000000)
+            left_lower_forearm (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-1.57079632679,2.094] +(0.0000000000000001,0.0000000000000000,1.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: left_lower_forearm (0.1159750000000000,0.0000000000000000,0.0000000000000000) (1.1159749999999999,0.0000000000000000,0.0000000000000000)
+            left_wrist (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-3.059,3.059] +(0.0000000000000001,1.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  fix: left_wrist left_hand Txyz(0,0,0.11355)
+
+  fix: left_hand left_hand_camera Txyz(0.03825,0.012,0.015355)*Rz(-1.5707963267948966)
+
+  fix: left_hand left_hand_camera_axis Txyz(0.03825,0.012,0.015355)
+
+  fix: left_hand left_hand_range Txyz(0.032,-0.020245,0.0288)*Rz(-1.5707963267948966)*Ry(-1.5707963267948966)
+
+  fix: left_hand left_gripper_base ID
+
+  fix: left_gripper_base left_gripper Txyz(0,0,0.025)
+
+
+/** \endcond */
+/**
+   \file baxter.world
+
+   \brief Automatically generated world file.
+
+   Automatically generated world file with the command:
+
+      - bin/cuikurdf2world examples/Baxter baxter_description/urdf/baxter.urdf examples/Baxter/baxter 
+      .
+
+   Created on: Tue Mar  3 22:49:22 2015
+   Executed at: lenny
+*/

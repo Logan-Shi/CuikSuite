@@ -1,0 +1,19 @@
+/** \dir examples/SingleJoint
+
+    \brief Examples of how to codify individual joints.
+    
+    <center>
+    <img src="../images/SingleJoint/all.jpg">
+    </center>
+
+    The five single joints exemplified in this folder are 
+       - A \ref revolute.world "revolute" joint.
+       - A \ref prismatic.world "prismatic" joint.
+       - A \ref spherical.world "spherical" joint.
+       - A \ref universal.world "universal" joint. 
+       - A \ref in_patch.world "in patch" joint. 
+       - A \ref sph_sph.world "spherical-spherical" composite joint. 
+       - A \ref sph_prs_sph.world "spherical-prismatic-spherical" composite joint.
+       .
+
+*/

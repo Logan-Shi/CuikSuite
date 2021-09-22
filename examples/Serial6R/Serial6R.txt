@@ -1,0 +1,72 @@
+/** \dir examples/Serial6R
+
+    \brief 6R serial chains.
+    
+
+   <center>
+   <img src="../images/Serial6R/general6R.jpg">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#form">[Formulations]</a>  <a href="#refs">[References]</a></center>
+
+   <h2><a name="intro">Introduction</a></h2>
+
+   A 6R manipulator is a 
+   chain of seven links L<sub>0</sub>,L<sub>1</sub>, ..., L<sub>6</sub>, 
+   where L<sub>i</sub> is connected to L<sub>i+1</sub> with a revolute 
+   joint. Link L<sub>0</sub> is the "ground" and link L<sub>6</sub> is 
+   the "end effector" (usually a gripper). The problem is to compute
+   which joint angles are required to place the end effector
+   at a given position and orientation in 3-space. 
+   Note that, since the ground and the end effector have fixed 
+   relative positions, they can be viewed as a single rigid body. Thus, the
+   inverse kinematic problem is equivalent to finding all possible 
+   configurations of a general 6R loop like the one depicted above.
+
+   For more 
+   than a decade this was one of the principal problems of Robot 
+   Kinematics. The first efficient solution is due to <a href="#raghavan1993">[Raghavan and 
+   Roth 1993]</a> who obtained a minimum-degree resultant for this problem.
+   Using this technique, the problem can be solved in a few milliseconds 
+   on a standard computer <a href="#manocha1994">[Manocha and Canny 1994]</a>. Although the CUIK
+   solution is slower, it is less affected by the presence of equation 
+   singularities, and it can deal with paradoxical 6R loops with 
+   positive-dimensional solution spaces.
+
+   <h2><a name="geom">Geometry<a></h2>
+
+   The usual way to parametrize a serial chain is giving the
+   <a href="http://en.wikipedia.org/wiki/Robotics_conventions">Denavit-Hartenberg</a> 
+   parameters. In this convention, three parameters (\f$ a_i, d_i, \alpha_i \f$) 
+   relate the frame of reference attached to link \f$i\f$ with that attached to
+   link  \f$i+1\f$. See the figure below for an interpretation of these parameters. 
+
+   <center>
+   <img src="../images/Serial6R/denavit.jpg">
+   Denavit-Hartenberg parameters relating link <i>i</i> and link <i>i+1</i>
+   </center>
+
+   <h2><a name="forms">Formulations<a></h2>
+
+   In this directory the following 6R-chain formulations are provided:
+     - \ref Serial6R.world is a 6R with 16 isolated solutions, the maximum
+       possible number of solutinos a 6R can have.
+     - \ref Serial6RBricard.world is an architecturally singular 6R. 
+     - \ref Serial6R1dof.world  is an architecturally singular 6R. 
+     - \ref Serial6RRX60.world is 6R chain that appear in a industrial robot arm. 
+     .
+   Please, check the individual files for the Denavit-Hartenberg in each case.
+
+   <h2><a name="refs">References</a></h2>
+
+   - <a name="manocha1994">D. Manocha</a> and J.F. Canny, "Efficient Inverse Kinematics for General 6R Manipulators", <i>IEEE Transactions on Robotics and Automation</i>, Vol. 10., Nr. 5, pp. 648-657, October 1994.
+   - <a name="porta2006">J. M. Porta</a>, L. Ros, F. Thomas, "Multi-loop Position Analysis via Iterated Linear Programming", in Proc. Robotics: Science and  Systems II, Philadelphia, USA, 2006.
+   - <a name="primrose1986">E. J. F. Primrose</a>, "On the input-output equation of the general 7R mechanism", <i>Mechanisms and Machine Theory</i>, Vol. 21, pp. 509-510, 1986.
+   - <a name="raghavan1993">M. Raghavan</a> and B. Roth, "Inverse Kinematics of the general 6R manipulator and related linkages", <i>ASME Journal of Mechanical  Design</i>, Vol. 115, pp. 502-508, 1993.
+   - <a name="wampler1991">C. Wampler</a> and A.P. Morgan, "Solving the 6R inverse position problem using a generic-case solution methodology", <i>Mechanisms  Mach. Theory</i>, Vol. 26, Nr. 1, pp. 91-106, 1991.
+   .
+
+</dl>
+
+
+*/

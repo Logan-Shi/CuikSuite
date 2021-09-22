@@ -1,0 +1,251 @@
+/** \cond */
+[CONSTANTS]
+
+  # Environment size
+  sz:=5
+
+  # Size of the base triangle 
+  sb:=0.288680000000000
+
+  # anchor points base in local coordinates  
+  pb1_1:=-0.25
+  pb1_2:=-0.14434
+  pb1_3:= 0
+  n1:=sqrt(pb1_1^2+pb1_2^2+(pb1_3-sb)^2)
+  db1:=n1
+
+  pb2_1:= 0.25
+  pb2_2:=-0.14434
+  pb2_3:= 0
+  n2:=sqrt(pb2_1^2+pb2_2^2+(pb2_3-sb)^2)
+  db2:=n2
+
+  pb3_1:= 0
+  pb3_2:= 0.28868
+  pb3_3:= 0
+  n3:=sqrt(pb3_1^2+pb3_2^2+(pb3_3-sb)^2)
+  db3:=n3
+
+  # anchor points base in local coordinates
+  pp1_1:=-0.08447
+  pp1_2:=-0.01760
+  pp1_3:= 0.42758
+  
+  pp2_1:= 0.17050
+  pp2_2:=-0.06904
+  pp2_3:= 0.48733
+  
+  pp3_1:= 0.00154
+  pp3_2:= 0.12605
+  pp3_3:= 0.42758
+
+  % Rotation center
+  pc_x:=0
+  pc_y:=0
+  pc_z:=sb
+
+  # first revolute joints in base reference
+  ab1_1:= (pc_x-pb1_1)/n1
+  ab1_2:= (pc_y-pb1_2)/n1
+  ab1_3:= (pc_z-pb1_3)/n1
+
+  ab2_1:= (pc_x-pb2_1)/n2
+  ab2_2:= (pc_y-pb2_2)/n2
+  ab2_3:= (pc_z-pb2_3)/n2
+
+  ab3_1:= (pc_x-pb3_1)/n3
+  ab3_2:= (pc_y-pb3_2)/n3
+  ab3_3:= (pc_z-pb3_3)/n3
+  
+  # first revolute joints in platform reference
+  ap1_1:= ab1_1
+  ap1_2:= ab1_2
+  ap1_3:= ab1_3
+
+  ap2_1:= ab2_1
+  ap2_2:= ab2_2
+  ap2_3:= ab2_3
+
+  ap3_1:= ab3_1
+  ap3_2:= ab3_2
+  ap3_3:= ab3_3
+
+  % maximum leg lengs
+  l1:=0.6
+  l2:=0.6
+  l3:=0.6
+
+  % plotting parameters
+  rb:=0.0125
+
+[LINKS]
+
+  base: 0.5*red
+        % Three bars forming the triangle 
+      	cylinder rb (pb1_1,pb1_2,pb1_3) (pb2_1,pb2_2,pb2_3)
+        cylinder rb (pb2_1,pb2_2,pb2_3) (pb3_1,pb3_2,pb3_3)
+	cylinder rb (pb3_1,pb3_2,pb3_3) (pb1_1,pb1_2,pb1_3)
+	sphere rb (pb1_1,pb1_2,pb1_3)
+	sphere rb (pb2_1,pb2_2,pb2_3)
+        sphere rb (pb3_1,pb3_2,pb3_3)
+
+        cylinder 0.25*rb (pb1_1-0.05*ab1_1,pb1_2-0.05*ab1_2,pb1_3-0.05*ab1_3) (pb1_1+0.05*ab1_1,pb1_2+0.05*ab1_2,pb1_3+0.05*ab1_3)  green
+	% line (pb1_1,pb1_2,pb1_3) (pb1_1+db1*ab1_1,pb1_2+db1*ab1_2,pb1_3+db1*ab1_3)  green
+	sphere 0.25*rb (pb1_1-0.05*ab1_1,pb1_2-0.05*ab1_2,pb1_3-0.05*ab1_3) green
+        sphere 0.25*rb (pb1_1+0.05*ab1_1,pb1_2+0.05*ab1_2,pb1_3+0.05*ab1_3) green
+	cylinder 0.25*rb (pb2_1-0.05*ab2_1,pb2_2-0.05*ab2_2,pb2_3-0.05*ab2_3) (pb2_1+0.05*ab2_1,pb2_2+0.05*ab2_2,pb2_3+0.05*ab2_3) green
+	% line (pb2_1,pb2_2,pb2_3) (pb2_1+db2*ab2_1,pb2_2+db2*ab2_2,pb2_3+db2*ab2_3) green
+	sphere 0.25*rb (pb2_1-0.05*ab2_1,pb2_2-0.05*ab2_2,pb2_3-0.05*ab2_3) green
+	sphere 0.25*rb (pb2_1+0.05*ab2_1,pb2_2+0.05*ab2_2,pb2_3+0.05*ab2_3) green
+	cylinder 0.25*rb (pb3_1-0.05*ab3_1,pb3_2-0.05*ab3_2,pb3_3-0.05*ab3_3) (pb3_1+0.05*ab3_1,pb3_2+0.05*ab3_2,pb3_3+0.05*ab3_3) green
+	% line (pb3_1,pb3_2,pb3_3) (pb3_1+db3*ab3_1,pb3_2+db3*ab3_2,pb3_3+db3*ab3_3) green
+	% sphere 0.25*rb (pb3_1-0.05*ab3_1,pb3_2-0.05*ab3_2,pb3_3-0.05*ab3_3) green
+	% sphere 0.25*rb (pb3_1+0.05*ab3_1,pb3_2+0.05*ab3_2,pb3_3+0.05*ab3_3) green
+	
+  l1_1: black
+        cylinder 0.5*rb (0,0,-0.05) (0,0,0.05) yellow
+	sphere 0.5*rb (0,0,-0.05) yellow
+	sphere 0.5*rb (0,0, 0.05) yellow
+	cylinder rb (0,0,0) (0.5*l1,0,0)
+	sphere rb (0,0,0)
+	sphere rb (0.5*l1,0,0)
+
+  l1_2: blue
+        cylinder 0.5*rb (0,0,0) (0.5*l1,0,0)
+	sphere 0.5*rb (0.5*l1,0,0)
+	cylinder 0.25*rb (0.5*l1,0,-0.05) (0.5*l1,0,+0.05) yellow
+	sphere  0.25*rb (0.5*l1,0,-0.05) yellow
+	sphere 0.25*rb (0.5*l1,0,+0.05) yellow
+
+  l2_1: black
+        cylinder 0.5*rb (0,0,-0.05) (0,0,0.05) yellow
+	sphere 0.5*rb (0,0,-0.05) yellow
+	sphere 0.5*rb (0,0, 0.05) yellow
+	cylinder rb (0,0,0) (0.5*l2,0,0)
+	sphere rb (0,0,0)
+	sphere rb (0.5*l2,0,0)
+
+  l2_2: blue
+        cylinder 0.5*rb (0,0,0) (0.5*l2,0,0)
+	sphere 0.5*rb (0.5*l2,0,0)
+	cylinder 0.25*rb (0.5*l2,0,-0.05) (0.5*l2,0,+0.05) yellow
+	sphere  0.25*rb (0.5*l2,0,-0.05) yellow
+	sphere 0.25*rb (0.5*l2,0,+0.05) yellow
+
+  l3_1: black
+        cylinder 0.5*rb (0,0,-0.05) (0,0,0.05) yellow
+	sphere 0.5*rb (0,0,-0.05) yellow
+	sphere 0.5*rb (0,0, 0.05) yellow
+	cylinder rb (0,0,0) (0.5*l3,0,0)
+	sphere rb (0,0,0)
+	sphere rb (0.5*l3,0,0)
+
+  l3_2: blue
+        cylinder 0.5*rb (0,0,0) (0.5*l3,0,0)
+	sphere 0.5*rb (0.5*l3,0,0)
+	cylinder 0.25*rb (0.5*l3,0,-0.05) (0.5*l3,0,+0.05) yellow
+	sphere  0.25*rb (0.5*l3,0,-0.05) yellow
+	sphere 0.25*rb (0.5*l3,0,+0.05) yellow
+
+  platform: 0.5*red
+            % Three bars forming the triangle 
+	    cylinder 0.5*rb (pp1_1,pp1_2,pp1_3) (pp2_1,pp2_2,pp2_3)
+	    cylinder 0.5*rb (pp2_1,pp2_2,pp2_3) (pp3_1,pp3_2,pp3_3)
+	    cylinder 0.5*rb (pp3_1,pp3_2,pp3_3) (pp1_1,pp1_2,pp1_3)
+	    sphere 0.5*rb (pp1_1,pp1_2,pp1_3)
+	    sphere 0.5*rb (pp2_1,pp2_2,pp2_3)
+	    sphere 0.5*rb (pp3_1,pp3_2,pp3_3)
+
+            cylinder 0.25*rb (pp1_1-0.05*ap1_1,pp1_2-0.05*ap1_2,pp1_3-0.05*ap1_3) (pp1_1+0.05*ap1_1,pp1_2+0.05*ap1_2,pp1_3+0.05*ap1_3) green
+	    sphere 0.25*rb (pp1_1-0.05*ap1_1,pp1_2-0.05*ap1_2,pp1_3-0.05*ap1_3) green
+	    sphere 0.25*rb (pp1_1+0.05*ap1_1,pp1_2+0.05*ap1_2,pp1_3+0.05*ap1_3) green
+	    cylinder 0.25*rb (pp2_1-0.05*ap2_1,pp2_2-0.05*ap2_2,pp2_3-0.05*ap2_3) (pp2_1+0.05*ap2_1,pp2_2+0.05*ap2_2,pp2_3+0.05*ap2_3) green
+	    sphere 0.25*rb (pp2_1-0.05*ap2_1,pp2_2-0.05*ap2_2,pp2_3-0.05*ap2_3) green
+	    sphere 0.25*rb (pp2_1+0.05*ap2_1,pp2_2+0.05*ap2_2,pp2_3+0.05*ap2_3) green
+	    cylinder 0.25*rb (pp3_1-0.05*ap3_1,pp3_2-0.05*ap3_2,pp3_3-0.05*ap3_3) (pp3_1+0.05*ap3_1,pp3_2+0.05*ap3_2,pp3_3+0.05*ap3_3) green
+	    sphere 0.25*rb (pp3_1-0.05*ap3_1,pp3_2-0.05*ap3_2,pp3_3-0.05*ap3_3) green
+	    sphere 0.25*rb (pp3_1+0.05*ap3_1,pp3_2+0.05*ap3_2,pp3_3+0.05*ap3_3) green
+
+  ref %: sphere rb (0,0,0) red 
+
+[JOINTS]
+
+  universal: base  (pb1_1,pb1_2,pb1_3)+(ab1_1,ab1_2,ab1_3)
+	     l1_1 (0,0,0) (0,0,1)
+
+  prismatic: l1_1 (0,0,0) (1,0,0)
+             l1_2 (0,0,0) (1,0,0)
+	     range [0,0.5*l1]
+
+  universal: platform (pp1_1,pp1_2,pp1_3)+(ap1_1,ap1_2,ap1_3)
+	     l1_2 (0.5*l1,0,0) (0.5*l1,0,1)
+
+  universal: base (pb2_1,pb2_2,pb2_3)+(ab2_1,ab2_2,ab2_3)
+	     l2_1 (0,0,0) (0,0,1)
+   
+  prismatic: l2_1 (0,0,0) (1,0,0)
+             l2_2 (0,0,0) (1,0,0)
+	     range [0,0.5*l2]
+
+  universal: platform (pp2_1,pp2_2,pp2_3)+(ap2_1,ap2_2,ap2_3)
+	     l2_2 (0.5*l2,0,0) (0.5*l2,0,1)
+	   
+  universal: base (pb3_1,pb3_2,pb3_3)+(ab3_1,ab3_2,ab3_3)
+	     l3_1 (0,0,0) (0,0,1)
+	
+  prismatic: l3_1 (0,0,0) (1,0,0)
+             l3_2 (0,0,0) (1,0,0)
+	     range [0,0.5*l3]
+
+  universal: platform (pp3_1,pp3_2,pp3_3)+(ap3_1,ap3_2,ap3_3)
+	     l3_2 (0.5*l3,0,0) (0.5*l3,0,1)
+
+  fix: platform ref Tz(0.44)
+
+[EQUATIONS]
+
+  EQFILE: "extra_eq_trans.cuik"
+
+/** \endcond */
+
+/**
+  \file UPU3_trans.world
+
+  \brief The 3-UPU manipulator.
+
+    <center>
+    <img src="../images/3-UPU/3-UPU-trans.png">
+    </center>
+
+   Our translational version of the 3-UPU manipulator
+   
+   This can be processed as follows:
+   
+   - Uncomment the last block of equations of extra_trans.cuik
+   - \ref cuikequations.c "bin/cuikequations" examples/UPU3/UPU3_trans
+   - \ref cuiknewton.c "bin/cuiknewton" examples/UPU3/UPU3_trans 10 > points.sol
+   - Take one point and put it in the UPU3_trans.links file
+   - Comment the last block of equations of extra_trans.cuik
+   - rm examples/UPU3/UPU3_trans.cuik
+   - \ref cuikdim.c "bin/cuikdim" examples/UPU3/UPU3_trans
+       - You should get a 3 (in the symmetrical position!!)
+       .
+   - \ref cuikexplore.c "scripts/cuikexplore" examples/UPU3/UPU3_trans
+   .
+
+   To generate the plots in our ReMar paper:
+   - \ref cuikequations.c "bin/cuikequations" examples/UPU3/UPU3_trans
+   - Edit the file examples/UPU3/UPU3_trans.cuik and fix the leg lengths (variables d_l1_1_l1_2_1, d_l2_1_l2_2_4, d_l3_1_l3_2_7
+     to 0, 0.15, and 0.15, respectively).
+     This can also be done before generating the equations, fixing the range of the prismatic joints.
+   - Solve: scripts/cuikmpi examples/UPU3/UPU3_trans.cuik
+   - Plot the solutions: \ref cuikplot3d.c "bin/cuikplot3d" examples/UPU3/UPU3_trans 88 89 90 0.025 upu_trans_init.gcl
+   - Visualize: geomview upu_trans_init.gcl share/axes.list
+   - Backup the result cp examples/UPU3/UPU3_trans.sol examples/UPU3/UPU3_trans_init.sol
+   - Relax the range for variable d_l1_1_l1_2_1 (set it to [0,0.3]).
+   - Solve again: scripts/cuikmpi examples/UPU3/UPU3_trans.cuik
+   - Plot again: \ref cuikplot3d.c "bin/cuikplot3d" examples/UPU3/UPU3_trans 88 89 90 0 upu_trans_all.gcl
+   - Visualize all the results: geomview upu_trans_init.gcl upu_trans_all.gcl share/axes.list
+   .
+
+*/

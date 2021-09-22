@@ -1,0 +1,44 @@
+#!/bin/tcsh   
+  # Auxiliary script gatter log files when executing a given application
+  # This is typically used with the planning applications (e.g., cuikatlasrrt)
+
+if ($#argv < 1) then
+  printf "Script to gather the status and trace of a planning process.\n"
+  printf "Usage:\n"
+  printf "     cuiklog <planner> <problem file> ...\n"
+  printf "  where\n"
+  printf "     <planner> is the planner to execute (e.g. cuikatlasrrt, cuikrrt, etc).\n"
+  printf "     <problem file> is the problem to solve.\n"
+  printf "     ... other parameters can be added (e.g. number of repetitions, etc).\n\n"
+  printf "The log is stored in the file <problem file>_log.tgz and it includes the inputs and outputs\n"
+  printf "of the planning process as well the git hash for all the files (including code)\n"
+else
+  # Commit the input files.
+  git add $2.world
+  git add $2.param
+  # Assume that we operate on joint files (not links)
+  git add $2.joints
+  # Assume that the extra equation file, if any, has this particular name pattern
+  git add *_eqs.cuik
+
+  git commit -a -m "Executing experiments with file $2"
+  git push
+
+  # Retrive the git hash for the current version
+  printf "Git version: " > $2_git.txt
+  git rev-parse HEAD >> $2_git.txt
+  printf "\n" >> $2_git.txt
+  printf "Git status\n" >> $2_git.txt
+  git status >> $2_git.txt
+  
+  # Excute the application storing the output in a file
+  $1 $2 $3 $4 $5 $6  &> $2_trace.txt
+
+  # Pack all the results into a single file
+  tar czf $2_log.tgz $2_git.txt $2_trace.txt $2.world $2.param $2.joints $2_traj.sol $2.sol $2.rrt $2.atlas $2.arrt
+endif
+
+  
+  
+
+  

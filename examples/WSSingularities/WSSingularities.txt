@@ -1,0 +1,39 @@
+/** \dir examples/WSSingularities
+
+      \brief Planar linkages used to test singularity-related tools.
+
+
+   <center>
+   <img src="../images/WSSingularities/workspace.png">
+   </center>
+
+      Planar linkages used to test singularity-related tools. 
+
+      This folder includes mechanisms from where we generate
+      equations.
+      Then, these equations are extended with singularity related
+      equations (for instance, to isolate the singularity
+      loci or the workspace boundaries). 
+      The extended equation files are solve using cuik.
+      
+      Note that the examples included in this file are relatively simple.
+      More complex singularity-related problems can be addressed
+      with the CuikSuite tools, but up to now we do not have tools
+      to automatically generate the necessary equations. This is part
+      of our futher developments
+
+      For more complex examples, please check our <a href="http://www.iri.upc.edu/people/ros/Separates/sci-16-r14-tro-workspaces.pdf>TRO-12</a> and
+      <a href="http://www.iri.upc.edu/people/ros/Separates/sci-17-r15-asme-workspace-stewart.pdf">JMR-13</a> papers.
+      
+      Please, have a look to the two files included in this folder for more details on
+      how to process them:
+
+         - 3R.world Wokspace computation of a 3R robot.
+	 - PlanarParallel.world  Workspace computation of a planar parallel robot.
+	 .
+
+      For more information about the files in this folder contact
+      Oriol Bohigas.
+
+     \todo Develop tools to automatically generate the equations for the singularity-related problems. 
+*/

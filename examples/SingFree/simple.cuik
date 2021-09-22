@@ -1,0 +1,27 @@
+[CONSTANTS]
+
+d1:=20
+
+a:=0.25
+s:=0.5
+
+l:=8*pi
+
+[SYSTEM VARS]
+
+q1 : [-2,2]
+q2 : [-d1,d1]
+
+q3 : [-d1,d1]
+
+ts : [0,l]
+
+b : [-1,1]
+
+[SYSTEM EQS]
+
+q1=s*cos(ts);
+ts=a*q2^2+a*q3^2;
+
+q3*sin(ts)*3*b=1;
+

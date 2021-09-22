@@ -1,0 +1,14 @@
+#!/bin/tcsh
+
+if ($#argv < 1) then
+  printf "  Script to use on-line move mechanisms\n"
+  printf "  Usage:\n" 
+  printf "        cuikmove <world file> <precision> <axis> <initPos> \n"
+  printf "    where\n" 
+  printf "      <world file> is the mechanism to move\n"
+  printf "      <iniPos>     file with initial values for the DOF\n"
+  printf "      <axis>       axis length (default 0)\n"
+  printf "      <precision>  precision in the sliders (default 3)\n"
+else
+  geomview -run cuikmove $1 $2 $3 $4
+endif

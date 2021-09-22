@@ -1,0 +1,37 @@
+
+/** \dir examples/URDF
+
+     \brief URDF file to illustrate \ref cuikurdf2world.cpp "cuikurdf2world".
+
+    We use an URDF file  for the <a href="https://robots.ieee.org/robots/wam/">Wam robot</a>
+    to illustrate the procedure to automatically convert URDF files to world files. These world
+    files can be direclyt used by the CuikSuite. Thus, this procedure allows to rapidly incorporate new robot models
+    to the CuikSuite.
+
+    For information about ROS and URDF files please see http://www.ros.org 
+    
+    The \ref cuikurdf2world.cpp "cuikurdf2world" tool does not link with any ROS library, but it directly parses the URDF files using
+    tinyxml2. In this way CuikSuite keeps its dependencies to a minimum. The problem with this approach is that
+    changes in the URDF file format will not be automatically incorporated into the CuikSuite. Moreover, we do not
+    consider xacro scritps, but only URDF files. If only have xacro files you will need to install ROS
+    and execute
+    	- rosrun xacro xacro --inorder -o model.urdf model.urdf.xacro
+	.
+
+    To process this example execute:
+        - Convert the URDF file to a world file:
+	  	  - \ref cuikurdf2world.cpp "bin/cuikurdf2world" . examples/URDF wam.urdf
+	  	  .
+        - Visualize and move the resulting robot model:
+	  	  - \ref cuikmove.c "scripts/cuikmove" examples/URDF/wam
+	  	  .
+        .
+
+        For any process using this generated file you will need a file of parametes. Just copy one from another example:
+	  	  - cp examples/Barret/BarretArm.param examples/URDF/wam.param
+	  	  .
+		  
+	The default conversion activates the collision detection between all pairs of links. Just edit the
+	collision section in the last part of the world file to change this setting.
+
+*/

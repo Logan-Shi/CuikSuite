@@ -1,0 +1,32 @@
+%%%% REEM GLASS %%%%
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% path planning parametes
+%------------------------------
+% joint-based representation
+
+R = 10
+SR = 100
+E = 100
+CE = 100
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+
+N_DOF = 12
+
+DETECT_BIFURCATIONS = 0
+
+MAX_NEWTON_ITERATIONS = 50

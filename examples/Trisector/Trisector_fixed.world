@@ -1,0 +1,131 @@
+/* Angle trisector with a fixed input */
+
+/** \cond */
+[CONSTANTS]
+
+OA:=2.3
+OB:=OA
+OC:=OA
+OD:=OA
+
+AS:=2.3
+DS:=AS
+BSp:=AS
+CSp:=AS
+
+% bar width
+w:=0.05
+
+% spheres (placed at the end of bars) size
+r:=0.1
+
+[LINKS]
+
+l_OA: body "bodies/triangle1.off" cyan  
+      sphere 0.3 (0,0,0) red
+
+l_OB: body "bodies/triangle1.off" cyan
+
+l_OC: red+green 
+      body "bodies/triangle2.off"
+      body "bodies/box.off"
+      cylinder w (OD,0,0)(OD+AS,0,0) 0.5*red+0.25*green 
+      sphere r (OD+AS,0,0)           0.5*red+0.25*green 
+
+l_OD: red+green
+      body "bodies/triangle2.off"
+      body "bodies/box.off"
+      cylinder w (OD,0,0)(OD+BSp,0,0) 0.5*red+0.25*green
+      sphere r (OD+BSp,0,0)           0.5*red+0.25*green
+
+% To links with no bodies used in to define the sliding on
+% the right parts of 'l_OC' and 'l_OD'
+l_S
+
+l_Sp
+
+% 4 bars
+l_AS: cylinder w (0,0,0) (AS,0,0) blue
+      sphere r ( 0,0,0) red
+      sphere r (AS,0,0) red 
+
+l_DS: cylinder w (0,0,0) (DS,0,0) blue
+      sphere r ( 0,0,0) red
+      sphere r (DS,0,0) red 
+
+l_BSp: cylinder w (0,0,0) (BSp,0,0) green
+       sphere r (  0,0,0) red
+       sphere r (BSp,0,0) red 
+
+l_CSp: cylinder w (0,0,0) (CSp,0,0) green
+       sphere r (  0,0,0) red
+       sphere r (CSp,0,0) red 
+
+[JOINTS]
+
+fix : l_OA l_OB Ry(30)
+
+revolute: l_OA   (0,0,0)+(0,1,0)
+          l_OC   (0,0,0)+(0,1,0)
+
+revolute: l_OC   (0,0,0)+(0,1,0)
+          l_OD   (0,0,0)+(0,1,0)
+
+revolute: l_OC   (OC,0,0)+(0,1,0)
+          l_CSp  0+(0,1,0)
+
+revolute: l_CSp  1+(0,1,0)
+          l_Sp   (0,0,0)+(0,1,0)
+
+prismatic: l_OD  (OD,0,0)+(1,0,0)
+           l_Sp  (0,0,0)+(1,0,0)
+           range [0,BSp]
+
+revolute: l_OD   (OD,0,0)+(0,1,0)
+          l_DS   0+(0,1,0)
+
+revolute: l_DS   1+(0,1,0)
+          l_S    (0,0,0)+(0,1,0)
+
+prismatic: l_OC  (OC,0,0)+(1,0,0)
+           l_S   (0,0,0)+(1,0,0)
+           range [0,AS]
+
+revolute: l_OA   (OA,0,0)+(0,1,0)
+          l_AS   0+(0,1,0)
+
+revolute: l_AS   1+(0,1,0)
+          l_S    (0,0,0)+(0,1,0)                  
+
+revolute: l_OB   (OB,0,0)+(0,1,0)
+          l_BSp  0+(0,1,0)
+
+revolute: l_BSp  1+(0,1,0)
+          l_Sp   (0,0,0)+(0,1,0)  
+
+
+/** \endcond */
+
+/** \file Trisector_fixed.world
+
+   \brief Fixed \ref examples/Trisector "Laisant angle trisector".
+
+   This file encodes the 
+   \ref examples/Trisector "Laisant angle trisector" with a fixed input angle. This
+   produces mechanism with a zero-dimensional configuration space.
+
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Trisector/Trisector_fixed </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Trisector/Trisector_fixed </i>
+             .
+     - <b>Examine the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Trisector/Trisector_fixed examples/Trisector/Trisector_fixed </i>
+             .
+     .
+
+*/

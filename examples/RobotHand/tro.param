@@ -1,0 +1,69 @@
+%% Parameters for the robot hand example
+%% used in the WAFR presentation  (and 
+%% included in the IJRR paper) 
+
+%------------------------------
+% Representation parameters
+
+REPRESENTATION = JOINTS
+
+%------------------------------
+% Numerical accuracy
+
+EPSILON = 1e-6
+
+%------------------------------
+% cuik solver parameters
+
+RHO = 0.45
+SIGMA = 0.1
+SMALL_SIGMA = 1e-2
+
+SIMPLIFICATION_LEVEL = 1
+STATE_PERIOD = 1000
+ERROR_SPLIT = FALSE
+SAFE_SIMPLEX = 1
+DUMMIFY = 1
+LR2TM_Q = 0.1
+LR2TM_S = 0.1
+N_SOLUTIONS=1
+
+%------------------------------
+% path planning parameters
+%------------------------------
+% joint-based representation
+
+% GBF
+% R = 0.4
+% SR = 1.2
+% E = 0.1
+% CE = 0.1
+
+% RRT
+R = 1
+SR = 2
+E = 0.1
+CE = 0.1
+
+%------------------------------
+% non-joint representation 
+
+% IJRR
+% R = 1.0
+% SR = 3
+% E = 0.2
+% CE = 0.2
+
+%------------------------------
+% other path-planning parameters
+
+DELTA = 0.05
+BETA = 1.1
+
+N_DOF = 4
+
+DETECT_BIFURCATIONS = 0
+
+MAX_NEWTON_ITERATIONS = 50
+
+%------------------------------

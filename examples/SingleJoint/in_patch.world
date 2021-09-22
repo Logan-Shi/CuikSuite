@@ -1,0 +1,125 @@
+/** \cond */
+
+[CONSTANTS]
+  
+  p0x:=0
+  p0y:=0
+  p0z:=0
+
+  p1x:=1
+  p1y:=0
+  p1z:=0.5
+
+  p2x:=0
+  p2y:=1
+  p2z:=0.5
+
+  p3x:=1
+  p3y:=1
+  p3z:=0
+
+  v01x:=p1x-p0x
+  v01y:=p1y-p0y
+  v01z:=p1z-p0z
+
+  v23x:=p3x-p2x
+  v23y:=p3y-p2y
+  v23z:=p3z-p2z
+
+
+[LINKS]
+
+  ground: color (0.9,0.9,0.9)
+	  sphere 0.05 (p0x,p0y,p0z)
+	  sphere 0.05 (p1x,p1y,p1z)
+	  sphere 0.05 (p2x,p2y,p2z)
+	  sphere 0.05 (p3x,p3y,p3z)
+	  cylinder 0.025 (p0x,p0y,p0z) (p1x,p1y,p1z)
+	  cylinder 0.025 (p0x,p0y,p0z) (p2x,p2y,p2z)
+	  cylinder 0.025 (p1x,p1y,p1z) (p3x,p3y,p3z)
+	  cylinder 0.025 (p2x,p2y,p2z) (p3x,p3y,p3z)
+
+	  cylinder 0.025 (p0x+0.1*v01x,p0y+0.1*v01y,p0z+0.1*v01z) 
+	                 (p2x+0.1*v23x,p2y+0.1*v23y,p2z+0.1*v23z)
+
+	  cylinder 0.025 (p0x+0.2*v01x,p0y+0.2*v01y,p0z+0.2*v01z) 
+	                 (p2x+0.2*v23x,p2y+0.2*v23y,p2z+0.2*v23z)
+
+	  cylinder 0.025 (p0x+0.3*v01x,p0y+0.3*v01y,p0z+0.3*v01z) 
+	                 (p2x+0.3*v23x,p2y+0.3*v23y,p2z+0.3*v23z)
+
+	  cylinder 0.025 (p0x+0.4*v01x,p0y+0.4*v01y,p0z+0.4*v01z) 
+	                 (p2x+0.4*v23x,p2y+0.4*v23y,p2z+0.4*v23z)
+ 
+	  cylinder 0.025 (p0x+0.5*v01x,p0y+0.5*v01y,p0z+0.5*v01z) 
+	                 (p2x+0.5*v23x,p2y+0.5*v23y,p2z+0.5*v23z) 
+
+	  cylinder 0.025 (p0x+0.6*v01x,p0y+0.6*v01y,p0z+0.6*v01z) 
+	                 (p2x+0.6*v23x,p2y+0.6*v23y,p2z+0.6*v23z)
+ 
+	  cylinder 0.025 (p0x+0.7*v01x,p0y+0.7*v01y,p0z+0.7*v01z) 
+	                 (p2x+0.7*v23x,p2y+0.7*v23y,p2z+0.7*v23z) 
+
+	  cylinder 0.025 (p0x+0.8*v01x,p0y+0.8*v01y,p0z+0.8*v01z) 
+	                 (p2x+0.8*v23x,p2y+0.8*v23y,p2z+0.8*v23z) 
+
+	  cylinder 0.025 (p0x+0.9*v01x,p0y+0.9*v01y,p0z+0.9*v01z) 
+	                 (p2x+0.9*v23x,p2y+0.9*v23y,p2z+0.9*v23z) 
+
+
+  link: cylinder 0.1 (0,0,0)(1,0,0) color (0.9,0.1,0.1)
+
+[JOINTS]
+
+  in_patch: % point and extreme of the normal vector
+            link   (0,0,0) (-1,0,0)  
+
+	    % four points defining a patch
+            ground (p0x,p0y,p0z) (p1x,p1y,p1z) (p2x,p2y,p2z) (p3x,p3y,p3z)
+
+	    avoid limits
+
+/** \endcond */
+
+/** 
+    \file in_patch.world
+
+    \brief Example of how to set an in_patch joint.
+
+    <center>
+    <img src="../images/SingleJoint/in_patch.png">
+    </center>
+
+    Example of how to set an in_patch joint. An in_patch joint is a generalization of the planar
+    joint, where the surface does not need to be planar, but it can be any ruled surface.
+    The four points used to defined the joint give the corners of the ruled surface. 
+
+    
+    This example can be processed following the next steps (this can be slow since the solution set is 3-dimensional. It is better to
+    use the interactive tool described below):
+       - <i> \ref cuikequations.c "bin/cuikequations" examples/SingleJoint/in_patch </i>
+       - <i> \ref cuik.c "bin/cuik" examples/SingleJoint/in_patch </i>
+       - <i> \ref cuikplay.c "scripts/cuikplayer" examples/SingleJoint/in_patch examples/SingleJoint/in_patch </i>
+       .
+
+    After this sequence of commands you will see the motions of a cylinder on a ruled surface, with the cylinder orthogonal
+    to the surface at all time.
+    Use the slider to move the cylinder. Note that the solutions are not sorted in any way (the sort operation only works
+    for one-dimensional solution sets and here the solution set is 3-dimensional).
+
+    <center>
+    <img src="../images/SingleJoint/in_patch_result.png">
+    </center>
+ 
+
+    You can also interactively explore the solution set executing:
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/SingleJoint/in_patch </i>
+      .
+      
+    <img src="../images/SingleJoint/in_patch_move.png">
+
+    Use the sliders in the graphical interface to move the cylinder.
+
+
+    \sa prismatic.world, revolute.world, universal.world, spherical.world sph_shp.world sph_prs_shp.world
+*/

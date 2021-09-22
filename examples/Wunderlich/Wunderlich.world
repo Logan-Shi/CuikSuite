@@ -1,0 +1,132 @@
+/* The Wunderlich Mechanism */
+
+/** \cond */
+
+[CONSTANTS]
+
+% Mechanism parameters
+a:=9
+b:=6
+c:=3
+
+% Cylinder and sphere radius used to plot the mechanism
+cr:= 0.25
+sr:=0.5
+
+[LINKS]
+
+b_1_2: cylinder cr (0,0,0) (a,0,0) black
+       sphere   sr (0,0,0) red
+       sphere   sr (a,0,0) red
+
+b_3_4: cylinder cr (0,0,0) (a,0,0) black
+       sphere   sr (0,0,0) red
+       sphere   sr (a,0,0) red
+
+b_5_6: cylinder cr (0,0,0) (a,0,0) black
+       sphere   sr (0,0,0) red
+       sphere   sr (a,0,0) red
+
+b_7_8: cylinder cr (0,0,0) (a,0,0) black
+       sphere   sr (0,0,0) red
+       sphere   sr (a,0,0) red
+
+
+b_1_5: cylinder cr (0,0,0) (b,0,0) black
+
+b_2_6: cylinder cr (0,0,0) (b,0,0) black
+
+b_3_7: cylinder cr (0,0,0) (b,0,0) black
+
+b_4_8: cylinder cr (0,0,0) (b,0,0) black
+
+
+
+b_1_3: cylinder cr (0,0,0) (c,0,0) black
+
+b_2_4: cylinder cr (0,0,0) (c,0,0) black
+
+b_5_7: cylinder cr (0,0,0) (c,0,0) black
+
+b_6_8: cylinder cr (0,0,0) (c,0,0) black
+
+
+[JOINTS]
+
+revolute: b_1_2 0+(0,1,0)
+          b_1_3 0+(0,1,0)
+
+revolute: b_1_2 0+(0,1,0)
+          b_1_5 0+(0,1,0)
+
+revolute: b_1_2 1+(0,1,0)
+          b_2_4 0+(0,1,0)
+
+revolute: b_1_2 1+(0,1,0)
+          b_2_6 0+(0,1,0)
+
+revolute: b_3_4 0+(0,1,0)
+          b_1_3 1+(0,1,0)
+
+revolute: b_3_4 0+(0,1,0)
+          b_3_7 0+(0,1,0)
+
+revolute: b_3_4 1+(0,1,0)
+          b_2_4 1+(0,1,0)
+
+revolute: b_3_4 1+(0,1,0)
+          b_4_8 0+(0,1,0)
+
+revolute: b_5_6 0+(0,1,0)
+          b_1_5 1+(0,1,0)
+
+revolute: b_5_6 0+(0,1,0)
+          b_5_7 0+(0,1,0)
+
+revolute: b_5_6 1+(0,1,0)
+          b_2_6 1+(0,1,0)
+
+revolute: b_5_6 1+(0,1,0)
+          b_6_8 0+(0,1,0)
+
+revolute: b_7_8 0+(0,1,0)
+          b_5_7 1+(0,1,0)
+
+revolute: b_7_8 0+(0,1,0)
+          b_3_7 1+(0,1,0)
+
+revolute: b_7_8 1+(0,1,0)
+          b_4_8 1+(0,1,0)
+
+revolute: b_7_8 1+(0,1,0)
+          b_6_8 1+(0,1,0)
+
+/** \endcond */
+
+/** \file Wunderlich.world
+
+   \brief The \ref examples/Wunderlich "Wunderlich" mechanism.
+
+    <center>
+    <img src="../images/Wunderlich/wunderlich_sol.png">
+    </center>
+
+   This file encodes the \ref examples/Wunderlich "Wunderlich" mechanism.
+
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Wunderlich/Wunderlich </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute the parallel version of cuik
+       (the execution time takes long)
+             - <i> \ref cuik.c "bin/cuik" examples/Wunderlich/Wunderlich </i>
+             .
+     - <b>Examine the solutions</b>:
+             - <i> \ref cuikplot3d.c "bin/cuikplot3d" examples/Wunderlich/Wunderlich 3 21 37 0 w.gcl </i>
+	     - <i> geomview w.cgl</i>
+             .
+     .
+ 
+*/

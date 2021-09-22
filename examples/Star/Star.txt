@@ -1,0 +1,30 @@
+/** \dir examples/Star
+
+    \brief A planar mechanism forming a star (or a spider).
+    
+    
+   <center>
+   <img src="../images/Star/star.png">
+   </center>
+
+    A planar linkage forming a star (or a splier, as yuu prefer) with \e n legs with \e m links
+    per leg. 
+
+    A closed-form motion planner for this particular family of mechanism without considering collisions is give in
+
+    - N. Shvalb, L.G. Liu, M. Shoham, and J.C. Trinkle, 
+      <a href="http://ijr.sagepub.com/cgi/content/abstract/26/5/457">
+      Motion planning for a class of planar closed-chain manipulators</a>,
+      <i>International Journal of Robotics Research</i>, 
+      26(5):457-474, May 2007.
+    .
+    and we use it here as a testbed our out general planning approach
+    adding bug-trap like obstacles:
+
+   <center>
+   <img src="../images/Star/star_with_obstacles.png">
+   </center>
+
+   Please check the \ref Star3.world for more information about this example.
+
+*/

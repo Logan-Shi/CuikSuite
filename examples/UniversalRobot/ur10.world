@@ -1,0 +1,69 @@
+/** \cond */
+
+[LINKS]
+
+  base_link : body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_base_link_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_base_link_1.off" hidden
+
+  shoulder_link : body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_shoulder_link_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_shoulder_link_1.off" hidden
+
+  upper_arm_link : body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_upper_arm_link_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_upper_arm_link_1.off" hidden
+
+  forearm_link : body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_forearm_link_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_forearm_link_1.off" hidden
+
+  wrist_1_link : body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_wrist_1_link_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_wrist_1_link_1.off" hidden
+
+  wrist_2_link : body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_wrist_2_link_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_wrist_2_link_1.off" hidden
+
+  wrist_3_link : body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_wrist_3_link_0.off" color (0.5,0.5,0.5) decoration
+            body "/Users/porta/cuikgit/CuikSuite/examples/UniversalRobot/bodies/ur10_wrist_3_link_1.off" hidden
+
+  ee_link 
+[JOINTS]
+
+  revolute: base_link (0.0000000000000000,0.0000000000000000,0.1280000000000000) (0.0000000000000000,0.0000000000000000,1.1280000000000001)
+            shoulder_link (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-6.2831853,6.2831853] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: shoulder_link (0.0000000000000000,0.1704000000000000,0.0000000000000000) (0.0000000000000000,1.1703999999999999,0.0000000000000000)
+            upper_arm_link (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,1.0000000000000000,0.0000000000000000)
+            range [-6.2831853,6.2831853] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(0.0000000000000000,0.0000000000000000,1.0000000000000000)
+
+  revolute: upper_arm_link (0.0000000000000000,-0.1281700000000000,0.6018600000000000) (0.0000000000000000,0.8718300000000000,0.6018600000000000)
+            forearm_link (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,1.0000000000000000,0.0000000000000000)
+            range [-6.2831853,6.2831853] +(0.0000000000000000,0.0000000000000000,1.0000000000000000) +(0.0000000000000000,0.0000000000000000,1.0000000000000000)
+
+  revolute: forearm_link (0.0000000000000000,0.0000000000000000,0.5641500000000000) (0.0000000000000000,1.0000000000000000,0.5641500000000000)
+            wrist_1_link (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,1.0000000000000000,0.0000000000000000)
+            range [-6.2831853,6.2831853] +(1.0000000000000000,0.0000000000000000,0.0000000000000001) +(0.0000000000000000,0.0000000000000000,1.0000000000000000)
+
+  revolute: wrist_1_link (0.0000000000000000,0.1127900000000000,0.0000000000000000) (0.0000000000000000,0.1127900000000000,1.0000000000000000)
+            wrist_2_link (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,0.0000000000000000,1.0000000000000000)
+            range [-6.2831853,6.2831853] +(1.0000000000000000,0.0000000000000000,0.0000000000000000) +(1.0000000000000000,0.0000000000000000,0.0000000000000000)
+
+  revolute: wrist_2_link (0.0000000000000000,0.0000000000000000,0.1127900000000000) (0.0000000000000000,1.0000000000000000,0.1127900000000000)
+            wrist_3_link (0.0000000000000000,0.0000000000000000,0.0000000000000000) (0.0000000000000000,1.0000000000000000,0.0000000000000000)
+            range [-6.2831853,6.2831853] +(0.0000000000000000,0.0000000000000000,1.0000000000000000) +(0.0000000000000000,0.0000000000000000,1.0000000000000000)
+
+  fix: wrist_3_link ee_link Txyz(0,0.0857,0)*Rz(1.5707963267948966)
+
+
+/** \endcond */
+/**
+   \file ur10.world
+
+   \brief Automatically generated world file.
+
+   Automatically generated world file with the command:
+
+      - bin/cuikurdf2world examples/UniversalRobot/universal_robot ur_description/urdf/ur10_robot.urdf examples/UniversalRobot/ur10 
+      .
+
+   Created on: Thu Jan 22 22:12:40 2015
+   Executed at: lenny
+*/

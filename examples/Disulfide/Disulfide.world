@@ -1,0 +1,200 @@
+/** \cond */
+
+[CONSTANTS]
+
+% Link 1 is a N-C group fixing the loop
+l1d1:=sqrt(39.8786)
+l1d2:=sqrt(31.7352)
+l1d3:=sqrt( 2.3892)
+l1d4:=sqrt( 2.1050)
+l1d5:=sqrt(57.3503)
+l1d6:=sqrt(45.0087)
+
+l1x1:=l1d4
+l1y1:=0
+l1z1:=0
+
+l1x2:=(l1d5^2-l1d6^2+l1x1^2)/(2*l1x1)
+l1y2:=sqrt(l1d5^2-l1x2^2)
+l1z2:=0
+
+l1x3:=(l1d1^2-l1d2^2+l1x1^2)/(2*l1x1)
+l1y3:=(l1d2^2-l1d3^2-(l1x3-l1x1)^2+(l1x3-l1x2)^2+l1y2^2)/(2*l1y2)
+l1z3:=sqrt(l1d1^2-l1x3^2-l1y3^2)
+
+% Link 2 is a C
+l2d4:=sqrt(2.4106)
+l2d5:=sqrt(2.1050)
+l2d6:=sqrt(6.1279)
+
+l2x1:=l2d4
+l2y1:=0
+l2z1:=0
+
+l2x2:=(l2d5^2-l2d6^2+l2x1^2)/(2*l2x1)
+l2y2:=sqrt(l2d5^2-l2x2^2)
+l2z2:=0
+
+% Link s3 is a C
+l3d4:=sqrt(3.2178)
+l3d5:=sqrt(2.4106)
+l3d6:=sqrt(7.9290)
+
+l3x1:=l3d4
+l3y1:=0
+l3z1:=0
+
+l3x2:=(l3d5^2-l3d6^2+l3x1^2)/(2*l3x1)
+l3y2:=sqrt(l3d5^2-l3x2^2)
+l3z2:=0
+
+% Link 4 is a S-S
+l4d1:=sqrt(10.0384)
+l4d2:=sqrt(16.6496)
+l4d3:=sqrt( 3.2178)
+l4d4:=sqrt( 3.2133)
+l4d5:=sqrt( 4.1544)
+l4d6:=sqrt(10.0348)
+
+l4x1:=l4d4
+l4y1:=0
+l4z1:=0
+
+l4x2:=(l4d5^2-l4d6^2+l4x1^2)/(2*l4x1)
+l4y2:=sqrt(l4d5^2-l4x2^2)
+l4z2:=0
+
+l4x3:=(l4d1^2-l4d2^2+l4x1^2)/(2*l4x1)
+l4y3:=(l4d2^2-l4d3^2-(l4x3-l4x1)^2+(l4x3-l4x2)^2+l4y2^2)/(2*l4y2)
+l4z3:=sqrt(l4d1^2-l4x3^2-l4y3^2)
+
+% Link 5 is a C
+l5d4:=sqrt(2.4105)
+l5d5:=sqrt(3.2133)
+l5d6:=sqrt(7.9244)
+
+l5x1:=l5d4
+l5y1:=0
+l5z1:=0
+
+l5x2:=(l5d5^2-l5d6^2+l5x1^2)/(2*l5x1)
+l5y2:=sqrt(l5d5^2-l5x2^2)
+l5z2:=0
+
+% Link 6 is a C
+l6d4:=sqrt(2.3892)
+l6d5:=sqrt(2.4105)
+l6d6:=sqrt(6.6307)
+
+l6x1:=l6d4
+l6y1:=0
+l6z1:=0
+
+l6x2:=(l6d5^2-l6d6^2+l6x1^2)/(2*l6x1)
+l6y2:=sqrt(l6d5^2-l6x2^2)
+l6z2:=0
+
+
+% Radious of the spheres representing atoms (0.25% Van der Waals radii)
+r:=0.25
+rC:=1.7*r
+rN:=1.55*r
+rS:=1.8*r
+
+% Radii of the cylinders representing bonds
+rCC:=0.15
+rCN:=0.15
+rCS:=0.15
+rSS:=0.15
+
+% Colors for the atoms (Carbon/Nitrogen/Sulfur)
+Cr:=0
+Cg:=0
+Cb:=0
+
+Nr:=0
+Ng:=0
+Nb:=1
+
+Sr:=1
+Sg:=1
+Sb:=0
+
+
+[LINKS]
+
+C1 : sphere rN (0,0,0) color (Nr,Ng,Nb)
+     sphere rC (l1x2,l1y2,l1z2) color (Cr,Cg,Cb)
+     cylinder rCN (0,0,0) (l1x1/2,l1y1/2,l1z1/2) color (Nr,Ng,Nb) decoration
+     cylinder rCC (l1x2,l1y2,l1z2) (l1x2+(l1x3-l1x2)/2,l1y2+(l1y3-l1y2)/2,l1z2+(l1z3-l1z2)/2) color (Cr,Cg,Cb) decoration
+
+C2 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (l2x1/2,l2y1/2,l2z1/2) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (l2x2/2,l2y2/2,l2z2/2) color (Cr,Cg,Cb) decoration
+
+C3 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (l3x1/2,l3y1/2,l3z1/2) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (l3x2/2,l3y2/2,l3z2/2) color (Cr,Cg,Cb) decoration
+
+C4 : sphere rS (0,0,0) color (Sr,Sg,Sb)
+     sphere rS (l4x2,l4y2,l4z2) color (Sr,Sg,Sb)
+     cylinder rCS (0,0,0) (l4x1/2,l4y1/2,l4z1/2) color (Sr,Sg,Sb) decoration
+     cylinder rSS (0,0,0) (l4x2,l4y2,l4z2) color (Sr,Sg,Sb) decoration
+     cylinder rCS (l4x2,l4y2,l4z2) (l4x2+(l4x3-l4x2)/2,l4y2+(l4y3-l4y2)/2,l4z2+(l4z3-l4z2)/2) color (Sr,Sg,Sb) decoration
+
+C5 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (l5x1/2,l5y1/2,l5z1/2) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (l5x2/2,l5y2/2,l5z2/2) color (Cr,Cg,Cb) decoration
+
+C6 : sphere rC (0,0,0) color (Cr,Cg,Cb)
+     cylinder rCC (0,0,0) (l6x1/2,l6y1/2,l6z1/2) color (Cr,Cg,Cb) decoration
+     cylinder rCC (0,0,0) (l6x2/2,l6y2/2,l6z2/2) color (Cr,Cg,Cb) decoration
+
+[JOINTS]
+
+revolute: C1 (l1x1,l1y1,l1z1) (0,0,0) 
+          C2 (0,0,0) (l2x2,l2y2,l2z2) 
+
+revolute: C2 (l2x1,l2y1,l2z1) (0,0,0) 
+          C3 (0,0,0) (l3x2,l3y2,l3z2) 
+
+revolute: C3 (l3x1,l3y1,l3z1) (0,0,0) 
+          C4 (l4x2,l4y2,l4z2) (l4x3,l4y3,l4z3)
+
+revolute: C4 (l4x1,l4y1,l4z1) (0,0,0) 
+          C5 (0,0,0) (l5x2,l5y2,l5z2) 
+
+revolute: C5 (l5x1,l5y1,l5z1) (0,0,0) 
+          C6 (0,0,0) (l6x2,l6y2,l6z2) 
+
+revolute: C6 (l6x1,l6y1,l6z1) (0,0,0) 
+          C1 (l1x2,l1y2,l1z2) (l1x3,l1y3,l1z3)
+
+/** \endcond */
+
+/** \file Disulfide.world
+    
+    \brief A \ref examples/Disulfide "disulfide" bond.
+
+    <center>
+    <img src="../images/Disulfide/disulfide.jpg">
+    </center>
+
+    This example is treated following this steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Disulfide/Disulfide </i>
+             .
+     - <b>Simplify the problem</b>: To see the problem that is actually solved. Execute
+             - <i> \ref cuik.c "bin/cuiksimplify" examples/Disulfide/Disulfide </i>
+             - <i> cat examples/Disulfide/Disulfide_simp.cuik </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Disulfide/Disulfide </i>
+             .
+     - <b>Visualize the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Disulfide/Disulfide examples/Disulfide/Disulfide</i>
+             .
+     .
+*/

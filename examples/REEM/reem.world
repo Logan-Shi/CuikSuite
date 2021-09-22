@@ -1,0 +1,160 @@
+/** \cond */
+
+[CONSTANTS]
+
+  Deg2Rad := pi/180.0 
+
+[LINKS]
+
+  world: body "bodies/plane.off" yellow decoration
+
+  base: body "bodies/base.off" 0.8*white
+
+  wheel_left: body "bodies/wheel.off" 0.1*white decoration
+  wheel_right: body "bodies/wheel.off" 0.1*white decoration
+
+  caster_left_1: body "bodies/caster.off" 0.1*white decoration
+  caster_left_2: body "bodies/caster.off" 0.1*white decoration
+
+  caster_right_1: body "bodies/caster.off" 0.1*white decoration
+  caster_right_2: body "bodies/caster.off" 0.1*white decoration
+
+  torso1: body "bodies/torso1.off" 0.2*white
+  torso2: body "bodies/torso2.off" 0.8*white
+
+  arm_left_1: body "bodies/arm_left_1.off" 0.2*white
+  arm_left_2: body "bodies/arm_left_2.off" 0.2*white
+  arm_left_3: body "bodies/arm_left_3.off" 0.2*white
+  arm_left_4: body "bodies/arm_left_4.off" 0.2*white
+  arm_left_5: body "bodies/arm_left_5.off" 0.8*white
+  arm_left_6: body "bodies/arm_left_6.off" 0.8*white
+  arm_left_7: body "bodies/arm_left_7.off" 0.8*white
+              body "bodies/hand_left.off" 0.8*white
+
+  arm_right_1: body "bodies/arm_right_1.off" 0.2*white
+  arm_right_2: body "bodies/arm_right_2.off" 0.2*white
+  arm_right_3: body "bodies/arm_right_3.off" 0.2*white
+  arm_right_4: body "bodies/arm_right_4.off" 0.2*white
+  arm_right_5: body "bodies/arm_right_5.off" 0.8*white
+  arm_right_6: body "bodies/arm_right_6.off" 0.8*white
+  arm_right_7: body "bodies/arm_right_7.off" 0.8*white
+               body "bodies/hand_right.off" 0.8*white
+
+  head_1: body "bodies/head_1.off" 0.2*white
+  head_2: body "bodies/head_2.off" 0.8*white
+
+[JOINTS]
+
+  fix: world base Id
+
+  fix: base wheel_left Txyz(0,0.2445,0.1075)*Rx(-90*Deg2Rad)
+  fix: base wheel_right Txyz(0,-0.2445,0.1075)*Rx(-90*Deg2Rad)
+  
+  fix: base caster_right_1 Txyz(-0.3805,-0.175,0.05)
+  fix: caster_right_1 caster_right_2 Txyz(-0.033,0,0)*Rx(-90*Deg2Rad)
+
+  fix: base caster_left_1 Txyz(-0.3805,0.175,0.05)
+  fix: caster_left_1 caster_left_2 Txyz(-0.033,0,0)*Rx(-90*Deg2Rad)
+
+  revolute: base (-0.1091,0,1.0531)+(0,0,1)
+            torso1 (0,0,0)+(0,0,1)
+            range [-75*Deg2Rad,75*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: torso1 (0,0,0)+(0,-sin(-90*Deg2Rad),cos(-90*Deg2Rad))
+            torso2 (0,0,0)+(0,0,1)
+            range [-15*Deg2Rad,45*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  fix: torso2 head_1 Txyz(-0.024,-0.412,0)*Rx(90*Deg2Rad)
+  fix: head_1 head_2 Txyz(0.0445,0,0)*Rx(-90*Deg2Rad)
+
+  revolute: torso2 (-0.01,-0.273,0)+(0,-sin(165*Deg2Rad),cos(165*Deg2Rad))
+            arm_left_1 (0,0,0)+(0,0,1)
+            range [-45*Deg2Rad,180*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_left_1 (0,0,-0.2385)+(1,0,0)
+            arm_left_2 (0,0,0)+(0,0,1)
+            range [-30*Deg2Rad,105*Deg2Rad]
+                  +(0,cos(75*Deg2Rad),-sin(75*Deg2Rad)) +(1,0,0)
+
+  revolute: arm_left_2 (0.02,-0.1065,0)+(0,1,0)
+            arm_left_3 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_left_3 (0,-0.02,-0.1235)+(-1,0,0)
+            arm_left_4 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,1) +(1,0,0)
+
+  revolute: arm_left_4 (-0.1065,0.02,0)+(1,0,0)
+            arm_left_5 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,-1) +(1,0,0)
+
+  revolute: arm_left_5 (0,0,-0.133)+(0,-1,0)
+            arm_left_6 (0,0,0)+(0,0,1)
+            range [-90*Deg2Rad,90*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_left_6 (0,0,0)+(0,1,0)
+            arm_left_7 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)       
+
+
+  revolute: torso2 (-0.01,-0.273,0)+(0,-sin(-165*Deg2Rad),cos(-165*Deg2Rad))
+            arm_right_1 (0,0,0)+(0,0,1)
+            range [-45*Deg2Rad,180*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_1 (0,0,0.2385)+(-1,0,0)
+            arm_right_2 (0,0,0)+(0,0,1)
+            range [-30*Deg2Rad,105*Deg2Rad]
+                  +(0,cos(75*Deg2Rad),sin(75*Deg2Rad)) +(1,0,0)
+
+  revolute: arm_right_2 (0.02,-0.1065,0)+(0,-1,0)
+            arm_right_3 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_3 (0,-0.02,0.1235)+(1,0,0)
+            arm_right_4 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,-1) +(1,0,0)
+
+  revolute: arm_right_4 (-0.1065,0.02,0)+(-1,0,0)
+            arm_right_5 (0,0,0)+(0,0,1)
+            range [0*Deg2Rad,120*Deg2Rad]
+                  +(0,0,1) +(1,0,0)
+
+  revolute: arm_right_5 (0,0,0.133)+(0,1,0)
+            arm_right_6 (0,0,0)+(0,0,1)
+            range [-90*Deg2Rad,90*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+  revolute: arm_right_6 (0,0,0)+(0,-1,0)
+            arm_right_7 (0,0,0)+(0,0,1)
+            range [-120*Deg2Rad,120*Deg2Rad]
+                  +(1,0,0) +(1,0,0)
+
+/** \endcond */
+
+/** 
+    \file reem.world
+  
+   \brief The REEM robot by <a href="http://www.pal-robotics.com">PAL robotics</a>.
+    
+   <center>
+   <img src="../images/reem/reem_sim.png">
+   </center>
+
+    The REEM robot by <a href="http://www.pal-robotics.com">PAL robotics</a>. This is only the basic robot without
+    any loop closure.
+
+    You can manipulate the different degrees of freedom using
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/REEM/reem</i> 
+      .
+*/

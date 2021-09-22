@@ -1,0 +1,32 @@
+/** \dir examples/RSS11Hand
+
+   \brief The manipulation examples used in the <a href="http://www.iri.upc.edu/people/porta/Docs/rss11.pdf">RSS-11</a> paper.
+
+   <center>
+   <img src="../images/RSSHand/can_and_setrill.png">
+   </center>
+
+   The manipulation examples used in the <a href="http://www.iri.upc.edu/people/porta/Docs/rss11.pdf">RSS-11</a>
+   paper. The paper is about the optimization of robotics graps.
+
+   Please, check the scripts
+        - scripts/RSSChain_can
+	- scripts/RSSChain_can2
+	- scripts/RSSChain_setrill
+	- scripts/RSSChain_setrill2
+	- scripts/RSSChain_tornavis
+	- scripts/RSSChain_tornavis2
+	.
+    for detailed instructions on how to process these problems. To use these scripts
+    you need to install Matlab.
+
+    Note that the procedure is quite involved because it uses many of
+    the applications in the CuikSuite and combines them with matlab to
+    compute the contact equations and the manipulability indices.
+    Moreover, the problems in this folder are slight variations of those
+    in the paper (namely, the contact points are different). Thus, the
+    final atlas are not exactly the same as those in the paper, but
+    equivalent.
+
+    Questions regarding these examples should be addressed to Carlos Rosales.
+*/

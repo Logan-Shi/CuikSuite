@@ -1,0 +1,252 @@
+/** \cond */
+[CONSTANTS]
+
+% length of the bar connecting two consecutive triangles
+l_in:=6.122935
+l_out:=3.370553
+
+% length of the bar connecting  odd triangles spared by one triangle
+l_nc:=9.724551
+
+% length of the bar added to make the linkage rigic
+l_f:=11.313708
+
+% radius of the cylinders representing the bars
+rc:=0.05
+% radius of the spheres used to decor the extremes of the bars
+rs:=0.1
+
+[LINKS]
+
+% Eight triangles
+t1: body "bodies/triangle.off" yellow
+
+t2: body "bodies/triangle.off" yellow
+
+t3: body "bodies/triangle.off" yellow
+
+t4: body "bodies/triangle.off" yellow
+
+t5: body "bodies/triangle.off" yellow
+
+t6: body "bodies/triangle.off" yellow
+
+t7: body "bodies/triangle.off" yellow
+
+t8: body "bodies/triangle.off" yellow
+
+% Two bars between adjacent triangles
+b_1_2_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_1_2_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_2_3_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_2_3_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_3_4_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_3_4_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_4_5_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_4_5_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_5_6_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_5_6_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_6_7_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_6_7_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_7_8_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_7_8_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+b_8_1_out: cylinder rc (0,0,0) (l_out,0,0) black 
+           sphere rs (0,    0,0) red
+           sphere rs (l_out,0,0) red
+
+b_8_1_in: cylinder rc (0,0,0) (l_in,0,0) black 
+          sphere rs (0,   0,0) red
+          sphere rs (l_in,0,0) red
+
+% Bars connecting non-adjacent triangles.
+% These bars do not include spheres since they would overlap with
+% the spheres of other bars.
+b_1_3: cylinder rc (0,0,0) (l_nc,0,0) black 
+b_3_5: cylinder rc (0,0,0) (l_nc,0,0) black
+b_5_7: cylinder rc (0,0,0) (l_nc,0,0) black 
+b_7_1: cylinder rc (0,0,0) (l_nc,0,0) black  
+
+% One additional bar to make the think rigid.
+b_8_2: cylinder rc (0,0,0) (l_f,0,0) black 
+
+[JOINTS]
+
+% Two bars between adjacent triangles
+revolute: t1 1+(0,1,0)
+          b_1_2_out 0+(0,1,0)
+revolute: b_1_2_out 1+(0,1,0)
+          t2 0+(0,1,0)
+
+revolute: t1 2+(0,1,0)
+          b_1_2_in 0+(0,1,0)
+revolute: b_1_2_in 1+(0,1,0)
+          t2 2+(0,1,0)
+
+revolute: t2 1+(0,1,0)
+          b_2_3_out 0+(0,1,0)
+revolute: b_2_3_out 1+(0,1,0)
+          t3 0+(0,1,0)
+
+revolute: t2 2+(0,1,0)
+          b_2_3_in 0+(0,1,0)
+revolute: b_2_3_in 1+(0,1,0)
+          t3 2+(0,1,0)
+
+revolute: t3 1+(0,1,0)
+          b_3_4_out 0+(0,1,0)
+revolute: b_3_4_out 1+(0,1,0)
+          t4 0+(0,1,0)
+
+revolute: t3 2+(0,1,0)
+          b_3_4_in 0+(0,1,0)
+revolute: b_3_4_in 1+(0,1,0)
+          t4 2+(0,1,0)
+
+revolute: t4 1+(0,1,0)
+          b_4_5_out 0+(0,1,0)
+revolute: b_4_5_out 1+(0,1,0)
+          t5 0+(0,1,0)
+
+revolute: t4 2+(0,1,0)
+          b_4_5_in 0+(0,1,0)
+revolute: b_4_5_in 1+(0,1,0)
+          t5 2+(0,1,0)
+
+revolute: t5 1+(0,1,0)
+          b_5_6_out 0+(0,1,0)
+revolute: b_5_6_out 1+(0,1,0)
+          t6 0+(0,1,0)
+
+revolute: t5 2+(0,1,0)
+          b_5_6_in 0+(0,1,0)
+revolute: b_5_6_in 1+(0,1,0)
+          t6 2+(0,1,0)
+
+revolute: t6 1+(0,1,0)
+          b_6_7_out 0+(0,1,0)
+revolute: b_6_7_out 1+(0,1,0)
+          t7 0+(0,1,0)
+
+revolute: t6 2+(0,1,0)
+          b_6_7_in 0+(0,1,0)
+revolute: b_6_7_in 1+(0,1,0)
+          t7 2+(0,1,0)
+
+revolute: t7 1+(0,1,0)
+          b_7_8_out 0+(0,1,0)
+revolute: b_7_8_out 1+(0,1,0)
+          t8 0+(0,1,0)
+
+revolute: t7 2+(0,1,0)
+          b_7_8_in 0+(0,1,0)
+revolute: b_7_8_in 1+(0,1,0)
+          t8 2+(0,1,0)
+
+revolute: t8 1+(0,1,0)
+          b_8_1_out 0+(0,1,0)
+revolute: b_8_1_out 1+(0,1,0)
+          t1 0+(0,1,0)
+
+revolute: t8 2+(0,1,0)
+          b_8_1_in 0+(0,1,0)
+revolute: b_8_1_in 1+(0,1,0)
+          t1 2+(0,1,0)
+
+% The bars between non-adjacent triangles
+revolute: t1 1+(0,1,0)
+          b_1_3 0+(0,1,0)
+revolute: b_1_3 1+(0,1,0)
+          t3 0+(0,1,0)
+
+revolute: t3 1+(0,1,0)
+          b_3_5 0+(0,1,0)
+revolute: b_3_5 1+(0,1,0)
+          t5 0+(0,1,0)
+
+revolute: t5 1+(0,1,0)
+          b_5_7 0+(0,1,0)
+revolute: b_5_7 1+(0,1,0)
+          t7 0+(0,1,0)
+
+revolute: t7 1+(0,1,0)
+          b_7_1 0+(0,1,0)
+revolute: b_7_1 1+(0,1,0)
+          t1 0+(0,1,0)
+
+% A bar fixing the mobility
+revolute: t8 2+(0,1,0)
+          b_8_2 0+(0,1,0)
+revolute: b_8_2 1+(0,1,0)
+          t2 2+(0,1,0)
+
+
+/** \endcond */
+
+/**
+   \file Wheelie8.world
+
+   \brief The 8-\ref examples/Wheelie "Wheelie" mechanism.
+
+   <center>
+   <img src="../images/Wheelie/wheelie8.png">
+   </center>
+
+   The 8-\ref examples/Wheelie "Wheelie" mechanism.	
+
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Wheelie/Wheelie8 </i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Wheelie/Wheelie8 </i>
+             .
+     - <b>Examine the solutions</b>:
+             - <i> \ref  cuikplay.c "scripts/cuikplayer" examples/Wheelie/Wheelie8 examples/Wheelie/Wheelie8 </i>
+             .
+     .
+
+*/

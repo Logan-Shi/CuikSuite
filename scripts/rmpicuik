@@ -1,0 +1,114 @@
+#!/bin/tcsh
+
+if ($#argv == 0) then
+
+  printf " Script to use cuik in the gmrgrid (our Beowulf cluster)\n"
+  printf " Usage:\n" 
+  printf "       rmpicuik [<n>] <p>\n"
+  printf "   where \n"
+  printf "      <n> is the number of processors to use. \n"
+  printf "      <p> is the problem name (without the '.cuik' extension).\n"
+  printf "   If <n> is not given, we assume we use all processors listed \n"
+  printf "   in the machine list file (the machines.LINUX in the main\n"
+  printf "   directory is an example of the Grid file that must be in\n"
+  printf "   grid shared directory).\n"
+  printf "\n"
+  printf " Limitations of the current script:\n"
+  printf "      - It must be executed from the CuikSuite main directory using\n"
+  printf "                scripts/rmpicuik [<n>] <p>\n"
+  printf "      - The problem file (p) must be in the CuikSuite main directory\n"
+  printf "        (possibly in example sub-directory)\n"
+  printf "        You can use symbolic links if this limitation is too strong.\n"
+  printf "\n"
+  printf " Known bugs:\n"
+  printf "   Launching new executions of cuik can fail\n"
+  printf "   It seems to be related with a NFS problem but we have to investigate\n"
+  printf "   it a little bit more\n"
+  printf "\n"
+  printf " Operation:\n"
+  printf "   We copy the source files to the grid, compile cuik (see scripts/cuikcompile)\n"
+  printf "   and then copy the equation and parameter files the  grid too and we launch\n"
+  printf "   the cuik mpi execution.\n"
+  printf "\n"
+
+else
+  # user and name of the grid master machine
+  set GRID=gmrgrid
+  #
+  # Main directory of the CuikSuite
+  set CUIKSUITE_DIR=`pwd`
+  #
+  # Recreate the current directory in the remote server
+  ssh $GRID -C mkdir -p $CUIKSUITE_DIR
+  #
+  # File with the description of the grid. 
+  # This will be copied to the grid
+  set PI_FILE=share/machines.LINUX
+  #
+  # -----------------------------------
+  # Nothing to be set beyond this point
+  # -----------------------------------
+  #
+  # The copy command: copy from local machine to the GRID (it might be necessary
+  # to create new directories)  
+  # set CP=rsync\ -qavLR  
+  set CP=rsync\ -qavLRe\ ssh
+  set SCP=scp\ -qr
+  # remote execution on the GRID
+  set REXEC=ssh\ $GRID
+  #
+  # echo Updating remote version of cuik
+  #
+  echo Copying local version of cuik to the Grid
+  $CP src/CuikBase $GRID\:$CUIKSUITE_DIR
+  $CP src/Cuik $GRID\:$CUIKSUITE_DIR
+  $CP src/CMakeLists.txt $GRID\:$CUIKSUITE_DIR
+  $CP CMakeLists.txt $GRID\:$CUIKSUITE_DIR
+  $CP scripts/cuikcompile $GRID\:$CUIKSUITE_DIR
+  #
+  echo Compiling cuik in the grid: cd $CUIKSUITE_DIR;scripts/cuikcompile
+  $REXEC "cd $CUIKSUITE_DIR;scripts/cuikcompile"
+  #
+  if ($#argv == 1) then
+    # number of CPUs currently in the grid
+    @ NP = `cut -d '=' -f 2 share/machines.LINUX | awk '{s+=$1} END {print s}'`
+    # the file name
+    set NAME=$1
+  else
+    # Use the user given number of processors and file name
+    set NP=$1
+    set NAME=$2
+  endif
+  #
+  # Copy the file with machines to the grid master
+  $CP $PI_FILE $GRID\:$CUIKSUITE_DIR
+  #
+  echo Copying $NAME.cuik and $NAME.param files to the shared disk
+  $CP $NAME.cuik $GRID\:$CUIKSUITE_DIR/
+  $CP share/CuikSuite/default.param $GRID\:$CUIKSUITE_DIR/
+  $CP $NAME.param $GRID\:$CUIKSUITE_DIR/
+  # We copy the solution file just in case it is the result of a partial execution that
+  # have to be extended (if will be overwrite if it is not the case)
+  if ( -f $NAME.sol ) then
+    $CP $NAME.sol $GRID\:$CUIKSUITE_DIR
+  endif
+  #
+  echo Waiting some seconds for the NFS to propagate changes
+  sleep 5
+
+  echo Running cuik\:
+  #
+  $REXEC "mpirun --mca btl_tcp_if_include eth0 -aborted $NP -wdir $CUIKSUITE_DIR -machinefile $CUIKSUITE_DIR/$PI_FILE -np $NP $CUIKSUITE_DIR/bin/cuik $NAME"
+  #
+  #
+  echo Done!
+  #
+  # Copy the results to the directory where the input file was
+  echo Copying the results to the input directory
+  $SCP $GRID\:$CUIKSUITE_DIR/$NAME.sol $NAME.sol
+  #
+  #
+  echo Removing solution files
+  $REXEC "rm $CUIKSUITE_DIR/$NAME.sol"
+
+endif  

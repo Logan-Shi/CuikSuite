@@ -1,0 +1,24 @@
+%%%%                      PARAMETERS                          %%%%
+
+REPRESENTATION = FLINKS
+
+EPSILON = 1e-8
+
+DUMMIFY = 0
+SIMPLIFICATION_LEVEL = 2
+
+N_DOF=6
+SR=6
+
+R=0.4
+E=0.1
+CE=0.1
+DELTA=0.05
+
+MAX_NEWTON_ITERATIONS=50
+
+PRETENSION = 1
+
+MAX_CHARTS=10000
+
+

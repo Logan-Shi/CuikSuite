@@ -1,0 +1,526 @@
+/** \cond */
+
+[CONSTANTS]
+
+  % Parametrization of a two-prism tower taken from 
+  %    C. Sultan, M. Corles and R. E. Skelton
+  %    The pre-estressability problem of tensegrity structures: some
+  %    analytical results, International journal of solids and structures
+  %    vol 38, 2011
+  %
+  % We model a SVDB struture (section 4) which essentially has the same
+  % solutions as a SVD structure (section 3)
+  % We compute the constants that give a stable configuration and then
+  % leave some ranges around the equilibrium point to allow form motion.
+  % In this way we are sure to have valid ranges for the variables.
+
+  % The two driving parameters
+  alpha := 60*pi/180
+  delta := 30*pi/180
+ 
+  % Structural parameters (taken from the matlab file)
+  b := 0.27                   % Size of base/platform
+  l := 0.4                    % Length of struts
+  P := PARAMETER(PRETENSION)  % Pretension (taken from parameter file)
+  rs := 0.0025                % Radius to represent struts
+  rc := 0.00075               % Radius to represent cables
+
+  % small value (used to compare alpha with pi/3 = 60 deg)
+  zero:=1e-10
+
+  % h is a zero-centered parametrization of the structure height 
+  u := sin(delta)*cos(alpha+pi/6)   % auxiliary
+  h := (abs(alpha-pi/3)<zero ? l*cos(delta)/2 :
+                               cos(delta)*(l*u+sqrt(b^2/3-3*l^2*u^2)-b/sqrt(3))/(2*u))
+
+  % Length of the different strings
+  D := sqrt(h^2+b^2/3+l^2-2*l*b*sin(delta)*sin(alpha)/sqrt(3)-2*l*h*cos(delta))
+  V := sqrt(b^2+l^2-2*l*b*sin(delta)*sin(alpha+pi/6))
+  S := sqrt(h^2+b^2/3+l^2*sin(delta)^2-2*l*b*sin(delta)*cos(alpha-pi/6)/sqrt(3))
+
+  % print D
+
+  % Tension of the different strings
+  T_d_0 := 1
+ 
+  T_v_0 := (abs(alpha-pi/3)<zero ? T_d_0*V*(3*l*sin(delta)/(2*b)-1)/D :
+                                   T_d_0*V*((l*cos(delta)/h-1)*sin(alpha-pi/6)-cos(alpha))/(D*sqrt(3)*cos(alpha+pi/6)))
+  T_s_0 := (abs(alpha-pi/3)<zero ? T_d_0 :
+                                   T_d_0*S*(l*cos(delta)/h-1)/D)
+
+  T_b_0 := (abs(alpha-pi/3)<zero ? T_d_0*(2*b^2-9*l*b*sin(delta)+9*l^2*sin(delta)^2)/(6*D*b) :
+                                   T_d_0*(3*l^2*sin(delta)*cos(delta)
+	  			          +6*b*h*cos(alpha-pi/3)
+				          -6*l*h*sin(delta)
+				          -2*sqrt(3)*b*l*cos(delta)*sin(alpha))/(6*D*sqrt(3)*h*cos(alpha+pi/6)))
+
+  % Compression of the struts (fixed an error from the paper!)
+  C_0 := (abs(alpha-pi/3)<zero ? T_d_0*(3*l^2*sin(delta)/(2*b)-l/2)/D :
+                                 T_d_0*(2*sqrt(3)*h*b*sin(delta)
+                                        -sqrt(3)*l*b*sin(2*delta)/2
+                                        +6*h^2*cos(delta)*sin(alpha-pi/3)
+                                        -6*l*h*(cos(delta)^2*sin(alpha-pi/3)+sin(alpha+pi/6)/sqrt(3))
+                                        +2*sqrt(3)*l^2*cos(delta)*cos(alpha)
+                                        +6*l^2*cos(delta)^3*sin(alpha-pi/3))/(6*D*h*sin(pi/3-alpha)))
+				    
+  % Normalize the tension/compression (to remove the pre-tension)
+  n := sqrt(6*(T_d_0^2+T_v_0^2+T_s_0^2++T_b_0^2+C_0^2))
+  T_d := P*T_d_0/n
+  T_v := P*T_v_0/n
+  T_s := P*T_s_0/n
+  T_b := P*T_b_0/n
+  C := P*C_0/n
+  
+  % print T_d
+  % print T_v
+  % print T_s
+  % print T_b
+  % print C
+  
+  % Physical quantities used to define the stiffness of the strings
+  E := 14e10  % N/m^2 Young modulus
+  s := 2.5e9  % N/m^2 maximum tendon stress 
+  g := 4      % safety margin
+  
+  % The stiffness as defined int the paper
+  K_d_0 := (E*P*g/s)*T_d
+  K_v_0 := (E*P*g/s)*T_v
+  K_s_0 := (E*P*g/s)*T_s
+
+  % The rest lengths for the different cables
+  R_d := K_d_0*D/(T_d+K_d_0)
+  R_v := K_v_0*V/(T_v+K_v_0)
+  R_s := K_s_0*S/(T_s+K_s_0)
+
+  % print R_d
+  % print R_v
+  % print R_s
+  
+  % The stiffness as in appears in our models
+  K_d := K_d_0 / R_d
+  K_v := K_v_0 / R_v
+  K_s := K_s_0 / R_s
+
+  % print K_d
+  % print K_v
+  % print K_s
+
+  % Margin. Used to increase the force, length, rest-length
+  % from those in the initial configuration.
+  % By using a large margins we ensure that the motion of
+  % the structure is not hindered by theses limits, i.e.,
+  % these limits will neve be active but the minimum
+  % limit might be (cables must have at least 0 tension, etc).
+  M := 20
+
+  % Factor used to determine the minimum cable length. This
+  % must be 0 or larger (we used 0.1 sometimes)
+  ml := 0
+
+  % range of compression forces supported by the struts
+  % For struts the rest lengt is set to 0 and the stiffnes
+  % is set to vary so that with a constant length, we can
+  % have different forces.
+  % If both the rest length and the stiffness are free we
+  % have an extra (useless) degree of freedom.
+  min_fs := -M*C  % compression is negative!
+  max_fs :=  0
+
+  % data for the cables on the base/platform: range of supported tensions
+  % These cables have constant length. We additionally fix the stiffness
+  % so that varying the rest length we can have different forces.
+  % If both the rest length and the stiffness are free we
+  % have an extra (useless) degree of freedom.
+  min_f_b := 0
+  max_f_b := M*T_b
+  
+  % data for diagonal cables
+  min_lc_d := ml*D
+  max_lc_d := M*D
+  min_r_d := 0
+  max_r_d := M*R_d
+  
+  % data for vertical cables 
+  min_lc_v := ml*V
+  max_lc_v := M*V
+  min_r_v := 0
+  max_r_v := M*R_v
+
+  % data for saddle cables 
+  min_lc_s := ml*S
+  max_lc_s := M*S
+  min_r_s := 0
+  max_r_s := M*R_s
+
+[STRUCTURE]
+
+  strut s1 : n1 n2
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s2 : n3 n4
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s3 : n5 n6
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+
+  strut s4 : n7 n8
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s5 : n9 n10
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+	  
+  strut s6 : n11 n12
+             length l
+	     force [min_fs,max_fs]
+	     radius rs
+
+
+  % Cables in the same order as in the matlab file
+
+  cable c1  : n1 n11                         % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	       
+  cable c2  : n1 n6                          % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_v
+	      rest [min_r_v,max_r_v]
+	      radius rc
+	      
+  cable c3  : n3 n7                          % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  cable c4  : n3 n2                          % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_v
+	      rest [min_r_v,max_r_v]
+	      radius rc
+	      
+  cable c5  : n5 n9                          % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  cable c6  : n5 n4                          % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_v
+	      rest [min_r_v,max_r_v]
+	      radius rc
+	      
+  cable c7  : n7 n4                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c8  : n7 n2                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c9  : n9 n6                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c10 : n9 n4                          % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c11 : n11 n2                         % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+	      
+  cable c12 : n11 n6                         % saddle
+              length [min_lc_s,max_lc_s]
+              stiffness K_s
+	      rest [min_r_s,max_r_s]
+	      radius rc
+
+  cable c13 : n11 n8                         % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_v
+	      rest [min_r_v,max_r_v]
+	      radius rc
+	      
+  cable c14 : n2 n8                          % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  cable c15 : n7 n10                         % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_v
+	      rest [min_r_v,max_r_v]
+	      radius rc
+	      
+  cable c16 : n4 n10                         % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  cable c17 : n9 n12                         % vertical
+              length [min_lc_v,max_lc_v]
+              stiffness K_v
+	      rest [min_r_v,max_r_v]
+	      radius rc
+	      
+  cable c18 : n6 n12                         % diagonal
+              length [min_lc_d,max_lc_d]
+	      stiffness K_d
+	      rest [min_r_d,max_r_d]
+	      radius rc
+	      
+  cable c19 : n1 n3                          % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+	            
+  cable c20 : n1 n5                          % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+      
+  cable c21 : n3 n5                          % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+
+  cable c22 : n8 n10                         % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+	            
+  cable c23 : n8 n12                         % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+      
+  cable c24 : n10 n12                        % base/platform
+              length b
+	      force [min_f_b,max_f_b]
+	      radius rc
+	      hidden
+
+
+[ADDONS]
+  platform : body "bodies/triangle.off" red
+             sphere 2*rs (0,0,0.005) black decoration
+             sphere 2*rs (b,0,0.005) black decoration
+             sphere 2*rs (b*cos(pi/3),-b*sin(pi/3),0.005) black decoration
+             (0,0,0) n8
+	     (b,0,0) n10
+	     (b*cos(pi/3),-b*sin(pi/3),0) n12
+
+[COUPLE]
+  % couple stuts
+  orientation: s1,[Rz(2*pi/3)]s2,[Rz(4*pi/3)]s3,s5
+  orientation: s3,s4
+  orientation: s2,s6
+  force      : s1,s2,s3,s4,s5,s6
+  
+  % couple diagonal
+  length : c1,c3,c5,c14,c16,c18
+  rest   : c1,c3,c5,c14,c16,c18
+  force  : c1,c3,c5,c14,c16,c18
+  
+  % couple vertical
+  length : c2,c4,c6,c13,c15,c17
+  rest   : c2,c4,c6,c13,c15,c17
+  force  : c2,c4,c6,c13,c15,c17
+  
+  % couple saddle
+  length : c7,c8,c9,c10,c11,c12
+  rest   : c7,c8,c9,c10,c11,c12
+  force  : c7,c8,c9,c10,c11,c12
+
+  % couple base/platform
+  force  : c19,c20,c21,c22,c23,c24
+  
+[FIXED POINTS]
+
+  % n1 is implicitly fixed
+
+  n3(z)=0
+
+  n5(y)=0
+  n5(z)=0
+
+/** \endcond */
+
+[OBSTACLES]
+
+  plane: box (-0.2,-0.2,-0.005)+(b+0.4,b*sin(pi/3)+0.4,0.001) green
+  anchor1: sphere 2*rs (0,0,-0.004) red decoration
+  anchor2: sphere 2*rs (b,0,-0.004) red decoration
+  anchor3: sphere 2*rs (b*cos(pi/3),b*sin(pi/3),-0.004) red decoration
+  
+[COLLISIONS]
+
+  check: all
+  do not check: connected
+  
+/** endcond */
+
+/** \file examples/Tensegrity/tower3D.tens
+
+   \brief Tensegrity tower.
+
+   <center>
+   <img src="../images/Tensegrity/tower3D.png">
+   </center>
+   
+   A two-level symmetric tensegrity tower. The symmetry constraints
+   only leave two degrees of freedom. This is a good example of
+   a complex structure whose equilibrium manifold can be easily
+   analyzed with the CuikSuite.
+
+   Moreover, this structure has been extensively analysed by
+   C. Sultan (and co-authors) who provided analytical expressions
+   for the lengths, rest lengths, compressions, and tensions
+   of all the structure elements in function of two parameters
+   (namely, the two director angles of one of the lower struts).
+   Such expressions can be found for instance in
+     - C. Sultan, M. Corles and R. E. Skelton
+       The pre-estressability problem of tensegrity structures: some
+       analytical results, International journal of solids and structures
+       vol 38, 2011
+     .
+   These expressions are replicated (and corrected :) at the top of this
+   file. They can be used to generate an initial solution point for
+   this problem from which to start the numerical analysis of
+   the whole equilibrium manifold.
+   Given this point (stored in the \e tower3D.tens file) we can
+   build the atlas executing
+     - \ref cuikatlas.c "bin/cuikatlas" examples/Tensegrity/tower3D.tens
+     .
+   Note that the atlas expand over all the equilibrium manifold
+   reachable from the initial point and avoiding self-collision.
+
+   Once the atlas is computed we can evaluate the energy
+   all over the equilibrium manifold:
+     - \ref cuikatlascenters.c "bin/cuikatlascenters" examples/Tensegrity/tower3D.tens
+     - \ref cuikenergy.c "bin/cuikenergy" log examples/Tensegrity/tower3D.tens examples/Tensegrity/tower3D_center.sol
+     .
+   end then plot and visualize the equilibrium manifold
+     - \ref cuikplotatlas.c "bin/cuikplotatlas"  examples/Tensegrity/tower3D.tens examples/Tensegrity/tower3D_center.cost 1 0 167
+     - geomview examples/Tensegrity/tower3D_atlas.gcl
+     .
+     
+   You will get a plot like this
+   <center>
+   <img src="../images/Tensegrity/tower3D_atlas.png">
+   </center>
+
+   This is not the same plot as that shown in the paper by  C. Sultan et al. because
+   the equations generated by the CuikSuite do not include
+   the parametrization variables used in this original paper.
+   To obtain exactly the same plots we have to explicitly generate the equations:
+     - \ref cuikequations.c "bin/cuikequations"  examples/Tensegrity/tower3D.tens
+     .
+   This generates a file examples/Tensegrity/tower3D.cuik that can be edited adding
+   the required variables:
+     - the director angles of the first strut: alpha, delta
+     - the height of the platform: h. Actually in the paper by C. Sultan the
+       offset with respect to the average height of the platform is used. Here
+       we will use total height of the platform, which is already available in
+       the original set of variables (variable 'platform_r_z').
+     .
+   We also have to add the
+   equations relating these new variables with the existing ones.
+   The tower3D_ext.cuik already includes these modifications.
+   The tower3D_ext.links file is a modication of the tower3D.links where we added
+   the value for the alpha and delta variables to the original solution point.
+   Using these files we can replicate the figures in the paper by C. Sultan et al.
+
+   First, we generate the atlas
+     - \ref cuikatlas.c "bin/cuikatlas" examples/Tensegrity/tower3D_ext
+     .
+   and then we can plot it the (delta,alpha,h) space executing
+     - \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Tensegrity/tower3D_ext 168 169 167
+     - geomview examples/Tensegrity/tower3D_ext_atlas.gcl
+     .
+   
+   To replicate Fig. 6 (the equilibrium manifold compression on struts) in the paper by C. Sultan et al. execute 
+     - \ref cuikatlascenters.c "bin/cuikatlascenters" examples/Tensegrity/tower3D_ext
+     - \ref cuikworldforces.c "bin/cuikworldforces" examples/Tensegrity/tower3D.tens examples/Tensegrity/tower3D_ext_center.sol 1 8
+     - \ref cuikplotatlas.c "bin/cuikplotatlas" examples/Tensegrity/tower3D_ext examples/Tensegrity/tower3D_ext_center 168 169 167
+     - geomview examples/Tensegrity/tower3D_ext_atlas.gcl
+     .
+ 
+   You will get a plot like this
+   <center>
+   <img src="../images/Tensegrity/fig6.png">
+   </center>
+
+   Observe that in the \ref cuikworldforces.c "bin/cuikworldforces" commnand we use tower3D.tens as a first
+   parameter and not tower3D_ext.cuik. In the later there is no
+   semantic information about which variables are force variables
+   and which are not. Since tower3D_ext.cuik is basically the
+   cuik file derived from tower3D.tens (we just added a couple
+   of variables AT THE END OF THE FILE!) the solutions for
+   tower3D_ext.cuik are "compatible" with the tower3D.tens file.
+
+   The instructions to replicate the rest of plots in the paper by C. Sultan et al.
+   are given at the beginning of the tower3D_ext.cuik file. The steps are basically
+   the same, just using a different force to give the color to the atlas plot.
+
+   To generate an RRT over the equilibrium manifold follow this steps
+     - Fix parameter \ref CT_MAX_NODES_RRT "MAX_NODES_RRT" in the examples/Tensegrity/tower3D_ext.param
+     - Set \ref EXPLORATION_RRT to 1 in src/CuikAtlas/include/rrt.h
+     - Recompile:
+         - cd build
+	 - make
+	 - cd ..
+	 .
+     - Generate the atlas:
+         - \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/Tensegrity/tower3D_ext
+	 .
+     - Plot the RRT:
+         - \ref cuikplotrrt.c "bin/cuikplotrrt" examples/Tensegrity/tower3D_ext 168 169 167
+	 .
+     - Visualize the RRT on the atlas obtained before:
+         - geomview examples/Tensegrity/tower3D_ext_atlas.gcl examples/Tensegrity/tower3D_ext_rrt.gcl
+	 .
+     - Do not forget to set \ref EXPLORATION_RRT to 0 in src/CuikAtlas/include/rrt.h and recompile again.
+     .
+     
+   You should get a figure like this one:
+   
+   <center>
+   <img src="../images/Tensegrity/rrt.png">
+   </center>
+
+   Note that the random seed is different at each execution and thus the plot will not be exactly
+   like the one shown here.
+*/
+  

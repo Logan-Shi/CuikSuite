@@ -1,0 +1,331 @@
+% 6R Serial chain
+
+/** \cond */
+[CONSTANTS]
+
+%--------------------------------------------------------------------
+% DH Parameters
+%--------------------------------------------------------------------
+
+a1 := 0.3
+a2 := 1
+a3 := 0
+a4 := 1.5
+a5 := 0
+a6 := 1.1353
+
+d1 := 0.0106
+d2 := 0
+d3 := 0.2
+d4 := 0
+d5 := 0
+d6 := 0.1049
+
+alpha1 := pi/2
+alpha2 := 0.0175
+alpha3 := pi/2
+alpha4 := 0.0175
+alpha5 := pi/2
+alpha6 := 1.4716
+
+% Pre-compute sin/cos of alpha_i
+c1:=cos(alpha1)
+s1:=sin(alpha1)
+
+c2:=cos(alpha2)
+s2:=sin(alpha2)
+
+c3:=cos(alpha3)
+s3:=sin(alpha3)
+
+c4:=cos(alpha4)
+s4:=sin(alpha4)
+
+c5:=cos(alpha5)
+s5:=sin(alpha5)
+
+c6:=cos(alpha6)
+s6:=sin(alpha6)
+
+[LINKS]
+
+link1: 0.9*white
+       sphere   0.05  (-0.075,0,0)
+       cylinder 0.05  (-0.075,0,0) (-0.025,0,0)
+       cylinder 0.05  (-0.025,0,0) ( 0.025,0,0) 0.1*white
+       cylinder 0.05  ( 0.025,0,0) ( 0.075,0,0)
+       sphere   0.05  ( 0.075,0,0)
+       cylinder 0.025 (-0.05 ,0,0) (-0.05 ,-0.1,0) 
+       sphere   0.025 (-0.05 ,-0.1,0) 
+       cylinder 0.025 ( 0.05 ,0,0) ( 0.05 ,-0.1,0) 
+       sphere   0.025 ( 0.05 ,-0.1,0) 
+       cylinder 0.025 (-0.05 ,-0.1,0) ( 0.05 ,-0.1,0)
+       cylinder 0.025 (0,-0.1,0) (0,-0.2,0)
+       sphere   0.025 (0,-0.2,0)
+
+       cylinder 0.025 (0,-0.2,0) (-0.2*c1,-0.2*s1,a1)
+       sphere   0.025 (-0.2*c1,-0.2*s1,a1)
+       cylinder 0.025 (-0.2*c1,-0.2*s1,a1)((d1+0.2)*c1,(d1+0.2)*s1,a1)
+
+link2: 0.1*white
+       sphere   0.05  (-0.075+0.2,0,0)
+       cylinder 0.05  (-0.075+0.2,0,0) (-0.025+0.2,0,0)
+       cylinder 0.05  (-0.025+0.2,0,0) ( 0.025+0.2,0,0) 0.9*white
+       cylinder 0.05  ( 0.025+0.2,0,0) ( 0.075+0.2,0,0)
+       sphere   0.05  ( 0.075+0.2,0,0)
+       cylinder 0.025 (-0.05+0.2 ,0,0) (-0.05+0.2 ,0,0.1) 
+       sphere   0.025 (-0.05+0.2 ,0,0.1) 
+       cylinder 0.025 ( 0.05+0.2 ,0,0) ( 0.05+0.2 ,0,0.1) 
+       sphere   0.025 ( 0.05+0.2 ,0,0.1) 
+       cylinder 0.025 (-0.05+0.2 ,0,0.1) ( 0.05+0.2 ,0,0.1)
+       cylinder 0.025 (0+0.2,0,0.1) (0+0.2,0,0.2)
+       sphere   0.025 (0+0.2,0,0.2)
+
+       cylinder 0.025 (0+0.2,0,0.2) (0.2*c2,0.2*s2,0.2)
+       sphere   0.025 (0.2*c2,0.2*s2,0.2)
+       cylinder 0.025 (0.2*c2,0.2*s2,0.2) (0.2*c2,0.2*s2,a2)
+       sphere   0.025 (0.2*c2,0.2*s2,a2)
+       cylinder 0.025 (0.2*c2,0.2*s2,a2)(d2*c2-0.2,d2*s2,a2)
+
+link3: 0.9*white
+       sphere   0.05  (-0.075-0.2,0,0)
+       cylinder 0.05  (-0.075-0.2,0,0) (-0.025-0.2,0,0)
+       cylinder 0.05  (-0.025-0.2,0,0) ( 0.025-0.2,0,0) 0.1*white
+       cylinder 0.05  ( 0.025-0.2,0,0) ( 0.075-0.2,0,0)
+       sphere   0.05  ( 0.075-0.2,0,0)
+       cylinder 0.025 (-0.05-0.2 ,0,0) (-0.05-0.2 ,0,-0.1) 
+       sphere   0.025 (-0.05-0.2 ,0,-0.1) 
+       cylinder 0.025 ( 0.05-0.2 ,0,0) ( 0.05-0.2 ,0,-0.1) 
+       sphere   0.025 ( 0.05-0.2 ,0,-0.1) 
+       cylinder 0.025 (-0.05-0.2 ,0,-0.1) ( 0.05-0.2 ,0,-0.1)
+       cylinder 0.025 (0-0.2,0,-0.1) (0-0.2,0,-0.15)
+       sphere   0.025 (0-0.2,0,-0.15)
+
+       cylinder 0.025 (0-0.2,0,-0.15) (d3*c3,d3*s3,-0.15)
+       sphere   0.025 (d3*c3,d3*s3,-0.15)
+       cylinder 0.025 (d3*c3,d3*s3,-0.15) (d3*c3,d3*s3,a3)
+
+link4: 0.1*white
+       sphere   0.05  (-0.075,0,0)
+       cylinder 0.05  (-0.075,0,0) (-0.025,0,0)
+       cylinder 0.05  (-0.025,0,0) ( 0.025,0,0) 0.9*white
+       cylinder 0.05  ( 0.025,0,0) ( 0.075,0,0)
+       sphere   0.05  ( 0.075,0,0)
+       cylinder 0.025 (-0.05 ,0,0) (-0.05 ,0,0.1) 
+       sphere   0.025 (-0.05 ,0,0.1) 
+       cylinder 0.025 ( 0.05 ,0,0) ( 0.05 ,0,0.1) 
+       sphere   0.025 ( 0.05 ,0,0.1) 
+       cylinder 0.025 (-0.05 ,0,0.1) ( 0.05 ,0,0.1)
+       cylinder 0.025 (0,0,0.1) (0,0,0.3)
+       sphere   0.025 (0,0,0.3)
+
+       cylinder 0.025 (0,0,0.3) (-0.5*c4,-0.5*s4,a4)
+       sphere   0.025 (-0.5*c4,-0.5*s4,a4)
+       cylinder 0.025 (-0.5*c4,-0.5*s4,a4)(-0.25*c4,-0.25*s4,a4)
+
+link5: 0.9*white
+       sphere   0.05  (-0.075-0.25,0,0)
+       cylinder 0.05  (-0.075-0.25,0,0) (-0.025-0.25,0,0)
+       cylinder 0.05  (-0.025-0.25,0,0) ( 0.025-0.25,0,0) 0.1*white
+       cylinder 0.05  ( 0.025-0.25,0,0) ( 0.075-0.25,0,0)
+       sphere   0.05  ( 0.075-0.25,0,0)
+
+       cylinder 0.025 (-0.05-0.25 ,0,0) (-0.05-0.25 ,-0.1,0) 
+       sphere   0.025 (-0.05-0.25 ,-0.1,0) 
+       cylinder 0.025 ( 0.05-0.25 ,0,0) ( 0.05-0.25 ,-0.1,0) 
+       sphere   0.025 ( 0.05-0.25 ,-0.1,0) 
+       cylinder 0.025 (-0.05-0.25 ,-0.1,0) ( 0.05-0.25 ,-0.1,0)
+       cylinder 0.025 (0-0.25,-0.1,0) (0-0.25,-0.2,0)
+       sphere   0.025 (0-0.25,-0.2,0)
+
+       sphere   0.025 (0-0.25,-0.2,0)
+       cylinder 0.025 (0-0.25,-0.2,0) (0,-0.2,0) 
+
+link6: 0.1*white
+       sphere   0.05  (-0.075-0.2,0,0)
+       cylinder 0.05  (-0.075-0.2,0,0) (-0.025-0.2,0,0)
+       cylinder 0.05  (-0.025-0.2,0,0) ( 0.025-0.2,0,0) 0.9*white
+       cylinder 0.05  ( 0.025-0.2,0,0) ( 0.075-0.2,0,0)
+       sphere   0.05  ( 0.075-0.2,0,0)
+       cylinder 0.025 (-0.05-0.2 ,0,0) (-0.05-0.2 ,0,0.1) 
+       sphere   0.025 (-0.05-0.2 ,0,0.1) 
+       cylinder 0.025 ( 0.05-0.2 ,0,0) ( 0.05-0.2 ,0,0.1) 
+       sphere   0.025 ( 0.05-0.2 ,0,0.1) 
+       cylinder 0.025 (-0.05-0.2 ,0,0.1) ( 0.05-0.2 ,0,0.1)
+       cylinder 0.025 (0-0.2,0,0.1) (0-0.2,0,0.25)
+       sphere   0.025 (0-0.2,0,0.25)
+ 
+       cylinder 0.025 (0-0.2,0,0.25) (-0.1*c6,-0.1*s6,a6)
+       sphere   0.025 (-0.1*c6,-0.1*s6,a6)
+       cylinder 0.025 (-0.1*c6,-0.1*s6,a6)(d6*c6,d6*s6,a6)
+
+[JOINTS]
+
+revolute: link1 (-c1,-s1,a1) (d1*c1,d1*s1,a1)
+          link2 (-d1-1,0,0)(0,0,0)
+
+revolute: link2 (-c2,-s2,a2) (d2*c2,d2*s2,a2)
+          link3 (-d2-1,0,0)(0,0,0)
+
+revolute: link3 (-c3,-s3,a3) (d3*c3,d3*s3,a3)
+          link4 (-d3-1,0,0)(0,0,0)
+
+revolute: link4 (-c4,-s4,a4) (d4*c4,d4*s4,a4)
+          link5 (-d4-1,0,0)(0,0,0)
+
+revolute: link5 (-c5,-s5,a5) (d5*c5,d5*s5,a5)
+          link6 (-d5-1,0,0)(0,0,0)
+
+revolute: link6 (-c6,-s6,a6) (d6*c6,d6*s6,a6)
+          link1 (-d6-1,0,0)(0,0,0)
+
+/** \endcond */
+
+
+/** \file Serial6R.world
+
+   \brief A general \ref examples/Serial6R "Serial6R" mechanism.
+
+   <center>
+   <img src="../images/Serial6R/Serial6R.png">
+   </center>
+
+   <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+   <h2><a name="intro">Introduction</a></h2>
+
+   A 6R serial chain has 16 solutions, the maximum possible number of solutions such a chain can have. Some methods exists to solve this paticular problem in miliseconds <a href="#manocha1994">[Manocha and Canny 1994]</a>, but we use this benchmark as a test of the generality of the methods in the CuikSuite. 
+
+   <h2><a name="geom">Geometry</a></h2>
+
+   Denavit-Hartenberg parameters for these parameters are:
+
+   <center>
+   <table border="1" frame="box" cellspacing="0" class="boldtable">
+   <tr>
+    <th align="center"><i>i</i></th>
+    <th align="center">\f$a_i\f$</th>
+    <th align="center">\f$d_i\f$</th>
+    <th align="center">\f$\alpha_i\f$</th>
+    <th align="center">Interpretation</th>
+   </tr> 
+   <tr>
+    <td align="center">1</td>
+    <td align="center">0.3</td>
+    <td align="center">0.0106</td>
+    <td align="center">\f$\pi/2\f$</td>
+    <td rowspan="6"><img src="../images/Serial6R/denavit.jpg"></td>
+   </tr>
+   <tr>
+    <td align="center">2</td>
+    <td align="center">1</td>
+    <td align="center">0</td>
+    <td align="center">0.0175</td>
+   </tr>
+   <tr>
+    <td align="center">3</td>
+    <td align="center">0</td>
+    <td align="center">0.2</td>
+    <td align="center">\f$\pi/2\f$</td>
+   </tr>
+   <tr>
+    <td align="center">4</td>
+    <td align="center">1.5</td>
+    <td align="center">0</td>
+    <td align="center">0.0175</td>
+   </tr>
+   <tr>
+    <td align="center">5</td>
+    <td align="center">0</td>
+    <td align="center">0</td>
+    <td align="center">\f$\pi/2\f$</td>
+   </tr>
+   <tr>
+    <td align="center">6</td>
+    <td align="center">1.1353</td>
+    <td align="center">0.1049</td>
+    <td align="center">1.4716</td>
+   </tr>
+   </table>
+  </center>
+
+   <h2><a name="process">Process</a></h2>
+
+  This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Generate the equations</b>:
+        Execute
+             - <i> \ref cuikequations.c "bin/cuikequations" examples/Serial6R/Serial6R</i>
+             .
+     - <b>Solve the positional analysis problem</b>: Execute
+             - <i> \ref cuik.c "bin/cuik" examples/Serial6R/Serial6R </i>
+             .
+     - <b>Visualize the solutions</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/Serial6R/Serial6R examples/Serial6R/Serial6R</i>
+             .
+     .
+
+   <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center">1</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center">6</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">20</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center">19</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center">7</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center">16</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center">1</td>
+    </tr>
+    </table>
+    </center>
+
+
+   <h2><a name="res">Results</a></h2>
+
+   Here you have the 16 solutions of this problem:
+   
+   <center>
+   <img src="../images/Serial6R/Serial6R_16.jpg">
+   </center>
+
+   <h2><a name="refs">References</a></h2>
+
+     - <a name="manocha1994"></a>D. Manocha and J.F. Canny, "Efficient Inverse Kinematics for General 6R Manipulators", <i>IEEE Transactions on Robotics and Automation</i>, Vol. 10., Nr. 5, pp. 648-657, October 1994.
+     - <a name="porta2009"></a>J. M. Porta, L. Ros and F. Thomas. <a href="http://www.iri.upc.edu/people/porta/Docs/tro09.pdf">"A linear relaxation technique for the position analysis of multiloop linkages"</a>. <i>IEEE Transactions on Robotics</i>, 25(2):225-239, 2009.
+     - <a name="raghavan1993"></a>M. Raghavan and B. Roth, "Inverse Kinematics of the general 6R manipulator and related linkages", <i>ASME Journal of Mechanical Design</i>, Vol. 115, pp. 502-508, 1993.
+     - <a name="wampler1991"></a>C. Wampler and A.P. Morgan, "Solving the 6R inverse position problem using a generic-case solution methodology", <i>Mechanisms Mach. Theory</i>, Vol. 26, Nr. 1, pp. 91-106, 1991.
+     .
+*/

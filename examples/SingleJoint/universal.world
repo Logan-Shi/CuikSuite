@@ -1,0 +1,167 @@
+/** \cond */
+[CONSTANTS]
+
+% Q1-P1 define the first rotation axis
+% Both defined in the link1 refence frame
+q1_x:=0
+q1_y:=0
+q1_z:=0
+
+p1_x:=1
+p1_y:=0
+p1_z:=0
+
+% Q2-R2 define the second rotation axis
+% Both defined in the link2 refence frame
+q2_x:=0
+q2_y:=0
+q2_z:=0
+
+r2_x:= 0
+r2_y:= 1
+r2_z:= 0
+
+% Recall that when the joint is assembled Q1 and Q2 coincide and 
+% vectors Q1-P1 and Q2-R2 are orthogonal 
+
+% Vector Q1-S1 is the reference vector for the 1st rotation
+%  (S is in the link1 reference frame)
+%  Vector Q2-R2 is coincident with vector Q1-S1 when the 1st rotation is 0
+s1_x:= 0
+s1_y:= 0 
+s1_z:= 1
+
+% Vector Q2-T2 is the reference vector for the 2nd rotation
+%  (T is in the link2 reference frame)
+%  Vector Q1-P1 is coincident with vector Q2-T2 when the 2nd rotation is 0
+t2_x:= 0
+t2_y:= 0
+t2_z:=-1
+
+% Range of movements of the 1st rotation
+r1:=1.5*pi/4
+
+% Range of movements of the 2nd rotation
+r2:=1.5*pi/4
+
+% Offset for the 1st rotation
+o1:=0
+
+% Offset for the 2nd rotation
+o2:=0
+
+% Radius of the cylinders representing links
+rcl:=0.1
+% Radius of the cylinders representing joints
+rcj:=0.05
+
+% Length of links
+l1:=2
+l2:=2
+
+% Mass of the second link
+m:=1
+
+[LINKS]
+
+  link1: 0.9*white
+         sphere rcl (0,l1,0)
+         cylinder rcl (0,0.5,0) (0,l1,0) 
+	 sphere rcl (0,0.5,0)
+	 cylinder rcl (0,0.5,0) (-0.5,0.5,0)
+	 sphere rcl (-0.5,0.5,0)
+	 cylinder rcl (-0.5,0.5,0) (-0.5,0,0)
+	 cylinder rcl (0,0.5,0) ( 0.5,0.5,0)
+	 sphere rcl ( 0.5,0.5,0)
+         cylinder rcl ( 0.5,0.5,0) ( 0.5,0,0)
+	 sphere rcl (-0.5,0,0)
+	 sphere rcl (0.5,0,0)
+	 cylinder rcj (-0.5,0,0)(0.5,0,0)
+
+	 % Not used: ground link
+	 mass 1
+	 inertia matrix 1,0,0,1,0,1
+	 inertial frame Id
+
+  link2: 0.1*white
+         sphere rcl (l2,0,0)
+         cylinder rcl (0.5,0,0) (l2,0,0) 
+	 sphere rcl (0.5,0,0)
+	 cylinder rcl (0.5,0,0) (0.5,-0.25,0)
+	 sphere rcl (0.5,-0.25,0)
+	 cylinder rcl (0.5,-0.25,0) (0,-0.25,0)
+
+	 cylinder rcl (0.5,0,0) ( 0.5,0.25,0)
+	 sphere rcl ( 0.5,0.25,0)
+         cylinder rcl ( 0.5,0.25,0) ( 0,0.25,0)
+
+	 sphere rcl (0,-0.25,0)
+	 sphere rcl (0,0.25,0)
+	 cylinder rcj (0,-0.25,0)(0,0.25,0)
+  
+	 mass m
+	 inertia matrix 0,0,0,1/12*m*l2^2,0,1/12*m*l2^2
+	 inertial frame Tx(l2/2)
+
+[JOINTS]
+  UNIVERSAL: link1 (q1_x,q1_y,q1_z) (p1_x,p1_y,p1_z) 
+             link2 (q2_x,q2_y,q2_z) (r2_x,r2_y,r2_z) 
+	     range [o1-r1,o1+r1] (s1_x,s1_y,s1_z)  
+                   [o2-r2,o2+r2] (t2_x,t2_y,t2_z)
+	     velocity 2
+	     torque 2
+
+
+/** \endcond */
+
+
+/** \file universal.world
+
+    \brief Example of how to set a universal joint.
+    
+    <center>
+    <img src="../images/SingleJoint/universal.jpg">
+    </center>
+
+    Example of how to set a <a href="http://en.wikipedia.org/wiki/Universal_joint">universal</a> 
+    joint including range limitations.
+
+    A universal joint is composed by two coincident revolute joints that form an
+    angle of 90 degrees. The way to encode this joints is defining and implicit
+    reference frame in between the two involved links (named ground and link in the 
+    example). The X unitary vector (\f$v_i\f$ in the figure above) is given by points Q1 and P1.
+    The Y unitary vector (\f$u_i\f$ in the figure above) is given by points Q2 and R2. When the joint is assembled,
+    Q1 and Q2 coincide and vectors Q1-P1 and Q2-P2 are orthogonal.
+
+    The ranges of the universal joint are defined with two vectors, each given by to points:
+       - Q1-S1 in the first link: when the first rotation angle is 0 this vector is aligned
+         with vector Q2-R2 (defined in the second link).
+       - Q2-T2 in the second link: when the second rotation angle is 0 this vector is aligned
+         with Q1-P1 (defined in the first link).
+       .
+
+    This example can be processed following the next steps:
+       - <i> \ref cuikequations.c "bin/cuikequations" examples/SingleJoint/universal </i>
+       - <i> \ref cuik.c "bin/cuik" examples/SingleJoint/universal </i>
+       - <i> \ref cuikplay.c "scripts/cuikplayer" examples/SingleJoint/universal examples/SingleJoint/universal </i>
+       .
+
+    After this sequence of commands you will see the motions of two links with repect to each other. 
+    Use the slider to move the cylinder. Note that the solutions are not sorted in any way (the sort operation only works
+    for one-dimensional solution sets and here the solution set is 2-dimensional).
+
+    <center>
+    <img src="../images/SingleJoint/universal_result.png">
+    </center>
+ 
+
+    You can also interactively explore the solution set executing:
+      - <i> \ref cuikmove.c "scripts/cuikmove" examples/SingleJoint/universal </i>
+      .
+      
+    <center><img src="../images/SingleJoint/universal_move.png"></center>
+
+    Use the sliders in the graphical interface to move the cylinder.
+
+    \sa in_patch.world, revolute.world, prismatic.world, spherical.world
+*/

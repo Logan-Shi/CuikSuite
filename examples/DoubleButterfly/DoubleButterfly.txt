@@ -1,0 +1,192 @@
+/** \dir examples/DoubleButterfly
+
+    \brief The Double Butterfly Linkage.
+
+    <center>
+    <img src="../images/DoubleButterfly/butterfly_4_curves.jpg">
+    <a href="../images/DoubleButterfly/butterfly_4_curves_large.gif">[large] </a>
+    <br>
+    Animation: <a href="../images/DoubleButterfly/butterfly_ll.gif">1</a>,
+                       <a href="../images/DoubleButterfly/butterfly_lr.gif">2</a>,
+                       <a href="../images/DoubleButterfly/butterfly_tl.gif">3</a>,
+                       <a href="../images/DoubleButterfly/butterfly_tr.gif">4</a>.
+    </center>
+    <br>   
+
+    <center><a href="#intro">[Introduction]</a>  <a href="#geom">[Geometry]</a> <a href="#process">[Process]</a>  <a href="#st">[Statistics]</a>  <a href="#res">[Results]</a>  <a href="#refs">[References]</a></center>
+
+    <h2><a name="intro">Introduction</a></h2>
+
+    The Double Butterfly Linkage is the one of the few eight-bar  
+    planar linkages that does not contain a four-bar loop. This indicates that the 
+    linkage cannot be decomposed into simpler, independently solvable parts. Using a 
+    counting theorem like 
+    <a href="http://mathworld.wolfram.com/LamansTheorem.html" target="_top">Laman's </a> 
+    <a href="#laman1970"> [Laman, 1970]</a>, 
+    it can be shown that this mechanism moves with one internal degree of freedom. 
+    Such freedom may manifest in several assembly modes, as shown in the figure above. 
+    <br><br>
+    The linkage becomes rigid if the orientation of one link (other than the ground) 
+    is held fixed, and in that case it can exhibit up to eighteen (rigid) assembly modes 
+    <a href="#waldron1996">[Waldron, 1996]</a>.
+    <br><br>
+    This linkage is used in <a href="#nielsen1999a">[Nielsen, 1999a]</a> 
+    and <a href="#wampler2001">[Wampler, 2001]</a> to test the performance of  
+    resultant-based techniques. See <a href="#porta2007">[Porta, 2007]</a> for 
+    further details.
+    <br><br>
+
+    Note that this simple mechanism can not
+    be decomposed in active-pasive sub-parts and, thus, its path planning can not be addressed
+    with the standard techniques to deal with closed-loops systems.
+
+    <h2><a name="geom">Geometry</a></h2>
+
+    The linkage is composed by 8 links: 4 triangles and 4 bars. The triangles are pair-wise
+    articulated forming two \e butterflies. The following figure shows the arrangement of
+    these 8 links as well as the reference systems used to formulate it.  
+    <br>
+    <center>
+    <img src="../images/DoubleButterfly/butterfly.jpg">
+    </center>
+    <br><br>
+    The reference frames for the bars have the \e u vectors aligned with bar and its origin in
+    the lower point of the bar. The \e v vector is the \e u
+    vector rotated 90 degrees counter-clockwise.
+    Due to the trivial relation between \e u and \e v vectors, only the components of the
+    \e u vector w.r.t. the ground link appear in the final formulation.
+
+    As it can be seen in the figure, the linkage graph has three independent cycles that give
+    rise to 6 loop equations (3 for the \e x components of the \e u vectors and 3 for the \e y
+    components).
+
+    Note that the \e x and \e y components of the \e u vectors give the \e cosinus and \e sinus
+    respectively
+    of the orientation of the corresponding link w.r.t. the ground link. When directly
+    formulating the linkage as a planer mechanisms (see <a href="#porta2007">[Porta, 2007]</a>)
+    the \e cosinus - \e sinus variables are used. When formulated as a spatial mechanism
+    (see <a href="#porta2008">[Porta, 2008]</a>) the system can be simplified until only
+    the \e u_x and \e u_y variables for each link appear in the system.
+    <br><br>
+    
+    <h2><a name="process">Process</a></h2>
+
+    The instructions on how to process the examples are given in each
+    separate file:
+
+    - \ref DoubleButterfly_fix.world Gives a formulation where the orientation of bar 1 is
+      fixed (w.r.t. the ground link, t1). With this the solution space of the linkage becomes
+      0-dimensional.
+    - \ref DoubleButterfly.world Is a simple formulation that yields a
+      1-dof solution set
+    .
+    
+    <h2><a name="st">Statistics</a></h2>
+
+    Characteristics of the problem:
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <td> </td>
+      <td  align="center">Fix</td>
+      <td  align="center">Mobile</td>
+    </tr>
+    <tr>
+      <th>Nr. of indep. loops</th>
+      <td  align="center">3</td>
+      <td  align="center">3</td>
+    </tr>
+    <tr>
+      <th>Nr. of links</th>
+      <td  align="center">8</td>
+      <td  align="center">8</td>
+    </tr>
+    <tr>
+      <th>Nr. of joints</th>
+      <td  align="center">10</td>
+      <td  align="center">10</td>
+    </tr>
+    <tr>
+      <th>Nr. of equations (in the simplified system)</th>
+      <td  align="center">12</td>
+      <td  align="center">13</td>
+    </tr>
+    <tr>
+      <th>Nr. of variables (in the simplified system)</th>
+      <td  align="center">12</td>
+      <td  align="center">14</td>
+    </tr>
+    </table>
+    </center>
+
+    Here you have the statistics about the execution (on an Intel Core i7 at 2.9 Ghz).
+
+    <center>
+    <table border="1" width="300">
+    <tr>
+      <td> </td>
+      <td  align="center">Fix</td>
+      <td  align="center">Mobile</td>
+    </tr>	
+    <tr>
+      <th>Nr. of Empty boxes</th>
+      <td  align="center">0</td>
+      <td  align="center">34</td>
+    </tr>
+    <tr>
+      <th>Nr. of Solution boxes</th>
+      <td  align="center">6</td>
+      <td  align="center">623</td>
+    </tr>
+    <tr>
+      <th>Execution time (s)</th>
+      <td  align="center">0.25</td>
+      <td  align="center">25</td>
+    </tr>
+    </table>
+    </center>
+
+
+    <h2><a name="res">Results</a></h2>
+
+    Here you have the 6 solutions of the fix butterfly. 
+    <center>
+    <table width="400">
+    <tr> 
+       <td><img src="../images/DoubleButterfly/b1.png" width="100"></td>
+       <td><img src="../images/DoubleButterfly/b2.png" width="100"></td>
+       <td><img src="../images/DoubleButterfly/b3.png" width="100"></td>
+    </tr>
+    <tr>
+      <td><img src="../images/DoubleButterfly/b4.png" width="100"></td>
+      <td><img src="../images/DoubleButterfly/b5.png" width="100"></td>
+      <td><img src="../images/DoubleButterfly/b6.png" width="100"></td>
+     </tr>
+    </table>
+    </center>
+
+    Here you have an animation of the progressive refinement of the one-dimensional solution set:
+    <center>
+    <img src="../images/DoubleButterfly/butterboxes.gif" width="400">
+    </center>
+
+     This is the one-dimensional configuration space. This includes
+     the four connected components (shown in different colors) whose animations can be seen using
+     the links on the top of this page. 
+
+    <center><img src="../images/DoubleButterfly/db.png"></center>
+
+
+    <h2><a name="refs">References</a></h2>
+
+    - <a name="porta2008">J. M. Porta</a>, L. Ros, and F. Thomas, <a href="http://www.iri.upc.edu/people/porta/Docs/tro09.pdf">A Linear Relaxation Technique for the Position Analysis of Multiloop Linkages</a>, <i>IEEE Transactions on Robotics</i>, Vol. 25, Núm. 2, pp. 225-239, 2009 .
+    - <a name="porta2007">J. M. Porta</a>, L. Ros, T. Creemers, and F. Thomas, <a href="http://www.iri.upc.edu/people/porta/Docs/jme07.pdf">"Box Approximations of Planar Linkage Configuration Spaces"</a>, <i>ASME Journal of Mechanical Design</i>, Vol. 129, pp. 397-405, April 2007.
+    - <a name="creemers2006">T. Creemers</a>, J. M. Porta, L. Ros, and F. Thomas, <a href="http://www.iri.upc.edu/people/porta/Docs/icra06.pdf">"Fast Multiresolutive Approximations of Planar Linkage Configuration Spaces"</a>, in Proc. IEEE International Conference on Robotics and Automation (ICRA), pp. 1511-1517, Orlando, Florida, 2006.
+    - <a name="laman1970">G. Laman</a>, "On graphs and rigidity of plane skeletal structures", <i>J. Engineering Math.</i> <b>4</b>, pp. 331-340, 1970. 
+    - <a name="waldron1996">K. J. Waldron</a> and S. V. Sreenivasen, "A study of the position problem for multi-circuit mechanisms by way of example of the Double Butterfly linkage", <i>ASME Journal of Mechanical Design</i>, 1996, vol. 118, pp.390-395.
+    - <a name="nielsen1999a">J. Nielsen</a> and B. Roth, "Solving the Input/Output Problem for Planar Mechanisms", <i> ASME Journal of Mechanical Design</i>, June 1999, vol. 121, Nº 2, pp. 206-211. 
+    - <a name="wampler2001">C. W. Wampler</a>, "Solving the Kinematics of Planar Mechanisms by Dixon Determinant and a Complex-Plane Formulation", <i> ASME Journal of Mechanical Design</i>, September 2001, vol. 123, pp. 382-387. 
+    .
+
+	
+*/

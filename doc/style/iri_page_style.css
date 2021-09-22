@@ -1,0 +1,185 @@
+@charset "utf-8";
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┅┅
+                                  IRI PAGE STYLE 
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┅┅
+*/
+body {
+  background          : #FFF url(../images/bg4.jpg) repeat-x scroll center top;
+  background-position : 0 3px;
+  margin              : 0px;
+  padding             : 0px;
+  overflow            : scroll;
+  display             : block;
+  height              : 100%;
+  font-family         : Helvetica, Arial, sans-serif;
+}
+
+html, body {
+  margin              : 0px;
+  padding             : 0px;
+  display             : block;
+  height              : 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────┈┈
+                                  TAGS
+   ─────────────────────────────────────────────────────────────────────────┈┈ */
+a, img{
+  border              : none;
+}
+
+a {
+  color               : #C80000;
+  text-decoration     : none;
+}
+
+a:hover {
+  text-decoration     : underline;
+}
+
+h1, h1 a, h1 a:hover {
+  font-weight         : bold;
+  font-size           : 18px;
+  color               : #333;
+  text-align          : left;
+  text-decoration     : none;
+}
+h2, h2 a, h2 a:hover {
+  font-weight         : bold;
+  font-size           : 16px;
+  color               : #444444;
+  text-decoration     : none; 
+  border-bottom       : 1px dashed #999;
+}
+
+h3, h3 a, h3 a:hover {
+  font-weight         : bold;
+  font-size           : 14px;
+  color               : #444444;
+  text-decoration     : none;
+}
+/*
+input{
+  background-color    : #EEE; 
+  color               : #CCC;
+  border              : 1px solid #CCC;  
+  border-radius       : 4px; 
+  -moz-border-radius  : 4px;
+ -webkit-border-radius: 4px;
+  padding             : 4px;
+}
+
+input:focus{
+  color               : #666;
+  border              : 1px solid #C80000; 
+}
+input:hover{
+  border              : 1px solid #C80000;
+}
+*/
+.contents ul {
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────┈┈
+                                  LAYERS
+   ─────────────────────────────────────────────────────────────────────────┈┈ */
+
+/* iri web (overwrite) */
+
+#logo
+{
+  position:relative;
+  top: 10px;
+  left:10px;
+  float:left;
+  width:63px;
+}
+
+#container_page
+{
+  min-height: 100%;        
+  height: auto !important;
+  margin: 0 auto -36px; 
+  display: block;
+  width: 900px;
+}
+
+#page
+{
+  margin: 0;
+  padding: 0;
+  padding-bottom: 54px;
+}
+
+* html #container_page
+{
+  height: 100%;
+}
+
+#header {
+  background:none;
+  margin-top:3px;
+  width:900px;
+  padding:0px;
+  margin:0px;
+  height:60px;
+}
+
+#header_title{
+  font-weight:bold;
+  font-size:22px;
+  letter-spacing:1px;
+  color:#FFF;
+  float:right;
+  margin-top:20px;
+}
+
+
+#institutional_logos {
+  position:relative;
+  margin-top:4px;
+  float: right;
+}
+
+/* project */
+
+#titol_projecte
+{
+  font-weight:bold;
+  text-transform:uppercase;
+  font-size:18px;
+  color:#C00;
+  margin:20px 0 20px 40px;
+}
+
+#footer {
+  float:left;
+  clear: both;
+  color: #FFF;
+  background:#333 url("../images/bg_footer.jpg") repeat-x scroll center top;
+  text-align:center;
+  font-size:12px;
+  height:20px;
+  width:100%;
+  padding:4px 0 4px 0;
+  margin:5px 0 3px 0;
+}
+
+#footer a{
+  color: #FFF;
+  font-weight: bold;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────┈┈
+                                  CLASSES
+   ─────────────────────────────────────────────────────────────────────────┈┈ */
+
+.clean { 
+  clear: both;
+  display: block;
+}
+
+
+

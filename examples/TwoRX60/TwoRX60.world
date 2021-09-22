@@ -1,0 +1,247 @@
+% A 6R Serial chain The Staubli-RX60 robot.
+
+/** \cond */
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[CONSTANTS]
+
+% For puma-like manipulators only 3 of the DH parameters
+% are relevant. 
+% Here we give those relevant parameters for the RX60 robot (in meters)
+
+a2:=0.29
+d3:=0.049
+d4:=0.31
+
+% Constants below are only relevant for decoration
+
+%RX60 color (r,g,b)
+cr:=0.9
+cg:=0.6
+cb:=0.2
+
+% For the frame around the robot workspace
+barRadius := 0.03
+
+XLower:=-1+barRadius
+XUpper:=1-barRadius
+YLower:=XLower
+YUpper:=XUpper
+ZLower:=-0.341
+ZUpper :=1
+
+objectLength:=0.2
+
+robotDistance:=1
+
+objectRadius:=0.015
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[LINKS]
+
+world: color (0,0,1)
+	/*
+       cylinder barRadius (XLower,YLower,ZLower) (XLower,XLower,ZUpper) decoration	
+       sphere   barRadius (XLower,YLower,ZUpper) decoration
+       cylinder barRadius (XLower,YUpper,ZLower) (XLower,YUpper,ZUpper) decoration
+       sphere   barRadius (XLower,YUpper,ZUpper) decoration
+       cylinder barRadius (XUpper,YLower,ZLower) (XUpper,YLower,ZUpper) decoration
+       sphere   barRadius (XUpper,YLower,ZUpper) decoration
+       cylinder barRadius (XUpper,YUpper,ZLower) (XUpper,YUpper,ZUpper) decoration
+       sphere   barRadius (XUpper,YUpper,ZUpper) decoration
+       cylinder barRadius (XLower,YLower,ZUpper) (XLower,YUpper,ZUpper) decoration
+       cylinder barRadius (XLower,YLower,ZUpper) (XUpper,YLower,ZUpper) decoration
+       cylinder barRadius (XUpper,YUpper,ZUpper) (XLower,YUpper,ZUpper) decoration
+       cylinder barRadius (XUpper,YUpper,ZUpper) (XUpper,YLower,ZUpper) decoration
+ 	*/
+       body "bodies/b1.off" color (0.6,0.6,0.6)
+     
+       body "bodies/plane.off" color (0.8,0.8,0.8) decoration
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+base_left: body "bodies/S0_rel.off" color (cr,cg,cb)
+
+link1_left: color (cr,cg,cb)
+            body "bodies/S1_rel.off" 
+            body "bodies/S2_rel.off"  
+      
+link2_left: color (cr,cg,cb)
+            body "bodies/S3_rel.off"   
+      
+link3_left: color (cr,cg,cb)
+            body "bodies/S4_rel.off"   
+       
+link4_left: body "bodies/S5_rel.off" color (cr,cg,cb)
+            body "bodies/S6_rel.off" color (0.75,0.75,0.75)   
+
+link5_left: color (0.75,0.75,0.75)  
+            body "bodies/S7_rel.off" 
+ 
+EndEffector_left: color (0.75,0.75,0.75)
+                  body "bodies/S8_rel.off" 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+base_right: body "bodies/S0_rel.off" color (cr,cg,cb) 
+
+link1_right: color (cr,cg,cb)
+             body "bodies/S1_rel.off" 
+             body "bodies/S2_rel.off" 
+      
+link2_right: color (cr,cg,cb)
+             body "bodies/S3_rel.off"    
+      
+link3_right: color (cr,cg,cb)
+             body "bodies/S4_rel.off"   
+       
+link4_right: body "bodies/S5_rel.off" color (cr,cg,cb) 
+             body "bodies/S6_rel.off" color (0.75,0.75,0.75)  
+
+link5_right: color (0.75,0.75,0.75)  
+             body "bodies/S7_rel.off" 
+ 
+EndEffector_right: color (0.75,0.75,0.75)
+                   body "bodies/S8_rel.off" 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+object: cylinder objectRadius (0,0,0) (0,0,objectLength) blue
+        % body "bodies/object" blue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[JOINTS]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+fix: world base_left Tx(-robotDistance/2)
+
+revolute: base_left  (0,0,0) (0, 0,1)
+          link1_left (0,0,0) (0,-1,0)
+
+revolute: link1_left (  0,0,0) (  0,0,1)
+          link2_left (-a2,0,0) (-a2,0,1) 
+
+revolute: link2_left (0,0, 0) (0,0,   1) 
+          link3_left (0,d3,0) (0,d3+1,0) 
+
+revolute: link3_left (0,0, 0) (0, 0,  1)
+          link4_left (0,d4,0) (0,d4-1,0)
+ 
+revolute: link4_left (0,0,0) (0, 0,1)  
+          link5_left (0,0,0) (0,-1,0)
+
+revolute: link5_left      (0,0,0) (0,0,1)
+          EndEffector_left (0,0,0) (0,0,1)
+
+fix: EndEffector_left object Tz(0.065)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+fix: world base_right Rz(pi)*Tx(-robotDistance/2)
+           
+revolute: base_right  (0,0,0) (0, 0,1)
+          link1_right (0,0,0) (0,-1,0)
+
+revolute: link1_right (  0,0,0) (  0,0,1)
+          link2_right (-a2,0,0) (-a2,0,1) 
+
+revolute: link2_right (0,0, 0) (0,0,   1) 
+          link3_right (0,d3,0) (0,d3+1,0) 
+
+revolute: link3_right (0,0, 0) (0, 0,  1)
+          link4_right (0,d4,0) (0,d4-1,0)
+ 
+revolute: link4_right (0,0,0) (0, 0,1)  
+          link5_right (0,0,0) (0,-1,0)
+
+revolute: link5_right      (0,0,0) (0,0,1)
+          EndEffector_right (0,0,0) (0,0,1)
+
+fix: EndEffector_right object Ry(pi)*Tz(-0.065-objectLength)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% first sample
+% fix: world object Txyz(-objectLength/2, 0.2,0.05)*Ry(pi/2)
+
+% second sample
+% fix: world object Txyz(-objectLength/2,-0.2,0.05)*Ry(pi/2)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+/*
+[OBSTACLES]
+
+verticalBar: cylinder barRadius (0,0,-1.0) (0,0,0.4) green
+	     % body "bodies/verticalBar" green
+
+[COLLISIONS]
+
+do not check: all
+check: object,verticalBar
+check: link4_right,verticalBar
+check: link4_left,verticalBar
+check: link5_right,verticalBar
+check: link5_left,verticalBar
+*/
+
+/** \endcond */
+
+/** \file TwoRX60.world
+   
+   \brief Two Rx60 robots moving an object.
+
+   <center>
+   <img src="../images/TwoRX60/planning.png">
+   </center>
+
+   Here we have two Rx60 robots (see \ref Serial6RRX60.world) cooperating to move
+   an object. These two robots are arranged in the same way as we have them in our
+   laboratory.
+
+   This problem is trivial when using a JOINT representation (see the parameter \ref CT_REPRESENTATION "REPRESENTATION") and significantly
+   more difficult with a LINKS  one.
+
+
+   The key data for this problem are:
+   <center>
+   <table>
+     <tr>
+       <th>Ambient space dimension</th> <td align="center"> 12 </td>
+     </tr>
+     <tr>
+       <th>Configuration space dimension</th> <td align="center"> 6 </td>
+     </tr>
+     <tr>
+       <th>Average planning time with \ref cuikatlasrrt.c  "bin/cuikatlasrrt" using a DOF-based representation (in seconds)</th> <td align="center"> 0.02 </td>
+     </tr>
+   </table>
+   </center>
+
+
+   This example is treated following these steps (from the main CuikSuite folder):
+
+     - <b>Adjust the parameters</b>: Different algorithms use different parameter settings. Just
+       check the parameter file (TwoRX60.param) and comment/uncomment the appropriate lines.
+     - <b>Solve the path planning problem</b>: using a RRT-like algorithm
+             - <i> \ref cuikatlasrrt.c "bin/cuikatlasrrt" examples/TwoRX60/TwoRX60</i>
+             .
+     - <b>Visualize the solution path</b>:
+             - <i> \ref cuikplay.c "scripts/cuikplayer" examples/TwoRX60/TwoRX60 examples/TwoRX60/TwoRX60_path</i>
+             .
+     .
+*/
